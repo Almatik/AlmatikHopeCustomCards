@@ -20,7 +20,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_GRAVE)
 	e1:SetCountLimit(1,id+1)
 	e1:SetCondition(s.gycon)
-	e1:SetCost(s.gycost)
+	e1:SetCost(aux.bfgcost)
 	e1:SetTarget(s.gytg)
 	e1:SetOperation(s.gyop)
 	c:RegisterEffect(e1)
@@ -55,12 +55,6 @@ function s.gyfilter2(c)
 end
 function s.gycon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.gyfilter,tp,LOCATION_ONFIELD,0,1,nil)
-end
-function s.gycost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.gyfilter2,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.gyfilter2,tp,LOCATION_GRAVE,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.gytg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and chkc:IsFaceup() end
