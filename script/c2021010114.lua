@@ -6,11 +6,11 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--draw
+	--damage
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_DRAW)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_SZONE)
@@ -53,8 +53,8 @@ function s.filter2(c,tp)
 	return c:GetOwner()==tp
 end
 function s.drop(e,tp,eg,ep,ev,re,r,rp)
-	local d1=eg:FilterCount(s.filter1,nil,tp)*300
-	local d2=eg:FilterCount(s.filter2,nil,tp)*300
+	local d1=eg:FilterCount(s.filter1,nil,tp)*400
+	local d2=eg:FilterCount(s.filter2,nil,tp)*400
 	Duel.Damage(1-tp,d1,REASON_EFFECT,true)
 	Duel.Damage(tp,d2,REASON_EFFECT,true)
 	Duel.RDComplete()
