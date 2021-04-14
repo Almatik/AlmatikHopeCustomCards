@@ -61,7 +61,7 @@ function s.descfilter(c)
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.descfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	local maxtc=Duel.GetTargetCount(nil,tp,0,LOCATION_ONFIELD,nil)
+	local maxtc=Duel.GetTargetCount(nil,tp,0,LOCATION_HAND+LOCATION_ONFIELD,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,s.descfilter,tp,LOCATION_GRAVE,0,1,maxtc,nil)
 	local cg=Duel.Remove(g,POS_FACEUP,REASON_COST)
@@ -69,10 +69,10 @@ function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) end
-	if chk==0 then return Duel.IsExistingTarget(nil,tp,0,LOCATION_ONFIELD,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(nil,tp,0,LOCATION_HAND+LOCATION_ONFIELD,1,nil) end
 	local ct=e:GetLabel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,nil,tp,0,LOCATION_ONFIELD,ct,ct,nil)
+	local g=Duel.SelectTarget(tp,nil,tp,0,LOCATION_HAND+LOCATION_ONFIELD,ct,ct,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,ct,0,0)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
