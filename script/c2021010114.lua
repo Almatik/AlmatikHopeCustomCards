@@ -8,12 +8,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--damage
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
-	e2:SetCategory(CATEGORY_DAMAGE)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e2:SetCode(EVENT_TO_GRAVE)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_DESTROYED)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCondition(s.condition)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
 	--atk/def
@@ -29,22 +26,18 @@ function s.initial_effect(c)
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
 end
-function s.filter1(e,tp,eg,ep,ev,re,r,rp)
-	return c:GetOwner()==1-tp and c:IsReason(REASON_DESTROY)
-		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
-		and re and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
+function s.filter1(c,tp)
+	return c:GetOwner()==1-tp and c:GetReasonCard():IsAttribute(ATTRIBUTE_FIRE)
 end
-function s.filter2(e,tp,eg,ep,ev,re,r,rp)
-	return c:GetOwner()==tp and c:IsReason(REASON_DESTROY)
-		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
-		and re and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
+function s.filter2(c,tp)
+	return c:GetOwner()==tp and c:GetReasonCard():IsAttribute(ATTRIBUTE_FIRE)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.filter1,nil,tp) or eg:IsExists(s.filter2,nil,tp)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	local d1=eg:FilterCount(s.filter1,nil,tp)*400
-	local d2=eg:FilterCount(s.filter2,nil,tp)*400
+	local d1=eg:FilterCount(s.filter1,nil,tp)*300
+	local d2=eg:FilterCount(s.filter2,nil,tp)*300
 	Duel.Damage(1-tp,d1,REASON_EFFECT,true)
 	Duel.Damage(tp,d2,REASON_EFFECT,true)
 	Duel.RDComplete()
