@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_DESTROYED)
 	e2:SetRange(LOCATION_SZONE)
+	e2:SetCondition(s.condition)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
 	--atk/def
@@ -27,10 +28,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function s.filter1(c,tp)
-	return c:GetOwner()==1-tp and c:GetReasonCard():IsAttribute(ATTRIBUTE_FIRE)
+	local rc=c:GetFirst():GetReasonCard()
+	return c:GetOwner()==1-tp and rc and rc:IsAttribute(ATTRIBUTE_FIRE)
 end
 function s.filter2(c,tp)
-	return c:GetOwner()==tp and c:GetReasonCard():IsAttribute(ATTRIBUTE_FIRE)
+	local rc=c:GetFirst():GetReasonCard()
+	return c:GetOwner()==tp and rc and rc:IsAttribute(ATTRIBUTE_FIRE)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.filter1,nil,tp) or eg:IsExists(s.filter2,nil,tp)
