@@ -29,18 +29,18 @@ function s.initial_effect(c)
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
 end
-function s.filter1(c,tp,re)
+function s.filter1(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetOwner()==1-tp and c:IsReason(REASON_DESTROY)
 		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
-		and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
+		and re and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
 end
-function s.filter2(c,tp,re)
+function s.filter2(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetOwner()==tp and c:IsReason(REASON_DESTROY)
 		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
-		and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
+		and re and re:GetHandler():IsAttribute(ATTRIBUTE_FIRE)
 end
-function s.condition(e,c)
- return eg:IsExist(s.filter1,nil,tp) or eg:IsExist(s.filter2,nil,tp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.filter1,nil,tp) or eg:IsExists(s.filter2,nil,tp)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local d1=eg:FilterCount(s.filter1,nil,tp)*400
