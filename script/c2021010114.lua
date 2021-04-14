@@ -6,13 +6,17 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--damage
+	--draw
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_DRAW)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_DESTROYED)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCondition(s.condition)
-	e2:SetOperation(s.operation)
+	e2:SetCountLimit(1)
+	e2:SetCondition(s.drcon)
+	e2:SetOperation(s.drop)
 	c:RegisterEffect(e2)
 	--atk/def
 	local e4=Effect.CreateEffect(c)
@@ -27,16 +31,25 @@ function s.initial_effect(c)
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
 end
+function s.drcon(e,tp,eg,ep,ev,re,r,rp)
+	local des=eg:GetFirst()
+	if des:IsReason(REASON_BATTLE) then
+		local rc=des:GetReasonCard()
+		return rc and rc:IsAttribute(ATTRIBUTE_FIRE) and rc:IsControler(tp) and rc:IsRelateToBattle()
+	elseif re then
+		local rc=re:GetHandler()
+		return eg:IsReason(REASON_EFFECT)
+			and rc and rc:IsAttribute(ATTRIBUTE_FIRE) and rc:IsControler(tp) and re:IsActiveType(TYPE_MONSTER)
+	end
+	return false
+end
 function s.filter1(c,tp)
 	return c:GetOwner()==1-tp
 end
 function s.filter2(c,tp)
 	return c:GetOwner()==tp
 end
-function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.filter1,nil,tp) or eg:IsExists(s.filter2,nil,tp)
-end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local d1=eg:FilterCount(s.filter1,nil,tp)*300
 	local d2=eg:FilterCount(s.filter2,nil,tp)*300
 	Duel.Damage(1-tp,d1,REASON_EFFECT,true)
