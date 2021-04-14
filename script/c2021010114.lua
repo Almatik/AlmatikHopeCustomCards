@@ -28,12 +28,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function s.filter1(c,tp)
-	local rc=c:GetFirst():GetReasonCard()
-	return c:GetOwner()==1-tp and rc and rc:IsAttribute(ATTRIBUTE_FIRE)
+	return c:GetOwner()==1-tp
 end
 function s.filter2(c,tp)
-	local rc=c:GetFirst():GetReasonCard()
-	return c:GetOwner()==tp and rc and rc:IsAttribute(ATTRIBUTE_FIRE)
+	return c:GetOwner()==tp
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.filter1,nil,tp) or eg:IsExists(s.filter2,nil,tp)
