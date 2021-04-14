@@ -31,6 +31,9 @@ function s.initial_effect(c)
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
 end
+function s.cfilter(c,tp)
+	return c:IsReason(REASON_EFFECT)
+end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local des=eg:GetFirst()
 	if des:IsReason(REASON_BATTLE) then
@@ -38,7 +41,7 @@ function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 		return rc and rc:IsAttribute(ATTRIBUTE_FIRE) and rc:IsControler(tp) and rc:IsRelateToBattle()
 	elseif re then
 		local rc=re:GetHandler()
-		return eg:IsReason(REASON_EFFECT)
+		return eg:IsExists(s.cfilter,1,nil,tp)
 			and rc and rc:IsAttribute(ATTRIBUTE_FIRE) and rc:IsControler(tp) and re:IsActiveType(TYPE_MONSTER)
 	end
 	return false
