@@ -13,7 +13,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCondition(s.condition)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
 	--atk/def
@@ -29,18 +28,13 @@ function s.initial_effect(c)
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
 end
-function s.filter(c,tp)
-	return (c:IsPreviousLocation(LOCATION_MZONE) or c:IsPreviousLocation(LOCAITON_HAND))
-	and c:IsReason(REASON_DESTROY) and re:IsAttribute(ATTRIBUTE_FIRE)
-end
-function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.filter,1,nil,tp)
-end
 function s.filter1(c,tp)
-	return c:GetOwner()==1-tp
+	return c:GetOwner()==1-tp and c:IsReason(REASON_DESTROY)
+		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
 end
 function s.filter2(c,tp)
-	return c:GetOwner()==tp
+	return c:GetOwner()==tp and c:IsReason(REASON_DESTROY)
+		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local d1=eg:FilterCount(s.filter1,nil,tp)*400
