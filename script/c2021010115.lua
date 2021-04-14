@@ -54,5 +54,5 @@ function s.sumop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.estg(e,c)
-	return c:IsSetCard(0x2021)
+	return c:IsSetCard(0x2101)
 end
