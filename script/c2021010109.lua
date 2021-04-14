@@ -15,14 +15,12 @@ function s.initial_effect(c)
 	e0:SetTarget(s.target)
 	e0:SetOperation(s.operation)
 	c:RegisterEffect(e0)
-	--atk & def
+	--attack twice
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_ATKCHANGE)
-	e1:SetType(EFFECT_TYPE_QUICK_O)
-	e1:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-	e1:SetRange(LOCATION_MZONE)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e1:SetCondition(s.atkcon)
-	e1:SetCost(s.atkcost)
 	e1:SetOperation(s.atkop)
 	c:RegisterEffect(e1)
 end
@@ -49,7 +47,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetBattleTarget()~=nil
+	local c=:e:GetHandler()
+	return (c==Duel.GetAttacker() and Duel.GetAttackTarget()~=nil) or c==Duel.GetAttackTarget()
 end
 function s.atkcfilter(c)
 	return c:IsSetCard(0x2101) and c:IsAbleToRemoveAsCost()
@@ -64,41 +63,26 @@ function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
-	local op1=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2),aux.Stringid(id,3))
-	if op1==0 then
-		local op2=Duel.SelectOption(tp,aux.Stringid(id,2),aux.Stringid(id,3))
-	elseif op1==1 then
-		local op2=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,3))
-	elseif op1==2 then
-		local op2=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2))
-	end
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and c:IsFaceup() and (op1==0 or op2==0) then
-		Duel.ChainAttack()
+	if c:IsFaceup() and c:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+		e1:SetCode(EFFECT_EXTRA_ATTACK)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetValue(1)
-		e1:SetReset(RESET_PHASE+PHASE_DAMAGE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
-	end
-	if c:IsRelateToEffect(e) and c:IsFaceup() and (op1==1 or op2==1) then
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
-		e2:SetCode(EFFECT_UPDATE_ATTACK)
-		e2:SetValue(s.atkval)
-		e2:SetReset(RESET_PHASE+PHASE_DAMAGE)
+		e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+		e2:SetValue(1)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE)
 		c:RegisterEffect(e2)
+		local e3=Effect.CreateEffect(c)
+		e3:SetType(EFFECT_TYPE_SINGLE)
+		e3:SetCode(EFFECT_UPDATE_ATTACK)
+		e3:SetValue(300)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		c:RegisterEffect(e3)
 	end
-	if c:IsRelateToEffect(e) and c:IsFaceup() and (op1==2 or op2==2) then
-		local dam=Duel.GetMatchingGroupCount(Card.SetCard,tp,LOCATION_GRAVE,0,nil,0x2101)*100
-		Duel.Damage(1-tp,dam,REASON_EFFECT)
-	end
-end
-function s.atkfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x2101) and c:IsType(TYPE_MONSTER)
-end
-function s.atkval(e,c)
-	return Duel.GetMatchingGroupCount(s.atkfilter,c:GetControler(),LOCATION_GRAVE,0,nil)*100
 end
