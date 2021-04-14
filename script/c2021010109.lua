@@ -47,7 +47,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=:e:GetHandler()
+	local c=e:GetHandler()
 	return (c==Duel.GetAttacker() and Duel.GetAttackTarget()~=nil) or c==Duel.GetAttackTarget()
 end
 function s.atkcfilter(c)
