@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_REMOVE+CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -12,32 +12,36 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-	--Check for "Destruction Sword" card to send to GY
-function s.tgfilter(c,e,tp)
-	return c:IsSetCard(0x2101) and c:IsType(TYPE_MONSTER) and c:IsLevelBelow(4) and c:IsAbleToGrave()
-		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
+function s.rmfilter1(c,e,tp)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave() 
+		and Duel.IsExistingMatchingCard(s.rmfilter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()) and aux.SpElimFilter(c,true)
 end
-	--Check for "Buster Blader" monster
-function s.filter(c,e,tp,code)
-	return c:IsSetCard(0x2101) and c:IsType(TYPE_MOSNTER) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and c:IsCode()~=code
+function s.rmfilter2(c,e,tp,lv)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave() 
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()+lv) and aux.SpElimFilter(c,true)
 end
-	--Activation legality
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.tgfilter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,0,tp,LOCATION_HAND)
+function s.spfilter(c,e,tp,lv)
+	return c:GetLevel()==lv and c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-	--Send 1 "Destruction Sword" to GY, then can special summon "Buster Blader" monster from hand
-function s.activate(e,tp,eg,ep,ev,re,r,rp)
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.rmfilter1(chkc,e,tp) end
+	if chk==0 then return Duel.IsExistingTarget(s.rmfilter1,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g1=Duel.SelectMatchingCard(tp,s.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	local g2=Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,nil,e,tp,g1:GetFirst():GetCode())
-	if #g1>0 and Duel.SendtoGrave(g1,REASON_EFFECT)~=0 
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and #g2>0 then
-		Duel.BreakEffect()
+	local g1=Duel.SelectTarget(tp,s.rmfilter1,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g2=Duel.SelectTarget(tp,s.rmfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,g1:GetFirst():GetLevel())
+	g1:Merge(g2)
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g1,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
+end
+function s.activate(e,tp,eg,ep,ev,re,r,rp)
+	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
+	if not tg or tg:FilterCount(Card.IsRelateToEffect,nil,e)~=2 then return end
+	if Duel.Remove(tg,POS_FACEUP,REASON_EFFECT)==2 then
+		local og=Duel.GetOperatedGroup()
+		local lv=og:GetSum(Card.GetLevel)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local g3=g2:Select(tp,1,1,nil)
-		Duel.SpecialSummon(g3,0,tp,tp,false,false,POS_FACEUP)
+		local sg=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,lv)
+		if #sg>0 then Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP) end
 	end
 end
