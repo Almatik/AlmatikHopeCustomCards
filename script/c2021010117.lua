@@ -14,10 +14,10 @@ function s.initial_effect(c)
 end
 function s.rmfilter1(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave()
-		and Duel.IsExistingMatchingCard(s.rmfilter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel(),c:GetCode()) and aux.SpElimFilter(c,true)
+		and Duel.IsExistingMatchingCard(s.rmfilter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()) and aux.SpElimFilter(c,true)
 end
-function s.rmfilter2(c,e,tp,lv,code)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave() and c:GetCode()~=code
+function s.rmfilter2(c,e,tp,lv)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave()
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()+lv) and aux.SpElimFilter(c,true)
 end
 function s.spfilter(c,e,tp,lv)
@@ -29,7 +29,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g1=Duel.SelectTarget(tp,s.rmfilter1,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g2=Duel.SelectTarget(tp,s.rmfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,g1:GetFirst():GetLevel(),g1:GetFirst():GetCode())
+	local g2=Duel.SelectTarget(tp,s.rmfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,g1:GetFirst():GetLevel())
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g1,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
