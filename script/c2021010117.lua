@@ -14,14 +14,14 @@ function s.initial_effect(c)
 end
 function s.rmfilter1(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave()
-		and Duel.IsExistingMatchingCard(s.rmfilter2,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()) and aux.SpElimFilter(c,true)
+		and Duel.IsExistingMatchingCard(s.rmfilter2,tp,LOCATION_DECK,0,1,nil,e,tp) and aux.SpElimFilter(c,true)
 end
-function s.rmfilter2(c,e,tp,lv)
+function s.rmfilter2(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsAbleToGrave()
-		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetOriginalLevel()+lv) and aux.SpElimFilter(c,true)
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) and aux.SpElimFilter(c,true)
 end
-function s.spfilter(c,e,tp,lv)
-	return c:GetLevel()<=lv and c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function s.spfilter(c,e,tp)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2101) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.rmfilter1(chkc,e,tp) end
@@ -29,7 +29,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g1=Duel.SelectTarget(tp,s.rmfilter1,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g2=Duel.SelectTarget(tp,s.rmfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp,g1:GetFirst():GetLevel())
+	local g2=Duel.SelectTarget(tp,s.rmfilter2,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 	g1:Merge(g2)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g1,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
@@ -38,10 +38,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	if not tg or tg:FilterCount(Card.IsRelateToEffect,nil,e)~=2 then return end
 	if Duel.SendtoGrave(tg,REASON_EFFECT)==2 then
-		local og=Duel.GetOperatedGroup()
-		local lv=og:GetSum(Card.GetLevel)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sg=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,lv)
+		local sg=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 		if #sg>0 then Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP) end
 		--Cannot special summon for rest of turn, except FIRE monsters
 		local e1=Effect.CreateEffect(e:GetHandler())
