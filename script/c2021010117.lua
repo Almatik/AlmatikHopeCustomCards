@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 	--Check for "Destruction Sword" card to send to GY
-function s.tgfilter(c)
+function s.tgfilter(c,e,tp)
 	return c:IsSetCard(0x2101) and c:IsType(TYPE_MONSTER) and c:IsLevelBelow(4) and c:IsAbleToGrave()
 		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCode())
 end
