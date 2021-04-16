@@ -83,7 +83,7 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
         e1:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_LEAVE-RESET_TOGRAVE)
-        e2:SetValue(ATTRIBUTE_FIRE)
+        e1:SetValue(ATTRIBUTE_FIRE)
         tc:RegisterEffect(e1)
         tc=eg:GetNext()
 	end
