@@ -76,7 +76,7 @@ function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	end
 	return false
 end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	while tc do
         local e1=Effect.CreateEffect(e:GetHandler())
