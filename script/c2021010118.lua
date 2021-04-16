@@ -44,6 +44,7 @@ end
 --Target and destroy
 function s.condition(e,c)
 	if c==nil then return true end
+	local c:e:GetHandler()
 	return Duel.IsExistingMatchingCard(s.filter,c:GetControler(),LOCATION_SZONE,0,1,nil)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
