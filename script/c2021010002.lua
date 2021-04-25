@@ -104,7 +104,8 @@ end
 
 
 function s.atkval(e,c)
-	return c:GetLinkedGroup():FilterCount(aux.FilterBoolFunction(Card.IsType,TYPE_XYZ),nil)*1000
+	local g=e:GetHandler():GetLinkedGroup():Filter(Card.IsType,TYPE_XYZ)
+	return g:GetSum(Card.GetBaseAttack)
 end
 function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():IsContains(c)
