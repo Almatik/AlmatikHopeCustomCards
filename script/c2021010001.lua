@@ -25,6 +25,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetValue(LOCATION_REMOVED)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+	Duel.BreakEffect()
 	local sg=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	Duel.Destroy(sg,REASON_EFFECT)
 end
