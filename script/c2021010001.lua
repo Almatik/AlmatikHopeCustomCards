@@ -17,7 +17,6 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,sg,#sg,0,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
-	local sg=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
@@ -26,8 +25,9 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetValue(LOCATION_REMOVED)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+	local sg=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	Duel.Destroy(sg,REASON_EFFECT)
 end
-function s.rmtarget(e,tp,c)
+function s.rmtarget(e,c)
 	return not c:IsLocation(0x80) and Duel.IsPlayerCanRemove(e:GetHandlerPlayer(),c)
 end
