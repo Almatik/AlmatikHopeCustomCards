@@ -153,7 +153,7 @@ end
 function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
 end
-function s.rfilter(c,oc)
+function s.rfilter(c,tp,oc)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
 		and c:CheckRemoveOverlayCard(tp,oc,REASON_COST)
 end
