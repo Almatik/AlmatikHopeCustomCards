@@ -143,24 +143,24 @@ function s.copy(e,tp,eg,ep,ev,re,r,rp)
 	local wbc=wg:GetFirst()
 	while wbc do
 		local code=wbc:GetCode()
-		if c:IsFaceup() then
-			c:CopyEffect(code,1)
-		end
+		if c:IsFaceup() and c:GetFlagEffect(code)==0 then
+			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,1)
+			c:RegisterFlagEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 		wbc=wg:GetNext()
 	end
 end
 function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
 end
-function s.rfilter(c,tp,oc)
+function s.rfilter(c,oc)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
 		and c:CheckRemoveOverlayCard(tp,oc,REASON_COST)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
+	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
-	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0) and rc==c
-		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ev)
+	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0) and rc==e:GetHandler()
+		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ct)
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
