@@ -143,9 +143,8 @@ function s.copy(e,tp,eg,ep,ev,re,r,rp)
 	local wbc=wg:GetFirst()
 	while wbc do
 		local code=wbc:GetOriginalCode()
-		if c:IsFaceup() and c:GetFlagEffect(code)==0 then
+		if c:IsFaceup() then
 			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,1)
-			c:RegisterFlagEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 		end
 		wbc=wg:GetNext()
 	end
