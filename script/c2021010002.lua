@@ -157,7 +157,7 @@ function s.rcon(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
 		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and Duel.GetOverlayCount(tp,1,0)=>ev
+		and Duel.GetOverlayCount(tp,1,0)~=0
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
