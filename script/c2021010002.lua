@@ -154,10 +154,11 @@ function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
+	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
 	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
 		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and Duel.GetOverlayCount(tp,1,0)~=0
+		and (Duel.GetOverlayCount(tp,1,0)>ct or Duel.GetOverlayCount(tp,1,0)==ct)
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
