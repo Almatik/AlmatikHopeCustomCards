@@ -158,9 +158,9 @@ function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local og=Duel.GetOverlayGroup(tp,1,0)
 	if (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
 		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and og=>ct then
+		and #og=>ct then
 			local tg=og:Select(tp,ct,ct,nil)
-			Duel.SendtoGrave(g,REASON_COST)
+			Duel.SendtoGrave(tg,REASON_COST)
 	end
 end
 
