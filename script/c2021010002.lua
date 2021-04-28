@@ -152,9 +152,9 @@ function s.copy(e,tp,eg,ep,ev,re,r,rp)
 		wbc=wg:GetNext()
 	end
 end
-function s.limval(e,re,rp,c)
+function s.limval(e,re,rp)
 	local rc=re:GetHandler()
-	return rc:GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
+	return rc:GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(rc)
 end
 function s.rfilter(c,oc)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
