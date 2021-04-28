@@ -152,17 +152,15 @@ end
 function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
 end
-function s.rfilter(c,ct)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ)
-		and c:CheckRemoveOverlayCard(tp,ct,REASON_COST,c)
-end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
+	local og=Duel.GetOverlayGroup(tp,1,0)
 	if (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
 		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ct) then
-			local tg=Duel.SelectMatchingCard(tp,s.rfilter,tp,LOCATION_MZONE,0,1,1,rc,ct)
-			tg:GetFirst():RemoveOverlayCard(tp,ct,ct,REASON_COST)
+		and og=>ct then
+			local tg=og:Select(tp,ct,ct,nil)
+			Duel.SendtoGrave(g,REASON_COST)
 	end
 end
+
