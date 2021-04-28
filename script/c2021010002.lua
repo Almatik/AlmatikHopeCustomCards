@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--Increase ATK
+	--ATK
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
@@ -23,16 +23,33 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetValue(s.atkval)
 	c:RegisterEffect(e2)
-	--atk up/indestructable
+	local e2a=Effect.CreateEffect(c)
+	e2a:SetType(EFFECT_TYPE_FIELD)
+	e2a:SetCode(EFFECT_SET_ATTACK)
+	e2a:SetRange(LOCATION_MZONE)
+	e2a:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+	e2a:SetTarget(s.atktg)
+	e2a:SetValue(0)
+	c:RegisterEffect(e2a)
+	local e2b=e2a:Clone()
+	e2b:SetCode(EFFECT_SET_DEFENSE)
+	c:RegisterEffect(e2b)
+	--copy  
 	local e3=Effect.CreateEffect(c)
-	e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e3:SetTarget(s.tgtg)
-	e3:SetValue(1)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e3:SetCode(EVENT_ADJUST)
+	e3:SetRange(LOCATION_MZONE) 
+	e3:SetOperation(s.copy)
 	c:RegisterEffect(e3)
+	local e3a=Effect.CreateEffect(c)
+	e3a:SetDescription(aux.Stringid(id,0))
+	e3a:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e3a:SetCode(EFFECT_OVERLAY_REMOVE_REPLACE)
+	e3a:SetRange(LOCATION_MZONE)
+	e3a:SetCountLimit(1)
+	e3a:SetCondition(s.rcon)
+	e3a:SetOperation(s.rop)
+	c:RegisterEffect(e3a)
 end
 function s.mfilter(c)
 	return c:IsLevelAbove(1)
@@ -101,12 +118,45 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.XyzSummon(tp,xyz,nil,g)
 	end
 end
-
-
-function s.atkval(e,c)
-	local g=e:GetHandler():GetLinkedGroup():Filter(Card.IsType,TYPE_XYZ)
-	return g:GetSum(Card.GetBaseAttack)
+function s.atkfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:GetBaseAttack()>=0
 end
-function s.tgtg(e,c)
-	return e:GetHandler():GetLinkedGroup():IsContains(c)
+function s.atkval(e,c)
+	local lg=c:GetLinkedGroup():Filter(s.atkfilter,nil)
+	return lg:GetSum(Card.GetBaseAttack)
+end
+function s.atktg(e,c)
+	return e:GetHandler():GetLinkedGroup():Filter(s.atkfilter,nil):IsContains(c)
+end
+function s.copyfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_XYZ)
+end
+function s.copy(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()  
+	local wg=c:GetLinkedGroup():Filter(s.copyfilter,nil)
+	local wbc=wg:GetFirst()
+	while wbc do
+		local code=wbc:GetOriginalCode()
+		if c:IsFaceup() and c:GetFlagEffect(code)==0 then
+			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,1)
+			c:RegisterFlagEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+		end
+		wbc=wg:GetNext()
+	end
+end
+function s.rcon(e,tp,eg,ep,ev,re,r,rp)
+	local xyz=Duel.GetMatchingGroup(s.copyfilter,tp,LOCATION_MZONE,0,nil,g)
+	local ct=(ev&0xffff)
+	return (r&REASON_COST)~=0 and re==e:GetHandler()
+		and xyz:CheckRemoveOverlayCard(tp,ct,REASON_EFFECT)
+		and ep==e:GetOwnerPlayer()
+end
+function s.rop(e,tp,eg,ep,ev,re,r,rp)
+	local xyz=Duel.GetMatchingGroup(s.copyfilter,tp,LOCATION_MZONE,0,nil,g)
+	local ct=(ev&0xffff)
+	if ct==1 then
+		xyz:RemoveOverlayCard(tp,1,1,REASON_EFFECT)
+	else
+		xyz:RemoveOverlayCard(tp,ct,ct,REASON_EFFECT)
+	end
 end
