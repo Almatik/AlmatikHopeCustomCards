@@ -154,7 +154,7 @@ function s.copy(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.limval(e,re,rp)
 	local rc=re:GetHandler()
-	return rc::GetLinkedGroup():Filter(s.copyfilter,nil)
+	return rc:GetLinkedGroup():Filter(s.copyfilter,nil)
 end
 function s.rfilter(c,oc)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
