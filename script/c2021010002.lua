@@ -157,10 +157,10 @@ function s.rfilter(c,oc)
 		and c:CheckRemoveOverlayCard(tp,oc,REASON_COST)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
-	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
-	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0) and rc==e:GetHandler()
-		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ct)
+	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
+	and re:IsActiveType(TYPE_XYZ) and rc==e:GetHandler()
+		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ev)
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
