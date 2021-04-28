@@ -155,16 +155,15 @@ function s.tgtg(e,c)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
-	local g=Duel.GetOverlayGroup(tp,1,0)
 	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
-		and ep==e:GetOwnerPlayer() and rc=e:GetHandler()
-		and #g==ev
+		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
+		and Duel.GetOverlayCount(tp,1,0)==ev
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
 	local g=Duel.GetOverlayGroup(tp,1,0)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	tg=g:Select(tp,ct,ct,nil)
-	Duel.SendtoGrave(tg,REASON_EFFECT)
+	Duel.SendtoGrave(tg,REASON_COST)
 end
-
