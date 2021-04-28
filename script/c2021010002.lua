@@ -6,7 +6,7 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--multi attack
 	local e1=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_TODECK)
+	e1:SetCategory(CATEGORY_TODECK)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_PHASE+PHASE_BATTLE_START)
 	e1:SetRange(LOCATION_MZONE)
