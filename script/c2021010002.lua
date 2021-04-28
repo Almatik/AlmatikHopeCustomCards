@@ -155,7 +155,7 @@ function s.tgtg(e,c)
 end
 function s.rfilter(c,ct)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ)
-		and c:CheckRemoveOverlayCard(tp,ct,REASON_COST)
+		and c:CheckRemoveOverlayCard(tp,ct,REASON_COST,c)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
