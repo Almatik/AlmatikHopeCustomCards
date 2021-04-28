@@ -53,6 +53,7 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e4:SetCode(EFFECT_OVERLAY_REMOVE_REPLACE)
 	e4:SetRange(LOCATION_MZONE)
+	e4:SetCondition(s.rcon)
 	e4:SetOperation(s.rop)
 	c:RegisterEffect(e4)
 end
@@ -152,15 +153,18 @@ end
 function s.tgtg(e,c)
 	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
 end
+function s.rcon(e,tp,eg,ep,ev,re,r,rp)
+	local rc=re:GetHandler()
+	local g=Duel.GetOverlayGroup(tp,1,0)
+	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
+		and ep==e:GetOwnerPlayer() and rc=e:GetHandler()
+		and #g==ev
+end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=(ev&0xffff)
 	local rc=re:GetHandler()
-	local og=Duel.GetOverlayGroup(tp,1,0)
-	if (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
-		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and #og=>ct then
-			tg=og:Select(tp,ct,ct,nil)
-			Duel.SendtoGrave(tg,REASON_COST)
-	end
+	local g=Duel.GetOverlayGroup(tp,1,0)
+	tg=g:Select(tp,ct,ct,nil)
+	Duel.SendtoGrave(tg,REASON_EFFECT)
 end
 
