@@ -149,8 +149,9 @@ function s.rfilter(c,oc)
 end
 function s.rcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	local tc=re:GetHandler()
 	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
-		and ep==e:GetOwnerPlayer() and re:GetHandler()==e:GetHandler()
+		and ep==e:GetOwnerPlayer() and rc==c
 		and Duel.IsExistingMatchingCard(s.rfilter,tp,LOCATION_MZONE,0,1,rc,ev)
 end
 function s.rop(e,tp,eg,ep,ev,re,r,rp)
