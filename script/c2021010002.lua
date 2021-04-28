@@ -105,7 +105,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if #g<2 then return end
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
-		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
@@ -142,9 +142,9 @@ function s.copy(e,tp,eg,ep,ev,re,r,rp)
 	local wg=c:GetLinkedGroup():Filter(s.copyfilter,nil)
 	local wbc=wg:GetFirst()
 	while wbc do
-		local code=wbc:GetOriginalCode()
+		local code=wbc:GetCode()
 		if c:IsFaceup() then
-			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,1)
+			c:CopyEffect(code,1)
 		end
 		wbc=wg:GetNext()
 	end
