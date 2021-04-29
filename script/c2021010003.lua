@@ -24,7 +24,6 @@ function s.initial_effect(c)
 	e2:SetOperation(s.synop)
 	c:RegisterEffect(e2)
 end
-
 function s.filter(c,e,tp)
 	return c:IsType(TYPE_SYNCHRO) and not c:IsType(TYPE_TUNER)
 	and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -58,30 +57,24 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetHintTiming(0,TIMINGS_CHECK_MONSTER+TIMING_MAIN_END)
 		e2:SetRange(LOCATION_MZONE)
 		e2:SetCondition(s.sccon)
-		e2:SetCost(s.sccost)
 		e2:SetTarget(s.sctg)
 		e2:SetOperation(s.scop)
 		tc:RegisterEffect(e2)
 	end
+	local c=e:GetHandler()
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetDescription(aux.Stringid(id,3))
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH+EFFECT_FLAG_CLIENT_HINT)
+	e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e2:SetTargetRange(1,0)
+	e2:SetTarget(s.splimit)
+	e2:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e2,tp)
 end
 function s.sccon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp and (Duel.GetCurrentPhase()==PHASE_MAIN1 
 		or Duel.GetCurrentPhase()==PHASE_MAIN2)
-end
-function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetDescription(aux.Stringid(id,3))
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH+EFFECT_FLAG_CLIENT_HINT)
-	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e1:SetTargetRange(1,0)
-	e1:SetTarget(s.splimit)
-	e1:SetReset(RESET_PHASE+PHASE_END)
-	Duel.RegisterEffect(e1,tp)
-end
-function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
 end
 function s.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -99,6 +92,9 @@ function s.scop(e,tp,eg,ep,ev,re,r,rp)
 		local sg=g:Select(tp,1,1,nil)
 		Duel.SynchroSummon(tp,sg:GetFirst(),c)
 	end
+end
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
 end
 
 
@@ -120,4 +116,14 @@ function s.synop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,SUMMON_TYPE_SYNCHRO,tp,tp,false,false,POS_FACEUP)
 		tc:GetFirst():CompleteProcedure()
 	end
+	local c=e:GetHandler()
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetDescription(aux.Stringid(id,3))
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH+EFFECT_FLAG_CLIENT_HINT)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(s.splimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
 end
