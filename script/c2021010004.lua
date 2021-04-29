@@ -22,7 +22,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
 end
-function s.slevel1(e,c)
+function s.slevel(e,c)
 	local lv=e:GetHandler():GetLevel()
 	return 1*65536+lv
 end
