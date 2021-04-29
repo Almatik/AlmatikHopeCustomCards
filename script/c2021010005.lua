@@ -31,7 +31,7 @@ function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 function s.drfilter(c)
-	return c:IsSetCard(0x66)
+	return c:IsSetCard(0x43)
 end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=e:GetHandler():GetMaterial():FilterCount(s.drfilter,nil)
@@ -45,7 +45,7 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Draw(p,d,REASON_EFFECT)
 end
 function s.spfilter(c,e,tp,lv)
-	return c:IsSetCard(0x66) and c:IsLevelBelow(lv-1) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x43) and c:IsLevelBelow(lv-1) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
