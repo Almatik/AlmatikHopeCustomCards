@@ -60,7 +60,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectMatchingCard(tp,s.multifilter,tp,LOCATION_GRAVE,0,1,5,nil)
 	if #g==0 then return end
-	Duel.SendtoDeck(g,REASON_EFFECT)
+	Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
 	local c=e:GetHandler()
 	local ct=g:FilterCount(Card.IsLocation,nil,LOCATION_DECK)
 	if ct>0 and c:IsRelateToEffect(e) then
