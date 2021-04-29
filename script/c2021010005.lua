@@ -31,7 +31,7 @@ function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ct=(e:GetHandler():GetMaterial():FilterCount(aux.Filter(Card.IsSetCard,0x66),nil)
+	local ct=e:GetHandler():GetMaterial():FilterCount(aux.Filter(Card.IsSetCard,0x66),nil)
 	if chk==0 then return ct>0 and Duel.IsPlayerCanDraw(tp,ct) end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(ct)
