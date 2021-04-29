@@ -27,7 +27,7 @@ function s.slevel(e,c)
 	return 1*65536+lv
 end
 function s.filter(c,e,tp)
-	return (c:IsSetCard(0xa3) or c:IsSetCard(0x43))
+	return (c:IsSetCard(0xa3) or c:IsSetCard(0x43)) and c:IsLevelBelow(4)
 		and not c:IsType(TYPE_TUNER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
