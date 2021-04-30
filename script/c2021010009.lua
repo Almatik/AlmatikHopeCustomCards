@@ -35,11 +35,11 @@ function s.tncon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.tnop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=c:GetMaterial():Filter(Card.IsSetCard,nil,0x7):GetMaxGroup(Card.GetAttack)
+	local g,atk=c:GetMaterial():Filter(Card.IsSetCard,nil,0x7):GetMaxGroup(Card.GetAttack)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetValue(tc/2)
+	e1:SetValue(atk/2)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
 end
