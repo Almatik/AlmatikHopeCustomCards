@@ -11,12 +11,6 @@ function s.initial_effect(c)
 	e1:SetCondition(s.tncon)
 	e1:SetOperation(s.tnop)
 	c:RegisterEffect(e1)
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetCode(EFFECT_MATERIAL_CHECK)
-	e2:SetValue(s.valcheck)
-	e2:SetLabelObject(e1)
-	c:RegisterEffect(e2)  
 	--activate limit
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
@@ -34,16 +28,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 
-function s.valcheck(e,c)
-	local g=c:GetMaterial()
-	if g:IsExists(Card.SetCard,1,nil,0x7) then
-		e:GetLabelObject():SetLabel(1)
-	else
-		e:GetLabelObject():SetLabel(0)
-	end
-end
 function s.tncon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) and e:GetLabel()==1
+	local c=e:GetHandler()
+	return c:IsSummonType(SUMMON_TYPE_SYNCHRO)
+		and c:GetMaterial():IsExists(Card.SetCard,1,nil,0x7)
 end
 function s.tnop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
