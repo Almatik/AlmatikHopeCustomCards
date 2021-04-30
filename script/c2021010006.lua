@@ -60,7 +60,7 @@ function s.cfilter(c,e)
 		and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT))
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter,1,nil,e) and e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
+	return eg:IsExists(s.cfilter,1,nil,e)
 end
 function s.spfilter(c,e,tp)
 	return c:IsCode(83104731) or c:IsCode(95735217) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
