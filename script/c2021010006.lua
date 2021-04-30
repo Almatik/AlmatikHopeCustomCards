@@ -54,12 +54,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
-function s.spfilter1(c,tp)
-	return c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsSetCard(0x7) and c:IsPreviousControler(tp)
-		and c:IsPreviousLocation(LOCATION_MZONE)
+function s.cfilter(c,tp)
+	return c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP) 
+		and c:GetPreviousSetCard(0x7)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.spfilter1,1,nil,tp)
+	return eg:IsExists(s.cfilter,1,e:GetHandler(),tp)
 end
 function s.spfilter(c,e,tp)
 	return c:IsCode(83104731) or c:IsCode(95735217) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
