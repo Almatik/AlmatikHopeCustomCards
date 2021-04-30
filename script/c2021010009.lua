@@ -31,11 +31,11 @@ end
 function s.tncon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsSummonType(SUMMON_TYPE_SYNCHRO)
-		and c:GetMaterial():IsExists(Card.SetCard,1,nil,0x7)
+		and c:GetMaterial():IsExists(Card.IsSetCard,1,nil,0x7)
 end
 function s.tnop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=c:GetMaterial():Filter(Card.SetCard,nil,0x7):GetMaxGroup(Card.GetAttack)
+	local tc=c:GetMaterial():Filter(Card.IsSetCard,nil,0x7):GetMaxGroup(Card.GetAttack)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
