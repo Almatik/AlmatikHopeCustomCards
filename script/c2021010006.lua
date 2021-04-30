@@ -54,7 +54,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 	end
 end
-function s.cfilter(c,e)
+function s.cfilter(c,tp)
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp)
 		and c:IsPreviousSetCard(0x7)
 		and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT))
