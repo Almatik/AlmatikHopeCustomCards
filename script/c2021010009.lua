@@ -44,15 +44,6 @@ function s.tnop(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(e1)
 end
 
-
-
-
-
-
-
-
-
-
 function s.actcon(e)
 	local ph=Duel.GetCurrentPhase()
 	local tp=Duel.GetTurnPlayer()
