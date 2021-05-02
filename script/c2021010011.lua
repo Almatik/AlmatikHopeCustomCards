@@ -43,8 +43,8 @@ function s.filter2(c)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g1=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
-	local g2=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
-	 if #g1>0 and #g2<=0 then
+	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
+	if #g1>0 and #g2<=0 then
 		e:SetLabel(0) 
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,#g1,0,0)
 	elseif #g2>0 and #g1<=0 then
