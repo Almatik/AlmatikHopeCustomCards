@@ -29,8 +29,8 @@ function s.sucop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
-	e1:SetValue(c:GetMaterialCount():FilterCount(s.filter,nil,tp)-1)
+	e1:SetCode(EFFECT_EXTRA_ATTACK)
+	e1:SetValue(c:GetMaterial():FilterCount(s.filter,nil,tp)-1)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
 	c:RegisterEffect(e1)
 end
@@ -39,7 +39,7 @@ function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return (Duel.GetAttacker()==c or Duel.GetAttackTarget()==c)
 end
 function s.spfilter(c)
-	return c:IsSetCard() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x48) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_EXTRA) and chkc:IsControler(tp) and s.spfilter(chkc,e,tp) end
