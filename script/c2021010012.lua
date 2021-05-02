@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--Special Summon
 	local e2=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_EQUIP)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -52,6 +53,13 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)>0 then
+		if c:GetOverlayCount()>0 then
+			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
+			local mg=c:GetOverlayGroup():Select(tp,1,1,nil)
+			local oc=mg:GetFirst():GetOverlayTarget()
+			Duel.Overlay(tc,mg)
+			Duel.RaiseSingleEvent(oc,EVENT_DETACH_MATERIAL,e,0,0,0,0)
+		end
 		local m=tc:GetMetatable(true)
 		local no=m.xyz_number
 		local e1=Effect.CreateEffect(c)
