@@ -6,27 +6,38 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
 	--destroy all
 	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetProperty(EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,id)
-	e1:SetCondition(s.descon)
-	e1:SetTarget(s.destg)
-	e1:SetOperation(s.desop)
+	e1:SetCondition(s.descon1)
+	e1:SetOperation(s.desop1)
 	c:RegisterEffect(e1)
-	--spsummon
+	--destroy all
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,2))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_DESTROY)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET)
-	e2:SetCode(EVENT_TO_GRAVE)
-	e2:SetCountLimit(1,id+1)
-	e2:SetCondition(s.condition)
-	e2:SetTarget(s.target)
-	e2:SetOperation(s.operation)
+	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetCountLimit(1,id)
+	e2:SetCondition(s.descon2)
+	e2:SetOperation(s.desop2)
 	c:RegisterEffect(e2)
+	--spsummon
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,2))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET)
+	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCountLimit(1,id+1)
+	e3:SetCondition(s.condition)
+	e3:SetTarget(s.target)
+	e3:SetOperation(s.operation)
+	c:RegisterEffect(e3)
 end
 function s.filter1(c)
 	return c:IsType(TYPE_MONSTER)
@@ -34,39 +45,22 @@ end
 function s.filter2(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
-function s.descon(e,tp,eg,ep,ev,re,r,rp)
-	local g1=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
-	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) and (#g1>0 or #g2>0)
+function s.descon1(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) and #g>0
 end
-function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g1=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
-	local g2=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
-	if #g1>0 and #g2<=0 then
-		e:SetLabel(0) 
-		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,#g1,0,0)
-	elseif #g2>0 and #g1<=0 then
-		e:SetLabel(1)
-		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g2,#g2,0,0)
-	else
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
-		local op=Duel.SelectOption(tp,aux.Stringid(id,0),aux.Stringid(id,1))
-		e:SetLabel(op)
-		if op==0 then
-			Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,#g1,0,0)
-		else
-			Duel.SetOperationInfo(0,CATEGORY_DESTROY,g2,#g2,0,0)
-		end
-	end
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
+function s.descon2(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) and #g>0
 end
-function s.desop(e,tp,eg,ep,ev,re,r,rp)
-	local g
-	if e:GetLabel()==0 then
-		g=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
-	else 
-		g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil) 
+function s.desop1(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(s.filter1,tp,0,LOCATION_ONFIELD,nil)
+	if #g>0 then
+		Duel.Destroy(g,REASON_EFFECT)
 	end
+end
+function s.desop2(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(s.filter2,tp,0,LOCATION_ONFIELD,nil)
 	if #g>0 then
 		Duel.Destroy(g,REASON_EFFECT)
 	end
