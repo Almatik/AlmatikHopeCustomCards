@@ -30,8 +30,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g,p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	g=g:Filter(Card.IsRelateToEffect,nil,e)
-	if #g>0 and Duel.Destroy(g,REASON_EFFECT)>0 then
+	if g:IsRelateToEffect() and #g>0 and Duel.Destroy(g,REASON_EFFECT)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 		if #g>0 then
