@@ -37,23 +37,32 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
-			if Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
-				local tr=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
-				local td=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,nil)
-				local dg=td:SelectWithSumGreater(tp,Card.GetLevel,tr:GetLevel()-1,1,99)
-				if Duel.Destroy(dg,REASON_EFFECT+REASON_MATERIAL)~=0 then
-					Duel.SpecialSummon(tr,SUMMON_TYPE_RITUAL,tp,tp,false,false,POS_FACEUP)
-				end
-			end
+			local e1=Ritual.CreateProc({handler=c,lvtype=RITPROC_EQUAL,location=LOCATION_DECK,matfilter=s.mfilter,stage2=s.stage2})
+			e1:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
+			c:RegisterEffect(e1)
 		end
 	end
 end
-function s.spfilter(c,e,tp)
-	local lv=c:GetLevel()
-	local desg=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,c)
-	return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,false)
-		and desg:CheckWithSumGreater(Card.GetLevel,lv-1,1,99)
+function s.mfilter(c)
+	return c:IsLocation(LOCATION_HAND) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
 end
-function s.desfilter(c)
-	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable()
+function s.stage2(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END+RESET_OPPO_TURN,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_PHASE+PHASE_END)
+	e1:SetCountLimit(1)
+	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e1:SetLabelObject(tc)
+	e1:SetReset(RESET_PHASE+PHASE_END+RESET_OPPO_TURN)
+	e1:SetCondition(s.tdcon)
+	e1:SetOperation(s.tdop)
+	Duel.RegisterEffect(e1,tp)
+end
+function s.tdcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsTurnPlayer(1-tp) and e:GetLabelObject():GetFlagEffect(id)>0
+end
+function s.tdop(e,tp,eg,ep,ev,re,r,rp)
+	local sc=e:GetLabelObject()
+	Duel.Destroy(sc,SEQ_DECKSHUFFLE,REASON_EFFECT+REASON_MATERIAL)
 end
