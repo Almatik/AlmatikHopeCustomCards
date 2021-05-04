@@ -29,11 +29,11 @@ function s.cfilter(c)
 	return c:IsFaceup() and c:IsLinkMonster()
 end
 function s.filter(c)
-	return not c=~e:GetHandler()
+	return not c~=e:GetHandler()
 end
 function s.popcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
-	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) and #g>0 end
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) and #g>0
 end
 function s.popop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
