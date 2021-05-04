@@ -31,20 +31,21 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.operation(fustg,fusop,rittg,ritop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then
-			Duel.ConfirmCards(1-tp,g)
-			local rit=rittg(e,tp,eg,ep,ev,re,r,rp,0)
-			if rit then
-				local sel={}
-				table.insert(sel,aux.Stringid(id,1))
-				if rit then table.insert(sel,aux.Stringid(id,1)) end
-				if Duel.SelectYesNo(0,aux.Stringid(id,1))~=0 then
-					Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(id,1))
-					ritop(e,tp,eg,ep,ev,re,r,rp)
+		local tc=Duel.GetFirstTarget()
+		if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+			local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
+			if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then
+				Duel.ConfirmCards(1-tp,g)
+				local rit=rittg(e,tp,eg,ep,ev,re,r,rp,0)
+				if rit then
+					local sel={}
+					table.insert(sel,aux.Stringid(id,1))
+					if rit then table.insert(sel,aux.Stringid(id,1)) end
+					if Duel.SelectYesNo(0,aux.Stringid(id,1))~=0 then
+						Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(id,1))
+						ritop(e,tp,eg,ep,ev,re,r,rp)
+					end
 				end
 			end
 		end
