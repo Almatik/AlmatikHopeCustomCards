@@ -59,6 +59,9 @@ function s.mfilter(c)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
 end
 function s.extraop(e,tc,tp,sg)
-	Duel.Destroy(sg,REASON_EFFECT+REASON_MATERIAL)
-	sg:Clear()
+	local rg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND+LOCATION_MZONE)
+	if #rg>0 then
+	   Duel.Destroy(rg,REASON_EFFECT+REASON_MATERIAL)
+	   sg:Sub(rg)
+	end
 end
