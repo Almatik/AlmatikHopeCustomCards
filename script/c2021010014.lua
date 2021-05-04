@@ -12,7 +12,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	--Ritual
-	local e2=Ritual.CreateProc({handler=c,extraop=s.extraop,lvtype=RITPROC_GREATER,location=LOCATION_HAND,matfilter=s.mfilter})
+	local e2=Ritual.CreateSummonEff({handler=c,extraop=s.extraop,lvtype=RITPROC_GREATER,location=LOCATION_HAND,matfilter=s.mfilter})
 	e2:SetCountLimit(1,id+1)
 	c:RegisterEffect(e2)
 end
