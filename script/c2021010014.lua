@@ -37,20 +37,13 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
-			if Duel.IsExistingTarget(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
-				local tr=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil)
-				local td=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil,tr:GetCode())
+			if Duel.IsExistingTarget(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+				local td=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil)
 				Duel.Destroy(td,REASON_EFFECT)
-				Duel.SpecialSummon(tr,SUMMON_TYPE_RITUAL,tp,tp,false,false,POS_FACEUP)
 			end
 		end
 	end
 end
-function s.spfilter(c,e,tp)
-	local lv=c:GetLevel()
-	return lv>0 and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,false)
-		and Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,nil,c:GetCode()):GetSum(Card.GetLevel)>=lv
-end
-function s.desfilter(c,code)
-	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:GetCode()~=code and c:IsDestructable()
+function s.desfilter(c)
+	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable()
 end
