@@ -58,9 +58,6 @@ end
 function s.mfilter(c)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
 end
-function s.extraop(e,tc,tp,sg)
-	if #sg>0 then
-	   Duel.Destroy(sg,REASON_EFFECT+REASON_MATERIAL)
-	   sg:Sub(sg)
-	end
-end 
+function s.extraop(mg,e,tp,eg,ep,ev,re,r,rp)
+	Duel.SendtoDeck(mg,REASON_EFFECT+REASON_MATERIAL+REASON_RITUAL)
+end
