@@ -30,8 +30,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-function s.operation(rittg,ritop)
-	return function(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 		if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
@@ -40,8 +39,14 @@ function s.operation(rittg,ritop)
 				Duel.ConfirmCards(1-tp,g)
 				local rit=rittg(e,tp,eg,ep,ev,re,r,rp,0)
 				if rit then
-					Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(id,3))
-					ritop(e,tp,eg,ep,ev,re,r,rp)
+					local sel={}
+					table.insert(sel,aux.Stringid(id,1))
+					if rit then table.insert(sel,aux.Stringid(id,2)) end
+					local res=Duel.SelectOption(tp,false,table.unpack(sel))
+					if res==1 then
+						Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(id,2))
+						ritop(e,tp,eg,ep,ev,re,r,rp)
+					end
 				end
 			end
 		end
