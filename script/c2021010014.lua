@@ -9,7 +9,7 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,id)
 	e1:SetTarget(s.target)
-	e1:SetOperation(s.operation(Ritual.Target(rparams),Ritual.Operation(rparams)))
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 	--Ritual
 	local e2=Ritual.CreateProc({handler=c,extraop=s.extraop,lvtype=RITPROC_GREATER,location=LOCATION_HAND,matfilter=s.mfilter})
