@@ -49,7 +49,7 @@ end
 function s.spfilter(c,e,tp)
 	local lv=c:GetLevel()
 	return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,false)
-		and Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,c):GetSum(Card.GetLevel())>=lv
+		and Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,c):GetSum(Card.GetLevel())>=lv
 end
 function s.desfilter(c)
 	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable()
