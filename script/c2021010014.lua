@@ -1,7 +1,7 @@
 --Borrel Reform
 local s,id=GetID()
 function s.initial_effect(c)
-	local rparams={filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),lvtype=RITPROC_GREATER,extraop=s.extraop,matfilter=s.mfilter}
+	local rparams={filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),lvtype=RITPROC_GREATER,matfilter=s.mfilter}
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SEARCH)
@@ -42,7 +42,7 @@ function s.operation(rittg,ritop)
 				if rit then
 					local sel={}
 					table.insert(sel,aux.Stringid(id,1))
-					if rit then table.insert(sel,aux.Stringid(id,2)) end
+					table.insert(sel,aux.Stringid(id,2))
 					local res=Duel.SelectOption(tp,false,table.unpack(sel))
 					if res==0 then return end
 					Duel.BreakEffect()
@@ -57,11 +57,4 @@ function s.operation(rittg,ritop)
 end
 function s.mfilter(c)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
-end
-function s.extraop(e,tc,tp,sg)
-	local rg=sg:Filter(Card.IsLocation,nil,LOCATION_HAND+LOCATION_MZONE)
-	if #rg>0 then
-	   Duel.Destroy(rg,REASON_EFFECT+REASON_MATERIAL)
-	   sg:Sub(rg)
-	end
 end
