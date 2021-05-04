@@ -52,5 +52,5 @@ function s.spfilter(c,e,tp)
 		and Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,nil,c:GetCode()):GetSum(Card.GetLevel)>=lv
 end
 function s.desfilter(c,code)
-	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:GetCode~=code and c:IsDestructable()
+	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:GetCode()~=code and c:IsDestructable()
 end
