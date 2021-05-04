@@ -30,7 +30,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-function s.operation(fustg,fusop,rittg,ritop)
+function s.operation(rittg,ritop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 		if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
