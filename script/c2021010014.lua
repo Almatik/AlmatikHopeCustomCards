@@ -35,16 +35,20 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 and Duel.ConfirmCards(1-tp,g)~=0  then
-			if Duel.IsExistingTarget(s.ritualdesfilter,tp,LOCATION_MZONE,0,1,nil,tp) then
-				
+			if Duel.IsExistingTarget(s.ritualsumfilter,tp,LOCATION_HAND,0,1,nil,tp) then
+				local gs=Duel.SelectTarget(tp,s.ritualsumfilter,tp,LOCATION_HAND,0,1,1,nil,tp)
+				local gd=Duel.SelectTarget(tp,s.ritualsumfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil,tp,gs:GetCode())
+				if #gs>0 and #gd>0 and Duel.Destroy(gd,REASON_EFFECT)~=0 then
+					Duel.SpecialSummon(gs,SUMMON_TYPE_RITUAL,tp,tp,false,false,POS_FACEUP)
+				end
 			end
 		end
 	end
 end
-function s.ritualdesfilter(c,tp)
-	local lv=c:GetLevel()
-	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable() and c:HasLevel() and Duel.IsExistingTarget(s.ritualdesfilter,tp,LOCATION_MZONE,0,1,nil,lv)
+function s.ritualsumfilter(c)
+	local g=Duel.GetMatchingGroup(s.ritualdesfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,nil,e:GetCode())
+	return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and g:GetSum(Card.GetLevel)>=c:GetLevel()
 end
-function s.ritualsumfilter(c,lv)
-	return c:IsRace(RACE_DRAGON) and c:IsType(TYP_RITUAL)
+function s.ritualdesfilter(c,code)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable() and c:HasLevel() and c:GetCode()~=code
 end
