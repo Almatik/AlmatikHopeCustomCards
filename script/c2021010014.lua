@@ -36,7 +36,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then
 			Duel.ConfirmCards(1-tp,g)
-			local e1=Ritual.CreateProc({handler=c,filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),lvtype=RITPROC_EQUAL,location=LOCATION_HAND,matfilter=s.mfilter})
+			local e1=Ritual.CreateProc({handler=c,lvtype=RITPROC_GREATER,location=LOCATION_HAND,matfilter=s.mfilter})
 			c:RegisterEffect(e1)
 		end
 	end
