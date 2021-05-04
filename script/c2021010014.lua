@@ -38,18 +38,21 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 			if Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
-				local td=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil,e,tp)
-				local tr=Duel.SelectMatchingCard(tp,s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil)
-				Duel.Destroy(td,REASON_EFFECT+REASON_MATERIAL)
-				Duel.SpecialSummon(tr,SUMMON_TYPE_RITUAL,tp,tp,false,false,POS_FACEUP)
+				local tr=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
+				local td=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_MZONE+LOCATION_GRAVE,0,nil)
+				local dg=td:SelectWithSumGreater(tp,Card.GetLevel,tr:GetLevel(),1,99)
+				if Duel.Destroy(dg,REASON_EFFECT+REASON_MATERIAL)~=0 then
+					Duel.SpecialSummon(tr,SUMMON_TYPE_RITUAL,tp,tp,false,false,POS_FACEUP)
+				end
 			end
 		end
 	end
 end
 function s.spfilter(c,e,tp)
 	local lv=c:GetLevel()
+	local desg=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,c)
 	return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,false)
-		and Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,c):GetSum(Card.GetLevel())>=lv
+		and desg:CheckWithSumGreater(Card.GetLevel,lv-1,1,99)
 end
 function s.desfilter(c)
 	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable()
