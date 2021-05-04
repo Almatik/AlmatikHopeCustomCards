@@ -1,6 +1,7 @@
 --Borrel Reform
 local s,id=GetID()
 function s.initial_effect(c)
+	local rparams={filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),lvtype=RITPROC_GREATER,matfilter=s.mfilter}
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SEARCH)
@@ -9,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,id)
 	e1:SetTarget(s.target)
-	e1:SetOperation(s.operation)
+	e1:SetOperation(s.operation(Ritual.Target(rparams),Ritual.Operation(rparams)))
 	c:RegisterEffect(e1)
 end
 s.listed_series={0x102}
@@ -29,18 +30,31 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then
-			Duel.ConfirmCards(1-tp,g)
-			local e1=Ritual.CreateProc({handler=c,lvtype=RITPROC_GREATER,location=LOCATION_HAND,matfilter=s.mfilter})
-			c:RegisterEffect(e1)
+function s.operation(rittg,ritop)
+	return function(e,tp,eg,ep,ev,re,r,rp)
+		local tc=Duel.GetFirstTarget()
+		if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+			local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
+			if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 then
+				Duel.ConfirmCards(1-tp,g)
+				local rit=rittg(e,tp,eg,ep,ev,re,r,rp,0)
+				if rit then
+					local sel={}
+					table.insert(sel,aux.Stringid(id,1))
+					if rit then table.insert(sel,aux.Stringid(id,2)) end
+					local res=Duel.SelectOption(tp,false,table.unpack(sel))
+					if res==0 then return end
+					Duel.BreakEffect()
+					if res==1 then
+						Duel.Hint(HINT_OPSELECTED,tp,aux.Stringid(id,2))
+						ritop(e,tp,eg,ep,ev,re,r,rp)
+					end
+				end
+			end
 		end
 	end
 end
 function s.mfilter(c)
-	return c:IsLocation(LOCATION_HAND+LOCATION_MZONE) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
 end
