@@ -34,8 +34,17 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 and Duel.ConfirmCards(1-tp,g)~=0 then
-			
+		if #g>0 and Duel.SendtoHand(g,nil,REASON_EFFECT)~=0 and Duel.ConfirmCards(1-tp,g)~=0  then
+			if Duel.IsExistingTarget(s.ritualdesfilter,tp,LOCATION_MZONE,0,1,nil,tp) then
+				
+			end
 		end
 	end
+end
+function s.ritualdesfilter(c,tp)
+	local lv=c:GetLevel()
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable() and c:HasLevel() and Duel.IsExistingTarget(s.ritualdesfilter,tp,LOCATION_MZONE,0,1,nil,lv)
+end
+function s.ritualsumfilter(c,lv)
+	return c:IsRace(RACE_DRAGON) and c:IsType(TYP_RITUAL)
 end
