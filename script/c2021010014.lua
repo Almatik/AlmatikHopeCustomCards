@@ -37,7 +37,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		if #g>0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
-			if Duel.IsExistingTarget(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+			if Duel.IsExistingMatchingCard(s.desfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 				local td=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,99,nil)
 				Duel.Destroy(td,REASON_EFFECT)
 			end
