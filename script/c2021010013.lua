@@ -29,14 +29,13 @@ function s.cfilter(c)
 	return c:IsFaceup() and c:IsLinkMonster()
 end
 function s.filter(c)
-	return not c~=e:GetHandler()
+	return c:IsLocation(LOCATION_ONFIELD)
 end
 function s.popcon(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
-	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) and #g>0
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) and Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler())
 end
 function s.popop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
 	if #g>0 then
 		Duel.Destroy(g,REASON_EFFECT)
 		local e1=Effect.CreateEffect(c)
