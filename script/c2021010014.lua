@@ -1,7 +1,7 @@
 --Borrel Reform
 local s,id=GetID()
 function s.initial_effect(c)
-	local rparams={filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),lvtype=RITPROC_GREATER,matfilter=s.mfilter,extraop=s.extraop}
+	local rparams={filter=aux.FilterBoolFunction(Card.IsRace,RACE_DRAGON),extraop=s.extraop,lvtype=RITPROC_GREATER,matfilter=s.mfilter}
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_DESTROY+CATEGORY_SEARCH)
@@ -59,6 +59,6 @@ function s.mfilter(c)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
 end
 function s.extraop(e,tc,tp,sg)
-	Duel.Destroy(sg,REASON_EFFECT+REASON_MATERIAL+REASON_RITUAL)
+	Duel.Destroy(sg,REASON_EFFECT+REASON_MATERIAL)
 	sg:Clear()
 end
