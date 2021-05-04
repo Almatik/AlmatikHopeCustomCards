@@ -14,7 +14,9 @@ function s.initial_effect(c)
 end
 s.listed_series={0x102}
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
+	local sp=Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp)
+	local desg=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_DECK,0,c)
+	return sp and desg:CheckWithSumGreater(Card.GetLevel,sp:GetLevel()-1,1,99)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tr=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp)
@@ -25,10 +27,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.spfilter(c,e,tp)
-	local lv=c:GetLevel()
-	local desg=Duel.GetMatchingGroup(s.desfilter,tp,LOCATION_DECK,0,c)
 	return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_RITUAL) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,false)
-		and desg:CheckWithSumGreater(Card.GetLevel,lv-1,1,99)
 end
 function s.desfilter(c)
 	return c:GetLevel()>0 and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsDestructable()
