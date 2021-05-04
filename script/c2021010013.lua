@@ -31,9 +31,6 @@ end
 function s.filter(c)
 	return not c=~e:GetHandler()
 end
-function s.afilter(c)
-	return c:IsType(TYPE_MONSTER) and c:Is
-end
 function s.popcon(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
 	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) and #g>0
@@ -61,7 +58,7 @@ function s.rfilter(c,rac)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(s.rfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp)end
+		and Duel.IsExistingTarget(s.rfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,s.rfilter3,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
