@@ -59,22 +59,19 @@ function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	if tp==e:GetHandlerPlayer() then
 		local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
+		Duel.Hint(HINT_ZONE,tp,seq)
+		e:SetLabel(math.log(seq,2))
 	else
 		local seq=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+		Duel.Hint(HINT_ZONE,tp,seq)
+		e:SetLabel(math.log(seq,2))
 	end
-	Duel.Hint(HINT_ZONE,tp,seq)
-	e:SetLabel(math.log(seq,2))
 end
 	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
 function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
-	if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
-	if tp==e:GetHandlerPlayer() then
-		if not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
-	else
-		if not Duel.CheckLocation(1-tp,LOCATION_MZONE,seq) then return end
-	end
+	if not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,seq)
 end
