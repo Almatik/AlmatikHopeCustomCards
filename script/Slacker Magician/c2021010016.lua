@@ -1,6 +1,7 @@
 --Topologic Warrior
 local s,id=GetID()
-function s.initial_effect(c)
+function s.initial_effect(c,e,tp)
+	Duel.SpecialSummon(e:GetHandler(),0,tp,tp,false,false,POS_FACEUP)
 	--synchro summon
 	Synchro.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK),1,1,Synchro.NonTuner(nil),1,99)
 	c:EnableReviveLimit()
@@ -40,7 +41,7 @@ end
 
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if c:GetHandlerPlayer()==tp then return end
+	if c:IsControler(tp) then return end
 	if chk==0 then return Duel.CheckLPCost(tp,1500) end
 	Duel.PayLPCost(tp,1500)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
