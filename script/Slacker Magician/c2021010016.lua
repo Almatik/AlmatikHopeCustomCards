@@ -36,13 +36,14 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--atk
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
-	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetCode(EFFECT_UPDATE_ATTACK)
-	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetCountLimit(1,id+1)
 	e3:SetCondition(s.atkcon)
-	e3:SetValue(s.atkval)
+	e3:SetOperation(s.atkop)
 	c:RegisterEffect(e3)
 
 end
@@ -85,15 +86,27 @@ function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 
 
-function s.atkcon(e)
-	local g=e:GetHandler():GetBattleTarget()
-	return Duel.GetCurrentPhase()==PHASE_DAMAGE_CAL and g
+
+
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local bc=c:GetBattleTarget()
+	return c:IsRelateToBattle() and bc and bc:IsFaceup() and bc:IsRelateToBattle()
+		and e:GetHandler():IsLinked()
 end
 function s.atkfilter(c,xc)
 	return c:IsFaceup() and c:IsLinkMonster() and c:GetLinkedGroup():IsContains(xc)
 end
-function s.atkval(e)
-	local g=e:GetHandler():GetBattleTarget()
-	local g=Duel.GetMatchingGroup(s.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil,c)
-	return g:GetSum(Card.GetLink)*-300
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local bc=c:GetBattleTarget()
+	local ct=Duel.GetMatchingGroup(s.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil,c)*300
+	if c:IsFaceup() and c:IsRelateToBattle() and bc:IsFaceup() and bc:IsRelateToBattle() and ct>0 then
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetValue(-ct)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		bc:RegisterEffect(e1)
+	end
 end
