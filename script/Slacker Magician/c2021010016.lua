@@ -48,13 +48,16 @@ end
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if tp~=c:GetControler() then
-		if chk==0 then return Duel.CheckLPCost(tp,1500) end
-		Duel.PayLPCost(tp,1500)
-	else if chk==0 then return end
+		local lp=1500
+	else 
+		local lp=0
 	end
+	if chk==0 then return Duel.CheckLPCost(tp,lp) end
+	Duel.PayLPCost(tp,lp)
 end
 	--Activation legality
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	if tp==c:GetControler() then
