@@ -19,10 +19,10 @@ function s.initial_effect(c)
 	e1a:SetCondition(s.indcon)
 	e1a:SetValue(1)
 	c:RegisterEffect(e1a)
-	local e2b=e1a:Clone()
-	e2b:SetCode(EFFECT_IMMUNE_EFFECT)
-	e2b:SetValue(s.efilter)
-	c:RegisterEffect(e2b)
+	local e1b=e1a:Clone()
+	e1b:SetCode(EFFECT_IMMUNE_EFFECT)
+	e1b:SetValue(s.efilter)
+	c:RegisterEffect(e1b)
 	--Move itself to 1 of your unused MMZ
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
@@ -47,13 +47,12 @@ end
 
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if tp~=c:GetControler() then
-		local lp=1500
-	else 
-		local lp=0
+	if tp==c:GetControler() then
+		return
+	else
+		if chk==0 then return Duel.CheckLPCost(tp,1500) end
+		Duel.PayLPCost(tp,1500)
 	end
-	if chk==0 then return Duel.CheckLPCost(tp,lp) end
-	Duel.PayLPCost(tp,lp)
 end
 	--Activation legality
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
