@@ -60,11 +60,13 @@ end
 function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
-	if c:IsRelateToEffect(e) and tp~=e:GetHandlerPlayer then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2))
-	elseif c:IsRelateToEffect(e) and tp~=e:GetHandlerPlayer then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0),2))
+	if c:IsRelateToEffect(e) then
+		if tp==e:GetHandlerPlayer then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+			Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2))
+		else
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+			Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0),2))
+		end
 	end
 end
