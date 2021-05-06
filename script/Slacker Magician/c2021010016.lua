@@ -50,7 +50,7 @@ function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if tp~=c:GetControler() then
 		if chk==0 then return Duel.CheckLPCost(tp,1500) end
 		Duel.PayLPCost(tp,1500)
-	else return
+	else
 	end
 end
 	--Activation legality
