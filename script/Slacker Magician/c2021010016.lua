@@ -61,6 +61,7 @@ function s.efilter(e,re)
 end
 function s.indtarget(e,c)
 	return c:IsFaceup() and c:IsLinkMonster() and c:GetLinkedGroup():IsContains(e:GetHandler())
+		and c:IsRace(RACE_CYBERSE) and c:GetLink()>=3 
 end
 
 	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
