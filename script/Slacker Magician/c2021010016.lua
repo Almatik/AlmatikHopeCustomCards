@@ -70,7 +70,11 @@ function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
 	if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
-	if tp==c:GetControler()
+	if tp==e:GetHandlerPlayer() then
+		if not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
+	else
+		if not Duel.CheckLocation(1-tp,LOCATION_MZONE,seq) then return end
+	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,seq)
 end
