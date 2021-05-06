@@ -50,14 +50,18 @@ function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if tp~=c:GetControler() then
 		if chk==0 then return Duel.CheckLPCost(tp,1500) end
 		Duel.PayLPCost(tp,1500)
-	else
+	else if chk==0 then return end
 	end
 end
 	--Activation legality
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
+	if tp==c:GetControler() then
+		local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
+	else
+		local seq=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+	end
 	Duel.Hint(HINT_ZONE,tp,seq)
 	e:SetLabel(math.log(seq,2))
 end
@@ -65,7 +69,7 @@ end
 function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
-	if not c:IsRelateToEffect(e) or c:IsControler(1-tp) or not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
+	if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,seq)
 end
