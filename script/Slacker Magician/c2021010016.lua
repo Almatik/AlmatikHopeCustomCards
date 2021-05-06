@@ -45,8 +45,14 @@ end
 
 
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1500) end
-	Duel.PayLPCost(tp,1500)
+	local c=e:GetHandler()
+	if c:GetControler()~=c:GetOwnerPlayer() then
+		local lp=0
+	else
+		local lp=1500
+	end
+	if chk==0 then return Duel.CheckLPCost(tp,lp) end
+	Duel.PayLPCost(tp,lp)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 end	--Activation legality
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
