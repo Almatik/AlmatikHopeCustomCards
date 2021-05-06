@@ -69,7 +69,7 @@ function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	if c:IsRelateToEffect(e) and tp==e:GetHandlerPlayer() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2))
-	elseif c:IsRelateToEffect(e) and tp~=e:GetHandlerPlayer then
+	elseif c:IsRelateToEffect(e) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0),2))
 	end
