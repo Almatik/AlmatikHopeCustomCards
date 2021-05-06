@@ -26,7 +26,6 @@ function s.initial_effect(c)
 	local e1c=e1a:Clone()
 	e1c:SetCode(EFFECT_UPDATE_ATTACK)
 	e1c:SetValue(500)
-	e1c:SetValue(s.efilter)
 	c:RegisterEffect(e1c)
 	--Move itself to 1 of your unused MMZ
 	local e2=Effect.CreateEffect(c)
