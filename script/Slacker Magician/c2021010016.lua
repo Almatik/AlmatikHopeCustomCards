@@ -23,6 +23,9 @@ function s.initial_effect(c)
 	e1b:SetCode(EFFECT_IMMUNE_EFFECT)
 	e1b:SetValue(s.efilter)
 	c:RegisterEffect(e1b)
+	local e1c=e1a:Clone()
+	e1c:SetTargetRange(s.indtarget)
+	c:RegisterEffect(e1c)
 	--Move itself to 1 of your unused MMZ
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
@@ -53,7 +56,9 @@ end
 function s.efilter(e,re)
 	return e:GetOwnerPlayer()~=re:GetOwnerPlayer()
 end
-
+function s.indtarget(e,c)
+	return c:IsFaceup() and c:IsLinkMonster() and c:GetLinkedGroup():IsContains(e:GetHandler())
+end
 
 	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
