@@ -45,8 +45,6 @@ end
 
 
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if c:IsControler(tp) then return end
 	if chk==0 then return Duel.CheckLPCost(tp,1500) end
 	Duel.PayLPCost(tp,1500)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
