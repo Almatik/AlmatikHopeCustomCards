@@ -24,22 +24,16 @@ function s.initial_effect(c)
 	e1b:SetValue(s.efilter)
 	c:RegisterEffect(e1b)
 	--Move itself to 1 of your unused MMZ
-	local e2a=Effect.CreateEffect(c)
-	e2a:SetDescription(aux.Stringid(id,0))
-	e2a:SetType(EFFECT_TYPE_IGNITION)
-	e2a:SetProperty(EFFECT_FLAG_BOTH_SIDE)
-	e2a:SetRange(LOCATION_MZONE)
-	e2a:SetCountLimit(1)
-	e2a:SetCondition(s.seqcon1)
-	e2a:SetTarget(s.seqtg1)
-	e2a:SetOperation(s.seqop1)
-	c:RegisterEffect(e2a)
-	local e2b=e2a:Clone()
-	e2b:SetCondition(s.seqcon2)
-	e2b:SetCost(s.seqcos2)
-	e2b:SetTarget(s.seqtg2)
-	e2b:SetOperation(s.seqop2)
-	c:RegisterEffect(e2b)
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1)
+	e2:SetCost(s.seqcost)
+	e2:SetTarget(s.seqtg)
+	e2:SetOperation(s.seqop)
+	c:RegisterEffect(e2)
 
 end
 function s.indcon(e)
@@ -51,20 +45,32 @@ end
 
 
 
-function s.seqcon1(e,tp,eg,ep,ev,re,r,rp)
-	return tp==e:GetHandler():GetControler()
+function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then 
+	  if tp~=e:GetHandlerPlayer() then
+		return Duel.CheckLPCost(1-tp,1500)
+	  else return true end
+	end
+	if tp~=e:GetHandlerPlayer() then Duel.PayLPCost(1-tp,1500) end
 end
-function s.seqtg1(e,tp,eg,ep,ev,re,r,rp,chk)
+	--Activation legality
+function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
+	if tp==e:GetHandlerPlayer() then
+		local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
+	else
+		local seq=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
+	end
 	Duel.Hint(HINT_ZONE,tp,seq)
 	e:SetLabel(math.log(seq,2))
 end
-function s.seqop1(e,tp,eg,ep,ev,re,r,rp,chk)
+	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
+function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
 	if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp,LOCATION_MZONE,seq) then return end
+	if tp==c:GetControler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 	Duel.MoveSequence(c,seq)
 end
