@@ -34,6 +34,16 @@ function s.initial_effect(c)
 	e2:SetTarget(s.seqtg)
 	e2:SetOperation(s.seqop)
 	c:RegisterEffect(e2)
+	--atk
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_UPDATE_ATTACK)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCondition(s.atkcon)
+	e3:SetValue(s.atkval)
+	c:RegisterEffect(e3)
 
 end
 function s.indcon(e)
@@ -72,4 +82,18 @@ function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16,2))
 	end
+end
+
+
+function s.atkcon(e)
+	local g=e:GetHandler():GetBattleTarget()
+	return Duel.GetCurrentPhase()==PHASE_DAMAGE_CAL and g
+end
+function s.atkfilter(c,xc)
+	return c:IsFaceup() and c:IsLinkMonster() and c:GetLinkedGroup():IsContains(xc)
+end
+function s.atkval(e)
+	local g=e:GetHandler():GetBattleTarget()
+	local g=Duel.GetMatchingGroup(s.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	return g:GetSum(Card.GetLink)*-300
 end
