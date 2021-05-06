@@ -23,6 +23,11 @@ function s.initial_effect(c)
 	e1b:SetCode(EFFECT_IMMUNE_EFFECT)
 	e1b:SetValue(s.efilter)
 	c:RegisterEffect(e1b)
+	local e1c=e1a:Clone()
+	e1c:SetCode(EFFECT_UPDATE_ATTACK)
+	e1c:SetValue(500)
+	e1c:SetValue(s.efilter)
+	c:RegisterEffect(e1c)
 	--Move itself to 1 of your unused MMZ
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
@@ -65,12 +70,11 @@ function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	local seq=e:GetLabel()
 	if c:IsRelateToEffect(e) and tp==e:GetHandlerPlayer() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2))
 	elseif c:IsRelateToEffect(e) then
-		Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TOZONE)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
 		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)>>16,2))
 	end
 end
