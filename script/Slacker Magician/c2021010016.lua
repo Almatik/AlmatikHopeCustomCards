@@ -44,34 +44,27 @@ function s.efilter(e,re)
 end
 
 
-
+	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
 function s.seqcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
 	  if tp~=e:GetHandlerPlayer() then
-		return Duel.CheckLPCost(1-tp,1500)
+		return Duel.CheckLPCost(tp,1500)
 	  else return true end
 	end
-	if tp~=e:GetHandlerPlayer() then Duel.PayLPCost(1-tp,1500) end
+	if tp~=e:GetHandlerPlayer() then Duel.PayLPCost(tp,1500) end
 end
-	--Activation legality
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	if tp==e:GetHandlerPlayer() then
-		local seq=Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0)
-		Duel.Hint(HINT_ZONE,tp,seq)
-		e:SetLabel(math.log(seq,2))
-	else
-		local seq=Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0)
-		Duel.Hint(HINT_ZONE,tp,seq)
-		e:SetLabel(math.log(seq,2))
-	end
 end
-	--Move itself to 1 of your unused MMZ, then destroy all face-up cards in its new column
 function s.seqop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local seq=e:GetLabel()
-	if not c:IsRelateToEffect(e) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
-	Duel.MoveSequence(c,seq)
+	if c:IsRelateToEffect(e) and tp~=e:GetHandlerPlayer then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2))
+	elseif c:IsRelateToEffect(e) and tp~=e:GetHandlerPlayer then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+		Duel.MoveSequence(c,math.log(Duel.SelectDisableField(tp,1,0,LOCATION_MZONE,0),2))
+	end
 end
