@@ -1,12 +1,6 @@
 --Knightmare Dragon (WIP)
 local s,id=GetID()
 function s.initial_effect(c)
-	local ea=Effect.CreateEffect(c)
-	ea:SetType(EFFECT_TYPE_FIELD)
-	ea:SetCode(EFFECT_SPSUMMON_PROC)
-	ea:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-	ea:SetRange(LOCATION_EXTRA)
-	c:RegisterEffect(ea)
 	--Link Summon this card
 	Link.AddProcedure(c,nil,3,99,s.lcheck)
 	c:EnableReviveLimit()
@@ -39,7 +33,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--remove
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_REMOVE)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetType(EFFECT_TYPE_IGNITION)
@@ -57,7 +51,7 @@ function s.indcon(e)
 end
 
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_SPECIAL)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
