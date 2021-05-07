@@ -39,10 +39,10 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetCountLimit(1,id)
-	e2:SetCondition(s.setcon)
-	e2:SetCost(s.setcost)
-	e2:SetTarget(s.settg)
-	e2:SetOperation(s.setop)
+	e2:SetCondition(s.discon)
+	e2:SetCost(s.discost)
+	e2:SetTarget(s.distg)
+	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2)
 	--remove
 	local e3=Effect.CreateEffect(c)
@@ -63,10 +63,10 @@ function s.indcon(e)
 	return e:GetHandler():IsLinked()
 end
 
-function s.setcon(e,tp,eg,ep,ev,re,r,rp)
+function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
-function s.setcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
