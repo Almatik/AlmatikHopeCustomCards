@@ -10,13 +10,6 @@ function s.initial_effect(c)
 	--Link Summon this card
 	Link.AddProcedure(c,nil,3,99,s.lcheck)
 	c:EnableReviveLimit()
-	--Always treated as "Orcust" card
-	local e0=Effect.CreateEffect(c)
-	e0:SetType(EFFECT_TYPE_SINGLE)
-	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e0:SetCode(EFFECT_ADD_SETCODE)
-	e0:SetValue(0x11b)
-	c:RegisterEffect(e0)
 	--While Linked cannot be destroyed and targeted
 	local e1a=Effect.CreateEffect(c)
 	e1a:SetType(EFFECT_TYPE_SINGLE)
