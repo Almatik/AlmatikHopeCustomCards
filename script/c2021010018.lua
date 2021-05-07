@@ -63,8 +63,8 @@ function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
-function s.disfilter(c)
-	return c:IsFaceup()
+function s.disfilter(c,self)
+	return c:IsFaceup() and c~=self
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.disfilter,tp,0,LOCATION_ONFIELD,1,nil) end
@@ -79,7 +79,7 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.disfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	local g=Duel.GetMatchingGroup(s.disfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,c)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
