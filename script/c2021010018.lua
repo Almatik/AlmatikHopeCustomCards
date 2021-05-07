@@ -64,7 +64,7 @@ function s.indcon(e)
 end
 
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
+	return e:GetHandler():IsSummonType(SUMMON_TYPE_SPECIAL)
 end
 function s.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
@@ -123,10 +123,10 @@ function s.thfilter(c)
 		and c:IsAbleToHand()
 end
 function s.bantarget(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and s.banfilter(chkc,e) end
-	if chk==0 then return Duel.IsExistingTarget(s.banfilter,tp,0,LOCATION_MZONE,1,nil,e) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.banfilter(chkc,e) end
+	if chk==0 then return Duel.IsExistingTarget(s.banfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,e) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,s.banfilter,tp,0,LOCATION_MZONE,1,1,nil,e)
+	local g=Duel.SelectTarget(tp,s.banfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,e)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#g,0,0)
 end
 function s.banoperation(e,tp,eg,ep,ev,re,r,rp)
