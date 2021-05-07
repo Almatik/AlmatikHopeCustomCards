@@ -41,14 +41,17 @@ end
 function s.dfilter(c,atk)
 	return c:IsFaceup() and c:GetAttack()<=atk
 end
+function s.arfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0x111)
+end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
 	if #g>0 and Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)~=0 then
 		local d=Duel.GetMatchingGroup(s.dfilter,tp,0,LOCATION_MZONE,nil,g:GetAttack())
-		local ar=
-		if #d>0 then
+		local ar=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+		if #d>0 and #ar>0 and ar:FilterCount(s.arfilter,nil)==#ar then
 			Duel.Destroy(d,REASON_EFFECT)
 		end
 	end
