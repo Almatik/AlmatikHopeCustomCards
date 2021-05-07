@@ -1,6 +1,12 @@
 --Knightmare Dragon (WIP)
 local s,id=GetID()
 function s.initial_effect(c)
+	local ea=Effect.CreateEffect(c)
+	ea:SetType(EFFECT_TYPE_FIELD)
+	ea:SetCode(EFFECT_SPSUMMON_PROC)
+	ea:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+	ea:SetRange(LOCATION_EXTRA)
+	c:RegisterEffect(ea)
 	--Link Summon this card
 	Link.AddProcedure(c,nil,3,99,s.lcheck)
 	c:EnableReviveLimit()
