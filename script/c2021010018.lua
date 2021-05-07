@@ -79,7 +79,7 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.disfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil,c)
+	local g=Duel.GetMatchingGroup(s.disfilter,tp,0,LOCATION_ONFIELD,nil,c)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
@@ -98,12 +98,12 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 			e3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
 			e3:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 			tc:RegisterEffect(e3)
-		end
-		if e:GetLabel()==1 and Duel.IsPlayerCanDraw(tp,1)
-			and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-			Duel.BreakEffect()
-			Duel.Draw(tp,1,REASON_EFFECT)
 		end		
+	end
+	if e:GetLabel()==1 and Duel.IsPlayerCanDraw(tp,1)
+		and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+		Duel.BreakEffect()
+		Duel.Draw(tp,1,REASON_EFFECT)
 	end
 end
 
