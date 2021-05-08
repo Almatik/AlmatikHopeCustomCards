@@ -60,7 +60,7 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(c,REASON_COST+REASON_DISCARD)
 end
 function s.cfilter(c,e,tp,ft)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x71) and (c:IsAbleToHand() or (ft>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)) )
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x71) and not c:IsCode(id) and (c:IsAbleToHand() or (ft>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)) )
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
@@ -72,7 +72,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 	local sg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_DECK,0,nil,e,tp,ft)
-	if #sg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+	if #sg>0 then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sc=sg:Select(tp,1,1,nil):GetFirst()
