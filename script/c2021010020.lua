@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--to deck
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,2))
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TODECK)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_TO_GRAVE)
@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--Search
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_HAND)
@@ -22,9 +22,9 @@ function s.initial_effect(c)
 	e2:SetTarget(s.target)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
-	--to hand or grave
+	--Place face-up
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_TOGRAVE)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
@@ -51,6 +51,9 @@ function s.retop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(e:GetHandler(),nil,2,REASON_EFFECT)
 	end
 end
+
+
+
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsDiscardable() end
@@ -67,14 +70,23 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,2))
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 	local tc=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,ft):GetFirst()
-	 if tc and tc:IsRelateToEffect(e) then
-		aux.ToHandOrElse(tc,tp,function(c)
-			return tc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) end,
-		function(c)
-			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP) end,
-		2)
+	if tc and tc:IsRelateToEffect(e) then
+		local sel={}
+		if tc:IsAbleToHand() then
+			table.insert(sel,aux.Stringid(id,3))
+		end
+		if c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and ft>0 then
+			table.insert(sel,aux.Stringid(id,4))
+		end
+		local res=Duel.SelectOption(tp,false,table.unpack(sel))
+		if res==0 then 
+			Duel.SendtoHand(tc,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,tc)
+		else
+			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+		end
 	end
 end
 
