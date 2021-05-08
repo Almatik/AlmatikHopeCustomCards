@@ -1,6 +1,8 @@
 --GeneShaddoll Zefrajacob (WIP)
 local s,id=GetID()
 function s.initial_effect(c)
+	c:EnableReviveLimit()
+	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x9d),aux.FilterBoolFunctionEx(Card.IsSetCard,0xc4))
 
 	--Pendulum Effect
 	local pe1=Effect.CreateEffect(c)
