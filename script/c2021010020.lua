@@ -82,9 +82,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			function(c)
 				return Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
 			end,
-		aux.Stringid(id,0))
+		aux.Stringid(id,3))
 	end
 end
+
+
+
 
 function s.placefilter(c,tp)
 	return c:IsType(TYPE_CONTINUOUS) and c:IsSetCard(0x71) and not c:IsForbidden()
