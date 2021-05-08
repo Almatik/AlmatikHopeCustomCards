@@ -72,7 +72,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 	local tc=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,ft)
-	if tc and tc:IsRelateToEffect(e) then
+	if #tc>0 then
 		local sel={}
 		if tc:IsAbleToHand() then
 			table.insert(sel,aux.Stringid(id,3))
