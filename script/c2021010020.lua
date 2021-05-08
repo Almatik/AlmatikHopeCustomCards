@@ -74,10 +74,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,ft)
 	if #tc>0 then
 		local sel={}
-		if tc:IsAbleToHand() then
+		if Duel.IsPlayerCanSendtoHand(tp,tc) then
 			table.insert(sel,aux.Stringid(id,3))
 		end
-		if c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and ft>0 then
+		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and ft>0 then
 			table.insert(sel,aux.Stringid(id,4))
 		end
 		local res=Duel.SelectOption(tp,false,table.unpack(sel))
