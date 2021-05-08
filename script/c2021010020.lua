@@ -71,22 +71,18 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
-	local tc=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,ft)
-	if #tc>0 then
-		local sel={}
-		if Duel.IsPlayerCanSendtoHand(tp,tc) then
-			table.insert(sel,aux.Stringid(id,3))
-		end
-		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and ft>0 then
-			table.insert(sel,aux.Stringid(id,4))
-		end
-		local res=Duel.SelectOption(tp,false,table.unpack(sel))
-		if res==0 then 
-			Duel.SendtoHand(tc,nil,REASON_EFFECT)
-			Duel.ConfirmCards(1-tp,tc)
-		else
-			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
-		end
+	local sg=Duel.GetMatchingGroup(s.cfilter,tp,LOCATION_DECK,0,nil,e,tp,ft)
+	if #sg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+		Duel.BreakEffect()
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local sc=sg:Select(tp,1,1,nil):GetFirst()
+		aux.ToHandOrElse(sc,tp,function(c)
+				return sc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,tp) and ft>0
+			end,
+			function(c)
+				return Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
+			end,
+		aux.Stringid(id,0))
 	end
 end
 
