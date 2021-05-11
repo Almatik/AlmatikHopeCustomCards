@@ -127,7 +127,7 @@ end
 function s.op3(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0
-		and Duel.SelectYesNo(tp,aux.Stringid(id,4))~=0 then
+		and Duel.SelectYesNo(tp,aux.Stringid(id,4))~=0 and Duel.GetLocationCount(1-tp,LOCATION_ONFIELD)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,1,1,nil)
 		if #g>0 then
