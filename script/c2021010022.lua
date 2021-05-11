@@ -69,8 +69,8 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 
-function s.setfilter(c,e,tp)
-	return c:IsSetCard(0x71) and (c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable()
+function s.setfilter(c)
+	return c:IsSetCard(0x71) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable()
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
