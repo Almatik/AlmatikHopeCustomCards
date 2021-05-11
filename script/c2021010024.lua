@@ -112,7 +112,6 @@ end
 
 function s.filter3(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x71)
-		and Duel.IsExistingMatchingCard(Card.IsAbleToDeck,0,0,LOCATION_ONFIELD,1,c)
 end
 function s.con3(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -121,15 +120,14 @@ end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.filter3(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(s.filter3,tp,LOCATION_MZONE,0,1,nil) end
-	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local g=Duel.SelectTarget(tp,s.filter3,tp,LOCATION_MZONE,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,0,LOCATION_ONFIELD)
 end
 function s.op3(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 then
+	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0
+		and Duel.SelectYesNo(tp,aux.Stringid(id,4))~=0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,0,LOCATION_ONFIELD,1,1,nil)
 		if #g>0 then
