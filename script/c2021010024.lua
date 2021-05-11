@@ -71,7 +71,7 @@ function s.filter1(c)
 end
 function s.con1(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():IsLevel(3)
+	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():GetLevel()==3
 end
 function s.tg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK,0,1,nil) end
@@ -93,7 +93,7 @@ function s.filter2(c)
 end
 function s.con2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():IsLevel(4)
+	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():GetLevel()==4
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) end
@@ -116,7 +116,7 @@ function s.filter3(c)
 end
 function s.con3(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():IsLevel(5)
+	return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetMaterial():GetLevel()==5
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.filter3(chkc) end
