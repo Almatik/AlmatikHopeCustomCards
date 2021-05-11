@@ -49,11 +49,11 @@ function s.setfilter(c,e,tp)
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
-	local g=Duel.SelectMatchingCard(tp,s.setfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,s.setfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirst():GetTarget()
+	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		if (tc&TYPE_MONSTER)~=0 then
 			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
