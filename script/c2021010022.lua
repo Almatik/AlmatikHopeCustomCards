@@ -45,7 +45,7 @@ end
 function s.setfilter(c,e,tp)
 	return c:IsSetCard(0x71)
 		and ((c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable())
-		or (c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)))
+		or (c:IsType(TYPE_MONSTER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENCE)))
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
