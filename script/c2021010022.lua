@@ -54,9 +54,11 @@ function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:GetType()==TYPE_MONSTER then
-		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
-	elseif tc:IsRelateToEffect(e) and tc:GetType()==TYPE_SPELL+TYPE_TRAP then
-		Duel.SSet(tp,tc)
+	if tc:IsRelateToEffect(e) then
+		if tc:IsType(TYPE_MONSTER) then
+			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		else
+			Duel.SSet(tp,tc)
+		end
 	end
 end
