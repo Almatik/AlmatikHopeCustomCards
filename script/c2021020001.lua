@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	local ge=Effect.CreateEffect(c)
 	ge:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	ge:SetCode(EVENT_PHASE)
+	ge:SetCode(EVENT_ADJUST)
 	ge:SetCondition(s.getop)
 	Duel.RegisterEffect(ge,0)
 end
