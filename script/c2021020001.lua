@@ -28,38 +28,30 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetTurnCount()==1 and Duel.GetTurnPlayer()==tp and Duel.GetFlagEffect(tp,id)==0 then
 		--Player One
 		local p1=tp
-		local pt1=1
 		local lp1=8000
 		--Player Two
 		local p2=1-tp
-		local pt2=2
 		local lp2=8000
 		--Player Three
 		local p3=tp
-		local pt3=3
 		local lp3=8000
 		--Player Four
 		local p4=1-tp
-		local pt4=4
 		local lp4=8000
 		Duel.RegisterFlagEffect(tp,id,0,0,0)
 		Duel.RegisterFlagEffect(1-tp,id,0,0,0)
 	elseif Duel.GetTurnCount()==2 and GetFlagEffect(tp,id)==0 then
 		--Player One
 		local p1=1-tp
-		local pt1=1
 		local lp1=8000
 		--Player Two
 		local p2=tp
-		local pt2=2
 		local lp2=8000
 		--Player Three
 		local p3=1-tp
-		local pt3=3
 		local lp3=8000
 		--Player Four
 		local p4=1-tp
-		local pt4=4
 		local lp4=8000
 		Duel.RegisterFlagEffect(tp,id,0,0,0)
 		Duel.RegisterFlagEffect(1-tp,id,0,0,0)
@@ -68,55 +60,55 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	--Set Life Points
 	if Duel.GetCurrentPhase()==PHASE_DRAW then
 		--Player One
-		if Duel.GetTurnCount()==pt1
-			or Duel.GetTurnCount()==pt1+4
-			or Duel.GetTurnCount()==pt1+8
-			or Duel.GetTurnCount()==pt1+12
-			or Duel.GetTurnCount()==pt1+16
-			or Duel.GetTurnCount()==pt1+20
-			or Duel.GetTurnCount()==pt1+24
-			or Duel.GetTurnCount()==pt1+28
-			or Duel.GetTurnCount()==pt1+32
-			or Duel.GetTurnCount()==pt1+36 then
+		if Duel.GetTurnCount()==1
+			or Duel.GetTurnCount()==5
+			or Duel.GetTurnCount()==9
+			or Duel.GetTurnCount()==13
+			or Duel.GetTurnCount()==17
+			or Duel.GetTurnCount()==21
+			or Duel.GetTurnCount()==25
+			or Duel.GetTurnCount()==29
+			or Duel.GetTurnCount()==33
+			or Duel.GetTurnCount()==37 then
 			Duel.SetLP(p1,lp1)
 		end
 		--Player Two
-		if Duel.GetTurnCount()==pt2
-			or Duel.GetTurnCount()==pt2+4
-			or Duel.GetTurnCount()==pt2+8
-			or Duel.GetTurnCount()==pt2+12
-			or Duel.GetTurnCount()==pt2+16
-			or Duel.GetTurnCount()==pt2+20
-			or Duel.GetTurnCount()==pt2+24
-			or Duel.GetTurnCount()==pt2+28
-			or Duel.GetTurnCount()==pt2+32
-			or Duel.GetTurnCount()==pt2+36 then
+		if Duel.GetTurnCount()==2
+			or Duel.GetTurnCount()==6
+			or Duel.GetTurnCount()==10
+			or Duel.GetTurnCount()==14
+			or Duel.GetTurnCount()==18
+			or Duel.GetTurnCount()==22
+			or Duel.GetTurnCount()==26
+			or Duel.GetTurnCount()==30
+			or Duel.GetTurnCount()==34
+			or Duel.GetTurnCount()==38 then
 				Duel.SetLP(p2,lp2)
 		end
 		--Player Three
-		if Duel.GetTurnCount()==pt3
-			or Duel.GetTurnCount()==pt3+4
-			or Duel.GetTurnCount()==pt3+8
-			or Duel.GetTurnCount()==pt3+12
-			or Duel.GetTurnCount()==pt3+16
-			or Duel.GetTurnCount()==pt3+20
-			or Duel.GetTurnCount()==pt3+24
-			or Duel.GetTurnCount()==pt3+28
-			or Duel.GetTurnCount()==pt3+32
-			or Duel.GetTurnCount()==pt3+36 then
+		if Duel.GetTurnCount()==3
+			or Duel.GetTurnCount()==7
+			or Duel.GetTurnCount()==11
+			or Duel.GetTurnCount()==15
+			or Duel.GetTurnCount()==19
+			or Duel.GetTurnCount()==23
+			or Duel.GetTurnCount()==27
+			or Duel.GetTurnCount()==31
+			or Duel.GetTurnCount()==35
+			or Duel.GetTurnCount()==39 then
 			Duel.SetLP(p3,lp3)
 		end
 		--Player Four
-		if Duel.GetTurnCount()==pt4
-			or Duel.GetTurnCount()==pt4+4
-			or Duel.GetTurnCount()==pt4+8
-			or Duel.GetTurnCount()==pt4+12
-			or Duel.GetTurnCount()==pt4+16
-			or Duel.GetTurnCount()==pt4+20
-			or Duel.GetTurnCount()==pt4+24
-			or Duel.GetTurnCount()==pt4+28
-			or Duel.GetTurnCount()==pt4+32
-			or Duel.GetTurnCount()==pt4+36 then
+		if Duel.GetTurnCount()==4
+			or Duel.GetTurnCount()==8
+			or Duel.GetTurnCount()==12
+			or Duel.GetTurnCount()==16
+			or Duel.GetTurnCount()==20
+			or Duel.GetTurnCount()==24
+			or Duel.GetTurnCount()==28
+			or Duel.GetTurnCount()==32
+			or Duel.GetTurnCount()==36
+			or Duel.GetTurnCount()==40 then
 			Duel.SetLP(p4,lp4)
 		end
 	end
@@ -124,55 +116,55 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	--Collet Life Points
 	if Duel.GetCurrentPhase()==PHASE_END then
 		--Player One
-		if Duel.GetTurnCount()==pt1+1
-			or Duel.GetTurnCount()==pt1+5
-			or Duel.GetTurnCount()==pt1+9
-			or Duel.GetTurnCount()==pt1+13
-			or Duel.GetTurnCount()==pt1+17
-			or Duel.GetTurnCount()==pt1+21
-			or Duel.GetTurnCount()==pt1+25
-			or Duel.GetTurnCount()==pt1+29
-			or Duel.GetTurnCount()==pt1+33
-			or Duel.GetTurnCount()==pt1+37 then
+		if Duel.GetTurnCount()==1
+			or Duel.GetTurnCount()==5
+			or Duel.GetTurnCount()==9
+			or Duel.GetTurnCount()==13
+			or Duel.GetTurnCount()==17
+			or Duel.GetTurnCount()==21
+			or Duel.GetTurnCount()==25
+			or Duel.GetTurnCount()==29
+			or Duel.GetTurnCount()==33
+			or Duel.GetTurnCount()==37 then
 			local lp1=Duel.GetLP(p1)
 		end
 		--Player Two
-		if Duel.GetTurnCount()==pt2+1
-			or Duel.GetTurnCount()==pt2+5
-			or Duel.GetTurnCount()==pt2+9
-			or Duel.GetTurnCount()==pt2+13
-			or Duel.GetTurnCount()==pt2+17
-			or Duel.GetTurnCount()==pt2+21
-			or Duel.GetTurnCount()==pt2+25
-			or Duel.GetTurnCount()==pt2+29
-			or Duel.GetTurnCount()==pt2+33
-			or Duel.GetTurnCount()==pt2+37 then
+		if Duel.GetTurnCount()==2
+			or Duel.GetTurnCount()==6
+			or Duel.GetTurnCount()==10
+			or Duel.GetTurnCount()==14
+			or Duel.GetTurnCount()==18
+			or Duel.GetTurnCount()==22
+			or Duel.GetTurnCount()==26
+			or Duel.GetTurnCount()==30
+			or Duel.GetTurnCount()==34
+			or Duel.GetTurnCount()==38 then
 			local lp2=Duel.GetLP(p2)
 		end
 		--Player Three
-		if Duel.GetTurnCount()==pt3+1
-			or Duel.GetTurnCount()==pt3+5
-			or Duel.GetTurnCount()==pt3+9
-			or Duel.GetTurnCount()==pt3+13
-			or Duel.GetTurnCount()==pt3+17
-			or Duel.GetTurnCount()==pt3+21
-			or Duel.GetTurnCount()==pt3+25
-			or Duel.GetTurnCount()==pt3+29
-			or Duel.GetTurnCount()==pt3+33
-			or Duel.GetTurnCount()==pt3+37 then
+		if Duel.GetTurnCount()==3
+			or Duel.GetTurnCount()==7
+			or Duel.GetTurnCount()==11
+			or Duel.GetTurnCount()==15
+			or Duel.GetTurnCount()==19
+			or Duel.GetTurnCount()==23
+			or Duel.GetTurnCount()==27
+			or Duel.GetTurnCount()==31
+			or Duel.GetTurnCount()==35
+			or Duel.GetTurnCount()==39 then
 			local lp3=Duel.GetLP(p3)
 		end
 		--Player Four
-		if Duel.GetTurnCount()==pt4+1
-			or Duel.GetTurnCount()==pt4+5
-			or Duel.GetTurnCount()==pt4+9
-			or Duel.GetTurnCount()==pt4+13
-			or Duel.GetTurnCount()==pt4+17
-			or Duel.GetTurnCount()==pt4+21
-			or Duel.GetTurnCount()==pt4+25
-			or Duel.GetTurnCount()==pt4+29
-			or Duel.GetTurnCount()==pt4+33
-			or Duel.GetTurnCount()==pt4+37 then
+		if Duel.GetTurnCount()==4
+			or Duel.GetTurnCount()==8
+			or Duel.GetTurnCount()==12
+			or Duel.GetTurnCount()==16
+			or Duel.GetTurnCount()==20
+			or Duel.GetTurnCount()==24
+			or Duel.GetTurnCount()==28
+			or Duel.GetTurnCount()==32
+			or Duel.GetTurnCount()==36
+			or Duel.GetTurnCount()==40 then
 			local lp4=Duel.GetLP(p4)
 		end
 	end
