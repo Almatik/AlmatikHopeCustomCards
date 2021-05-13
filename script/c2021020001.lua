@@ -24,7 +24,10 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
-
+	local lp1=8000
+	local lp2=8000
+	local lp3=8000
+	local lp4=8000
 	--Collet Life Points
 	if Duel.GetCurrentPhase()==PHASE_END then
 		--Player One
