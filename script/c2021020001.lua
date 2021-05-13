@@ -27,6 +27,11 @@ s.listed_names={15259703}
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
+	local lp1=Duel.GetLP(tp)
+	local lp2=Duel.GetLP(tp)
+	local lp3=Duel.GetLP(tp)
+	local lp4=Duel.GetLP(tp)
+	e:SetLabel(lp1,lp2,lp3,lp4)
 end
 function s.getop(e,tp,eg,ep,ev,re,r,rp)
 	--Player One
@@ -103,7 +108,8 @@ end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	local lp1,lp2,lp3,lp4=e:GetLabel()
 	--Player One
-	if Duel.GetTurnCount()==5
+	if Duel.GetTurnCount()==1
+		or Duel.GetTurnCount()==5
 		or Duel.GetTurnCount()==9
 		or Duel.GetTurnCount()==13
 		or Duel.GetTurnCount()==17
