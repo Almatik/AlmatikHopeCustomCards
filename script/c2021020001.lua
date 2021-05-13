@@ -24,11 +24,13 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 end
 function s.op(e,tp,eg,ep,ev,re,r,rp)
-	local pt=e:GetLabel()
-	local lp=8000
-	if Duel.GetTurnPlayer==pt,pt+1 then
-		if lp~=Duel.GetLP(tp) then
-			lp=Duel.GetLP(tp)
-		end
+	if Duel.GetTurnPlayer()==tp and Duel.SelectYesNo(tp,aux.Stringid(id,0))~=0 then
+		local e1=Effect.CreateEffect(tp)
+		e1:SetType(EFFECT_TYPE_FIELD)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e1:SetCode(EFFECT_SKIP_TURN)
+		e1:SetTargetRange(1,1)
+		e1:SetReset(RESET_PHASE+PHASE_END+RESET_OPPO_TURN)
+		Duel.RegisterEffect(e1,tp)
 	end
 end
