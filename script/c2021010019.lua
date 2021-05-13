@@ -2,6 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
+	Pendulum.AddProcedure(c,s.sumlimit)
 	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x9d),aux.FilterBoolFunctionEx(Card.IsSetCard,0xc4))
 	--Pendulum Effect
 	local pe1=Effect.CreateEffect(c)
@@ -14,6 +15,8 @@ function s.initial_effect(c)
 	pe1:SetTarget(s.pentg)
 	pe1:SetOperation(s.penop)
 	c:RegisterEffect(pe1)
+	--Monster Effect
+	local me1=Effect.CreateEffect(c)
 end
 function s.pencon(e,tp,eg,ep,ev,re,r,rp)
 	return tp==Duel.GetTurnPlayer() and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0
@@ -51,4 +54,13 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp)
 		local tg=sg:RandomSelect(1-tp,1)
 		Duel.SendtoHand(tg,nil,REASON_EFFECT)
 	end
+end
+
+
+
+function s.cfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0xc4)
+end
+function s.sumlimit(e)
+	if Duel.IsExistingMatchingCard(s.cfilter,e:GetHandlerPlayer(),LOCATION_PZONE,0,1,nil) then return true else false end
 end
