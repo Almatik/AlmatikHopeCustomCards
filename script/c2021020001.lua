@@ -49,13 +49,13 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetTurnPlayer()==tp then
 			local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 			Duel.SetLP(tp,lp1)
-			local lp1=Duel.GetFlagEffectLabel(tp,id+4)
+			local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 			Duel.SetLP(1-tp,lp4)
 		end
 		if Duel.GetTurnPlayer()==1-tp then
 			local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 			Duel.SetLP(1-tp,lp1)
-			local lp1=Duel.GetFlagEffectLabel(tp,id+4)
+			local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 			Duel.SetLP(tp,lp4)
 		end
 	end
