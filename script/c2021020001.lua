@@ -24,10 +24,10 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 end
 function s.getop(e,tp,eg,ep,ev,re,r,rp)
-	local lp1=Duel.GetLP()
-	local lp2=Duel.GetLP()
-	local lp3=Duel.GetLP()
-	local lp4=Duel.GetLP()
+	local lp1=Duel.GetLP(tp)
+	local lp2=Duel.GetLP(tp)
+	local lp3=Duel.GetLP(tp)
+	local lp4=Duel.GetLP(tp)
 
 	if Duel.GetCurrentPhase()==PHASE_END then
 		--Player One
