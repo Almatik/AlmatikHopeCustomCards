@@ -25,7 +25,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	--Check Players
-	if Duel.GetTurnCount()==1 and Duel.GetTurnPlayer()==tp then
+	if Duel.GetTurnCount()==1 and Duel.GetTurnPlayer()==tp and Duel.GetFlagEffect(tp,id)==0 then
 		--Player One
 		local p1=tp
 		local pt1=Duel.GetTurnCount()
@@ -42,7 +42,9 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		local p4=1-tp
 		local pt4=Duel.GetTurnCount()+4
 		local lp4=8000
-	elseif Duel.GetTurnCount()==2 then
+		Duel.RegisterFlagEffect(tp,id,nil,nil,nil)
+		Duel.RegisterFlagEffect(1-tp,id,nil,nil,nil)
+	elseif Duel.GetTurnCount()==2 and GetFlagEffect(tp,id)==0 then
 		--Player One
 		local p1=1-tp
 		local pt1=Duel.GetTurnCount()
@@ -59,6 +61,8 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		local p4=1-tp
 		local pt4=Duel.GetTurnCount()+4
 		local lp4=8000
+		Duel.RegisterFlagEffect(tp,id,nil,nil,nil)
+		Duel.RegisterFlagEffect(1-tp,id,nil,nil,nil)
 	end
 
 	--Set Life Points
