@@ -146,7 +146,7 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.ResetFlagEffect(tp,id+1)
 			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(1-tp))
 			if Duel.GetTurnCount()==1 then
-				Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
+				Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(tp))
 			end
 		end
 	end
