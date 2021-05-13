@@ -35,7 +35,6 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterFlagEffect(tp,id+4,0,RESET_PHASE+PHASE_DRAW,4,4000)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
-
 	--Player One
 	if Duel.GetTurnCount()==1
 		or Duel.GetTurnCount()==5
@@ -50,10 +49,18 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetTurnPlayer()==tp then
 			local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 			Duel.SetLP(tp,lp1)
+			if Duel.GetTurnCount()==1 then
+				local lp4=Duel.GetFlagEffectLabel(tp,id+4)
+				Duel.SetLP(1-tp,lp4)
+			end
 		end
 		if Duel.GetTurnPlayer()==1-tp then
 			local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 			Duel.SetLP(1-tp,lp1)
+			if Duel.GetTurnCount()==1 then
+				local lp4=Duel.GetFlagEffectLabel(tp,id+4)
+				Duel.SetLP(tp,lp4)
+			end
 		end
 	end
 	--Player Two
@@ -115,15 +122,6 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 			Duel.SetLP(1-tp,lp4)
 		end
-	elseif Duel.GetTurnCount()==1 then
-		if Duel.GetTurnPlayer()==tp then
-			local lp4=Duel.GetFlagEffectLabel(tp,id+4)
-			Duel.SetLP(tp,lp4)
-		end
-		if Duel.GetTurnPlayer()==1-tp then
-			local lp4=Duel.GetFlagEffectLabel(tp,id+4)
-			Duel.SetLP(1-tp,lp4)
-		end
 	end
 end
 function s.getop(e,tp,eg,ep,ev,re,r,rp)
@@ -141,9 +139,15 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetTurnPlayer()==1-tp then
 			Duel.ResetFlagEffect(tp,id+1)
 			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(tp))
+			if Duel.GetTurnCount()==1 then
+				Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
+			end
 		else
 			Duel.ResetFlagEffect(tp,id+1)
 			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(1-tp))
+			if Duel.GetTurnCount()==1 then
+				Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
+			end
 		end
 	end
 	--Player Two
@@ -200,12 +204,6 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(tp))
 		else
 			Duel.ResetFlagEffect(tp,id+4)
-			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
-		end
-	elseif Duel.GetTurnCount()==1 then
-		if Duel.GetTurnPlayer()==1-tp then
-			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(tp))
-		else
 			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
 		end
 	end
