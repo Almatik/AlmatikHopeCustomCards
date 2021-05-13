@@ -36,10 +36,10 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterFlagEffect(tp,id+4,0,0,0,lp)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
-	local lp1=Duel.GetFlagEffect(tp,id+1)
-	local lp2=Duel.GetFlagEffect(tp,id+2)
-	local lp3=Duel.GetFlagEffect(tp,id+3)
-	local lp4=Duel.GetFlagEffect(tp,id+4)
+	local lp1=Duel.GetFlagEffectLabel(tp,id+1)
+	local lp2=Duel.GetFlagEffectLabel(tp,id+2)
+	local lp3=Duel.GetFlagEffectLabel(tp,id+3)
+	local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 	--Player One
 	if Duel.GetTurnCount()==1
 		or Duel.GetTurnCount()==5
