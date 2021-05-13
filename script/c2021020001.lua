@@ -29,7 +29,7 @@ s.listed_names={15259703}
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
-	local lp=Duel.GetLP(tp)
+	local lp=Duel.GetLP(0)
 	Duel.RegisterFlagEffect(tp,id+1,0,0,0,lp)
 	Duel.RegisterFlagEffect(tp,id+2,0,0,0,lp)
 	Duel.RegisterFlagEffect(tp,id+3,0,0,0,lp)
@@ -123,9 +123,9 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 		or Duel.GetTurnCount()==37 then
 		Duel.ResetFlagEffect(tp,id+1)
 		if Duel.GetTurnPlayer()==1-tp then
-			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(tp))
+			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(0))
 		else
-			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(1-tp))
+			Duel.RegisterFlagEffect(tp,id+1,0,0,0,Duel.GetLP(1))
 		end
 	end
 	--Player Two
@@ -141,9 +141,9 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 		or Duel.GetTurnCount()==38 then
 		Duel.ResetFlagEffect(tp,id+2)
 		if Duel.GetTurnPlayer()==1-tp then
-			Duel.RegisterFlagEffect(tp,id+2,0,0,0,Duel.GetLP(tp))
+			Duel.RegisterFlagEffect(tp,id+2,0,0,0,Duel.GetLP(0))
 		else
-			Duel.RegisterFlagEffect(tp,id+2,0,0,0,Duel.GetLP(1-tp))
+			Duel.RegisterFlagEffect(tp,id+2,0,0,0,Duel.GetLP(1))
 		end
 	end
 	--Player Three
@@ -159,9 +159,9 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 		or Duel.GetTurnCount()==39 then
 		Duel.ResetFlagEffect(tp,id+3)
 		if Duel.GetTurnPlayer()==1-tp then
-			Duel.RegisterFlagEffect(tp,id+3,0,0,0,Duel.GetLP(tp))
+			Duel.RegisterFlagEffect(tp,id+3,0,0,0,Duel.GetLP(0))
 		else
-			Duel.RegisterFlagEffect(tp,id+3,0,0,0,Duel.GetLP(1-tp))
+			Duel.RegisterFlagEffect(tp,id+3,0,0,0,Duel.GetLP(1))
 		end
 	end
 	--Player Four
@@ -177,9 +177,9 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 		or Duel.GetTurnCount()==40 then
 		Duel.ResetFlagEffect(tp,id+4)
 		if Duel.GetTurnPlayer()==1-tp then
-			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(tp))
+			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(0))
 		else
-			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1-tp))
+			Duel.RegisterFlagEffect(tp,id+4,0,0,0,Duel.GetLP(1))
 		end
 	end
 end
