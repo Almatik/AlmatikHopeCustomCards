@@ -29,11 +29,11 @@ s.listed_names={15259703}
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
-	local lp=Duel.GetLP(tp)+1
-	Duel.RegisterFlagEffect(tp,id+1,0,0,lp)
-	Duel.RegisterFlagEffect(tp,id+2,0,0,lp)
-	Duel.RegisterFlagEffect(tp,id+3,0,0,lp)
-	Duel.RegisterFlagEffect(tp,id+4,0,0,lp)
+	local lp=Duel.GetLP(tp)
+	Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,lp)
+	Duel.RegisterFlagEffect(tp,id+2,RESET_PHASE+PHASE_END,0,lp)
+	Duel.RegisterFlagEffect(tp,id+3,RESET_PHASE+PHASE_END,0,lp)
+	Duel.RegisterFlagEffect(tp,id+4,RESET_PHASE+PHASE_END,0,lp)
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	local lp1=Duel.GetFlagEffect(tp,id+1)
