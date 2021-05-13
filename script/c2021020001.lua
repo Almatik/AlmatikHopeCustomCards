@@ -100,7 +100,7 @@ function s.getop(e,tp,eg,ep,ev,re,r,rp)
 	e:SetLabel(lp1,lp2,lp3,lp4)
 end
 
-function s.op1(e,tp,eg,ep,ev,re,r,rp)
+function s.setop(e,tp,eg,ep,ev,re,r,rp)
 	local lp1,lp2,lp3,lp4=e:GetLabel()
 	--Player One
 	if Duel.GetTurnCount()==5
