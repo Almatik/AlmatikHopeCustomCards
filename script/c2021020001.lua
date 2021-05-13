@@ -24,82 +24,6 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
-	--Check Players
-	local lp1=8000
-	local lp2=8000
-	local lp3=8000
-	local lp4=8000
-	--Set Life Points
-	if Duel.GetCurrentPhase()==PHASE_DRAW then
-		--Player One
-		if Duel.GetTurnCount()==1
-			or Duel.GetTurnCount()==5
-			or Duel.GetTurnCount()==9
-			or Duel.GetTurnCount()==13
-			or Duel.GetTurnCount()==17
-			or Duel.GetTurnCount()==21
-			or Duel.GetTurnCount()==25
-			or Duel.GetTurnCount()==29
-			or Duel.GetTurnCount()==33
-			or Duel.GetTurnCount()==37 then
-			if Duel.GetTurnPlayer()==tp then
-				Duel.SetLP(tp,lp1)
-			else
-				Duel.SetLP(1-tp,lp1)
-			end
-		end
-		--Player Two
-		if Duel.GetTurnCount()==2
-			or Duel.GetTurnCount()==6
-			or Duel.GetTurnCount()==10
-			or Duel.GetTurnCount()==14
-			or Duel.GetTurnCount()==18
-			or Duel.GetTurnCount()==22
-			or Duel.GetTurnCount()==26
-			or Duel.GetTurnCount()==30
-			or Duel.GetTurnCount()==34
-			or Duel.GetTurnCount()==38 then
-			if Duel.GetTurnPlayer()==tp then
-				Duel.SetLP(tp,lp2)
-			else
-				Duel.SetLP(1-tp,lp2)
-			end
-		end
-		--Player Three
-		if Duel.GetTurnCount()==3
-			or Duel.GetTurnCount()==7
-			or Duel.GetTurnCount()==11
-			or Duel.GetTurnCount()==15
-			or Duel.GetTurnCount()==19
-			or Duel.GetTurnCount()==23
-			or Duel.GetTurnCount()==27
-			or Duel.GetTurnCount()==31
-			or Duel.GetTurnCount()==35
-			or Duel.GetTurnCount()==39 then
-			if Duel.GetTurnPlayer()==tp then
-				Duel.SetLP(tp,lp3)
-			else
-				Duel.SetLP(1-tp,lp3)
-			end
-		end
-		--Player Four
-		if Duel.GetTurnCount()==4
-			or Duel.GetTurnCount()==8
-			or Duel.GetTurnCount()==12
-			or Duel.GetTurnCount()==16
-			or Duel.GetTurnCount()==20
-			or Duel.GetTurnCount()==24
-			or Duel.GetTurnCount()==28
-			or Duel.GetTurnCount()==32
-			or Duel.GetTurnCount()==36
-			or Duel.GetTurnCount()==40 then
-			if Duel.GetTurnPlayer()==tp then
-				Duel.SetLP(tp,lp4)
-			else
-				Duel.SetLP(1-tp,lp4)
-			end
-		end
-	end
 
 	--Collet Life Points
 	if Duel.GetCurrentPhase()==PHASE_END then
@@ -169,6 +93,78 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 				local lp4=Duel.GetLP(tp)
 			else
 				local lp4=Duel.GetLP(1-tp)
+			end
+		end
+	end
+
+	--Set Life Points
+	if Duel.GetCurrentPhase()==PHASE_DRAW then
+		--Player One
+		if Duel.GetTurnCount()==1
+			or Duel.GetTurnCount()==5
+			or Duel.GetTurnCount()==9
+			or Duel.GetTurnCount()==13
+			or Duel.GetTurnCount()==17
+			or Duel.GetTurnCount()==21
+			or Duel.GetTurnCount()==25
+			or Duel.GetTurnCount()==29
+			or Duel.GetTurnCount()==33
+			or Duel.GetTurnCount()==37 then
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp1)
+			else
+				Duel.SetLP(1-tp,lp1)
+			end
+		end
+		--Player Two
+		if Duel.GetTurnCount()==2
+			or Duel.GetTurnCount()==6
+			or Duel.GetTurnCount()==10
+			or Duel.GetTurnCount()==14
+			or Duel.GetTurnCount()==18
+			or Duel.GetTurnCount()==22
+			or Duel.GetTurnCount()==26
+			or Duel.GetTurnCount()==30
+			or Duel.GetTurnCount()==34
+			or Duel.GetTurnCount()==38 then
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp2)
+			else
+				Duel.SetLP(1-tp,lp2)
+			end
+		end
+		--Player Three
+		if Duel.GetTurnCount()==3
+			or Duel.GetTurnCount()==7
+			or Duel.GetTurnCount()==11
+			or Duel.GetTurnCount()==15
+			or Duel.GetTurnCount()==19
+			or Duel.GetTurnCount()==23
+			or Duel.GetTurnCount()==27
+			or Duel.GetTurnCount()==31
+			or Duel.GetTurnCount()==35
+			or Duel.GetTurnCount()==39 then
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp3)
+			else
+				Duel.SetLP(1-tp,lp3)
+			end
+		end
+		--Player Four
+		if Duel.GetTurnCount()==4
+			or Duel.GetTurnCount()==8
+			or Duel.GetTurnCount()==12
+			or Duel.GetTurnCount()==16
+			or Duel.GetTurnCount()==20
+			or Duel.GetTurnCount()==24
+			or Duel.GetTurnCount()==28
+			or Duel.GetTurnCount()==32
+			or Duel.GetTurnCount()==36
+			or Duel.GetTurnCount()==40 then
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp4)
+			else
+				Duel.SetLP(1-tp,lp4)
 			end
 		end
 	end
