@@ -62,11 +62,15 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.GetFlagEffectLabel(tp,id+1)>0 then
 				local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 				Duel.SetLP(tp,lp1)
+			else
+				Duel.SetLP(tp,0)
 			end
 			if Duel.GetTurnCount()==1 then
 				if Duel.GetFlagEffectLabel(tp,id+4)>0 then
 					local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 					Duel.SetLP(1-tp,lp4)
+				else
+					Duel.SetLP(1-tp,0)
 				end
 			end
 		end
@@ -74,11 +78,15 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.GetFlagEffectLabel(tp,id+1)>0 then
 				local lp1=Duel.GetFlagEffectLabel(tp,id+1)
 				Duel.SetLP(1-tp,lp1)
+			else
+				Duel.SetLP(1-tp,0)
 			end
 			if Duel.GetTurnCount()==1 then
 				if Duel.GetFlagEffectLabel(tp,id+4)>0 then
 					local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 					Duel.SetLP(tp,lp4)
+				else
+					Duel.SetLP(tp,0)
 				end
 			end
 		end
@@ -98,12 +106,16 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.GetFlagEffectLabel(tp,id+2)>0 then
 				local lp2=Duel.GetFlagEffectLabel(tp,id+2)
 				Duel.SetLP(tp,lp2)
+			else
+				Duel.SetLP(tp,0)
 			end
 		end
 		if Duel.GetTurnPlayer()==1-tp then
 			if Duel.GetFlagEffectLabel(tp,id+2)>0 then
 				local lp2=Duel.GetFlagEffectLabel(tp,id+2)
 				Duel.SetLP(1-tp,lp2)
+			else
+				Duel.SetLP(1-tp,0)
 			end
 		end
 	end
@@ -122,12 +134,16 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.GetFlagEffectLabel(tp,id+3)>0 then
 				local lp3=Duel.GetFlagEffectLabel(tp,id+3)
 				Duel.SetLP(tp,lp3)
+			else
+				Duel.SetLP(tp,0)
 			end
 		end
 		if Duel.GetTurnPlayer()==1-tp then
 			if Duel.GetFlagEffectLabel(tp,id+3)>0 then
 				local lp1=Duel.GetFlagEffectLabel(tp,id+3)
 				Duel.SetLP(1-tp,lp3)
+			else
+				Duel.SetLP(1-tp,0)
 			end
 		end
 	end
@@ -146,12 +162,16 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.GetFlagEffectLabel(tp,id+4)>0 then
 				local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 				Duel.SetLP(tp,lp4)
+			else
+				Duel.SetLP(tp,0)
 			end
 		end
 		if Duel.GetTurnPlayer()==1-tp then
 			if Duel.GetFlagEffectLabel(tp,id+4)>0 then
 				local lp4=Duel.GetFlagEffectLabel(tp,id+4)
 				Duel.SetLP(1-tp,lp4)
+			else
+				Duel.SetLP(1-tp,0)
 			end
 		end
 	end
