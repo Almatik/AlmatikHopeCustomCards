@@ -42,7 +42,7 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		local p4=1-tp
 		local pt4=Duel.GetTurnCount()+4
 		local lp4=8000
-	else
+	elseif Duel.GetTurnCount()==2
 		--Player One
 		local p1=1-tp
 		local pt1=Duel.GetTurnCount()
