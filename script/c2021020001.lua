@@ -25,38 +25,10 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	--Check Players
-	if Duel.GetTurnCount()==1 and Duel.GetTurnPlayer()==tp and Duel.GetFlagEffect(tp,id)==0 then
-		--Player One
-		local p1=tp
-		local lp1=8000
-		--Player Two
-		local p2=1-tp
-		local lp2=8000
-		--Player Three
-		local p3=tp
-		local lp3=8000
-		--Player Four
-		local p4=1-tp
-		local lp4=8000
-		Duel.RegisterFlagEffect(tp,id,0,0,0)
-		Duel.RegisterFlagEffect(1-tp,id,0,0,0)
-	elseif Duel.GetTurnCount()==2 and GetFlagEffect(tp,id)==0 then
-		--Player One
-		local p1=1-tp
-		local lp1=8000
-		--Player Two
-		local p2=tp
-		local lp2=8000
-		--Player Three
-		local p3=1-tp
-		local lp3=8000
-		--Player Four
-		local p4=1-tp
-		local lp4=8000
-		Duel.RegisterFlagEffect(tp,id,0,0,0)
-		Duel.RegisterFlagEffect(1-tp,id,0,0,0)
-	end
-
+	local lp1=8000
+	local lp2=8000
+	local lp3=8000
+	local lp4=8000
 	--Set Life Points
 	if Duel.GetCurrentPhase()==PHASE_DRAW then
 		--Player One
@@ -70,7 +42,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==29
 			or Duel.GetTurnCount()==33
 			or Duel.GetTurnCount()==37 then
-			Duel.SetLP(p1,lp1)
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp1)
+			else
+				Duel.SetLP(1-tp,lp1)
+			end
 		end
 		--Player Two
 		if Duel.GetTurnCount()==2
@@ -83,7 +59,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==30
 			or Duel.GetTurnCount()==34
 			or Duel.GetTurnCount()==38 then
-				Duel.SetLP(p2,lp2)
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp2)
+			else
+				Duel.SetLP(1-tp,lp2)
+			end
 		end
 		--Player Three
 		if Duel.GetTurnCount()==3
@@ -96,7 +76,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==31
 			or Duel.GetTurnCount()==35
 			or Duel.GetTurnCount()==39 then
-			Duel.SetLP(p3,lp3)
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp3)
+			else
+				Duel.SetLP(1-tp,lp3)
+			end
 		end
 		--Player Four
 		if Duel.GetTurnCount()==4
@@ -109,7 +93,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==32
 			or Duel.GetTurnCount()==36
 			or Duel.GetTurnCount()==40 then
-			Duel.SetLP(p4,lp4)
+			if Duel.GetTurnPlayer()==tp then
+				Duel.SetLP(tp,lp4)
+			else
+				Duel.SetLP(1-tp,lp4)
+			end
 		end
 	end
 
@@ -126,7 +114,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==29
 			or Duel.GetTurnCount()==33
 			or Duel.GetTurnCount()==37 then
-			local lp1=Duel.GetLP(p1)
+			if Duel.GetTurnPlayer()==1-tp then
+				local lp1=Duel.GetLP(tp)
+			else
+				local lp1=Duel.GetLP(1-tp)
+			end
 		end
 		--Player Two
 		if Duel.GetTurnCount()==2
@@ -139,7 +131,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==30
 			or Duel.GetTurnCount()==34
 			or Duel.GetTurnCount()==38 then
-			local lp2=Duel.GetLP(p2)
+			if Duel.GetTurnPlayer()==1-tp then
+				local lp2=Duel.GetLP(tp)
+			else
+				local lp2=Duel.GetLP(1-tp)
+			end
 		end
 		--Player Three
 		if Duel.GetTurnCount()==3
@@ -152,7 +148,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==31
 			or Duel.GetTurnCount()==35
 			or Duel.GetTurnCount()==39 then
-			local lp3=Duel.GetLP(p3)
+			if Duel.GetTurnPlayer()==1-tp then
+				local lp3=Duel.GetLP(tp)
+			else
+				local lp3=Duel.GetLP(1-tp)
+			end
 		end
 		--Player Four
 		if Duel.GetTurnCount()==4
@@ -165,7 +165,11 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 			or Duel.GetTurnCount()==32
 			or Duel.GetTurnCount()==36
 			or Duel.GetTurnCount()==40 then
-			local lp4=Duel.GetLP(p4)
+			if Duel.GetTurnPlayer()==1-tp then
+				local lp4=Duel.GetLP(tp)
+			else
+				local lp4=Duel.GetLP(1-tp)
+			end
 		end
 	end
 
