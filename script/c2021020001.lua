@@ -37,6 +37,7 @@ function s.initial_effect(c)
 	local lose=Effect.CreateEffect(c)
 	lose:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	lose:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	lose:SetCode(EVENT_PHASE+PHASE_END)
 	lose:SetCondition(s.loseop)
 	Duel.RegisterEffect(lose,0)
 end
