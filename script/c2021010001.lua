@@ -1,188 +1,81 @@
---Utopia the Astral King
+--Ultimate Asura Utopia Ray
+Duel.LoadCardScript("c56840427.lua")
 local s,id=GetID()
 function s.initial_effect(c)
-	--Link summon
+	--Xyz Summon
+	Xyz.AddProcedure(c,nil,5,3)
 	c:EnableReviveLimit()
-	Link.AddProcedure(c,s.mfilter,2,nil,s.matcheck)
-	--Xyz summon
+	--material
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e1:SetProperty(EFFECT_FLAG_DELAY)
-	e1:SetCountLimit(1,id)
-	e1:SetCondition(s.spcon)
-	e1:SetTarget(s.sptg)
-	e1:SetOperation(s.spop)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetCountLimit(1)
+	e1:SetTarget(s.mttg)
+	e1:SetOperation(s.mtop)
 	c:RegisterEffect(e1)
-	--ATK
+	--Negate
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
+	e2:SetType(EFFECT_TYPE_QUICK_O)
+	e2:SetCode(EVENT_CHAINING)
+	e2:SetCountLimit(1)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetValue(s.atkval)
-	c:RegisterEffect(e2)
-	local e2a=Effect.CreateEffect(c)
-	e2a:SetType(EFFECT_TYPE_FIELD)
-	e2a:SetCode(EFFECT_SET_ATTACK)
-	e2a:SetRange(LOCATION_MZONE)
-	e2a:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e2a:SetTarget(s.atktg)
-	e2a:SetValue(0)
-	c:RegisterEffect(e2a)
-	--copy  
-	local e3a=Effect.CreateEffect(c)
-	e3a:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e3a:SetCode(EVENT_ADJUST)
-	e3a:SetRange(LOCATION_MZONE) 
-	e3a:SetOperation(s.copy)
-	c:RegisterEffect(e3a)
-	local e2b=Effect.CreateEffect(c)
-	e2b:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-	e2b:SetType(EFFECT_TYPE_FIELD)
-	e2b:SetCode(EFFECT_CANNOT_TRIGGER)
-	e2b:SetRange(LOCATION_MZONE)
-	e2b:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e2b:SetTarget(s.tgtg)
-	e2b:SetValue(1)
-	c:RegisterEffect(e2b)
-	local e2c=Effect.CreateEffect(c)
-	e2c:SetDescription(aux.Stringid(id,1))
-	e2c:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-	e2c:SetCode(EFFECT_OVERLAY_REMOVE_REPLACE)
-	e2c:SetRange(LOCATION_MZONE)
-	e2c:SetCondition(s.rcon)
-	e2c:SetOperation(s.rop)
-	c:RegisterEffect(e2c)
-	--indestruction
-	local e3a=Effect.CreateEffect(c)
-	e3a:SetType(EFFECT_TYPE_FIELD)
-	e3a:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
-	e3a:SetRange(LOCATION_MZONE)
-	e3a:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e3a:SetTarget(s.indtg)
-	e3a:SetValue(0)
-	c:RegisterEffect(e3a)
-	local e3b=e3a:Clone()
-	e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-	c:RegisterEffect(e3b)
+	e2:SetCondition(s.discon)
+	e2:SetCost(s.discost)
+	e2:SetTarget(s.distg)
+	e2:SetOperation(s.disop)
+	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
-function s.mfilter(c)
-	return c:IsLevelAbove(1)
+function s.mtfilter(c,e)
+	return c:IsSetCard(0x107e)
 end
-function s.matcheck(g,lc,sumtype,tp)
-	return g:GetClassCount(Card.GetLevel)==1
+function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) 
+		and Duel.IsExistingMatchingCard(s.mtfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e) end
 end
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
-end
-function s.filter(c,e,tp)
-	return c:IsCanBeEffectTarget(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-end
-function s.xyzfilter(c,mg)
-	return c:IsXyzSummonable(nil,mg,2,2)
-end
-function s.mfilter1(c,mg,exg)
-	return mg:IsExists(s.mfilter2,1,c,c,exg)
-end
-function s.mfilter2(c,mc,exg)
-	return exg:IsExists(Card.IsXyzSummonable,1,nil,nil,Group.FromCards(c,mc))
-end
-function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return false end
-	local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_GRAVE,0,nil,e,tp)
-	local exg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,mg)
-	if chk==0 then return Duel.IsPlayerCanSpecialSummonCount(tp,2)
-		and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
-		and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-		and #exg>0 end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg1=mg:FilterSelect(tp,s.mfilter1,1,1,nil,mg,exg)
-	local tc1=sg1:GetFirst()
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg2=mg:FilterSelect(tp,s.mfilter2,1,1,tc1,tc1,exg)
-	sg1:Merge(sg2)
-	Duel.SetTargetCard(sg1)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,sg1,2,0,0)
-end
-function s.filter2(c,e,tp)
-	return c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-end
-function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
-	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(s.filter2,nil,e,tp)
-	if #g<2 then return end
+function s.mtop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e)
 	local tc=g:GetFirst()
-	for tc in aux.Next(g) do
-		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_DISABLE)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(e1)
-		local e2=e1:Clone()
-		e2:SetCode(EFFECT_DISABLE_EFFECT)
-		tc:RegisterEffect(e2)
-	end
-	Duel.SpecialSummonComplete()
-	Duel.BreakEffect()
-	local xyzg=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_EXTRA,0,nil,g)
-	if #xyzg>0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local xyz=xyzg:Select(tp,1,1,nil):GetFirst()
-		Duel.XyzSummon(tp,xyz,nil,g)
-	end
-end
-function s.atkfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:GetBaseAttack()>=0
-end
-function s.atkval(e,c)
-	local lg=c:GetLinkedGroup():Filter(s.atkfilter,nil)
-	return lg:GetSum(Card.GetBaseAttack)
-end
-function s.atktg(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(s.atkfilter,nil):IsContains(c)
-end
-function s.copyfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ)
-end
-function s.copy(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()  
-	local wg=c:GetLinkedGroup():Filter(s.copyfilter,nil)
-	local wbc=wg:GetFirst()
-	while wbc do
-		local code=wbc:GetCode()
-		if c:IsFaceup() and c:GetFlagEffect(code)==0 then
-			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,1)
-			c:RegisterFlagEffect(code,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
+	if tc then
+		local og=tc:GetOverlayGroup()
+		if #og>0 then
+			Duel.SendtoGrave(og,REASON_RULE)
 		end
-		wbc=wg:GetNext()
+		Duel.Overlay(c,Group.FromCards(tc))
 	end
 end
-function s.tgtg(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(s.copyfilter,nil):IsContains(c)
+
+
+
+
+function s.tfilter(c,tp)
+	return c:IsOnField() and c:IsControler(tp)
 end
-function s.rcon(e,tp,eg,ep,ev,re,r,rp)
-	local ct=(ev&0xffff)
-	local rc=re:GetHandler()
-	return (r&REASON_COST)~=0 and re:IsHasType(0x7e0)
-		and ep==e:GetOwnerPlayer() and rc==e:GetHandler()
-		and (Duel.GetOverlayCount(tp,1,0)>ct or Duel.GetOverlayCount(tp,1,0)==ct)
+function s.discon(e,tp,eg,ep,ev,re,r,rp)
+	if rp==tp or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
+	return tg and tg:IsExists(s.tfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
-function s.rop(e,tp,eg,ep,ev,re,r,rp)
-	local ct=(ev&0xffff)
-	local rc=re:GetHandler()
-	local g=Duel.GetOverlayGroup(tp,1,0)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	tg=g:Select(tp,ct,ct,nil)
-	Duel.SendtoGrave(tg,REASON_COST)
+function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():GetOverlayGroup():IsExist(s.mtfilter,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
+	end
 end
-function s.indfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ)
-end
-function s.indtg(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(s.indfilter,nil):IsContains(c)
+function s.disop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local tc=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
+	if Duel.Equip(tp,tc,c,false)~=0 then
+		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+			Duel.Destroy(eg,REASON_EFFECT)
+		end
+	end
 end
