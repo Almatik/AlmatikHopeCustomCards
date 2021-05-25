@@ -74,7 +74,9 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local g=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
-	if Duel.Equip(tp,g,c,false)~=0 then
+	if g then
+		local eff=g:GetCardEffect(75402014)
+		eff:GetOperation()(g,eff:GetLabelObject(),tp,c)
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
