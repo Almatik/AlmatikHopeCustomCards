@@ -81,7 +81,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if #og>0 then
 		local tc=og:FilterSelect(tp,s.mtfilter,1,1,nil):GetFirst()
 		Duel.Equip(tp,tc,c,true)
-		local e1=Effect.CreateEffect(c
+		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EQUIP_LIMIT)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
