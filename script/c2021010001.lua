@@ -32,7 +32,7 @@ end
 s.listed_names={56840427}
 s.listed_series={0x107e}
 s.xyz_number=39
-function s.mtfilter(c,e)
+function s.mtfilter(c)
 	return c:IsSetCard(0x107e)
 end
 function s.mtcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -82,9 +82,10 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	local g=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
-	if g then
-		local eff=g:GetCardEffect(75402014)
-		eff:GetOperation()(g,eff:GetLabelObject(),tp,c)
+	local tc=g:GetFirst()
+	if tc then
+		local eff=tc:GetCardEffect(id)
+		eff:GetOperation()(tc,eff:GetLabelObject(),tp,c)
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
