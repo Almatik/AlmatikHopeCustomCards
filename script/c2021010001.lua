@@ -47,7 +47,7 @@ function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e)
+	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,2,nil,e)
 	local tc=g:GetFirst()
 	if tc then
 		local og=tc:GetOverlayGroup()
@@ -84,7 +84,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local g=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
 	local tc=g:GetFirst()
 	if tc then
-		local eff=tc:GetCardEffect(id)
+		local eff=tc:GetCardEffect(75402014)
 		eff:GetOperation()(tc,eff:GetLabelObject(),tp,c)
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
