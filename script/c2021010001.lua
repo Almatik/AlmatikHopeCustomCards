@@ -80,7 +80,7 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local tc=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
 	if tc then
-		Duel.Equip(tp,sc,tc,true)
+		Duel.Equip(tp,tc,c,true)
 		Duel.EquipComplete()
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
