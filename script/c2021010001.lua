@@ -59,14 +59,6 @@ end
 function s.tfilter(c,tp)
 	return c:IsOnField() and c:IsControler(tp)
 end
-function s.eqfilter(c,tc,tp)
-	if not (c:IsSetCard(0x107e) and not c:IsForbidden()) then return false end
-	local effs={c:GetCardEffect(75402014)}
-	for _,te in ipairs(effs) do
-		if te:GetValue()(tc,c,tp) then return true end
-	end
-	return false
-end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	if rp==tp or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
 	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
@@ -86,10 +78,10 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local tc=c:GetOverlayGroup():FilterSelect(tp,s.eqfilter,1,1,nil)
+	local tc=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
 	if tc then
-		local eff=tc:GetCardEffect(75402014)
-		eff:GetOperation()(tc,eff:GetLabelObject(),tp,c)
+		Duel.Equip(tp,sc,tc,true)
+		Duel.EquipComplete()
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
