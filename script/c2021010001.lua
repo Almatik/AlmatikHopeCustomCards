@@ -63,7 +63,8 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return tg and tg:IsExists(s.tfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetOverlayGroup():IsExist(s.mtfilter,1,nil) end
+	local g=e:GetHandler():GetOverlayGroup()
+	if chk==0 then return g:IsExists(s.mtfilter,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
@@ -71,8 +72,9 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
-	if Duel.Equip(tp,tc,c,false)~=0 then
+	if not c:IsRelateToEffect(e) then return end
+	local g=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil)
+	if Duel.Equip(tp,g,c,false)~=0 then
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
