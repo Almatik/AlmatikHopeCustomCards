@@ -66,11 +66,10 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	return tg and tg:IsExists(s.tfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
 function s.disfilter(c,tc,tp)
-	if c:IsSetCard(0x107e) then return
-		local effs={c:GetCardEffect(75402014)}
-		for _,te in ipairs(effs) do
-			if te:GetValue()(tc,c,tp) then return true end
-		end
+	if not (c:IsSetCard(0x107e) and not c:IsForbidden()) then return false end
+	local effs={c:GetCardEffect(75402014)}
+	for _,te in ipairs(effs) do
+		if te:GetValue()(tc,c,tp) then return true end
 	end
 	return false
 end
