@@ -65,18 +65,10 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
 	return tg and tg:IsExists(s.tfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
-function s.disfilter(c,tc,tp)
-	if not c:IsSetCard(0x107e) then return false end
-	local effs={c:GetCardEffect(75402014)}
-	for _,te in ipairs(effs) do
-		if te:GetValue()(tc,c,tp) then return true end
-	end
-	return false
-end
 function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local g=c:GetOverlayGroup()
-	if chk==0 then return g:IsExists(s.disfilter,1,nil,c,tp) end
+	if chk==0 then return g:IsExists(s.mtfilter,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
@@ -88,7 +80,11 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	if #og>0 then
-		local tc=og:FilterSelect(tp,s.disfilter,1,1,nil,c,tp):GetFirst()
+		local tc=og:FilterSelect(tp,s.mtfilter,1,1,nil,c,tp):GetFirst()
+		local effs={tc:GetCardEffect(75402014)}
+		for _,te in ipairs(effs) do
+			if te:GetValue()(c,tc,tp) then return end
+		end
 		local eff=tc:GetCardEffect(75402014)
 		eff:GetOperation()(tc,eff:GetLabelObject(),tp,c)
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
