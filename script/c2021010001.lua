@@ -75,11 +75,12 @@ function s.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	local og=c:GetOverlayGroup()
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	local g=c:GetOverlayGroup():FilterSelect(tp,s.mtfilter,1,1,nil):GetFirst()
-	if #g>0 then
-		Duel.Equip(tp,g,c,true)
+	if #og>0 then
+		local tc=og:FilterSelect(tp,s.mtfilter,1,1,nil):GetFirst()
+		Duel.Equip(tp,tc,c,true)
 		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
