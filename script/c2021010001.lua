@@ -37,9 +37,11 @@ function s.mtcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chkc then return chkc:IsLocation(LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE) and chkc:IsControler(tp) and chkc:IsSetCard(0x107e) end
 	if chk==0 then return Duel.IsExistingTarget(Card.IsSetCard,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,0x107e) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local g=Duel.SelectTarget(tp,Card.IsSetCard,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,2,nil,0x107e)
+	Duel.SetOperationInfo(0,CATEGORY_SEARCH,g,g:GetCount(),0,0)
 end
 function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
