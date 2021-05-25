@@ -32,24 +32,24 @@ end
 s.listed_names={56840427}
 s.listed_series={0x107e}
 s.xyz_number=39
+function s.mtfilter(c)
+	return c:IsSetCard(0x107e) and c:IsType(TYPE_MONSTER)
+end
 function s.mtcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chkc then return chkc:IsLocation(LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE) and chkc:IsControler(tp) and chkc:IsSetCard(0x107e) end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsSetCard,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,0x107e) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,Card.IsSetCard,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,2,nil,0x107e)
-	Duel.SetOperationInfo(0,CATEGORY_SEARCH,g,g:GetCount(),0,0)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.mtfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
 end
 function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) then
-		local g=Duel.GetTargetCards(e)
-		if #g>0 then
-			Duel.Overlay(c,g)
-		end
+	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+	local g=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,nil)
+	if #g>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+		local og=g:Select(tp,1,2,nil)
+		Duel.Overlay(c,og)
 	end
 end
 
@@ -58,9 +58,6 @@ end
 
 function s.tfilter(c,tp)
 	return c:IsOnField() and c:IsControler(tp)
-end
-function s.mtfilter(c)
-	return c:IsSetCard(0x107e)
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	if rp==tp or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
