@@ -79,12 +79,9 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=og:FilterSelect(tp,s.mtfilter,1,1,nil)
-	local tc=g:GetFirst()
-	if #tc>0 then
-		Duel.Equip(tp,tc,c,true)
-		Duel.EquipComplete()
-		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-			Duel.Destroy(eg,REASON_EFFECT)
-		end
+	Duel.Equip(tp,tc,c,true)
+	Duel.EquipComplete()
+	if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+		Duel.Destroy(eg,REASON_EFFECT)
 	end
 end
