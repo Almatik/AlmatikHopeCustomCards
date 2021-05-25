@@ -11,13 +11,14 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCountLimit(1)
+	e1:SetCost(s.mtcost)
 	e1:SetTarget(s.mttg)
 	e1:SetOperation(s.mtop)
 	c:RegisterEffect(e1)
 	--Negate
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
+	e2:SetCategory(CATEGORY_EQUIP+CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_CHAINING)
 	e2:SetCountLimit(1)
@@ -28,8 +29,15 @@ function s.initial_effect(c)
 	e2:SetOperation(s.disop)
 	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
 end
+s.listed_names={56840427}
+s.listed_series={0x107e}
+s.xyz_number=39
 function s.mtfilter(c,e)
 	return c:IsSetCard(0x107e)
+end
+function s.mtcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
+	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) 
