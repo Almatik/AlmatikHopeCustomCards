@@ -81,14 +81,20 @@ function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	if #og>0 then
 		local tc=og:FilterSelect(tp,s.mtfilter,1,1,nil,c,tp):GetFirst()
-		local effs={tc:GetCardEffect(75402014)}
-		for _,te in ipairs(effs) do
-			if te:GetValue()(c,tc,tp) then return end
-		end
-		local eff=tc:GetCardEffect(75402014)
-		eff:GetOperation()(tc,eff:GetLabelObject(),tp,c)
-		if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+		if Duel.Equip(tp,tc,c,true)~=0 and Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
 			Duel.Destroy(eg,REASON_EFFECT)
 		end
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_EQUIP_LIMIT)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		e1:SetValue(s.eqlimit)
+		e1:SetLabelObject(c)
+		tc:RegisterEffect(e1)
+		Duel.EquipComplete()
 	end
+end
+function s.eqlimit(e,c)
+	return c==e:GetLabelObject()
 end
