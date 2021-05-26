@@ -68,7 +68,7 @@ function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetTarget(s.damtg)
 	e2:SetOperation(s.damop)
 	e2:SetReset(RESET_EVENT+RESETS_STANDARD)
-	c:RegisterEffect(e2)
+	rc:RegisterEffect(e2)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
