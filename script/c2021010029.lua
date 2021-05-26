@@ -48,7 +48,7 @@ function s.efop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local rc=c:GetReasonCard()
 	--Cannot be destroyed by card effects
-	local e1=Effect.CreateEffect(tc)
+	local e1=Effect.CreateEffect(rc)
 	e1:SetDescription(aux.Stringid(id,1))
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)

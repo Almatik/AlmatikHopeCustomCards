@@ -18,7 +18,7 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,2))
 	e2:SetCategory(CATEGORY_ATKCHANGE)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EVENT_BATTLE_START)
 	e2:SetCountLimit(1)
@@ -31,6 +31,9 @@ s.listed_names={66970002}
 s.listed_series={0x107e}
 s.xyz_number=39
 function s.mtfilter(c)
+	return c:IsSetCard(0x107e)
+end
+function s.mtfilter2(c)
 	return c:IsSetCard(0x107e) and c:IsType(TYPE_MONSTER)
 end
 function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -45,8 +48,8 @@ function s.mtop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
 		Duel.Overlay(c,tc)
-		if Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
-			local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_DECK,0,1,1,nil)
+		if Duel.IsExistingMatchingCard(s.mtfilter2,tp,LOCATION_DECK,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+			local g=Duel.SelectMatchingCard(tp,s.mtfilter2,tp,LOCATION_DECK,0,1,1,nil)
 			if #g>0 then
 				Duel.SendtoHand(g,nil,REASON_EFFECT)
 				Duel.ConfirmCards(1-tp,g)
