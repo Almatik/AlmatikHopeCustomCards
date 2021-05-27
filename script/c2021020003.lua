@@ -33,12 +33,11 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(sel,aux.Stringid(id,1))
 	local opt=Duel.SelectOption(tp,false,table.unpack(sel))
 	if opt==1 then return end
-	Duel.AnnounceCard(tp,{35906693,OPCODE_ISCODE})
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SETCARD)
-	s.announce_filter={ 0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_AND }
+	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_AND}
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
