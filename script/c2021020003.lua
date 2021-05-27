@@ -36,7 +36,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
-	s.announce_filter={0x107e,0x95,OPCODE_ISSETCARD}
+	s.announce_filter={ 0x107e,OPCODE_ISSETCARD,OPCODE_AND,0x95,OPCODE_ISSETCARD }
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
