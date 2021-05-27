@@ -27,8 +27,6 @@ function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=0
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
-	--check for draw count
-	if Duel.GetDrawCount(tp)==0 then return end
 	--ask if you want to activate the skill or not
 	local sel={aux.Stringid(id,0),aux.Stringid(id,1)}
 	if Duel.SelectOption(tp,false,table.unpack(sel))~=0 then return end
@@ -36,15 +34,10 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
-	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_OR}
+	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_OR,TYPE_EXTRA,OPCODE_ISTYPE,OPCODE_NOT,OPCODE_AND}
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_PUBLIC)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-		tc:RegisterEffect(e1)
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 		s[2+tp]=0
 	end
