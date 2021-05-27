@@ -39,12 +39,12 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_OR}
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_PUBLIC)
-	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-	tc:RegisterEffect(e1)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_PUBLIC)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e1)
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 		s[2+tp]=0
 	end
