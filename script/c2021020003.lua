@@ -27,6 +27,8 @@ function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=0
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
+	--check for draw count
+	if Duel.GetDrawCount(tp)==0 then return end
 	--ask if you want to activate the skill or not
 	local sel={aux.Stringid(id,0),aux.Stringid(id,1)}
 	if Duel.SelectOption(tp,false,table.unpack(sel))~=0 then return end
