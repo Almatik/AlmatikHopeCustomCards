@@ -35,7 +35,8 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.BreakEffect()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
 	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_OR,TYPE_EXTRA,OPCODE_ISTYPE,OPCODE_NOT,OPCODE_AND}
-	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
+	repeat ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
+		until ac<100000000
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
