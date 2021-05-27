@@ -28,7 +28,10 @@ function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--ask if you want to activate the skill or not
-	if not Duel.SelectYesNo(tp,aux.Stringid(id,0)) then return end
+	local sel={}
+	table.insert(sel,aux.Stringid(id,0))
+	table.insert(sel,aux.Stringid(id,1))
+	if not Duel.SelectOption(tp,false,table.unpack(sel)) then return end
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
