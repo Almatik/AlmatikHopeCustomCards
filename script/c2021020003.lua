@@ -24,7 +24,7 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	--condition
-	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=2000
+	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=0
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--ask if you want to activate the skill or not
@@ -36,8 +36,8 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
-	local ann={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_AND}
-	local ac=Duel.AnnounceCard(tp,table.unpack(ann))
+	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_AND}
+	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
