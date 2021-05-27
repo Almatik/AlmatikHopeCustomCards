@@ -24,19 +24,21 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	--condition
-	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=0
+	return Duel.GetCurrentChain()==0 and tp==Duel.GetTurnPlayer() and Duel.GetDrawCount(tp)>0 and s[2+tp]>=2000
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--ask if you want to activate the skill or not
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
 	table.insert(sel,aux.Stringid(id,1))
-	if not Duel.SelectOption(tp,false,table.unpack(sel)) then return end
+	local opt=Duel.SelectOption(tp,false,table.unpack(sel))
+	if opt==1 then return end
+	Duel.AnnounceCard(tp,{35906693,OPCODE_ISCODE})
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	Duel.BreakEffect()
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
-	s.announce_filter={0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_OR}
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SETCARD)
+	s.announce_filter={ 0x107e,OPCODE_ISSETCARD,0x95,OPCODE_ISSETCARD,OPCODE_AND }
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	local tc=Duel.CreateToken(tp,ac)
 	if Duel.SendtoDeck(tc,nil,0,REASON_EFFECT)~=0 then
