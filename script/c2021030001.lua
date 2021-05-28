@@ -65,6 +65,7 @@ function s.rmfilter(c)
 	return c:IsFaceup() and c:IsDisabled()
 end
 function s.rmval(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE,nil)
+	local c=e:GetHandler()
+	local g=Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE,c)
 	return g:GetSum(Card.GetAttack)/2
 end
