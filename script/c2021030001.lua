@@ -15,6 +15,7 @@ function s.initial_effect(c)
 	--Grant effect to a "Constellar" Xyz monster using this card
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e3:SetType(EFFECT_TYPE_XMATERIAL)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetCondition(s.rmcon)
