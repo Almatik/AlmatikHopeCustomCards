@@ -16,10 +16,9 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD)
-	e3:SetCode(EVENT_BECOME_TARGET)
+	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e3:SetCode(EVENT_ADJUST)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
 	e3:SetCondition(s.effcon)
 	e3:SetOperation(s.effop)
 	c:RegisterEffect(e3)
@@ -57,13 +56,14 @@ end
 function s.efffilter(c)
 	return c:IsDisabled()
 end
-function s.effop(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.efffilter,c:GetControler(),0,LOCATION_MZONE,nil,c)
+	local g=Duel.GetMatchingGroup(s.efffilter,tp,0,LOCATION_MZONE,nil)
+	if c:IsFacedown() or #g<=0 then return end
 	local tc=g:GetFirst()
 	while tc do
-		c:CopyEffect(tc:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD)
-		tc=ng:GetNext()
+		local code=tc:GetOriginalCode()
+		c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD)
+		local tc=g:GetNext()
 	end
 end
-
