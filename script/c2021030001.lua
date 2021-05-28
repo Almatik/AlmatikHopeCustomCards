@@ -62,7 +62,7 @@ end
 function s.rmfilter(c)
 	return c:IsDisabled()
 end
-function s.rmval(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE,nil):GetSum(Card.GetAttack)
+function s.rmval(e,c)
+	local g=Duel.GetMatchingGroup(s.rmfilter,c:GetControler(),0,LOCATION_MZONE,nil,c)
+	return g:GetSum(Card.GetAttack)
 end
