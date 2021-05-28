@@ -58,7 +58,7 @@ end
 	--Check if attached to "Constellar" Xyz monster
 function s.rmcon(e)
 	local c=e:GetHandler()
-	return c:GetMaterial():FilterCount(Card.IsPreviousLocation,nil)>2
+	return c:GetMaterial():FilterCount(Card.IsPreviousLocation,nil,LOCATION_MZONE)>2
 end
 	--If this card battles a LIGHT/DARK monster, before damage calculation, banish it
 function s.rmval(e,c)
