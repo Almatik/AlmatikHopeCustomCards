@@ -52,7 +52,7 @@ end
 
 
 
-function s.efffilter(c,ft)
+function s.efffilter(c)
 	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup()
 end
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
