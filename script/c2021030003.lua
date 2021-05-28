@@ -16,12 +16,11 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_TRIGGER_O)
+	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD)
 	e3:SetCode(EVENT_BECOME_TARGET)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1)
 	e3:SetCondition(s.effcon)
-	e3:SetTarget(s.efftg)
 	e3:SetOperation(s.effop)
 	c:RegisterEffect(e3)
 	
@@ -59,14 +58,12 @@ function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	return (e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559))
 		and eg:IsExists(s.efffilter,1,nil) and e:GetHandler()==re
 end
-function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return end
-	local g=eg:Filter(s.efffilter,nil)
-	Duel.SetTargetCard(g)
-end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetTargetCards(e)
+	local c=e:GetHandler()
+	local g=eg:Filter(s.efffilter,nil):GetFirst()
 	if #g==0 then return end
-	c:CopyEffect(g:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD)
+	if g:IsRelateToEffect(re) then
+		c:CopyEffect(g:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD)
+	end
 end
 
