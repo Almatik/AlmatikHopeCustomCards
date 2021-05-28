@@ -18,7 +18,6 @@ function s.initial_effect(c)
 	xe1:SetCategory(CATEGORY_ATKCHANGE)
 	xe1:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_CONTINUOUS)
 	xe1:SetCondition(s.rmcon)
-	xe1:SetTarget(s.rmtg)
 	xe1:SetOperation(s.rmop)
 	c:RegisterEffect(xe1)
 end
