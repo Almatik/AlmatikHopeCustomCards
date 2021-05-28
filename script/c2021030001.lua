@@ -61,11 +61,7 @@ function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetMaterial():IsExists(Card.IsPreviousLocation,3,nil,LOCATION_MZONE)
 end
 	--If this card battles a LIGHT/DARK monster, before damage calculation, banish it
-function s.rmfilter(c)
-	return c:IsFaceup() and c:IsDisabled()
-end
 function s.rmval(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE,c)
+	local g=Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsDisabled),tp,0,LOCATION_MZONE,nil)
 	return g:GetSum(Card.GetAttack)/2
 end
