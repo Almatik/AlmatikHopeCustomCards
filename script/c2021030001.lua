@@ -54,9 +54,8 @@ end
 
 
 	--Check if attached to "Constellar" Xyz monster
-function s.rmcon(e)
-	local c=e:GetHandler()
-	return c:GetMaterial():FilterCount(Card.IsPreviousLocation,nil,LOCATION_MZONE)>2
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsSetCard(0x86)
 end
 function s.rmfilter(c)
 	return c:IsDisabled()
