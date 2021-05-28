@@ -57,12 +57,12 @@ end
 
 	--Check if attached to "Constellar" Xyz monster
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSetCard(0x86)
+	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
 end
 function s.rmfilter(c)
 	return c:IsDisabled()
 end
 function s.rmval(e,c)
 	local g=Duel.GetMatchingGroup(s.rmfilter,c:GetControler(),0,LOCATION_MZONE,nil,c)
-	return g:GetSum(Card.GetAttack)
+	return g:GetSum(Card.GetBaseAttack)/2
 end
