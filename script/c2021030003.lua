@@ -51,19 +51,19 @@ end
 
 
 
-function s.efffilter(c)
-	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup()
-end
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
-	return (e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559))
-		and eg:IsExists(s.efffilter,1,nil) and e:GetHandler()==re
+	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
+end
+function s.efffilter(c)
+	return c:IsDisabled()
 end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=eg:Filter(s.efffilter,nil):GetFirst()
-	if #g==0 then return end
-	if g:IsRelateToEffect(re) then
-		c:CopyEffect(g:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD)
+	local g=Duel.GetMatchingGroup(s.efffilter,c:GetControler(),0,LOCATION_MZONE,nil,c)
+	local tc=g:GetFirst()
+	while tc do
+		c:CopyEffect(tc:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD)
+		tc=ng:GetNext()
 	end
 end
 
