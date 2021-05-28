@@ -55,10 +55,12 @@ end
 
 	--Check if attached to "Constellar" Xyz monster
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return r==REASON_XYZ and e:GetHandler():GetMaterial():IsExists(Card.IsPreviousLocation,3,nil,LOCATION_MZONE)
+	local c=e:GetHandler()
+	return c:GetMaterial():IsExists(Card.IsPreviousLocation,3,nil,LOCATION_MZONE)
 end
 	--If this card battles a LIGHT/DARK monster, before damage calculation, banish it
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
