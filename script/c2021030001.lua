@@ -55,7 +55,7 @@ end
 
 
 
-	--Check if attached to "Constellar" Xyz monster
+	--Check if attached to "Star Seraph Sentry" Xyz monster
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
 end
