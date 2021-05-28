@@ -64,5 +64,5 @@ function s.rmfilter(c)
 end
 function s.rmval(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return 500
+	return Duel.GetMatchingGroup(s.rmfilter,tp,0,LOCATION_MZONE,nil):GetSum(Card.GetAttack)
 end
