@@ -15,12 +15,10 @@ function s.initial_effect(c)
 	--Grant effect to a "Constellar" Xyz monster using this card
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetType(EFFECT_TYPE_XMATERIAL)
-	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e2:SetCondition(s.rmcon)
+	e2:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCode(EFFECT_UPDATE_ATTACK)
-	e2:SetValue(s.rmval)
+	e2:SetCondition(s.rmcon)
+	e2:SetOperation(s.rmop)
 	c:RegisterEffect(e2)
 end
 function s.cfilter(c)
@@ -60,7 +58,16 @@ function s.rmcon(e)
 	local c=e:GetHandler()
 	return c:GetMaterial():FilterCount(Card.IsPreviousLocation,nil,LOCATION_MZONE)>2
 end
-	--If this card battles a LIGHT/DARK monster, before damage calculation, banish it
-function s.rmval(e,c)
-	return Duel.GetMatchingGroupCount(aux.FilterFaceupFunction(Card.IsDisabled),c:GetControler(),0,LOCATION_MZONE,nil)*500
+function s.rmfilter(c)
+	return c:IsDisabled()
+end
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local atk=Duel.GetMatchingGroupCount(s.rmfilter,c:GetControler(),0,LOCATION_MZONE,nil)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_UPDATE_ATTACK)
+	e1:SetValue(atk+500)
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+	c:RegisterEffect(e1)
 end
