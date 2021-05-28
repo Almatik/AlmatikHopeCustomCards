@@ -16,8 +16,8 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_ADJUST)
+	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_TRIGGER_F)
+	e3:SetCode(EVENT_BECOME_TARGET)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCondition(s.effcon)
 	e3:SetOperation(s.effop)
@@ -51,28 +51,16 @@ end
 
 
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
-end
-function s.efffilter(c)
-	return c:IsDisabled()
-end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.efffilter,tp,0,LOCATION_MZONE,nil)
-	if c:IsFacedown() or #g<=0 then return end
-	local tc=g:GetFirst()
-	while tc do
-		local code=tc:GetOriginalCode()
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetCode(EFFECT_CHANGE_CODE)
-		e1:SetValue(code)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		c:RegisterEffect(e1)
-		if not tc:IsType(TYPE_TRAPMONSTER) then
-			c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD)
-		end
-		local tc=g:GetNext()
+	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and eg:IsExists(s.efffilter,1,nil) and re==c
+end
+function s.efffilter(c,tp)
+	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:GetControler()~=tp
+end
+function s.effop(e,tp,eg,ep,ev,re,r,rp)
+	local g=eg:Filter(s.efffilter,nil)
+	if #g==0 then return end
+	if not tc:IsType(TYPE_TRAPMONSTER) then
+		c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD,nil)
 	end
 end
