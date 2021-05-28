@@ -64,5 +64,5 @@ function s.rmfilter(c)
 end
 function s.rmval(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return Duel.GetMatchingGroupCount(s.rmfilter,c:GetControler(),0,LOCATION_MZONE,nil)+500
+	return 500
 end
