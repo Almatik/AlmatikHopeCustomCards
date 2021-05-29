@@ -54,48 +54,32 @@ function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and c:IsType(TYPE_XYZ)
 end
-function s.filter(c)
+function s.efffilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsDisabled()
 end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_MZONE,nil)
-	g:Remove(s.codefilterchk,nil,e:GetHandler())
-	if c:IsFacedown() or #g<=0 then return end
-	repeat
-		local tc=g:GetFirst()
-		local code=tc:GetOriginalCode()
-		local cid=c:CopyEffect(code,RESET_EVENT+RESETS_STANDARD,1)
-		c:RegisterFlagEffect(code,RESET_EVENT+RESETS_STANDARD,0,0)
-		local e0=Effect.CreateEffect(c)
-		e0:SetCode(id)
-		e0:SetLabel(code)
-		e0:SetReset(RESET_EVENT+RESETS_STANDARD)
-		c:RegisterEffect(e0,true)
+	local g=Duel.GetMatchingGroup(s.efffilter,tp,0,LOCATION_MZONE,nil)
+	local tc=g:GetFirst()
+	while tc do
+		local atr=tc:GetAttribute()
+		local race=tc:GetRace()
 		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e1:SetCode(EVENT_ADJUST)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
-		e1:SetLabel(cid)
-		e1:SetLabelObject(e0)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetOperation(s.resetop)
+		e1:SetCode(EFFECT_REMOVE_ATTRIBUTE)
+		e1:SetValue(atr)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		c:RegisterEffect(e1,true)
-		g:Remove(s.codefilter,nil,code)
-	until #g<=0
-end
-function s.codefilter(c,code)
-	return c:IsOriginalCode(code) and c:IsDisabled()
-end
-function s.codefilterchk(c,sc)
-	return sc:GetFlagEffect(c:GetOriginalCode())>0
-end
-function s.resetop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(s.filter,tp,0,LOCATION_MZONE,nil)
-	if not g:IsExists(s.codefilter,1,nil,e:GetLabelObject():GetLabel()) or c:IsDisabled() then
-		c:ResetEffect(e:GetLabel(),RESET_COPY)
-		c:ResetFlagEffect(e:GetLabelObject():GetLabel())
+		tc:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_REMOVE_RACE)
+		e2:SetValue(race)
+		tc:RegisterEffect(e2)
+		local e3=e1:Clone()
+		e3:SetCode(EFFECT_REMOVE_TYPE)
+		e3:SetValue(TYPE_MONSTER)
+		tc:RegisterEffect(e3)
+		tc=g:GetNext()
 	end
 end
