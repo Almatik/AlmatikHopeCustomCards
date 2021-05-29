@@ -50,7 +50,8 @@ end
 
 	--Activation legality
 function s.seqcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
+	local c=e:GetHandler()
+	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and c:IsType(TYPE_XYZ)
 end
 function s.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end

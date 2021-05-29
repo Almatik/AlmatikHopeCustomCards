@@ -52,7 +52,7 @@ end
 
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559))
+	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and c:IsType(TYPE_XYZ)
 end
 function s.filter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsDisabled()

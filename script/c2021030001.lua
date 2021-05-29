@@ -58,7 +58,8 @@ end
 
 	--Check if attached to "Star Seraph Sentry" Xyz monster
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsCode(49678559) or e:GetHandler():GetMaterial():IsExists(Card.IsCode,1,nil,49678559)
+	local c=e:GetHandler()
+	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and c:IsType(TYPE_XYZ)
 end
 function s.rmfilter(c)
 	return c:IsDisabled()
