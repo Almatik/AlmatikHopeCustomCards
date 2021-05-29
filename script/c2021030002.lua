@@ -16,7 +16,6 @@ function s.initial_effect(c)
 	--Move itself to 1 of your unused MMZ
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e3:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)

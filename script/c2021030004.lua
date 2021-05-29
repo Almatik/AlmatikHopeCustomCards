@@ -25,6 +25,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	--material
 	local e4=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,2))
 	e4:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_IGNITION)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetRange(LOCATION_MZONE)
@@ -87,7 +88,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoGrave(og,REASON_RULE)
 		end
 		Duel.Overlay(c,Group.FromCards(tc))
-		if Duel.SelectYesNo(tp,aux.Stringid(id,2))~=0 then
+		if Duel.SelectYesNo(tp,aux.Stringid(id,3))~=0 then
 			local g=c:GetOverlayGroup():FilterSelect(tp,Card.IsAbleToHand,1,1,nil)
 			if #g>0 then
 				Duel.SendtoHand(g,tp,REASON_EFFECT)
