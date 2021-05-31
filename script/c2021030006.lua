@@ -55,7 +55,7 @@ end
 
 
 function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsType(MONSTER) and eg:GetControler()==1-tp
+	return eg:IsType(MONSTER)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Damage(1-tp,500,REASON_EFFECT)
