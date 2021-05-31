@@ -90,7 +90,7 @@ end
 
 
 function s.spfilter3(c,e)
-	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsSetCard(0x86) and c:IsCanBeEffectTarget(e)
+	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_FAIRY) and c:GetLevel()==4 and c:IsCanBeEffectTarget(e)
 end
 function s.spfilter4(c,e,tp,rp)
 	return c:IsCode(49678559) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCountFromEx(tp,rp,nil,c)>0
