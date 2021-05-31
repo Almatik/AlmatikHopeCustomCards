@@ -57,8 +57,8 @@ end
 
 
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if ep~=tp and re and re:GetHandler():IsType(TYPE_MONSTER) then
+	local c=re:GetHandler()
+	if ep~=tp and re and c:IsActivateType(TYPE_MONSTER) or c:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		Duel.Damage(1-tp,500,REASON_EFFECT)
 	end
 end
