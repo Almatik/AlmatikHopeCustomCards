@@ -9,16 +9,13 @@ function s.initial_effect(c)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	--Add 1 Fish monster to the hand
+	--add counter
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
-	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON)
-	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCountLimit(1,id)
-	e2:SetTarget(s.thtg)
-	e2:SetOperation(s.thop)
+	e2:SetCode(EVENT_CHAIN_NEGATED)
+	e2:SetCondition(c.ctcon)
+	e2:SetOperation(s.ctop)
 	c:RegisterEffect(e2)
 	--spsummon
 	local e3=Effect.CreateEffect(c)
@@ -57,35 +54,11 @@ end
 
 
 
-function s.thfilter(c,e,tp)
-	return c:IsSetCard(0x86)
-		and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false) or c:IsAbleToDeck())
+function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsType(MONSTER) and eg:GetControler()==1-tp
 end
-function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.thfilter(c,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(s.thfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,s.thfilter,tp,LOCATION_GRAVE,0,1,3,nil,e,tp)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
-end
-function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
-	if tg:FilterCount(Card.IsRelateToEffect,nil,e)<0 then return end
-	if #tg==1 and tg:IsCanBeSpecialSummoned(e,0,tp,false,false) then
-		Duel.SpecialSummon(tg,0,tp,tp,false,false,POS_FACEUP)
-	elseif #tg==2 and tg:IsAbleToHand() then
-		Duel.SendtoHand(tg,nil,REASON_EFFECT)
-	elseif #tg==3 and tg:IsAbleToDeck() then
-		Duel.SendtoDeck(tg,nil,0,REASON_EFFECT)
-		local g=Duel.GetOperatedGroup()
-		if g:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end
-		local ct=g:FilterCount(Card.IsLocation,nil,LOCATION_DECK+LOCATION_EXTRA)
-		if ct==3 then
-			Duel.BreakEffect()
-			Duel.Draw(tp,1,REASON_EFFECT)
-		end
-	end
+function s.ctop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Damage(1-tp,500,REASON_EFFECT)
 end
 
 
