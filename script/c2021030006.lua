@@ -45,7 +45,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if #g>0 then
-		if g:IsCanBeSpecialSummoned(e,0,tp,false,false) and g:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.StringId(id,1))~=0 then
+		if g:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.StringId(id,1))~=0 then
 			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 		else
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
