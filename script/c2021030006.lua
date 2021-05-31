@@ -14,7 +14,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCode(EVENT_CHAIN_NEGATED)
-	e2:SetCondition(c.ctcon)
 	e2:SetOperation(s.ctop)
 	c:RegisterEffect(e2)
 	--spsummon
@@ -54,11 +53,13 @@ end
 
 
 
-function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsType(MONSTER)
-end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Damage(1-tp,500,REASON_EFFECT)
+	local c=e:GetHandler()
+	if rp==tp then return end
+	local de,dp=Duel.GetChainInfo(ev,CHAININFO_DISABLE_REASON,CHAININFO_DISABLE_PLAYER)
+	if de and dp==tp and de:GetHandler():IsType(TYPE_MONSTER) then
+		Duel.Damage(1-tp,500,REASON_EFFECT)
+	end
 end
 
 
