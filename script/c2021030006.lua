@@ -46,7 +46,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if #g>0 then
 		local tc=g:GetFirst()
-		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and tc:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.StringId(id,1))~=0 then
+		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and tc:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
 			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 		else
 			Duel.SendtoHand(tc,nil,REASON_EFFECT)
