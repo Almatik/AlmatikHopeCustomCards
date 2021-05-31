@@ -56,8 +56,8 @@ end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if rp==tp then return end
-	local de,dp=Duel.GetChainInfo(ev,CHAININFO_DISABLE_REASON,CHAININFO_DISABLE_PLAYER)
-	if de and dp==tp and de:GetHandler():IsType(TYPE_MONSTER) then
+	local dr,dp=Duel.GetChainInfo(ev,CHAININFO_DISABLE_REASON,CHAININFO_DISABLE_PLAYER)
+	if dr and dp==tp then
 		Duel.Damage(1-tp,500,REASON_EFFECT)
 	end
 end
