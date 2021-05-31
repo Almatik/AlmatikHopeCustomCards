@@ -9,14 +9,12 @@ function s.initial_effect(c)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	--double
+	--inactivatable
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e2:SetCode(EVENT_CHAINING)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_CANNOT_INACTIVATE)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
-	e2:SetCondition(s.damcon)
-	e2:SetOperation(s.damop)
+	e2:SetValue(s.efilter)
 	c:RegisterEffect(e2)
 	--spsummon
 	local e3=Effect.CreateEffect(c)
@@ -44,7 +42,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if #g>0 then
 		local tc=g:GetFirst()
-		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and tc:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+		if tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and tc:IsCode(2021030005) and Duel.SelectYesNo(tp,aux.Stringid(id,0))~=0 then
 			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 		else
 			Duel.SendtoHand(tc,nil,REASON_EFFECT)
@@ -56,15 +54,10 @@ end
 
 
 
-function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=re:GetHandler()
-	if rp~=tp or not (c:IsType(TYPE_MONSTER) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_FAIRY)) then return end
-	local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_NEGATE)
-	return ex
-end
-function s.damop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	Duel.Damage(1-tp,500,REASON_EFFECT)
+function s.efilter(e,ct)
+	local te=Duel.GetChainInfo(ct,CHAININFO_TRIGGERING_EFFECT)
+	local tc=te:GetHandler()
+	return te:IsActiveType(TYPE_MONSTER) and tc:IsAttribute(ATTRIBUTE_LIGHT) and tc:IsRace(RACE_FAIRY)
 end
 
 
