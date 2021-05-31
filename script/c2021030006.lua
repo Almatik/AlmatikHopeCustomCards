@@ -9,16 +9,15 @@ function s.initial_effect(c)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
-	--add counter
+	--double
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e2:SetCode(EVENT_CHAINING)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCode(EVENT_CHAIN_DISABLED)
-	e2:SetOperation(s.ctop)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	e2:SetCondition(s.damcon)
+	e2:SetOperation(s.damop)
 	c:RegisterEffect(e2)
-	local e2b=e2:Clone()
-	e2b:SetCode(EVENT_CHAIN_NEGATED)
-	c:RegisterEffect(e2b)
 	--spsummon
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
@@ -56,11 +55,16 @@ end
 
 
 
-function s.ctop(e,tp,eg,ep,ev,re,r,rp)
+
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=re:GetHandler()
-	if ep~=tp and re and c:IsActivateType(TYPE_MONSTER) then
-		Duel.Damage(1-tp,500,REASON_EFFECT)
-	end
+	if rp~=tp or not (c:IsType(TYPE_MONSTER) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_FAIRY)) then return end
+	local ex,cg,ct,cp,cv=Duel.GetOperationInfo(ev,CATEGORY_NEGATE)
+	return ex
+end
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
+	Duel.Damage(1-tp,500,REASON_EFFECT)
 end
 
 
