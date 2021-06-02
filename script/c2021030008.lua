@@ -104,7 +104,7 @@ end
 
 function s.de2con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(FACE_UP)
+	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(POS_FACEUP)
 end
 function s.de2cost(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
