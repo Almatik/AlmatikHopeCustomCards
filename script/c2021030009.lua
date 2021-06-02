@@ -81,7 +81,7 @@ function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
 	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) and not d>0 then return end
-	local g=Duel.GetDecktopGroup(1-tp,1)
+	local g=Duel.GetDecktopGroup(tp,1)
 	if #g>0 then
 		Duel.DisableShuffleCheck()
 		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
@@ -101,7 +101,7 @@ end
 function s.de2op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		local g=Duel.GetDecktopGroup(1-tp,3)
+		local g=Duel.GetDecktopGroup(tp,3)
 		if #g>0 then
 			Duel.DisableShuffleCheck()
 			Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
