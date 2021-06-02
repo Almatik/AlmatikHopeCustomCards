@@ -85,7 +85,7 @@ function s.act(e,tp,eg,ep,ev,re,r,rp)
 	if th and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 		if Duel.SendtoHand(th,tp,REASON_EFFECT)==1 then
 			Duel.SendtoDeck(tc,1-tp,2,REASON_EFFECT)
-			if not c:IsLocation(LOCATION_DECK) then return end
+			if not tc:IsLocation(LOCATION_DECK) then return end
 			Duel.ShuffleDeck(1-tp)
 			c:ReverseInDeck()
 		end

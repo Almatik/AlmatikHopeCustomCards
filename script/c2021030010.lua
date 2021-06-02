@@ -2,9 +2,26 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	Duel.EnableGlobalFlag(GLOBALFLAG_DECK_REVERSE_CHECK)
-
-
-
+	--spsummon
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCode(EVENT_SUMMON_SUCCESS)
+	e1:SetTarget(s.sptg)
+	e1:SetOperation(s.spop)
+	c:RegisterEffect(e1)
+	local e2=e1:Clone()
+	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	c:RegisterEffect(e2)
+	--xyzlv
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_XYZ_LEVEL)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetValue(s.xyzlv)
+	c:RegisterEffect(e3)
 	--to deck
 	local he1=Effect.CreateEffect(c)
 	he1:SetDescription(aux.Stringid(id,1))
@@ -37,6 +54,33 @@ function s.initial_effect(c)
 	de2:SetTarget(s.de2tg)
 	de2:SetOperation(s.de2op)
 	c:RegisterEffect(de2)
+end
+function s.spfilter(c,mg)
+	return c:IsXyzSummonable(nil,mg) and c:IsAttribute(ATTRIBUTE_DARK)
+end
+function s.matfilter(c)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsLevelAbove(1)
+end
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_EXTRA,0,1,nil,mg) and #mg>1 end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
+end
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA,0,nil,mg)
+	if #g>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local tg=g:Select(tp,1,1,nil):GetFirst()
+		Duel.XyzSummon(tp,tg,nil,mg,99,99)
+	end
+end
+function s.xyzlv(e,c,rc)
+	if rc:IsAttribute(ATTRIBUTE_DARK) then
+		return 2,e:GetHandler():GetLevel()
+	else
+		return e:GetHandler():GetLevel()
+	end
 end
 
 
