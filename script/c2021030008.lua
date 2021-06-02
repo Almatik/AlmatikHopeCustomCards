@@ -71,19 +71,18 @@ end
 
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(1-tp,1) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
-	local ac=Duel.AnnounceType(tp)
-	e:SetLabel(ac)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CARDTYPE)
+	e:SetLabel(Duel.SelectOption(tp,70,71,72))
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local ac=e:GetLabel()
+	local opt=e:GetLabel()
 	Duel.ConfirmDecktop(1-tp,1)
 	local h=Duel.GetDecktopGroup(1-tp,1)
 	local tc=h:GetFirst()
 	if tc then
-		if tc:IsType(ac) then
+		if (opt==0 and tc:IsType(TYPE_MONSTER)) or (opt==1 and tc:IsType(TYPE_SPELL)) or (opt==2 and tc:IsType(TYPE_TRAP)) then
 			if Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
 				Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 			else
