@@ -85,7 +85,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if tc then
 		if (opt==0 and tc:IsType(TYPE_MONSTER)) or (opt==1 and tc:IsType(TYPE_SPELL)) or (opt==2 and tc:IsType(TYPE_TRAP)) then
 			if Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
-				Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
+				Duel.SendtoGrave(tc,REASON_EFFECT)
 			else
 				Duel.Draw(1-tp,1,REASON_EFFECT)
 			end
@@ -101,11 +101,11 @@ end
 
 function s.de1con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)>0
+	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_GRAVE,0)>0
 end
 function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
+	local d=Duel.GetFieldGroupCount(tp,LOCATION_GRAVE,0)
 	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) and not d>0 then return end
 	Duel.Damage(tp,d*100,REASON_EFFECT)
 end
@@ -127,9 +127,8 @@ function s.de2op(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.SelectOption(tp,aux.Stringid(id,5),aux.Stringid(id,6))~=0 then
 			Duel.SpecialSummon(c,0,tp,1-tp,false,false,POS_FACEUP)
 		else
-			Duel.SendtoDeck(c,tp,2,REASON_EFFECT)
+			Duel.SendtoDeck(c,tp,1,REASON_EFFECT)
 			if not c:IsLocation(LOCATION_DECK) then return end
-			Duel.ShuffleDeck(tp)
 			c:ReverseInDeck()
 			Duel.Draw(tp,1,REASON_EFFECT)
 		end
