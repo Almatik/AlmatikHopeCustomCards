@@ -36,11 +36,12 @@ function s.initial_effect(c)
 	de1:SetOperation(s.de1op)
 	c:RegisterEffect(de1)
 	local de2=Effect.CreateEffect(c)
-	de2:SetDescription(aux.Stringid(id,3))
+	de2:SetDescription(aux.Stringid(id,4))
 	de2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	de2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	de2:SetCode(EVENT_DRAW)
 	de2:SetRange(LOCATION_HAND)
+	de2:SetCountLimit(1)
 	de2:SetCondition(s.de2con)
 	de2:SetTarget(s.de2tg)
 	de2:SetOperation(s.de2op)
@@ -83,7 +84,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=h:GetFirst()
 	if tc then
 		if (opt==0 and tc:IsType(TYPE_MONSTER)) or (opt==1 and tc:IsType(TYPE_SPELL)) or (opt==2 and tc:IsType(TYPE_TRAP)) then
-			if Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
+			if Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
 				Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 			else
 				Duel.Draw(p,1,REASON_EFFECT)
@@ -123,5 +124,13 @@ function s.de2op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		 Duel.Damage(tp,1000,REASON_EFFECT)
+		if Duel.SelectOption(tp,aux.Stringid(id,5),aux.Stringid(id,6))~=0 then
+			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+		else
+			Duel.SendtoDeck(c,tp,2,REASON_EFFECT)
+			if not c:IsLocation(LOCATION_DECK) then return end
+			Duel.ShuffleDeck(tp)
+			c:ReverseInDeck()			
+		end
 	end
 end
