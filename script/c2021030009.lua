@@ -81,7 +81,11 @@ function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
 	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) and not d>0 then return end
-	Duel.Damage(tp,d*100,REASON_EFFECT)
+	local g=Duel.GetDecktopGroup(1-tp,1)
+	if #g>0 then
+		Duel.DisableShuffleCheck()
+		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
+	end
 end
 
 
@@ -97,7 +101,11 @@ end
 function s.de2op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		 Duel.Damage(tp,1000,REASON_EFFECT)
+		local g=Duel.GetDecktopGroup(1-tp,3)
+		if #g>0 then
+			Duel.DisableShuffleCheck()
+			Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
+		end
 		if Duel.SelectOption(tp,aux.Stringid(id,5),aux.Stringid(id,6))~=0 then
 			Duel.SpecialSummon(c,0,tp,1-tp,false,false,POS_FACEUP)
 		else
