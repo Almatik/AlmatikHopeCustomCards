@@ -42,7 +42,6 @@ function s.initial_effect(c)
 	de2:SetCode(EVENT_DRAW)
 	de2:SetRange(LOCATION_HAND)
 	de2:SetCondition(s.de2con)
-	de2:SetCost(s.de2cost)
 	de2:SetTarget(s.de2tg)
 	de2:SetOperation(s.de2op)
 	c:RegisterEffect(de2)
@@ -101,9 +100,6 @@ end
 function s.de2con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(POS_FACEUP)
-end
-function s.de2cost(e,tp,eg,ep,ev,re,r,rp)
-	if chk==0 then return not e:GetHandler():IsPublic() end
 end
 function s.de2tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
