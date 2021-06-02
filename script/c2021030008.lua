@@ -70,16 +70,32 @@ end
 
 
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.IsPlayerCanDraw(1-tp,1) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
+	local ac=Duel.AnnounceType(tp)
+	Duel.SetTargetParam(ac)
+	Duel.SetTargetPlayer(1-tp)
+	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_TYPE)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,1-tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
-	if not c:IsLocation(LOCATION_DECK) then return end
-	Duel.ShuffleDeck(1-tp)
-	c:ReverseInDeck()
+	local p,ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	local h=Duel.GetDecktopGroup(1-tp,1)
+	local tc=h:GetFirst()
+	Duel.Draw(p,1,REASON_EFFECT)
+	if tc then
+		Duel.ConfirmCards(1-tp,tc)
+		if tc:IsType(ac) then
+			Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
+			Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
+			if not c:IsLocation(LOCATION_DECK) then return end
+			Duel.ShuffleDeck(1-tp)
+			c:ReverseInDeck()
+		end
+	end
 end
 
 
