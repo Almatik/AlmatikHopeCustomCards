@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--to deck
 	local he1=Effect.CreateEffect(c)
-	he1:SetDescription(aux.Stringid(id,0))
+	he1:SetDescription(aux.Stringid(id,1))
 	he1:SetCategory(CATEGORY_TODECK)
 	he1:SetType(EFFECT_TYPE_IGNITION)
 	he1:SetRange(LOCATION_HAND)
@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(he1)
 	--Deck Effect
 	local de1=Effect.CreateEffect(c)
-	de1:SetDescription(aux.Stringid(id,0))
+	de1:SetDescription(aux.Stringid(id,2))
 	de1:SetCategory(CATEGORY_DAMAGE)
 	de1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	de1:SetRange(LOCATION_DECK)
@@ -36,7 +36,7 @@ function s.initial_effect(c)
 	de1:SetOperation(s.de1op)
 	c:RegisterEffect(de1)
 	local de2=Effect.CreateEffect(c)
-	de2:SetDescription(aux.Stringid(id,1))
+	de2:SetDescription(aux.Stringid(id,3))
 	de2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	de2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	de2:SetCode(EVENT_DRAW)
@@ -75,27 +75,26 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ac=Duel.AnnounceType(tp)
 	Duel.SetTargetParam(ac)
 	Duel.SetTargetPlayer(1-tp)
-	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_TYPE)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,1-tp,1)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
 	local p,ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	Duel.ConfirmDecktop(1-tp,1)
 	local h=Duel.GetDecktopGroup(1-tp,1)
 	local tc=h:GetFirst()
-	Duel.Draw(p,1,REASON_EFFECT)
 	if tc then
 		Duel.ConfirmCards(1-tp,tc)
-		if tc:IsType(ac) then
+		if tc:IsType(ac) and Duel.SelectYesNo(tp,aux.Stringid(id,4))~=0 then
 			Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
-			Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
-			if not c:IsLocation(LOCATION_DECK) then return end
-			Duel.ShuffleDeck(1-tp)
-			c:ReverseInDeck()
+		else
+			Duel.Draw(p,1,REASON_EFFECT)
 		end
 	end
+	Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
+	if not c:IsLocation(LOCATION_DECK) then return end
+	Duel.ShuffleDeck(1-tp)
+	c:ReverseInDeck()
 end
 
 
