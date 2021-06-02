@@ -87,7 +87,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			if Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
 				Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 			else
-				Duel.Draw(p,1,REASON_EFFECT)
+				Duel.Draw(1-tp,1,REASON_EFFECT)
 			end
 		end
 	end
