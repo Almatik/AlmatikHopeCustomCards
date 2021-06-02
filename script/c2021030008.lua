@@ -33,8 +33,19 @@ function s.initial_effect(c)
 	de1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	de1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	de1:SetCondition(s.de1con)
+	de1:SetCost(s.de1cost)
 	de1:SetOperation(s.de1op)
 	c:RegisterEffect(de1)
+	local de2=Effect.CreateEffect(c)
+	de2:SetDescription(aux.Stringid(id,1))
+	de2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	de2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	de2:SetCode(EVENT_DRAW)
+	de2:SetCondition(s.de2con)
+	de2:SetCost(s.de2cost)
+	de2:SetTarget(s.de2tg)
+	de2:SetOperation(s.de2op)
+	c:RegisterEffect(de2)
 end
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x87) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -76,9 +87,9 @@ end
 
 function s.de1con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
+	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)>0
 end
-function s.dee1cost(e,tp,eg,ep,ev,re,r,rp)
+function s.de1cost(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.ConfirmCards(1-tp,c)
 end
@@ -87,4 +98,25 @@ function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
 	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) and not d>0 then return end
 	Duel.Damage(tp,d*100,REASON_EFFECT)
+end
+
+
+
+function s.de2con(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(FACE_UP)
+end
+function s.de2cost(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	Duel.ConfirmCards(1-tp,c)
+end
+function s.de2tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
+end
+function s.de2op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if c:IsRelateToEffect(e) then
+		 Duel.Damage(tp,1000,REASON_EFFECT)
+	end
 end
