@@ -125,12 +125,13 @@ function s.de2op(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) then
 		 Duel.Damage(tp,1000,REASON_EFFECT)
 		if Duel.SelectOption(tp,aux.Stringid(id,5),aux.Stringid(id,6))~=0 then
-			Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummon(c,0,tp,1-tp,false,false,POS_FACEUP)
 		else
 			Duel.SendtoDeck(c,tp,2,REASON_EFFECT)
 			if not c:IsLocation(LOCATION_DECK) then return end
 			Duel.ShuffleDeck(tp)
-			c:ReverseInDeck()			
+			c:ReverseInDeck()
+			Duel.Draw(tp,1,REASON_EFFECT)
 		end
 	end
 end
