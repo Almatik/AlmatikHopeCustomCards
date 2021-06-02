@@ -53,6 +53,12 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+
+
+
+
+
+
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
@@ -70,10 +76,15 @@ end
 
 function s.de1con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsFaceup() and Duel.GetTurnPlayer()==tp
+	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
+end
+function s.dee1cost(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	Duel.ConfirmCards(1-tp,c)
 end
 function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) then return end
-	Duel.Damage(tp,100,REASON_EFFECT)
+	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
+	if not c:IsFaceup() and not c:IsLocation(LOCATION_DECK) and not d>0 then return end
+	Duel.Damage(tp,d*100,REASON_EFFECT)
 end
