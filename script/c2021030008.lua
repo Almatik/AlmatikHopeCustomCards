@@ -74,20 +74,21 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
 	local ac=Duel.AnnounceType(tp)
 	Duel.SetTargetParam(ac)
-	Duel.SetTargetPlayer(1-tp)
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local p,ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	Duel.ConfirmDecktop(1-tp,1)
 	local h=Duel.GetDecktopGroup(1-tp,1)
 	local tc=h:GetFirst()
 	if tc then
-		if tc:IsType(ac) and Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
-			Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
-		else
-			Duel.Draw(p,1,REASON_EFFECT)
+		if tc:IsType(ac) then
+			if Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
+				Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
+			else
+				Duel.Draw(p,1,REASON_EFFECT)
+			end
 		end
 	end
 	Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
