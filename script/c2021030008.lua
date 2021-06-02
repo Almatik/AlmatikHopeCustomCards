@@ -33,7 +33,6 @@ function s.initial_effect(c)
 	de1:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	de1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	de1:SetCondition(s.de1con)
-	de1:SetCost(s.de1cost)
 	de1:SetOperation(s.de1op)
 	c:RegisterEffect(de1)
 	local de2=Effect.CreateEffect(c)
@@ -41,6 +40,7 @@ function s.initial_effect(c)
 	de2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	de2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	de2:SetCode(EVENT_DRAW)
+	de2:SetRange(LOCATION_HAND)
 	de2:SetCondition(s.de2con)
 	de2:SetCost(s.de2cost)
 	de2:SetTarget(s.de2tg)
@@ -89,10 +89,6 @@ function s.de1con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsFaceup() and Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)>0
 end
-function s.de1cost(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	Duel.ConfirmCards(1-tp,c)
-end
 function s.de1op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local d=Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)
@@ -107,8 +103,7 @@ function s.de2con(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(POS_FACEUP)
 end
 function s.de2cost(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	Duel.ConfirmCards(1-tp,c)
+	if chk==0 then return not e:GetHandler():IsPublic() end
 end
 function s.de2tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
