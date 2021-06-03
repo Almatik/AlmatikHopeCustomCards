@@ -142,10 +142,8 @@ function s.xyzlv(e,c,rc)
 		return lv
 	end
 end
-function s.xyzmat(e,c,rc)
-	if rc:IsSetCard(0x48) then
-		return c:IsAttribute(ATTRIBUTE_DARK)
-	end
+function s.xyzmat(e,c)
+	return c:IsAttribute(ATTRIBUTE_DARK)
 end
 
 
