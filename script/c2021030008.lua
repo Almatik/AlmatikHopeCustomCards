@@ -153,7 +153,7 @@ end
 
 function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if rp==tp and re:IsActivateType(TYPE_MONSTER) and c:IsFaceup() then
+	if rp==tp and re:IsActiveType(TYPE_MONSTER) and c:IsFaceup() then
 		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
 	end
 end
@@ -233,6 +233,6 @@ function s.playop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoDeck(tc,tp,1,RESON_EFFECT)
 		end
 	else
-		Duel.SendtoDeck(tc,tp,1,RESON_EFFECT)
+		Duel.MoveSequence(tc,1)
 	end
 end
