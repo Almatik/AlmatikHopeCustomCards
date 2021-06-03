@@ -78,6 +78,7 @@ function s.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0 end
 end
 function s.act(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local tc=e:GetLabelObject()
 	Duel.ConfirmDecktop(1-tp,1)
 	local h=Duel.GetDecktopGroup(1-tp,1)
