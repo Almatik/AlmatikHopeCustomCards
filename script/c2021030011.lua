@@ -192,9 +192,6 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) then
 		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND,0,1,1,nil)
 		Duel.SendtoDeck(g,tp,2,REASON_EFFECT)
-		if g:IsLocation(LOCATION_DECK) then
-			Duel.ShuffleDeck(tp)
-		end
 		Duel.SendtoDeck(c,tp,1,REASON_EFFECT)
 		if c:IsLocation(LOCATION_DECK) then
 			c:ReverseInDeck()
