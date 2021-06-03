@@ -52,7 +52,7 @@ function s.initial_effect(c)
 	local e1b=Effect.CreateEffect(c)
 	e1b:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1b:SetCode(EVENT_CHAIN_SOLVED)
-	e1b:SetRange(LOCATION_MZONE)
+	e1b:SetRange(LOCATION_DECK)
 	e1b:SetCondition(s.damcon)
 	e1b:SetOperation(s.damop)
 	c:RegisterEffect(e1b)
@@ -91,7 +91,7 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local tc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
-	Duel.SendtoGrave(tc,REASON_EFFECT,REASON_COST)
+	Duel.SendtoGrave(tc,REASON_EFFECT+REASON_COST)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0
