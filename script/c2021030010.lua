@@ -56,10 +56,10 @@ function s.initial_effect(c)
 	c:RegisterEffect(de2)
 end
 function s.spfilter(c,mg)
-	return c:IsXyzSummonable(nil,mg) and c:IsAttribute(ATTRIBUTE_DARK)
+	return c:IsXyzSummonable(nil,mg)
 end
 function s.matfilter(c)
-	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsLevelAbove(1)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsFaceup()
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
@@ -67,17 +67,19 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
 	local mg=Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	local g=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_EXTRA,0,nil,mg)
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local tg=g:Select(tp,1,1,nil):GetFirst()
-		Duel.XyzSummon(tp,tg,nil,mg,99,99)
+		Duel.XyzSummon(tp,tg,c,mg)
 	end
 end
 function s.xyzlv(e,c,rc)
-	if rc:IsAttribute(ATTRIBUTE_DARK) then
-		return 2,e:GetHandler():GetLevel()
+	if rc:IsSetCard(0x48) then
+		return 4,e:GetHandler():GetLevel()
 	else
 		return e:GetHandler():GetLevel()
 	end

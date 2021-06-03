@@ -73,8 +73,8 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.xyzlv(e,c,rc)
-	if rc:IsAttribute(ATTRIBUTE_DARK) then
-		return 2,e:GetHandler():GetLevel()
+	if rc:IsSetCard(0x48) then
+		return 4,e:GetHandler():GetLevel()
 	else
 		return e:GetHandler():GetLevel()
 	end
