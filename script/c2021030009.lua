@@ -188,7 +188,7 @@ end
 function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
-		Duel.DiscardHand(tp,Card.IsAbleToGrave,1,1,REASON_EFFECT)
+		Duel.DiscardHand(tp,Card.IsAbleToGrave,1,1,REASON_EFFECT,c)
 		local og=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_GRAVE)
 		for oc in aux.Next(og) do
 			local e1=Effect.CreateEffect(c)
