@@ -7,7 +7,7 @@ function s.initial_effect(c)
 end
 s.MaximumAttack=4500
 function s.filter(c)
-	return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) and not c:IsCode(id)
 end
 function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
