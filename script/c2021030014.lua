@@ -1,7 +1,6 @@
 --Blue-Eyes Maximum Dragon
 local s,id=GetID()
 function s.initial_effect(c)
-	Maximum.AddProcedure(c,nil,s.filter)
 	Maximum.AddProcedure(c,nil,s.filter,s.filter)
 	c:AddMaximumAtkHandler()
 	c:AddCenterToSideEffectHandler(e1)
@@ -26,5 +25,6 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		tc:RegisterEffect(e1)
 		tc:AddSideMaximumHandler(e1)
+		s.MaximumSide="Right","Left"
 	end
 end
