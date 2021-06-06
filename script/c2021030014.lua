@@ -24,6 +24,9 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
 		tc:AddSideMaximumHandler(e1)
-		s.MaximumSide="Left","Right"
+		s.MaximumSide="Left"
+		local e2=Effect.CreateEffect(c)
+		tc:AddSideMaximumHandler(e2)
+		s.MaximumSide="Right"
 	end
 end
