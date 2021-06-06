@@ -24,6 +24,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local e1=Effect.CreateEffect(c)
+		tc:RegisterEffect(e1)
 		tc:AddSideMaximumHandler(e1)
 	end
 end
