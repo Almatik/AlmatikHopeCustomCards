@@ -7,8 +7,8 @@ function s.initial_effect(c)
 end
 s.MaximumAttack=4500
 function s.filter1(c)
-	return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) and not c:IsCode(id)
+	return c:IsSetCard(0xdd) and not c:IsCode(id)
 end
 function s.filter2(c)
-	return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) and not c:IsCode(id)
+	return c:IsSetCard(0xdd) and not c:IsCode(id)
 end
