@@ -1,6 +1,7 @@
 --Blue-Eyes Maximum Dragon
 local s,id=GetID()
 function s.initial_effect(c)
+	Maximum.AddProcedure(c,nil,s.filter)
 	Maximum.AddProcedure(c,nil,s.filter,s.filter)
 	c:AddMaximumAtkHandler()
 	c:AddCenterToSideEffectHandler(e1)
