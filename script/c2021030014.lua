@@ -26,8 +26,5 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(c)
 		tc:AddSideMaximumHandler(e1)
 		s.MaximumSide="Left"
-		local e2=Effect.CreateEffect(c)
-		tc:AddSideMaximumHandler(e2)
-		s.MaximumSide="Right"
 	end
 end
