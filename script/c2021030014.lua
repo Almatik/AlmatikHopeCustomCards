@@ -4,13 +4,6 @@ function s.initial_effect(c)
 	Maximum.AddProcedure(c,nil,s.filter,s.filter)
 	c:AddMaximumAtkHandler()
 	c:AddCenterToSideEffectHandler(e1)
-	local ge1=Effect.CreateEffect(c)
-	ge1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	ge1:SetCode(EVENT_PREDRAW)
-	ge1:SetRange(0xff)
-	ge1:SetOperation(s.checkop)
-	Duel.RegisterEffect(ge1,0)
 end
 s.MaximumAttack=4500
 function s.filter(c)
