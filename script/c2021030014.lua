@@ -7,8 +7,8 @@ function s.initial_effect(c)
 end
 s.MaximumAttack=4500
 function s.filter1(c)
-	return c:IsCode(89631139)
+	return c:IsCode(10000022)
 end
 function s.filter2(c)
-	return c:IsCode(57043986)
+	return c:IsCode(10000002)
 end
