@@ -15,7 +15,7 @@ function s.initial_effect(c)
 end
 s.MaximumAttack=4500
 function s.filter(c)
-	return c:IsSetCard(0xff) and not c:IsCode(id)
+	return c:IsSetCard(0xdd) and not c:IsCode(id)
 end
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
