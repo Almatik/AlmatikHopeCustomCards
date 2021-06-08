@@ -9,13 +9,8 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_STARTUP)
 	e1:SetCountLimit(1)
 	e1:SetRange(0x5f)
-	e1:SetCondition(s.flipcon)
 	e1:SetOperation(s.flipop)
 	c:RegisterEffect(e1)
-end
-function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
-	--condition
-	return Duel.GetCurrentChain()==0
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
@@ -29,26 +24,26 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=g:Filter(Card.IsType,nil,TYPE_TRAP)
 	local ag=mg+sg+tg
 	--Hand Ratio
-	local mh=4*(#mg/#ag)
-	local sh=4*(#sg/#ag)
-	local th=4*(#tg/#ag)
+	local mh=math.floor(4*(#mg/#ag))
+	local sh=math.floor(4*(#sg/#ag))
+	local th=math.floor(4*(#tg/#ag))
 	--Place them on top of your Deck
-	local tmc=mg:GetFirst()
-	while tmc and mh>0 do
-		Duel.MoveSequence(tmc,0)
+	local tmg=mg:GetFirst()
+	while tmg and mh>0 do
+		Duel.MoveSequence(tmg,0)
 		mh=mh-1
-		tmc=mg:GetNext()
+		tmg=mg:GetNext()
 	end
-	local tsc=sg:GetFirst()
-	while tsc and sh>0 do
-		Duel.MoveSequence(tsc,0)
+	local tsg=sg:GetFirst()
+	while tsg and sh>0 do
+		Duel.MoveSequence(tsg,0)
 		sh=sh-1
-		tsc=sg:GetNext()
+		tsg=sg:GetNext()
 	end
-	local ttc=tg:GetFirst()
-	while ttc and th>0 do
-		Duel.MoveSequence(ttc,0)
+	local ttg=tg:GetFirst()
+	while ttg and th>0 do
+		Duel.MoveSequence(ttg,0)
 		th=th-1
-		ttc=tg:GetNext()
+		ttg=tg:GetNext()
 	end
 end
