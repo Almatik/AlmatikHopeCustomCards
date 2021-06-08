@@ -40,18 +40,18 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	while tmc and mh>0 do
 		Duel.MoveSequence(tmc,0)
 		mh=mh-1
-		tmc=mc:GetNext()
+		tmc=mg:GetNext()
 	end
 	local tsc=sg:GetFirst()
 	while tsc and sh>0 do
 		Duel.MoveSequence(tsc,0)
 		sh=sh-1
-		tsc=sc:GetNext()
+		tsc=sg:GetNext()
 	end
 	local ttc=tg:GetFirst()
 	while ttc and th>0 do
 		Duel.MoveSequence(ttc,0)
 		th=th-1
-		ttc=tc:GetNext()
+		ttc=tg:GetNext()
 	end
 end
