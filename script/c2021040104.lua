@@ -27,14 +27,11 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local mg=g:Filter(Card.IsType,nil,TYPE_MONSTER)
 	local sg=g:Filter(Card.IsType,nil,TYPE_SPELL)
 	local tg=g:Filter(Card.IsType,nil,TYPE_TRAP)
-	-- Get % of those cards
-	local mper=#mg/#g
-	local sper=#sg/#g
-	local tper=#tg/#g
+	local ag=mg+sg+tg
 	--Hand Ratio
-	local mh=4*mper
-	local sh=4*sper
-	local th=4*tper
+	local mh=4*(#mg/#ag)
+	local sh=4*(#sg/#ag)
+	local th=4*(#tg/#ag)
 	--Place them on top of your Deck
 	local tmc=mg:GetFirst()
 	while tmc and mh>0 do
