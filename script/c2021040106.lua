@@ -5,7 +5,7 @@ function s.initial_effect(c)
 	aux.AddPreDrawSkillProcedure(c,1,false,s.flipcon,s.flipop)
 end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetFieldGroup(tp,LOCATION_DECK,0)
+	local g=Duel.GetFieldGroup(tp,LOCATION_HAND+LOCATION_DECK,0)
 	--condition
 	return Duel.GetCurrentChain()==0 and Duel.GetTurnCount()==1
 		and g:Filter(Card.IsType,nil,TYPE_SPELL):GetClassCount(Card.GetCode)>6
