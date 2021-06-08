@@ -46,6 +46,5 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 		th=th-1
 		ttg=tg:GetNext()
 	end
-	local all=Duel.GetDecktopGroup(tp,4)
-	Duel.ShuffleSetCard(all)
+	Duel.ShuffleSetCard(Duel.GetDecktopGroup(tp,4))
 end
