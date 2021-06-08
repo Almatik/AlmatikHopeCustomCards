@@ -27,24 +27,21 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local mh=math.floor((4*(#mg/#ag))+0.5)
 	local sh=math.floor((4*(#sg/#ag))+0.5)
 	local th=math.floor((4*(#tg/#ag))+0.5)
-	--Place them on top of your Deck
-	local tmg=mg:GetFirst()
-	while tmg and mh>0 do
-		Duel.MoveSequence(tmg,0)
-		mh=mh-1
-		tmg=mg:GetNext()
+   --Place them randomly on top of your Deck
+	local tg=ag:GetFirst()
+	while tg and (mh>0 or sh>0 or th>0) do
+		if tg:IsType(TYPE_MONSTER) and mh>0 then
+			Duel.MoveSequence(tg,0)
+			mh=mh-1
+		end
+		if tg:IsType(TYPE_SPELL) and sh>0 then
+			Duel.MoveSequence(tg,0)
+			sh=sh-1
+		end
+		if tg:IsType(TYPE_TRAP) and th>0 then
+			Duel.MoveSequence(tg,0)
+			th=th-1
+		end
+		tg=ag:GetNext()
 	end
-	local tsg=sg:GetFirst()
-	while tsg and sh>0 do
-		Duel.MoveSequence(tsg,0)
-		sh=sh-1
-		tsg=sg:GetNext()
-	end
-	local ttg=tg:GetFirst()
-	while ttg and th>0 do
-		Duel.MoveSequence(ttg,0)
-		th=th-1
-		ttg=tg:GetNext()
-	end
-	Duel.ShuffleSetCard(Duel.GetDecktopGroup(tp,4))
 end
