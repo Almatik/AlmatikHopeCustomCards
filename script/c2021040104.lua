@@ -21,10 +21,37 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	--Balance
+	--Get Cards
 	local c=e:GetHandler()
-	local g=Duel.GetFieldGroup(tp,0,LOCATION_DECK)
-	local mg=g:FilterCount(Card.IsType,nil,TYPE_MONSTER)
-	local sg=g:FilterCount(Card.IsType,nil,TYPE_SPELL)
-	local tg=g:FilterCount(Card.IsType,nil,TYPE_TRAP)
-	Duel.Damage(tp,500,REASON_EFFECT)
+	local g=Duel.GetFieldGroup(tp,LOCATION_DECK,0)
+	local mg=g:Filter(Card.IsType,nil,TYPE_MONSTER)
+	local sg=g:Filter(Card.IsType,nil,TYPE_SPELL)
+	local tg=g:Filter(Card.IsType,nil,TYPE_TRAP)
+	-- Get % of those cards
+	local mper=#mg/#g
+	local sper=#sg/#g
+	local tper=#tg/#g
+	--Hand Ratio
+	local mh=4*mper
+	local sh=4*sper
+	local th=4*tper
+	--Place them on top of your Deck
+	local tmc=mg:GetFirst()
+	while tmc and mh>0 do
+		Duel.MoveSequence(tmc,0)
+		mh=mh-1
+		tmc=mc:GetNext()
+	end
+	local tsc=sg:GetFirst()
+	while tsc and sh>0 do
+		Duel.MoveSequence(tsc,0)
+		sh=sh-1
+		tsc=sc:GetNext()
+	end
+	local ttc=tg:GetFirst()
+	while ttc and th>0 do
+		Duel.MoveSequence(ttc,0)
+		th=th-1
+		ttc=tc:GetNext()
+	end
 end
