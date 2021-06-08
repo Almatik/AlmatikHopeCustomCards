@@ -26,6 +26,8 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ShuffleDeck(tp)
 		Duel.BreakEffect()
 		Duel.Draw(tp,1,REASON_EFFECT)
+		Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
+		s[2+tp]=0
 	end
 end
 
