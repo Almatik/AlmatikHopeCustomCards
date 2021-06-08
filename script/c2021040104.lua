@@ -24,9 +24,9 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=g:Filter(Card.IsType,nil,TYPE_TRAP)
 	local ag=mg+sg+tg
 	--Hand Ratio
-	local mh=math.floor(4*(#mg/#ag))
-	local sh=math.floor(4*(#sg/#ag))
-	local th=math.floor(4*(#tg/#ag))
+	local mh=math.round(4*(#mg/#ag))
+	local sh=math.round(4*(#sg/#ag))
+	local th=math.round(4*(#tg/#ag))
 	--Place them on top of your Deck
 	local tmg=mg:GetFirst()
 	while tmg and mh>0 do
