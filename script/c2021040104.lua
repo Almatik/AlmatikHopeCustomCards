@@ -28,27 +28,24 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local sh=math.floor((4*(#sg/#ag))+0.5)
 	local th=math.floor((4*(#tg/#ag))+0.5)
 	--Place them on top of your Deck
-	local group
 	local tmg=mg:GetFirst()
 	while tmg and mh>0 do
 		Duel.MoveSequence(tmg,0)
-		group:Merge(tmg)
 		mh=mh-1
 		tmg=mg:GetNext()
 	end
 	local tsg=sg:GetFirst()
 	while tsg and sh>0 do
 		Duel.MoveSequence(tsg,0)
-		group:Merge(tsg)
 		sh=sh-1
 		tsg=sg:GetNext()
 	end
 	local ttg=tg:GetFirst()
 	while ttg and th>0 do
 		Duel.MoveSequence(ttg,0)
-		group:Merge(ttg)
 		th=th-1
 		ttg=tg:GetNext()
 	end
-	Duel.ShuffleSetCard(group)
+	local all=Duel.GetDecktopGroup(tp,4)
+	Duel.ShuffleSetCard(all)
 end
