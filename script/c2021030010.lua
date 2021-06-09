@@ -57,6 +57,7 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,3))
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetRange(LOCATION_DECK)
 	e2:SetCountLimit(1,id)
@@ -174,9 +175,6 @@ end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup()
-end
-function s.rmfilter(c)
-	return c:IsAbleToRemove() and aux.SpElimFilter(c)
 end
 function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,nil) end
