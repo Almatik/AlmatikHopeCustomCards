@@ -57,6 +57,7 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,3))
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_TO_HAND)
 	e2:SetRange(LOCATION_DECK)
 	e2:SetCountLimit(1,id)
@@ -158,31 +159,22 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.playfilter(c,tp)
-	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousControler(tp)
+	return c:IsControler(tp) and c:IsPreviousLocation(LOCATION_DECK)
 end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
-	if not re then return false end 
 	local c=e:GetHandler()
-	local rc=re:GetHandler()
-	return rp==tp and eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup()
-end
-function s.rmfilter(c)
-	return c:IsAbleToDeck()
+	return eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup() and Duel.GetCurrentPhase()~=PHASE_DRAW
 end
 function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chkc then return chkc:IsLocation(LOCATION_HAND) and chkc:IsControler(tp) and s.rmfilter(chkc) end
-	if chk==0 then return  Duel.IsExistingTarget(s.rmfilter,tp,LOCATION_HAND,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local n=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_HAND,0,nil):GetCount()
-	if n>#eg then n=#eg end
-	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_HAND,0,n,n,nil)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,n,tp,LOCATION_GRAVE)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_HAND,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_HAND)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tc=Duel.GetTargetCards(e)
-	if #tc~=0 then
-		Duel.SendtoDeck(tc,tp,2,REASON_EFFECT)
-		Duel.Draw(tp,#tc,REASON_EFFECT)
+	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,LOCATION_HAND,0,nil)
+	if #g>0 then
+		if #eg>#g then local n=#g else local n=#eg end
+		local sg=g:Select(tp,n,n)
+		Duel.SendtoDeck(sg,tp,2,REASON_EFFECT)
+		Duel.Draw(tp,n,REASON_EFFECT)
 	end
 end
