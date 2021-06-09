@@ -173,7 +173,7 @@ function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,LOCATION_HAND,0,nil)
 	local ng=g:GetCount()
 	if #g>0 then
-		if #ng>#eg then ng=#eg end
+		if #ng>#eg then local ng=#eg end
 		local sg=g:Select(tp,ng,ng,nil)
 		Duel.SendtoDeck(sg,tp,2,REASON_EFFECT)
 		Duel.Draw(tp,gn,REASON_EFFECT)
