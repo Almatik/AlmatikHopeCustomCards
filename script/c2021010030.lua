@@ -15,6 +15,20 @@ function s.initial_effect(c)
 	e1:SetOperation(s.eqop)
 	c:RegisterEffect(e1)
 	aux.AddZWEquipLimit(c,nil,function(tc,c,tp) return s.filter(tc) and tc:IsControler(tp) end,s.equipop,e1)
+	--Immune Effect
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_EQUIP)
+	e2:SetCode(EFFECT_IMMUNE_EFFECT)
+	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e2:SetValue(s.unval)
+	c:RegisterEffect(e2)
+	--cannot be destroyed
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_EQUIP)
+	e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+	e3:SetValue(s.valcon)
+	e3:SetCountLimit(1)
+	c:RegisterEffect(e3)
 
 end
 
@@ -52,4 +66,10 @@ function s.equipop(c,e,tp,tc)
 	e1:SetValue(3000)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
+end
+function s.unval(e,te)
+	return te:GetOwnerPlayer()~=e:GetHandlerPlayer()
+end
+function s.valcon(e,re,r,rp)
+	return (r&REASON_BATTLE)~=0
 end
