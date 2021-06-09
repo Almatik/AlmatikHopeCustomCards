@@ -34,7 +34,7 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	local og=c:GetOverlayGroup()
-	if not og:GetCount()>0 then return end
+	if not #og>0 then return end
 	local tc=Duel.GetFirstTarget()
 	if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:GetControler()~=tp then
 		Duel.SendtoGrave(c,REASON_EFFECT)
