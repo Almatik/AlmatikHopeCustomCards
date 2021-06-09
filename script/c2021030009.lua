@@ -202,7 +202,7 @@ function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	if not re then return false end 
 	local c=e:GetHandler()
 	local rc=re:GetHandler()
-	return rp==tp and (r&REASON_EFFECT)~=0 and eg:IsExists(s.playfilter,1,nil,1-tp) and c:IsFaceup()
+	return rp==tp and (r&REASON_EFFECT)~=0 and eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup()
 end
 function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
