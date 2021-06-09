@@ -57,15 +57,11 @@ function s.initial_effect(c)
 	e3:SetCategory(CATEGORY_DAMAGE)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e3:SetRange(LOCATION_DECK)
-	e3:SetCode(EVENT_BATTLE_DAMAGE)
+	e3:SetCode(EVENT_DAMAGE)
 	e3:SetCountLimit(1,id)
 	e3:SetCondition(s.playcon)
 	e3:SetOperation(s.playop)
 	c:RegisterEffect(e3)
-	local e4=e3:Clone()
-	e4:SetCode(EVENT_DAMAGE)
-	e4:SetCondition(s.playcon2)
-	c:RegisterEffect(e4)
 
 end
 function s.filter(c)
@@ -175,11 +171,6 @@ function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsFaceup()
 		and ep==tp and Duel.GetLP(tp)>0
-end
-function s.playcon2(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return c:IsFaceup()
-		and ep==tp and r&REASON_BATTLE==0 and re and re:IsActiveType(TYPE_MONSTER)  and Duel.GetLP(tp)>0
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,id)
