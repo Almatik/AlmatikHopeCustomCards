@@ -60,6 +60,7 @@ function s.initial_effect(c)
 	e2:SetCategory(CATEGORY_DECKDES)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetRange(LOCATION_DECK)
+	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.playcon)
 	e2:SetTarget(s.playtg)
 	e2:SetOperation(s.playop)
@@ -87,7 +88,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.gravecon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsReason(REASON_EFFECT)
+	local c=e:GetHandler()
+	return c:IsReason(REASON_EFFECT) and c:IsPreviousControler(tp)
 end
 function s.gravetg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0 end
@@ -133,35 +135,6 @@ end
 
 
 	--"Deck Effect"
-
-function s.regop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if rp==tp and re:IsActiveType(TYPE_MONSTER) and c:IsFaceup() then
-		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
-	end
-end
-function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return c:IsFaceup() and ep==tp and c:GetFlagEffect(id)~=0
-end
-function s.damop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	Duel.Hint(HINT_CARD,0,id)
-	Duel.DiscardDeck(tp,1,REASON_EFFECT)
-	local og=Duel.GetOperatedGroup():Filter(Card.IsLocation,nil,LOCATION_GRAVE)
-	for oc in aux.Next(og) do
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_CANNOT_TRIGGER)
-		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-		e1:SetRange(LOCATION_GRAVE)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD_EXC_GRAVE+RESET_PHASE+PHASE_END)
-		oc:RegisterEffect(e1)
-		local e2=e1:Clone()
-		e2:SetCode(EFFECT_CANNOT_ACTIVATE)
-		oc:RegisterEffect(e2)
-	end
-end
 function s.drcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsPreviousLocation(LOCATION_DECK) and c:IsPreviousPosition(POS_FACEUP)

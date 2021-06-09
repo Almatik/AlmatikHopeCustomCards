@@ -42,23 +42,24 @@ function s.initial_effect(c)
 	c:RegisterEffect(me4)
 
 	--"Deck Effect"
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,2))
-	e2:SetCategory(CATEGORY_TODECK)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-	e2:SetCode(EVENT_DRAW)
-	e2:SetRange(LOCATION_HAND)
-	e2:SetCountLimit(1,id)
-	e2:SetCondition(s.drcon)
-	e2:SetTarget(s.drcon)
-	e2:SetOperation(s.drop)
-	c:RegisterEffect(e2)
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,2))
+	e1:SetCategory(CATEGORY_TODECK)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e1:SetCode(EVENT_DRAW)
+	e1:SetRange(LOCATION_HAND)
+	e1:SetCountLimit(1,id)
+	e1:SetCondition(s.drcon)
+	e1:SetTarget(s.drcon)
+	e1:SetOperation(s.drop)
+	c:RegisterEffect(e1)
 	--Play a game
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,3))
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetRange(LOCATION_DECK)
+	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.playcon)
 	e2:SetTarget(s.playtg)
 	e2:SetOperation(s.playop)
@@ -97,7 +98,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
 end
 function s.gravecon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsReason(REASON_EFFECT)
+	local c=e:GetHandler()
+	return c:IsReason(REASON_EFFECT) and c:IsPreviousControler(tp)
 end
 function s.gravetg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0 end
@@ -180,15 +182,17 @@ function s.rmfilter(c)
 end
 function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.rmfilter(chkc) end
-	if chk==0 then return  Duel.IsExistingTarget(s.rmfilter,tp,LOCATION_GRAVE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(s.rmfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,tp,LOCATION_GRAVE)
+	local n=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_GRAVE,0,nil):GetCount()
+	if n>#eg then n=#eg end
+	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,n,n,nil)
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#eg,tp,LOCATION_GRAVE)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) then
+	local tc=Duel.GetTargetCards(e)
+	if #tc~=0 then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
 end
