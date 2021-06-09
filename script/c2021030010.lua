@@ -169,7 +169,7 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.playfilter(c,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp) and c:IsPreviousControler(tp)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp)
 end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -179,20 +179,16 @@ function s.rmfilter(c)
 	return c:IsAbleToRemove() and aux.SpElimFilter(c)
 end
 function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.rmfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(s.rmfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local mg=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_GRAVE,0,nil):GetCount()
-	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
-	if ng>#mg then local ng=#mg end
-	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,ng,ng,nil)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#eg,tp,LOCATION_GRAVE)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_GRAVE)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tc=Duel.GetTargetCards(e)
-	if #tc~=0 then
-		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
+	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,nil)
+	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
+	if #g>0 then
+		if ng>#g then local ng=#g end
+		local sg=g:Select(tp,ng,ng,nil)
+		Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
 	end
 end
 
