@@ -54,16 +54,17 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--Play a game
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,4))
-	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetCategory(CATEGORY_DAMAGE)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetRange(LOCATION_DECK)
-	e3:SetCountLimit(1)
+	e3:SetCode(EVENT_BATTLE_DAMAGE)
 	e3:SetCondition(s.playcon)
-	e3:SetCost(s.playcost)
-	e3:SetTarget(s.playtg)
 	e3:SetOperation(s.playop)
 	c:RegisterEffect(e3)
+	local e4=e3:Clone()
+	e4:SetCode(EVENT_DAMAGE)
+	e4:SetCondition(s.playcon2)
+	c:RegisterEffect(e4)
 
 end
 function s.filter(c)
@@ -172,52 +173,14 @@ end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsFaceup()
+		and ep==tp and Duel.GetLP(tp)>0
 end
-function s.playcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,500) end
-	Duel.PayLPCost(tp,500)
-end
-function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToHand,tp,LOCATION_DECK,0,1,nil) end
-	local g=Duel.GetMatchingGroup(Card.IsAbleToHand,tp,LOCATION_DECK,0,nil)
-	local ids={}
-	for tc in aux.Next(g) do
-		ids[tc:GetCode()]=true
-	end
-	s.announce_filter={}
-	for code,i in pairs(ids) do
-		if #s.announce_filter==0 then
-			table.insert(s.announce_filter,code)
-			table.insert(s.announce_filter,OPCODE_ISCODE)
-		else
-			table.insert(s.announce_filter,code)
-			table.insert(s.announce_filter,OPCODE_ISCODE)
-			table.insert(s.announce_filter,OPCODE_OR)
-		end
-	end
-	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
-	Duel.SetTargetParam(ac)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
-	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD_FILTER)
+function s.playcon2(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsFaceup()
+		and ep==tp and r&REASON_BATTLE==0 and re and re:IsActiveType(TYPE_MONSTER)  and Duel.GetLP(tp)>0
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) or not Duel.IsPlayerCanDiscardDeck(tp,1) then return end
-	Duel.ConfirmDecktop(tp,1)
-	local g=Duel.GetDecktopGroup(tp,1)
-	local tc=g:GetFirst()
-	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
-	if tc:IsCode(ac) then
-		if Duel.SelectYesNo(tp,aux.Strigid(id,1)) and tc:IsAbleToHand() then
-			Duel.DisableShuffleCheck()
-			Duel.SendtoHand(tc,nil,REASON_EFFECT)
-			Duel.ShuffleHand(tp)
-		else
-			Duel.DisableShuffleCheck()
-			Duel.SendtoGrave(c,REASON_EFFECT+REASON_REVEAL)
-			Duel.SendtoDeck(tc,tp,1,RESON_EFFECT)
-		end
-	else
-		Duel.MoveSequence(tc,1)
-	end
+	Duel.Hint(HINT_CARD,0,id)
+	Duel.Damage(tp,ev,REASON_EFFECT)
 end
