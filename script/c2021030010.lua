@@ -169,7 +169,7 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.playfilter(c,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp) and c:IsPreviousControler(tp)
 end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
