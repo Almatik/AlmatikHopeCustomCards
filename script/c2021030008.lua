@@ -15,13 +15,14 @@ function s.initial_effect(c)
 	c:RegisterEffect(me1)
 	--To the opponent's Deck
 	local me2=Effect.CreateEffect(c)
-	me2:SetDescription(aux.Stringid(id,2))
+	me2:SetDescription(aux.Stringid(id,1))
 	me2:SetCategory(CATEGORY_TODECK)
 	me2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	me2:SetCode(EVENT_TO_GRAVE)
 	me2:SetProperty(EFFECT_FLAG_DELAY)
 	me2:SetCountLimit(1)
 	me2:SetCondition(s.gravecon)
+	me2:SetTarget(s.gravetg)
 	me2:SetOperation(s.graveop)
 	c:RegisterEffect(me2)
 	--Change XYZ Level
@@ -42,7 +43,7 @@ function s.initial_effect(c)
 
 	--"Deck Effect"
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,3))
+	e2:SetDescription(aux.Stringid(id,2))
 	e2:SetCategory(CATEGORY_TODECK)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e2:SetCode(EVENT_DRAW)
@@ -54,6 +55,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--Play a game
 	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,3))
 	e3:SetCategory(CATEGORY_DAMAGE)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e3:SetRange(LOCATION_DECK)
@@ -77,16 +79,29 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(tc,REASON_EFFECT+REASON_COST)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0
-		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil,e,tp) end
+end
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local tc=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+	if #tc>0 then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
+end
+function s.gravecon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsReason(REASON_EFFECT)
+end
+function s.gravetg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_DECK)>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CODE)
 	s.announce_filter={TYPE_EXTRA,OPCODE_ISTYPE,OPCODE_NOT}
 	local ac=Duel.AnnounceCard(tp,table.unpack(s.announce_filter))
 	Duel.SetTargetParam(ac)
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD_FILTER)
 end
-function s.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.graveop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	if not c:IsLocation(LOCATION_GRAVE) then return end
 	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local dg=Duel.GetFieldGroup(tp,0,LOCATION_DECK)
 	if #dg<1 then return end
@@ -96,25 +111,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tac=sg:GetFirst()
 	if tac then
 		Duel.ConfirmCards(tp,sg)
-		local tc=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-		if #tc>0 then
-			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+		Duel.SendtoGrave(tac,REASON_EFFECT)
+		Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
+		if c:IsLocation(LOCATION_DECK) then
+			Duel.ShuffleDeck(1-tp)
+			c:ReverseInDeck()
 		end
-		if Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-			Duel.SendtoGrave(tac,REASON_EFFECT)
-		end
-	end
-end
-function s.gravecon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsReason(REASON_EFFECT)
-end
-function s.graveop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsLocation(LOCATION_GRAVE) then return end
-	Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
-	if c:IsLocation(LOCATION_DECK) then
-		Duel.ShuffleDeck(1-tp)
-		c:ReverseInDeck()
 	end
 end
 function s.xyzlv(e,c,rc)
