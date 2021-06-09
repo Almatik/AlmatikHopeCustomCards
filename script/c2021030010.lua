@@ -169,13 +169,11 @@ function s.drop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.playfilter(c,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp)
 end
 function s.playcon(e,tp,eg,ep,ev,re,r,rp)
-	if not re then return false end 
 	local c=e:GetHandler()
-	local rc=re:GetHandler()
-	return rp==tp and eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup()
+	return eg:IsExists(s.playfilter,1,nil,tp) and c:IsFaceup()
 end
 function s.rmfilter(c)
 	return c:IsAbleToRemove() and aux.SpElimFilter(c)
