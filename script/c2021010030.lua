@@ -48,7 +48,7 @@ function s.equipop(c,e,tp,tc)
 	--atkup
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_EQUIP)
-	e1:SetCode(EFFECT_UPDATE_DEFENCE)
+	e1:SetCode(EFFECT_UPDATE_DEFENSE)
 	e1:SetValue(3000)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	c:RegisterEffect(e1)
