@@ -171,9 +171,9 @@ function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,LOCATION_HAND,0,nil)
-	local ng=#eg
+	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
 	if #g>0 then
-		if #eg>#g then local ng=#g end
+		if ng>#g then local ng=#g end
 		local sg=g:Select(tp,ng,ng,nil)
 		Duel.SendtoDeck(sg,tp,2,REASON_EFFECT)
 		Duel.Draw(tp,ng,REASON_EFFECT)

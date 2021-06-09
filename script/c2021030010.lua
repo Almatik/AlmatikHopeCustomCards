@@ -182,9 +182,10 @@ function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.rmfilter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(s.rmfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local n=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_GRAVE,0,nil):GetCount()
-	if n>#eg then n=#eg end
-	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,n,n,nil)
+	local mg=Duel.GetMatchingGroup(s.rmfilter,tp,LOCATION_GRAVE,0,nil):GetCount()
+	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
+	if ng>#mg then local ng=#mg end
+	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,ng,ng,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,#eg,tp,LOCATION_GRAVE)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
