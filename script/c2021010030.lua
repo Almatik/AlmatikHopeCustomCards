@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.eqtg)
 	e1:SetOperation(s.eqop)
 	c:RegisterEffect(e1)
-	aux.AddZWEquipLimit(c,nil,function(tc,c,tp) return s.filter(tc) and tc:IsControler(tp) end,s.equipop,e3)
+	aux.AddZWEquipLimit(c,nil,function(tc,c,tp) return s.filter(tc) and tc:IsControler(tp) end,s.equipop,e1)
 
 end
 
@@ -33,13 +33,12 @@ end
 function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-	local og=c:GetOverlayGroup()
-	if not #og>0 then return end
 	local tc=Duel.GetFirstTarget()
 	if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:GetControler()~=tp then
 		Duel.SendtoGrave(c,REASON_EFFECT)
 		return
 	end
+	local og=c:GetOverlayGroup()
 	if Duel.Overlay(tc,og)~=0 then
 		s.equipop(c,e,tp,tc)
 	end
