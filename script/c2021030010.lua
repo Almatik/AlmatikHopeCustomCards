@@ -182,10 +182,8 @@ function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,nil)
-	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
 	if #g>0 then
-		if ng>#g then local ng=#g end
-		local sg=g:Select(tp,ng,ng,nil)
+		local sg=g:Select(tp,1,1,nil)
 		Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
 	end
 end
