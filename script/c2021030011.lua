@@ -101,15 +101,15 @@ function s.gravetg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetTargetParam(ac)
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD_FILTER)
 end
+function s.gravefilter(c,code)
+	return c:IsCode(code) and c:IsAbleToRemoveAsCost()
+end
 function s.graveop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsLocation(LOCATION_GRAVE) then return end
 	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
-	local dg=Duel.GetFieldGroup(tp,0,LOCATION_DECK)
-	if #dg<1 then return end
-	Duel.ConfirmCards(1-tp,dg)
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_CONFIRM)
-	local tac=Duel.GetFirstMatchingCard(Card.IsCode,tp,0,LOCATION_DECK,nil,ac)
+	local tac=Duel.GetFirstMatchingCard(s.gravefilter,tp,0,LOCATION_DECK,nil,ac)
 	if tac then
 		Duel.ConfirmCards(tp,sg)
 		Duel.SendtoGrave(tac,REASON_EFFECT)
