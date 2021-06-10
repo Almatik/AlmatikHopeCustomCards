@@ -111,7 +111,7 @@ function s.graveop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_CONFIRM)
 	local tac=Duel.GetFirstMatchingCard(s.gravefilter,tp,0,LOCATION_DECK,nil,ac)
 	if tac then
-		Duel.ConfirmCards(tp,sg)
+		Duel.ConfirmCards(tp,tac)
 		Duel.SendtoGrave(tac,REASON_EFFECT)
 		Duel.SendtoDeck(c,1-tp,2,REASON_EFFECT)
 		if c:IsLocation(LOCATION_DECK) then
