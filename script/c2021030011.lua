@@ -102,7 +102,7 @@ function s.gravetg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,ANNOUNCE_CARD_FILTER)
 end
 function s.gravefilter(c,code)
-	return c:IsCode(code) and c:IsAbleToRemoveAsCost()
+	return c:IsCode(code) and c:IsAbleToGrave()
 end
 function s.graveop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
