@@ -109,7 +109,7 @@ function s.graveop(e,tp,eg,ep,ev,re,r,rp)
 	if #dg<1 then return end
 	Duel.ConfirmCards(1-tp,dg)
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_CONFIRM)
-	local tac=Duel.GetFirstMatchingCard(Card.IsCode,tp,0,LOCATION_DECK,ac)
+	local tac=Duel.GetFirstMatchingCard(Card.IsCode,tp,0,LOCATION_DECK,nil,ac)
 	if tac then
 		Duel.ConfirmCards(tp,sg)
 		Duel.SendtoGrave(tac,REASON_EFFECT)
