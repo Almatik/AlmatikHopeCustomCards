@@ -171,7 +171,7 @@ function s.playtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsAbleToDeck,tp,LOCATION_HAND,0,nil)
-	local ng=eg:IsExists(s.playfilter,1,nil,tp):GetCount()
+	local ng=eg:FilterCount(s.playfilter,nil,tp)
 	if #g>0 then
 		if ng>#g then local ng=#g end
 		local sg=g:Select(tp,ng,ng,nil)
