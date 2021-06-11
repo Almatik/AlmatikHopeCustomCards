@@ -31,8 +31,8 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 
 end
-function s.matfilter(c,scard,sumtype,tp)
-	return c:IsCode(68140974,scard,sumtype,tp)
+function s.matfilter(c)
+	return c:IsCode(68140974)
 end
 function s.eqval(ec,c,tp)
 	return ec:IsControler(1-tp) and ec:IsSummonLocation(LOCATION_EXTRA)
