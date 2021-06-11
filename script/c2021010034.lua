@@ -39,7 +39,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function s.matfilter(c,scard,sumtype,tp)
-	return c:IsType(TYPE_NORMAL,scard,sumtype,tp) and c:IsCode(4545683,scard,sumtype,tp)
+	return c:IsCode(4545683,scard,sumtype,tp)
 end
 function s.eqval(ec,c,tp)
 	return ec:IsControler(1-tp) and ec:IsSummonLocation(LOCATION_EXTRA)

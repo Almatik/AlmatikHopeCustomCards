@@ -32,7 +32,7 @@ function s.initial_effect(c)
 
 end
 function s.matfilter(c,scard,sumtype,tp)
-	return c:IsType(TYPE_NORMAL,scard,sumtype,tp) and c:IsCode(68140974,scard,sumtype,tp)
+	return c:IsCode(68140974,scard,sumtype,tp)
 end
 function s.eqval(ec,c,tp)
 	return ec:IsControler(1-tp) and ec:IsSummonLocation(LOCATION_EXTRA)
