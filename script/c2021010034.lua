@@ -38,8 +38,8 @@ function s.initial_effect(c)
 	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
 end
-function s.matfilter(c,scard,sumtype,tp)
-	return c:IsCode(4545683,scard,sumtype,tp)
+function s.matfilter(c)
+	return c:IsCode(4545683)
 end
 function s.eqval(ec,c,tp)
 	return ec:IsControler(1-tp) and ec:IsSummonLocation(LOCATION_EXTRA)
