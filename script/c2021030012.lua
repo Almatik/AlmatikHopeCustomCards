@@ -92,7 +92,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
-	if not e:GetHandler():IsAbleToGraveAs() then return end
+	if not e:GetHandler():IsAbleToGrave() then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2 then return end
 	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_DECK,0,nil,e,tp)
 	if #g>=2 and g:GetClassCount(Card.GetCode)>=2 then
