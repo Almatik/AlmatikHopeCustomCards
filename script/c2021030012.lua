@@ -85,9 +85,8 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 		if e:GetHandler():GetSequence()<5 then ft=ft+1 end
 		local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_DECK,0,nil,e,tp)
-		return ft>1 and not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
-			and g:GetClassCount(Card.GetCode)>=2
-			and e:GetHandler()IsAbleToGrave() end
+		return ft>1 and g:GetClassCount(Card.GetCode)>=2
+			and e:GetHandler():IsAbleToGrave()
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_DECK)
 end
