@@ -95,7 +95,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local sg=Duel.GetTargetCards(e)
 	if #sg==0 or ft<#sg or (#sg>1 and Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)) then return end
-	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+	Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 end
 function s.gravecon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
