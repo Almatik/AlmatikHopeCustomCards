@@ -80,6 +80,9 @@ function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,e:GetHandler()):GetFirst()
 	Duel.SendtoGrave(tc,REASON_EFFECT+REASON_COST)
 end
+function s.check(sg,e,tp,mg)
+	return sg:GetClassCount(Card.GetCode)==#sg
+end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
