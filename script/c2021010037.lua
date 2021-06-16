@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
-	Xyz.AddProcedure(c,nil,6,2,s.ovfilter,aux.Stringid(id,1),2,s.xyzop)
+	Xyz.AddProcedure(c,nil,5,2,s.ovfilter,aux.Stringid(id,1),2)
 	c:EnableReviveLimit()
 	--negate
 	local e1=Effect.CreateEffect(c)
@@ -12,39 +12,30 @@ function s.initial_effect(c)
 	e1:SetCondition(s.negcon)
 	e1:SetOperation(s.negop)
 	c:RegisterEffect(e1)
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetCode(EFFECT_MATERIAL_CHECK)
-	e2:SetValue(s.valcheck)
-	e2:SetLabelObject(e1)
-	c:RegisterEffect(e2)
 	--remove
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetCategory(CATEGORY_REMOVE)
-	e3:SetType(EFFECT_TYPE_QUICK_O)
-	e3:SetCode(EVENT_FREE_CHAIN)
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
-	e3:SetCost(s.rmcost)
-	e3:SetTarget(s.rmtg)
-	e3:SetOperation(s.rmop)
-	c:RegisterEffect(e3)
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_REMOVE)
+	e2:SetType(EFFECT_TYPE_QUICK_O)
+	e2:SetCode(EVENT_FREE_CHAIN)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1)
+	e2:SetCost(s.rmcost)
+	e2:SetTarget(s.rmtg)
+	e2:SetOperation(s.rmop)
+	c:RegisterEffect(e2)
 end
 function s.ovfilter(c,tp,xyzc)
 	return c:IsFaceup() and c:IsSetCard(0xa,xyzc,SUMMON_TYPE_XYZ,tp) and not c:IsSummonCode(xyzc,SUMMON_TYPE_XYZ,tp,id) and c:IsType(TYPE_XYZ,xyzc,SUMMON_TYPE_XYZ,tp)
 end
-function s.valcheck(e,c)
-	local g=c:GetMaterial()
-	if g:IsExists(Card.SetCard,1,nil,0xa) then
-		e:GetLabelObject():SetLabel(1)
-	else
-		e:GetLabelObject():SetLabel(0)
-	end
+function s.negfilter(c)
+	return c:IsSetCard(0xa)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ) and e:GetLabel()==1 and e:GetHandler():GetAttack()~=3350
+	local c=e:GetHandler()
+	local g=c:GetMaterial()
+	return c:IsSummonType(SUMMON_TYPE_XYZ) and g:IsExists(s.negfilter,1,nil) and c:GetAttack()~=3350
 end
 function s.negop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
