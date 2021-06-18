@@ -19,7 +19,6 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
 		local code=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
 		local n=Duel.CreateToken(p,code)
-		Duel.SendtoDeck(n,p,2,REASON_RULE)
 		Duel.Hint(HINT_SKILL_FLIP,p,n:GetCode()|(1<<32))
 	end
 end
