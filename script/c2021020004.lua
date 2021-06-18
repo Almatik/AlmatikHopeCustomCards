@@ -15,7 +15,7 @@ function s.op(c)
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
-		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(FLAG_DECK_MASTER,1))
+		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
 		local tc=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
 		local code=tc:GetCode()
 		local n=Duel.CreateToken(p,code)
