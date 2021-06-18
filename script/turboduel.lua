@@ -11,31 +11,39 @@ function Auxiliary.TurboDuelActivate(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCountLimit(1)
 	e1:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
-	e1:SetCondition(Auxiliary.TDcon1)
-	e1:SetOperation(Auxiliary.TDop1)
+	e1:SetCondition(TurboDuel.Condition1)
+	e1:SetOperation(TurboDuel.Operation1)
 	c:RegisterEffect(e1)
 	--add counter
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCountLimit(1)
 	e2:SetCode(EVENT_SUMMON_SUCCESS)
-	e2:SetCondition(Auxiliary.TDcon2)
-	e2:SetOperation(Auxiliary.TDop2)
+	e2:SetCondition(TurboDuel.Condition2)
+	e2:SetOperation(TurboDuel.Operation2)
 	c:RegisterEffect(e1)
 end
-function Auxiliary.TDcon1(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
+function TurboDuel.Condition1()
+	return function(e,tp,eg,ep,ev,re,r,rp)
+		return not Duel.IsPlayerAffectedByEffect(tp,100100090)
+	end
 end
-function Auxiliary.TDop1(e,tp,eg,ep,ev,re,r,rp)
-	local n=Duel.GetTurnCount()-1
-	e:GetHandler():AddCounter(0x91,1+n)
+function TurboDuel.Operation1()
+	return function(e,tp,eg,ep,ev,re,r,rp)
+		local n=Duel.GetTurnCount()-1
+		e:GetHandler():AddCounter(0x91,1+n)
+	end
 end
-function Auxiliary.TDcon2(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
-		and eg:GetFirst():IsControler(tp)
+function TurboDuel.Condition2()
+	return function(e,tp,eg,ep,ev,re,r,rp)
+		return not Duel.IsPlayerAffectedByEffect(tp,100100090)
+			and eg:GetFirst():IsControler(tp)
+	end
 end
-function Auxiliary.TDop2(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x91,1)
+function TurboDuel.Operation2()
+	return function(e,tp,eg,ep,ev,re,r,rp)
+		e:GetHandler():AddCounter(0x91,1)
+	end
 end
 
 
