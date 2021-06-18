@@ -2,9 +2,6 @@
 function Auxiliary.TBCanIgnition(tp)
 	return Duel.GetCurrentChain()==0 and Duel.GetTurnPlayer()==tp and (Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2)
 end
-function Auxiliary.TBCanRemoveSpeedCounter(e,tp,ct)
-	return e:GetHandler():IsCanRemoveCounter(tp,0x91,ct,REASON_COST)
-end
 -- Proc for basic skill
 function Auxiliary.TurboDuelActivate(c)
 	c:EnableCounterPermit(0x91)
