@@ -3,7 +3,7 @@ Duel.LoadScript("turboduel.lua")
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
-	aux.TurboDuelIgnition(c,id,s.flipcon,s.flipop)
+	aux.TurboDuelStartUp(c,id,s.flipcon,s.flipop)
 end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
