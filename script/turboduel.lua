@@ -11,7 +11,7 @@ function Auxiliary.TurboDuelActivate(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCountLimit(1)
 	e1:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
-	e2:SetCondition(ctcon1)
+	e1:SetCondition(ctcon1)
 	e1:SetOperation(ctop1)
 	c:RegisterEffect(e1)
 	--add counter
