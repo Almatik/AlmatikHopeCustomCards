@@ -40,13 +40,12 @@ end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	--condition
-	return aux.TBCanIgnition(tp) and c:IsCanRemoveCounter(tp,0x91,1,REASON_COST)
+	return aux.TBCanIgnition(tp)
 		and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	--Smile World
-	c:RemoveCounter(tp,0x91,1,REASON_COST)
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
 	if #g==0 then return end
 	local tc=g:GetFirst()
