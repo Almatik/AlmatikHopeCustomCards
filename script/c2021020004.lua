@@ -13,7 +13,7 @@ function s.initial_effect(c)
 end
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DisableShuffleCheck()
-	Duel.SendtoDeck(e:GetHandler,tp,-2,REASON_RULE)
+	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
 	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
