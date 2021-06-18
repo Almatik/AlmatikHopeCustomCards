@@ -8,8 +8,7 @@ end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	--condition
-	return aux.TBCanIgnition(tp)
-		and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

@@ -11,10 +11,10 @@ function Auxiliary.TurboDuelStartUp(c,coverid,skillcon,skillop)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_STARTUP)
 	e1:SetRange(0x5f)
-	e1:SetOperation(Auxiliary.TurboDuelIgnition(coverid,skillcon,skillop))
+	e1:SetOperation(Auxiliary.TDIgnition(coverid,skillcon,skillop))
 	c:RegisterEffect(e1)	
 end
-function Auxiliary.TurboDuelIgnition(skillcon,skillop)
+function Auxiliary.TDIgnition(coverid,skillcon,skillop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
 		if skillop~=nil then
@@ -27,6 +27,7 @@ function Auxiliary.TurboDuelIgnition(skillcon,skillop)
 		end
 		Duel.DisableShuffleCheck(true)
 		Duel.SendtoDeck(c,tp,-2,REASON_RULE)
-        Duel.Hint(HINT_SKILL_FLIP,tp,coverid|(1<<32))
+		Duel.Hint(HINT_SKILL_COVER,c:GetControler(),coverid)
+        Duel.Hint(HINT_SKILL_FLIP,tp,c:GetCode()|(1<<32))
 	end
 end
