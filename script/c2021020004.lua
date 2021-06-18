@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.op)
 	c:RegisterEffect(e1)
 end
-function s.op(e,c,tp)
+function s.op(c)
 	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
@@ -20,5 +20,5 @@ function s.op(e,c,tp)
 		Duel.SendtoDeck(n,p,2,REASON_RULE)
 		Duel.Hint(HINT_SKILL_FLIP,p,n:GetCode()|(1<<32))
 	end
-	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
+	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
