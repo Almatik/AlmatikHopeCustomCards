@@ -36,6 +36,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
+s.listed_series={0x3b}
+s.material_setcode=0x3b
 function s.matfilter(c,fc,st,tp)
 	return c:IsAttribute(ATTRIBUTE_DARK,fc,st,tp) or c:IsRace(RACE_MACHINE,fc,st,tp)
 end
