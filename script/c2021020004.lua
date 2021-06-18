@@ -12,7 +12,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.op(c)
-	Duel.SendtoDeck(c,e:GetHandlerPlayer(),-2,REASON_RULE)
+	Duel.SendtoDeck(c,c:GetControler(),-2,REASON_RULE)
 	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
