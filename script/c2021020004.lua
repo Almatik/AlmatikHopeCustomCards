@@ -18,7 +18,6 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
 		local code=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
-		local n=Duel.CreateToken(p,code)
-		Duel.Hint(HINT_SKILL_FLIP,p,n:GetCode()|(1<<32))
+		Duel.Hint(HINT_SKILL_FLIP,p,code|(1<<32))
 	end
 end
