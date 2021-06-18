@@ -2,18 +2,23 @@
 Duel.LoadScript("turboduel.lua")
 local s,id=GetID()
 function s.initial_effect(c)
-	--Activate
-	aux.EnableExtraRules(c,s,s.op)
+	--activate
+	local e1=Effect.CreateEffect(c) 
+	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_STARTUP)
+	e1:SetRange(0x5f)
+	e1:SetOperation(s.op)
+	c:RegisterEffect(e1)
 end
 function s.op(c)
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
-	local Dwheel={2021020005,2021020006,2021020007,2021020008}
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
-	local code1=Duel.SelectCardsFromCodes(tp,1,1,nil,false,table.unpack(Dwheel))
-	Duel.Hint(HINT_SELECTMSG,1-tp,aux.Stringid(id,1))
-	local code2=Duel.SelectCardsFromCodes(1-tp,1,1,nil,false,table.unpack(Dwheel))
-	local card1=Duel.CreateToken(tp,code1)
-	local card2=Duel.CreateToken(tp,code2)
-	Duel.SendtoDeck(card1,tp,2,REASON_RULE)
-	Duel.SendtoDeck(card2,1-tp,2,REASON_RULE)
+	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
+	for p=0,1 do
+		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(FLAG_DECK_MASTER,1))
+		local tc=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
+		local code=tc:GetCode()
+		local n=Duel.CreateToken(p,code)
+		Duel.SendtoDeck(n,p,2,REASON_RULE)
+	end
 end
