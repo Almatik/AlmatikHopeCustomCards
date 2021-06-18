@@ -20,7 +20,7 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.spcon)
-	e2:SetCost(s.cost1)
+	e2:SetCost(s.spcost1)
 	e2:SetTarget(s.sptg)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
@@ -42,7 +42,20 @@ end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
 end
-function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.spcost1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetCustomActivityCount(id,tp,ACTIVITY_SPSUMMON)==0 end
+	--Cannot Special Summon monsters this turn, except Dragon monsters
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(s.sumlimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+	aux.RegisterClientHint(c,nil,tp,1,0,aux.Stringid(id,1),nil)
+end
+function s.spcost2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemoveAsCost,tp,LOCATION_HAND,0,1,nil)
 		and Duel.GetCustomActivityCount(id,tp,ACTIVITY_SPSUMMON)==0 end
 	--Cannot Special Summon monsters this turn, except Dragon monsters
