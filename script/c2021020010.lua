@@ -37,7 +37,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local tc
 	while not te do
 		ac=Duel.GetRandomNumber(1,#s.cyberse)
-		code=s.command[ac]
+		code=s.cyberse[ac]
 		tc=Duel.CreateToken(tp,code)
 		Duel.SpecialSummon(token,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	end
