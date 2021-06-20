@@ -40,5 +40,5 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
-s.command={TYPE_LINK,OPCODE_ISTYPE,TYPE_EXTRA,OPCODE_ISTYPE,OPCODE_AND}
+s.command={10000}
 
