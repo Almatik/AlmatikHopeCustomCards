@@ -31,7 +31,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--place this card to the field
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
-	s.cyberse={TYPE_EXTRA,OPCODE_ISTYPE,TYPE_LINK,OPCODE_ISTYPE,OPCODE_AND,RACE_CYBERSE,OPCODE_ISRACE,OPCODE_AND}
+	s.cyberse={TYPE_MONSTER,OPCODE_ISTYPE}
 	local c=e:GetHandler()
 	Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.cyberse))
 	local ac=Duel.GetRandomNumber(1,#s.cyberse)
