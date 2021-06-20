@@ -23,9 +23,6 @@ function s.checkop(e,tp,eg,ep,ev,re,r,rp)
 		s[tp]=Duel.GetLP(tp)
 	end
 end
-function s.filter(c)
-	return c:IsAbleToDeck()
-end
 function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 	--condition
 	return aux.CanActivateSkill(tp) and s[2+tp]>=0
@@ -35,13 +32,17 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	local c=e:GetHandler()
-	s.cyberse={TYPE_EXTRA,OPCODE_ISTYPE,TYPE_LINK,OPCODE_ISTYPE,OPCODE_AND,RACE_CYBERSE,OPCODE_ISRACE,OPCODE_AND}
-	if Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 then
-		local rn=Duel.GetRandomNumber(1,#s.cyberse)
-		local code=s.cyberse[rn]
-		local token=Duel.CreateToken(tp,code)
+	local ac
+	local code
+	local tc
+	while not te do
+		ac=Duel.GetRandomNumber(1,#s.cyberse)
+		code=s.command[ac]
+		tc=Duel.CreateToken(tp,code)
 		Duel.SpecialSummon(token,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	end
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
+
+s.cyberse={TYPE_EXTRA,OPCODE_ISTYPE,TYPE_LINK,OPCODE_ISTYPE,OPCODE_AND,RACE_CYBERSE,OPCODE_ISRACE,OPCODE_AND}
