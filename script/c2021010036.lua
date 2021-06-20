@@ -9,7 +9,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetValue(s.aktup)
+	e1:SetValue(s.atkup)
 	c:RegisterEffect(e1)
 	--remove
 	local e2=Effect.CreateEffect(c)
