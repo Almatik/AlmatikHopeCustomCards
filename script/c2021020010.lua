@@ -39,7 +39,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 		ac=Duel.GetRandomNumber(1,#s.cyberse)
 		code=s.cyberse[ac]
 		tc=Duel.CreateToken(tp,code)
-		Duel.SpecialSummon(token,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	end
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
