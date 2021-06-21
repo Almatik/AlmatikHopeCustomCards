@@ -32,21 +32,18 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	local c=e:GetHandler()
-	local link={}
-	local n=0
-	for k,v in ipairs(link_1) do n=n+1 ; link[n] = v end
-	for k,v in ipairs(link_2) do n=n+1 ; link[n] = v end
-	for k,v in ipairs(link_3) do n=n+1 ; link[n] = v end
-	for k,v in ipairs(link_4) do n=n+1 ; link[n] = v end
-	for k,v in ipairs(link_5) do n=n+1 ; link[n] = v end
-	local ac=Duel.GetRandomNumber(1,#link)
+	if Duel.GetLP(tp)>4000 then local n=1 end
+	if Duel.GetLP(tp)>2000 and Duel.GetLP(tp)<=4000 then local n=14 end
+	if Duel.GetLP(tp)>1000 and Duel.GetLP(tp)<=2000 then local n=50 end
+	if Duel.GetLP(tp)<=1000 then local n=76 end
+	local ac=Duel.GetRandomNumber(n,#link)
 	local code=link[ac]
 	local tc=Duel.CreateToken(tp,code)
 	Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
-local link_1={43735670,
+local link={43735670, --1 Link 1
 			96380700,
 			2220237,
 			30691817,
@@ -58,8 +55,8 @@ local link_1={43735670,
 			74567889,
 			24842059,
 			41999284,
-			60303245}
-local link_2={4709881,
+			60303245, --13 Link 1
+			4709881, --14 Link 2
 			39752820,
 			60292055,
 			79130389,
@@ -94,8 +91,8 @@ local link_2={4709881,
 			52698008,
 			65741786,
 			65741787,
-			67712104}
-local link_3={57282724,
+			67712104, --49 Link 2
+			57282724, --50 Link 3
 			38502358,
 			35334193,
 			5524387,
@@ -120,8 +117,8 @@ local link_3={57282724,
 			45002991,
 			89238128,
 			13536606,
-			41248270}
-local link_4={5821478,
+			41248270, --75 Link 3
+			5821478, --76 Link 4
 			21887175,
 			22593417,
 			66403530,
@@ -133,6 +130,7 @@ local link_4={5821478,
 			5043012,
 			94207108,
 			86066372,
-			88000953}
-local link_5={11738489,
-			68934651}
+			88000953, --88 Link 4
+			11738489, --89 Link 5
+			68934651 --90 Link 5
+			}
