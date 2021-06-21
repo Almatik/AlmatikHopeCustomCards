@@ -5,29 +5,39 @@ end
 
 
 --Proc Ignition Skill
-function Auxiliary.TurboDuelStartUp(c,coverid,skillcon,skillop)
+function Auxiliary.TurboDuelStartUp(c)
 	local e1=Effect.CreateEffect(c) 
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_STARTUP)
 	e1:SetRange(0x5f)
-	e1:SetOperation(Auxiliary.TDIgnition(coverid,skillcon,skillop))
+	e1:SetOperation(Auxiliary.TDStartUp(c))
 	c:RegisterEffect(e1)	
 end
-function Auxiliary.TDIgnition(coverid,skillcon,skillop)
+function Auxiliary.TDStartUp(c)
 	return function(e,tp,eg,ep,ev,re,r,rp)
-		local c=e:GetHandler()
-		if skillop~=nil then
-			local e1=Effect.CreateEffect(c)
-			e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-			e1:SetCode(EVENT_FREE_CHAIN)
-			e1:SetCondition(skillcon)
-			e1:SetOperation(skillop)
-			Duel.RegisterEffect(e1,e:GetHandlerPlayer())
-		end
-		Duel.DisableShuffleCheck(true)
-		Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 		Duel.Hint(HINT_SKILL_COVER,c:GetControler(),coverid)
         Duel.Hint(HINT_SKILL_FLIP,tp,c:GetCode()|(1<<32))
+       	Duel.Hint(HINT_CARD,tp,c:GetCode())
+		c:EnableCounterPermit(0x91)
+		c:SetCounterLimit(0x91,12)
+		--add counter
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e1:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
+		e1:SetRange(LOCATION_FZONE)
+		e1:SetCountLimit(1)
+		e1:SetCondition(s.ctcon)
+		e1:SetOperation(s.ctop)
+		c:RegisterEffect(e1)
 	end
+end
+function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
+	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
+end
+function s.ctop(e,tp,eg,ep,ev,re,r,rp)
+    Duel.RegisterFlagEffect(ep,id,0,0,0)
+    local nc=Duel.GetFlagEffect(ep,id)
+    if nc>2 then nc=3 end
+	e:GetHandler():AddCounter(0x91,nc)
 end
