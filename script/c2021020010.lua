@@ -36,14 +36,14 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLP(tp)>2000 and Duel.GetLP(tp)<=4000 then local n=14 end
 	if Duel.GetLP(tp)>1000 and Duel.GetLP(tp)<=2000 then local n=50 end
 	if Duel.GetLP(tp)<=1000 then local n=76 end
-	local ac=Duel.GetRandomNumber(n,#link)
-	local code=link[ac]
+	local ac=Duel.GetRandomNumber(n,#s.link)
+	local code=s.link[ac]
 	local tc=Duel.CreateToken(tp,code)
 	Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
-local link={43735670, --1 Link 1
+s.link = {43735670, --1 Link 1
 			96380700,
 			2220237,
 			30691817,
