@@ -30,7 +30,7 @@ function Auxiliary.TDStartUp(c,id)
 		local s1=Effect.CreateEffect(c)
 		s1:SetDescription(aux.Stringid(2021020004,1))
 		s1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		S1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+		s1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		s1:SetCode(EVENT_ADJUST)
 		s1:SetLabel(1)
 		s1:SetCondition(con)
@@ -47,6 +47,6 @@ end
 function ctop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterFlagEffect(ep,2021020004)
 end
-function ccon(e,tp,eg,ep,ev,re,r,rp)
+function con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFlagEffect(tp,2021020004)==e:GetLabel()
 end
