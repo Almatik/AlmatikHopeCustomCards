@@ -32,14 +32,101 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	local c=e:GetHandler()
-	Duel.AnnounceCard(tp,table.unpack(s.command))
-	Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.command))
-	local ac=Duel.GetRandomNumber(1,#s.command)
-	local code=s.command[ac]
+	local ac=Duel.GetRandomNumber(1,#link)
+	local code=link[ac]
 	local tc=Duel.CreateToken(tp,code)
 	Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
-s.command={TYPE_LINK,OPCODE_ISTYPE,RACE_CYBERSE,OPCODE_ISRACE,OPCODE_AND }
-
+local link_1={43735670,
+			96380700,
+			2220237,
+			30691817,
+			98978921,
+			85243784,
+			14812471,
+			32995276,
+			48068378,
+			74567889,
+			24842059,
+			41999284,
+			60303245}
+local link_2={4709881,
+			39752820,
+			60292055,
+			79130389,
+			88093706,
+			34472920,
+			80088625,
+			87871125,
+			63503850,
+			72336818,
+			79016563,
+			23971061,
+			76232522,
+			12450071,
+			22862454,
+			67231737,
+			45462149,
+			53413628,
+			4914353,
+			49847524,
+			51476410,
+			66226132,
+			77637979,
+			97677329,
+			59859086,
+			99111753,
+			5329790,
+			52615248,
+			74163487,
+			77058170,
+			4478086,
+			11674673,
+			52698008,
+			65741786,
+			65741787,
+			67712104}
+local link_3={57282724,
+			38502358,
+			35334193,
+			5524387,
+			72529749,
+			13452889,
+			60279710,
+			1861629,
+			1861630,
+			6622715,
+			15844566,
+			24882256,
+			30822527,
+			33897356,
+			40669071,
+			41463181,
+			41463182,
+			46947713,
+			61245672,
+			97383507,
+			32617464,
+			24487411,
+			45002991,
+			89238128,
+			13536606,
+			41248270}
+local link_4={5821478,
+			21887175,
+			22593417,
+			66403530,
+			31313405,
+			68295149,
+			47910940,
+			5043010,
+			5043011,
+			5043012,
+			94207108,
+			86066372,
+			88000953}
+local link_5={11738489,
+			68934651}
+local link=Group.FromCards(link_1,link_2,link_3,link_4,link_5)
