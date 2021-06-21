@@ -129,7 +129,7 @@ local link_4={5821478,
 			88000953}
 local link_5={11738489,
 			68934651}
-local link=[]
+local link={}
 local n=0
 for k,v in ipairs(link_1) do n=n+1 ; link[n] = v end
 for k,v in ipairs(link_2) do n=n+1 ; link[n] = v end
