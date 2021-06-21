@@ -32,6 +32,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	local c=e:GetHandler()
+	Duel.AnnounceCard(tp,table.unpack(s.command))
 	Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.command))
 	local ac=Duel.GetRandomNumber(1,#s.command)
 	local code=s.command[ac]
@@ -40,5 +41,5 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
-s.command={10000}
+s.command={TYPE_LINK,OPCODE_ISTYPE,RACE_CYBERSE,OPCODE_ISRACE,OPCODE_AND }
 
