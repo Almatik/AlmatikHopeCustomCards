@@ -129,4 +129,10 @@ local link_4={5821478,
 			88000953}
 local link_5={11738489,
 			68934651}
-local link=Group.FromCards(link_1,link_2,link_3,link_4,link_5)
+local link=[]
+local n=0
+for k,v in ipairs(link_1) do n=n+1 ; link[n] = v end
+for k,v in ipairs(link_2) do n=n+1 ; link[n] = v end
+for k,v in ipairs(link_3) do n=n+1 ; link[n] = v end
+for k,v in ipairs(link_4) do n=n+1 ; link[n] = v end
+for k,v in ipairs(link_5) do n=n+1 ; link[n] = v end
