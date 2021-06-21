@@ -16,9 +16,6 @@ function Auxiliary.TurboDuelStartUp(c)
 end
 function Auxiliary.TDStartUp(c)
 	return function(e,tp,eg,ep,ev,re,r,rp)
-		Duel.Hint(HINT_SKILL_COVER,c:GetControler(),coverid)
-        Duel.Hint(HINT_SKILL_FLIP,tp,c:GetCode()|(1<<32))
-       	Duel.Hint(HINT_CARD,tp,c:GetCode())
 		c:EnableCounterPermit(0x91)
 		c:SetCounterLimit(0x91,12)
 		--add counter
@@ -29,7 +26,7 @@ function Auxiliary.TDStartUp(c)
 		e1:SetCountLimit(1)
 		e1:SetCondition(s.ctcon)
 		e1:SetOperation(s.ctop)
-		c:RegisterEffect(e1)
+		Duel.RegisterEffect(e1,tp)
 	end
 end
 function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
