@@ -18,6 +18,7 @@ function Auxiliary.TDStartUp(c,id)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 		Duel.Hint(HINT_CARD,tp,id)
+		local n==0
 		if Duel.GetFlagEffect(tp,2021020004)=1 then n==1
 		elseif Duel.GetFlagEffect(tp,2021020004)=2 then n==2
 		elseif Duel.GetFlagEffect(tp,2021020004)=3 then n==3
