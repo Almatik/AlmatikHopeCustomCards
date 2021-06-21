@@ -16,7 +16,7 @@ function Auxiliary.TurboDuelStartUp(c,id)
 end
 function Auxiliary.TDStartUp(c,id)
 	return function(e,tp,eg,ep,ev,re,r,rp)
-		SendtoDeck(c,tp,-2,REASON_RULE)
+		Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 		local tc=Duel.CreateToken(tp,id)
 		Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 		tc:EnableCounterPermit(0x91)
