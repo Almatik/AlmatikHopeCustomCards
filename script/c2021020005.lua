@@ -2,26 +2,23 @@
 Duel.LoadScript("turboduel.lua")
 local s,id=GetID()
 function s.initial_effect(c)
+	c:EnableCounterPermit(0x91)
+	c:SetCounterLimit(0x91,12)
 	--Activate
 	aux.TurboDuelStartUp(c,id)
+	--add counter
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e3:SetCountLimit(1)
+	e3:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
+	e3:SetCondition(s.ctcon)
+	e3:SetOperation(s.ctop)
+	c:RegisterEffect(e3)
+
 end
-function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	--condition
-	return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
+function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
+	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
 end
-function s.flipop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	--Smile World
-	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
-	if #g==0 then return end
-	local tc=g:GetFirst()
-	for tc in aux.Next(g) do
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_UPDATE_ATTACK)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		e1:SetValue(200)
-		tc:RegisterEffect(e1)
-	end
+function s.ctop(e,tp,eg,ep,ev,re,r,rp)
+	e:GetHandler():AddCounter(0x91,1)
 end
