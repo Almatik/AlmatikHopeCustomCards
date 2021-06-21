@@ -36,9 +36,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local code=s.link[ac]
 	local tc=Duel.CreateToken(tp,code)
 	Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
-	if tc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) then
-		Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
-	end
+	Duel.SpecialSummon(tc,SUMMON_TYPE_LINK,tp,tp,false,false,POS_FACEUP)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	s[2+tp]=0
 end
