@@ -24,15 +24,15 @@ function Auxiliary.TDStartUp(c)
 		e1:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
 		e1:SetRange(LOCATION_FZONE)
 		e1:SetCountLimit(1)
-		e1:SetCondition(s.ctcon)
-		e1:SetOperation(s.ctop)
+		e1:SetCondition(ctcon)
+		e1:SetOperation(ctop)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
+function ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
 end
-function s.ctop(e,tp,eg,ep,ev,re,r,rp)
+function ctop(e,tp,eg,ep,ev,re,r,rp)
     Duel.RegisterFlagEffect(ep,id,0,0,0)
     local nc=Duel.GetFlagEffect(ep,id)
     if nc>2 then nc=3 end
