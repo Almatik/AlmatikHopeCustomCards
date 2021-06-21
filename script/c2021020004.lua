@@ -17,7 +17,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
-		local tc=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
-		Duel.SendtoDeck(tc,nil,2,REASON_RULE)
+		local code=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
+		Duel.Hint(HINT_SKILL_FLIP,p,code|(1<<32))
 	end
 end
