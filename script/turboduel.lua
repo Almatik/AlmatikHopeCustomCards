@@ -18,6 +18,8 @@ function Auxiliary.TDStartUp(c,id)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 		Duel.Hint(HINT_CARD,tp,id)
+		c:EnableCounterPermit(0x91)
+		c:SetCounterLimit(0x91,12)
 		--add counter
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -26,27 +28,11 @@ function Auxiliary.TDStartUp(c,id)
 		e1:SetCondition(ctcon)
 		e1:SetOperation(ctop)
 		Duel.RegisterEffect(e1,tp)
-		--Information
-		local s1=Effect.CreateEffect(c)
-		s1:SetDescription(aux.Stringid(2021020004,1))
-		s1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		s1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		s1:SetCode(EVENT_ADJUST)
-		s1:SetLabel(1)
-		s1:SetCondition(con)
-		Duel.RegisterEffect(s1,tp)
-		local s2=s1:Clone()
-		s2:SetDescription(aux.Stringid(2021020004,2))
-		s2:SetLabel(2)
-		Duel.RegisterEffect(s2,tp)
 	end
 end
 function ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
 end
 function ctop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.RegisterFlagEffect(ep,2021020004)
-end
-function con(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetFlagEffect(tp,2021020004)==e:GetLabel()
+	e:GetHandler():AddCounter(0x91,1)
 end
