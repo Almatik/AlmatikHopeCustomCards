@@ -32,11 +32,7 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
 	local c=e:GetHandler()
-	if Duel.GetLP(tp)>2000 and Duel.GetLP(tp)<=4000 then local n=14
-	elseif Duel.GetLP(tp)>1000 and Duel.GetLP(tp)<=2000 then local n=50
-	elseif Duel.GetLP(tp)<=1000 then local n=76
-	else local n=1 end
-	local ac=Duel.GetRandomNumber(n,#s.link)
+	local ac=Duel.GetRandomNumber(1,#s.link)
 	local code=s.link[ac]
 	local tc=Duel.CreateToken(tp,code)
 	Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
