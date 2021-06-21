@@ -32,8 +32,8 @@ function ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
 end
 function ctop(e,tp,eg,ep,ev,re,r,rp)
-    Duel.RegisterFlagEffect(ep,id,0,0,0)
-    local nc=Duel.GetFlagEffect(ep,id)
+    Duel.RegisterFlagEffect(ep,2021020004,0,0,0)
+    local nc=Duel.GetFlagEffect(ep,2021020004)
     if nc>2 then nc=3 end
 	e:GetHandler():AddCounter(0x91,nc)
 end
