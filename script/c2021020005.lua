@@ -5,7 +5,10 @@ function s.initial_effect(c)
 	c:EnableCounterPermit(0x91)
 	c:SetCounterLimit(0x91,12)
 	--Activate
-	aux.TurboDuelStartUp(c,id)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e1)
 	--add counter
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
