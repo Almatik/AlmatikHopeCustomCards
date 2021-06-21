@@ -39,6 +39,7 @@ function Auxiliary.TDStartUp(c,id)
 		s2:SetDescription(aux.Stringid(2021020004,2))
 		s2:SetLabel(2)
 		Duel.RegisterEffect(s2,tp)
+	end
 end
 function ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsPlayerAffectedByEffect(tp,100100090)
