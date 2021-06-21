@@ -16,7 +16,8 @@ function Auxiliary.TurboDuelStartUp(c,id)
 end
 function Auxiliary.TDStartUp(c,id)
 	return function(e,tp,eg,ep,ev,re,r,rp)
-		Duel.Hint(HINT_SKILL_FLIP,p,id|(1<<32))
+		Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
+		Duel.Hint(HINT_CARD,tp,id)
 		c:EnableCounterPermit(0x91)
 		c:SetCounterLimit(0x91,12)
 		--add counter
