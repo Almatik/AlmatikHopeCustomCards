@@ -2,7 +2,11 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--skill
-	aux.AddSkillProcedure(c,1,false,true,s.flipop,1)
+	aux.AddSkillProcedure(c,1,false,s.flipcon,s.flipop,1)
+end
+function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
+	--condition
+	return 
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--ask if you want to activate the skill or not
