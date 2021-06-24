@@ -12,32 +12,14 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--Move itself to 1 of your unused MMZ
+	--copy
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_XMATERIAL+EFFECT_TYPE_FIELD)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_XMATERIAL)
+	e2:SetCode(EVENT_ADJUST)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetTargetRange(0,LOCATION_MZONE)
-	e2:SetCode(EFFECT_CHANGE_CODE)
-	e2:SetCondition(s.effcon)
-	e2:SetTarget(s.effop)
-	e2:SetValue(2021030005)
+	e2:SetCondition(s.condition)
+	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
-	local e4=e2:Clone()
-	e4:SetCode(EFFECT_CHANGE_ATTRIBUTE)
-	e4:SetValue(ATTRIBUTE_LIGHT)
-	c:RegisterEffect(e4)
-	local e5=e2:Clone()
-	e5:SetCode(EFFECT_CHANGE_RACE)
-	e5:SetValue(RACE_FAIRY)
-	c:RegisterEffect(e5)
-	local e6=e2:Clone()
-	e6:SetCode(EFFECT_CHANGE_TYPE)
-	e6:SetValue(TYPE_NORMAL)
-	c:RegisterEffect(e6)
-	local e7=e2:Clone()
-	e7:SetCode(EFFECT_CHANGE_LEVEL)
-	e7:SetValue(4)
-	c:RegisterEffect(e7)
 end
 function s.cfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
@@ -65,10 +47,20 @@ end
 
 
 
-function s.effcon(e,tp,eg,ep,ev,re,r,rp)
+function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return (c:IsCode(49678559) or c:GetMaterial():IsExists(Card.IsCode,1,nil,49678559)) and c:IsType(TYPE_XYZ)
 end
-function s.effop(e,c)
-	return c:IsDisabled()
+function s.copfilter(c)
+	return c:IsFaceup() and c:IsStatus(STATUS_DISABLED)
+end
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local wg=Duel.GetMatchingGroup(s.copfilter,tp,0,LOCATION_MZONE,c)
+	for wbc in aux.Next(wg) do
+		if c:IsFaceup() then
+			local cid=c:CopyEffect(wbc:GetOriginalCode(),RESET_EVENT+RESETS_STANDARD_DISABLE,1)
+			wbc:RegisterFlagEffect(id,0,0,0,cid)
+		end
+	end
 end
