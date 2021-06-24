@@ -65,6 +65,13 @@ function s.initial_effect(c)
 	e2:SetTarget(s.playtg)
 	e2:SetOperation(s.playop)
 	c:RegisterEffect(e2)
+	--Check this card
+	local e3=Effect.CreateEffect(c)
+	e3:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetRange(LOCATION_DECK)
+	e3:SetCondition(s.lookcon)
+	c:RegisterEffect(e3)
 
 
 end
@@ -184,6 +191,10 @@ end
 function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.DiscardDeck(tp,#eg,REASON_EFFECT)
+end
+function s.lookcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsFaceup()
 end
 
 

@@ -66,7 +66,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--Check this card
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetProperty(EFFECT_FLAG_BOTH_SIDE)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_DECK)
@@ -177,10 +176,4 @@ end
 function s.lookcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsFaceup()
-end
-function s.lookop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_DECK,0,nil)
-	if g and #g>0 then
-		Duel.ConfirmCards(tp,g)
-	end
 end

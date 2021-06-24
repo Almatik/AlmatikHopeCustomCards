@@ -64,6 +64,13 @@ function s.initial_effect(c)
 	e2:SetCondition(s.playcon)
 	e2:SetOperation(s.playop)
 	c:RegisterEffect(e2)
+	--Check this card
+	local e3=Effect.CreateEffect(c)
+	e3:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetRange(LOCATION_DECK)
+	e3:SetCondition(s.lookcon)
+	c:RegisterEffect(e3)
 
 end
 function s.filter(c)
@@ -189,4 +196,8 @@ function s.playop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,LOCATION_EXTRA,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
+end
+function s.lookcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsFaceup()
 end
