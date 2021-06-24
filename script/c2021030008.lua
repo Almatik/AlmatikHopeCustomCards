@@ -180,5 +180,8 @@ function s.lookcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsFaceup()
 end
 function s.lookop(e,tp,eg,ep,ev,re,r,rp)
-	
+	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_DECK,0,nil)
+	if g and #g>0 then
+		Duel.ConfirmCards(tp,g)
+	end
 end
