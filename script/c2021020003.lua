@@ -28,7 +28,7 @@ function s.flipcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	--ask if you want to activate the skill or not
-	local sel={0,e:GetHandler():GetCode()}
+	local sel={aux.Stringid(id,0),aux.Stringid(id,1)}
 	if Duel.SelectOption(tp,false,table.unpack(sel))~=0 then return end
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
 	Duel.Hint(HINT_CARD,tp,id)
