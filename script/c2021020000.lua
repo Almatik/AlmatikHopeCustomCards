@@ -11,7 +11,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
-	local g=Duel.GetFieldGroup(tp,LOCATION_DECK,0)
+	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	local tc=g:GetFirst()
 	local coverid=math.random(7,62)+2021040100
 	while tc do
