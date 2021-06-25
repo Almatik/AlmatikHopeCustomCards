@@ -10,6 +10,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	Duel.SendToDeck(e:GetHandler(),tp,-2,REASON_RULE)
 	local g=Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0)
 	local tc=g:GetFirst()
 	local coverid=math.random(7,62)+2021040100
