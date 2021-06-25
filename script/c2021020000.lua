@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local coverid=math.random(7,62)+2021040100
 	while tc do
 		--generate a cover for a card
-		Duel.Hint(HINT_SKILL_COVER,tc,coverid)
+		Duel.Hint(HINT_SKILL_COVER,tc:GetControler(),coverid)
 		tc=g:GetNext()
 	end
 end
