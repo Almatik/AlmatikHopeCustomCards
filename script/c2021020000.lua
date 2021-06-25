@@ -11,19 +11,12 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
-	local mg=Duel.GetFieldGroup(tp,LOCATION_DECK,0)
-	local eg=Duel.GetFieldGroup(tp,LOCATION_EXTRA,0)
-	local tc1=mg:GetFirst()
-	local tc2=eg:GetFirst()
+	local g=Duel.GetMatchingGroup(Card.IsControler,tp,LOCATION_EXTRA+LOCATION_DECK,0,nil,tp)
+	local tc=g:GetFirst()
 	local coverid=math.random(7,62)+2021040100
-	while tc1 do
+	while tc do
 		--generate a cover for a card
-		tc1:Cover(coverid)
-		tc1=mg:GetNext()
-	end
-	while tc2 do
-		--generate a cover for a card
-		tc2:Cover(coverid)
-		tc2=eg:GetNext()
+		tc:Cover(coverid)
+		tc=g:GetNext()
 	end
 end
