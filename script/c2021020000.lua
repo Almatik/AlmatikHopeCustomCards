@@ -11,20 +11,26 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
-	local g1=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	local tc1=g1:GetFirst()
-	local coverid1=Duel.GetRandomNumber(7,62)+2021040100
-	while tc1 do
-		--generate a cover for a card
-		tc1:Cover(coverid)
-		tc1=g1:GetNext()
+	if Duel.GetFlagEffect(tp,id)==0 then
+		local g1=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+		local tc1=g1:GetFirst()
+		local coverid1=Duel.GetRandomNumber(7,62)+2021040100
+		while tc1 do
+			--generate a cover for a card
+			tc1:Cover(coverid)
+			tc1=g1:GetNext()
+		end
+		Duel.RegisterFlagEffect(tp,id,nil,nil,nil)
 	end
-	local g2=Duel.GetFieldGroup(tp,0,LOCATION_ALL)
-	local tc2=g2:GetFirst()
-	local coverid2=Duel.GetRandomNumber(7,62)+2021040100
-	while tc2 do
-		--generate a cover for a card
-		tc2:Cover(coverid)
-		tc2=g2:GetNext()
+	if Duel.GetFlagEffect(1-tp,id)==0 then
+		local g2=Duel.GetFieldGroup(tp,0,LOCATION_ALL)
+		local tc2=g2:GetFirst()
+		local coverid2=Duel.GetRandomNumber(7,62)+2021040100
+		while tc2 do
+			--generate a cover for a card
+			tc2:Cover(coverid)
+			tc2=g2:GetNext()
+		end
+		Duel.RegisterFlagEffect(1-tp,id,nil,nil,nil)
 	end
 end
