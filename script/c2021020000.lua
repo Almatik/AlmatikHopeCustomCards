@@ -19,12 +19,4 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc:Cover(coverid)
 		tc=g:GetNext()
 	end
-	local ng=Duel.GetFieldGroup(1-tp,LOCATION_ALL,0)
-	local ntc=ng:GetFirst()
-	local ncoverid=Duel.GetRandomNumber(7,62)+2021040100
-	while ntc do
-		--generate a cover for a card
-		ntc:Cover(ncoverid)
-		ntc=ng:GetNext()
-	end
 end
