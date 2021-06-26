@@ -1,19 +1,18 @@
---Karakura Shinigami - Rukia
+--Karakura Xcution - Chad
 local s,id=GetID()
 function s.initial_effect(c)
 	--Link summon
 	Link.AddProcedure(c,s.matfilter,1,1)
 	c:EnableReviveLimit()
-	--gain attack from special summoned card
+	--indes
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_NEGATE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e1:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+	e1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e1:SetRange(LOCATION_MZONE)
+	e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	e1:SetCountLimit(1)
-	e1:SetCondition(s.atkcon)
-	e1:SetOperation(s.atkop)
+	e1:SetTarget(s.indtg)
+	e1:SetValue(1)
 	c:RegisterEffect(e1)
 	--special summon
 	local e2=Effect.CreateEffect(c)
@@ -41,34 +40,9 @@ end
 function s.matfilter(c,lc,sumtype,tp)
 	return c:IsSetCard(0x2000,lc,sumtype,tp) and not c:IsSummonCode(lc,sumtype,tp,id)
 end
-function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.indtg(e,c)
 	local c=e:GetHandler()
-	local lg=c:GetLinkedGroup()
-	local a=Duel.GetAttacker()
-	local b=a:GetBattleTarget()
-	if lg<1 then return false end
-	if not b then return false end
-	if a:IsControler(1-tp) then a,b=b,a end
-	return a:GetControler()~=b:GetControler()
-			and (a==c or lg:IsContains(a))
-end
-function s.atkop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local lg=c:GetLinkedGroup()
-	local a=Duel.GetAttacker()
-	local b=a:GetBattleTarget()
-	if a:IsControler(1-tp) then a,b=b,a end
-	if a:IsRelateToBattle() then
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_DISABLE)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_BATTLE)
-		e1:SetValue(atk)
-		b:RegisterEffect(e1)
-		local e2=e1:Clone()
-		e2:SetCode(EFFECT_DISABLE_EFFECT)
-		b:RegisterEffect(e2)
-	end
+	return c or c:GetLinkedGroup():IsContains(c)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local zone=Duel.GetLinkedZone(tp)&0x1f
