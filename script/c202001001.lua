@@ -8,7 +8,6 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCode(EFFECT_EXTRA_MATERIAL)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetCountLimit(1,id)
 	e1:SetTargetRange(1,0)
 	e1:SetOperation(s.extracon)
 	e1:SetValue(s.extraval)
@@ -26,7 +25,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_BE_MATERIAL)
-	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.matcon)
 	e2:SetTarget(s.mattg)
 	e2:SetOperation(s.matop)
@@ -38,8 +36,7 @@ function s.extrafilter(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
 end
 function s.extracon(c,e,tp,sg,mg,lc,og,chk)
-	return (sg+mg):Filter(s.extrafilter,nil,e:GetHandlerPlayer()):IsExists(Card.IsFaceup,1,og,nil) and
-	sg:FilterCount(s.flagcheck,nil)<2
+	return (sg+mg):Filter(s.extrafilter,nil,e:GetHandlerPlayer()):IsExists(Card.IsFaceup,1,og,nil) and sg:FilterCount(s.flagcheck,nil)<2
 end
 function s.flagcheck(c)
 	return c:GetFlagEffect(id)>0
@@ -74,6 +71,7 @@ function s.matcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsLocation(LOCATION_GRAVE) and c:IsPreviousLocation(LOCATION_ONFIELD+LOCATION_HAND)
 		and c:GetReasonCard():IsSetCard(0x2000)
 		and (r==REASON_FUSION or r==REASON_SYNCHRO or r==REASON_XYZ or r==REASON_LINK )
+		and Duel.GetFlagEffect(tp,id)==0
 end
 function s.matfilter(c)
 	return c:IsSetCard(0x2000) and c:IsAbleToHand() and not c:IsCode(id)
@@ -89,4 +87,5 @@ function s.matop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(g,tp,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
 	end
+	Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 end
