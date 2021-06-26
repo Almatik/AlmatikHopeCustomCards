@@ -33,10 +33,10 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local lg=c:GetLinkedGroup()
 	if c:IsRelateToBattle() then
 		local tc=c
-		local atk=lg:GetAttack()
+		local atk=lg:Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)
 	elseif lg:IsRelateToBattle() then
 		local tc=lg
-		local atk=c:GetAttack()
+		local atk=c:GetBaseAttack()
 	end
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
