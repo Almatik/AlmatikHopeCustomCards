@@ -61,10 +61,10 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	if b:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetCode(EFFECT_DISABLE_EFFECT)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
 		e1:SetValue(atk)
-		a:RegisterEffect(e1)
+		b:RegisterEffect(e1)
 	end
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
