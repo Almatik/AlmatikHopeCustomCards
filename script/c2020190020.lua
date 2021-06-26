@@ -25,5 +25,5 @@ function s.filter(c)
 end
 function s.value(e,c)
 	local g=Duel.GetMatchingGroup(s.filter,c:GetControler(),LOCATION_MZONE,LOCATION_MZONE,nil)
-	return g*200
+	return g:GetCount()*200
 end
