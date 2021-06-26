@@ -11,7 +11,6 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1,id)
 	e1:SetTargetRange(1,0)
 	e1:SetOperation(s.extracon)
-	e1:SetValue(s.extraval)
 	c:RegisterEffect(e1)
 	if s.flagmap==nil then
 		s.flagmap={}
