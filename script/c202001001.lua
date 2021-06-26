@@ -76,7 +76,7 @@ function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 		and (r==REASON_FUSION or r==REASON_SYNCHRO or r==REASON_XYZ or r==REASON_LINK )
 end
 function s.thfilter(c,chk)
-	return c:IsSetCard(0x2000) and c:IsAbleToHand()
+	return c:IsSetCard(0x2000) and c:IsAbleToHand() and not c:IsCode(id)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil,e:GetLabel()) end
