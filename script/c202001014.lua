@@ -1,17 +1,19 @@
---Karakura Xcution - Chad
+--Karakura Quincy - Ishida
 local s,id=GetID()
 function s.initial_effect(c)
 	--Link summon
 	Link.AddProcedure(c,nil,2,2,s.lcheck)
 	c:EnableReviveLimit()
-	--indes
+	--gain attack from special summoned card
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetCategory(CATEGORY_REMOVE)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e1:SetCode(EVENT_BATTLED)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e1:SetTarget(s.indtg)
-	e1:SetValue(1)
+	e1:SetCountLimit(1)
+	e1:SetCondition(s.bancon)
+	e1:SetOperation(s.banop)
 	c:RegisterEffect(e1)
 	--special summon
 	local e2=Effect.CreateEffect(c)
@@ -39,9 +41,26 @@ end
 function s.lcheck(g,lc,sumtype,tp)
 	return g:IsExists(Card.IsSetCard,1,nil,0x2000,lc,sumtype,tp)
 end
-function s.indtg(e,c)
+function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c or c:GetLinkedGroup():IsContains(c)
+	local lg=c:GetLinkedGroup()
+	local a=Duel.GetAttacker()
+	local b=a:GetBattleTarget()
+	if lg<1 then return false end
+	if not b then return false end
+	if a:IsControler(1-tp) then a,b=b,a end
+	return a:GetControler()~=b:GetControler()
+			and (a==c or lg:IsContains(a))
+end
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local lg=c:GetLinkedGroup()
+	local a=Duel.GetAttacker()
+	local b=a:GetBattleTarget()
+	if a:IsControler(1-tp) then a,b=b,a end
+	if a:IsRelateToBattle() then
+		Duel.Remove(b,POS_FACEUP,REASON_EFFECT)
+	end
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local zone=Duel.GetLinkedZone(tp)&0x1f
@@ -61,7 +80,7 @@ function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x2030) and c:IsAbleToHand()
+	return c:IsSetCard(0x2017) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
