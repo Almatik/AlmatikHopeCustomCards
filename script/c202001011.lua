@@ -32,16 +32,20 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	if c:IsRelateToBattle() then
-		local tc=c
 		local atk=lg:Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
+		e1:SetValue(atk)
+		c:RegisterEffect(e1)
 	elseif lg:IsRelateToBattle() then
-		local tc=lg
 		local atk=c:GetBaseAttack()
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
+		e1:SetValue(atk)
+		lg:RegisterEffect(e1)
 	end
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
-	e1:SetValue(atk)
-	tc:RegisterEffect(e1)
 end
