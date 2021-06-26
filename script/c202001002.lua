@@ -75,7 +75,7 @@ function s.matcon(e,tp,eg,ep,ev,re,r,rp)
 		and c:GetReasonCard():IsSetCard(0x2000)
 		and (r==REASON_FUSION or r==REASON_SYNCHRO or r==REASON_XYZ or r==REASON_LINK )
 end
-function s.matfilter(c,chk)
+function s.matfilter(c,e,tp)
 	return c:IsSetCard(0x2000) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(id)
 end
 function s.mattg(e,tp,eg,ep,ev,re,r,rp,chk)
