@@ -41,7 +41,7 @@ end
 function s.lcheck(g,lc,sumtype,tp)
 	return g:IsExists(Card.IsSetCard,1,nil,0x2000,lc,sumtype,tp)
 end
-function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
+function s.bancon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	local a=Duel.GetAttacker()
@@ -52,7 +52,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return a:GetControler()~=b:GetControler()
 			and (a==c or lg:IsContains(a))
 end
-function s.atkop(e,tp,eg,ep,ev,re,r,rp)
+function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lg=c:GetLinkedGroup()
 	local a=Duel.GetAttacker()
