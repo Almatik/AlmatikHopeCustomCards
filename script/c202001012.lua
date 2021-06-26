@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--Link summon
-	Link.AddProcedure(c,nil,2,2,s.lcheck)
+	Link.AddProcedure(c,s.matfilter,1,1)
 	c:EnableReviveLimit()
 	--gain attack from special summoned card
 	local e1=Effect.CreateEffect(c)
@@ -38,8 +38,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
-function s.lcheck(g,lc,sumtype,tp)
-	return g:IsExists(Card.IsSetCard,1,nil,0x2000,lc,sumtype,tp)
+function s.matfilter(c,lc,sumtype,tp)
+	return c:IsSetCard(0x2000,lc,sumtype,tp) and not c:IsSummonCode(lc,sumtype,tp,id)
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
