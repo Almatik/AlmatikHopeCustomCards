@@ -13,6 +13,12 @@ function s.initial_effect(c)
 	e1:SetOperation(s.extracon)
 	e1:SetValue(s.extraval)
 	c:RegisterEffect(e1)
+	if s.flagmap==nil then
+		s.flagmap={}
+	end
+	if s.flagmap[c]==nil then
+		s.flagmap[c] = {}
+	end
 	--Send to grave
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
