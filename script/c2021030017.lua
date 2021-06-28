@@ -12,7 +12,7 @@ function s.initial_effect(c)
 	e1:SetCost(s.ritcost)
 	c:RegisterEffect(e1)
 end
-function s.ritcoin(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.ritcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1
 		or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
