@@ -16,7 +16,7 @@ function s.ritfilter(c)
 	return c:IsSetCard(0xb4) and not c:IsCode(id)
 end
 function s.mfilter(c)
-	return c:IsSetCard(0xb4) and not c:IsCode(id)
+	return c:IsSetCard(0xb4)
 end
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1
