@@ -43,7 +43,7 @@ function s.bantg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.SelectMatchingCard(tp,s.banfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if tc>0 then
+	if tc then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
 end
