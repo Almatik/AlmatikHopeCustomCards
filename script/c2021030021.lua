@@ -50,7 +50,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 
 function s.banfilter(c)
-	return c:IsAbleToDeck() and c:IsSetCard(0x57b)
+	return c:IsAbleToHand() and c:IsSetCard(0x57b)
 end
 function s.bantg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
