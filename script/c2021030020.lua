@@ -17,6 +17,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 	--draw
 	local e3=Effect.CreateEffect(c)
@@ -35,7 +36,17 @@ function s.spcon(e,c)
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,0x57b),c:GetControler(),LOCATION_ONFIELD,0,1,nil)
 end
-
+function s.spop(e,tp,eg,ep,ev,re,r,rp,chk)
+	local ge1=Effect.CreateEffect(c)
+	ge1:SetDescription(aux.Stringid(id,2))
+	ge1:SetType(EFFECT_TYPE_FIELD)
+	ge1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	ge1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	ge1:SetTargetRange(1,0)
+	ge1:SetTarget(s.splimit)
+	ge1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(ge1,tp)
+end
 function s.banfilter(c)
 	return c:IsAbleToRemove() and c:IsSetCard(0x57b)
 end
@@ -49,4 +60,16 @@ function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	if tc then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
+	local ge1=Effect.CreateEffect(c)
+	ge1:SetDescription(aux.Stringid(id,2))
+	ge1:SetType(EFFECT_TYPE_FIELD)
+	ge1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	ge1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	ge1:SetTargetRange(1,0)
+	ge1:SetTarget(s.splimit)
+	ge1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(ge1,tp)
+end
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return not c:IsRace(RACE_CYBERSE)
 end
