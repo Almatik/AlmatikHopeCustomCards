@@ -27,8 +27,6 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_REMOVE)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
 	e3:SetCountLimit(1,id+1)
-	e3:SetCost(s.bancost)
-	e3:SetTarget(s.bantg)
 	e3:SetOperation(s.banop)
 	c:RegisterEffect(e3)
 end
