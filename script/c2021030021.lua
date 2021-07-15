@@ -37,6 +37,7 @@ function s.spcon(e,c)
 		and Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
 	local ge1=Effect.CreateEffect(c)
 	ge1:SetDescription(aux.Stringid(id,2))
 	ge1:SetType(EFFECT_TYPE_FIELD)
