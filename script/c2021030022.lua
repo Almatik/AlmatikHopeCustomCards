@@ -81,7 +81,7 @@ end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) then
-		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 	local ge1=Effect.CreateEffect(c)
 	ge1:SetDescription(aux.Stringid(id,2))
