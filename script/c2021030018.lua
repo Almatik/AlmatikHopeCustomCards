@@ -22,11 +22,11 @@ function s.initial_effect(c)
 	--draw
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetCategory(CATEGORY_REMOVE+CATEGORY_TOHAND)
+	e3:SetCategory(CATEGORY_REMOVE+CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_REMOVE)
 	e3:SetProperty(EFFECT_FLAG_DELAY)
-	e3:SetCountLimit(1,id+1)
+	e3:SetCost(s.bancost)
 	e3:SetTarget(s.bantg)
 	e3:SetOperation(s.banop)
 	c:RegisterEffect(e3)
@@ -64,20 +64,25 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function s.banfilter(c)
-	return c:IsAbleToHand() and c:IsSetCard(0x57b)
+	return c:IsAbleToRemoveAsCost() and c:IsSetCard(0x57b)
+end
+function s.bancost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,c) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectMatchingCard(tp,s.banfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,c)
+	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.bantg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_DECK,0,1,c) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,s.banfilter,tp,LOCATION_DECK,0,1,1,c)
-	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	if c:IsRelateToEffect(e) then
+		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 	end
 	local ge1=Effect.CreateEffect(c)
 	ge1:SetDescription(aux.Stringid(id,2))
