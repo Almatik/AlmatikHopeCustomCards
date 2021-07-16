@@ -55,7 +55,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetValue(s.atkval)
 		token:RegisterEffect(e1)
-		if Duel.GetOverlayGroup()::IsExists(Card.IsRace,1,nil,RACE_ZOMBIE) then
+		if Duel.GetOverlayGroup():IsExists(Card.IsRace,1,nil,RACE_ZOMBIE) then
 			Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
