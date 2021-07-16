@@ -58,7 +58,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetValue(s.atkval)
-		tc:RegisterEffect(e1)
+		token:RegisterEffect(e1)
 	end
 	if c:GetOverlayGroup():IsExists(s.spfilter,1,nil)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -71,7 +71,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetValue(s.atkval)
-		tc:RegisterEffect(e1)
+		token:RegisterEffect(e1)
 	end
 end
 function s.atkval(e,c)
