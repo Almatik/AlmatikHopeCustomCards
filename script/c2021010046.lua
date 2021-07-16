@@ -47,24 +47,24 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,0,500,1,RACE_FIEND,ATTRIBUTE_DARK) then
-		local token=Duel.CreateToken(tp,id+1)
-		Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
+		local tc=Duel.CreateToken(tp,id+1)
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK)
 		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e1:SetRange(LOCATION_MZONE)
 		e1:SetValue(s.atkval)
-		token:RegisterEffect(e1)
+		tc:RegisterEffect(e1)
 		if c:GetOverlayGroup():IsExists(Card.IsRace,1,nil,RACE_ZOMBIE) then
-			Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)
 			e2:SetCode(EFFECT_SET_ATTACK)
 			e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 			e2:SetRange(LOCATION_MZONE)
 			e2:SetValue(s.atkval)
-			token:RegisterEffect(e2)
+			tc:RegisterEffect(e2)
 		end
 	end
 end
