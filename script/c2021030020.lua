@@ -49,15 +49,15 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.RegisterEffect(ge1,tp)
 end
 function s.banfilter(c)
-	return c:IsAbleToRemove() and c:IsSetCard(0x57b)
+	return c:IsAbleToRemove() and c:IsSetCard(0x57b) and not c:IsCode(id)
 end
 function s.bantg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_DECK,0,1,c) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_DECK,0,1,nil) end
 end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=Duel.SelectMatchingCard(tp,s.banfilter,tp,LOCATION_DECK,0,1,1,c)
+	local tc=Duel.SelectMatchingCard(tp,s.banfilter,tp,LOCATION_DECK,0,1,1,nil)
 	if tc then
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
