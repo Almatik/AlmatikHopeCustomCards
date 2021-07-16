@@ -87,7 +87,7 @@ function s.atkval(e,c)
 		return val
 	end
 end
-function s.con(e)
+function s.con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_MZONE,0,1,nil,id+1)
 end
 function s.efilter(e,re)
