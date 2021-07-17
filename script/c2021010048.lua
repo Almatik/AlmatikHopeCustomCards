@@ -133,16 +133,16 @@ function s.xyzfilter(c)
 	return c:IsSetCard(0x9f) and c:IsType(TYPE_MONSTER)
 end
 function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.xyzfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(s.xyzfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,4))
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.xyzfilter,tp,LOCATION_GRAVE,0,1,nil) end
 end
 function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=Duel.SelectTarget(tp,s.xyzfilter,tp,LOCATION_GRAVE,0,1,2,nil)
-	if c:IsFaceup() and tc then
-		Duel.Overlay(c,Group.FromCards(tc))
+	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+	local g=Duel.GetMatchingGroup(s.xyzfilter,tp,LOCATION_GRAVE,0,nil)
+	if #g>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+		local og=g:Select(tp,1,2,nil)
+		Duel.Overlay(c,og)
 	end
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
