@@ -63,6 +63,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(me3)
 	
 end
+s.pendulum_level=4
 function s.filter(c)
 	return (c:IsSetCard(0x9f) or c:IsSetCard(0x98) or c:IsSetCard(0x99))
 		 and c:IsType(TYPE_PENDULUM)
