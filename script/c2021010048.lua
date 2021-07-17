@@ -141,7 +141,7 @@ end
 function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.SelectTarget(tp,s.xyzfilter,tp,LOCATION_GRAVE,0,1,2,nil)
-	if c:IsFaceup() and tc and tc:IsRelateToEffect(e) then
+	if c:IsFaceup() and tc then
 		Duel.Overlay(c,Group.FromCards(tc))
 	end
 end
