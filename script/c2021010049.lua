@@ -157,10 +157,9 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if tg and tg:IsRelateToEffect(e) and Duel.Destroy(tg,REASON_EFFECT)~=0 then
+	if #tg>0 and Duel.Destroy(tg,REASON_EFFECT)~=0 then
 		Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 	end
 end
