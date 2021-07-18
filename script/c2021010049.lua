@@ -133,9 +133,9 @@ function s.sftg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.sfop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	local op=tc:GetOwnerPlayer()
+	local oc=tc:GetControler()
 	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 then
-		Duel.Draw(op,1,REASON_EFFECT)
+		Duel.Draw(oc,1,REASON_EFFECT)
 	end
 end
 function s.penfilter(c)
