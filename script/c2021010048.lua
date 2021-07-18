@@ -1,4 +1,4 @@
---Performapal Joker Archer (WIP)
+--Performapal Joker Archer
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -52,8 +52,7 @@ function s.initial_effect(c)
 	local me3=Effect.CreateEffect(c)
 	me3:SetDescription(aux.Stringid(id,1))
 	me3:SetCategory(CATEGORY_DESTROY)
-	me3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	me3:SetCode(EVENT_PHASE+PHASE_END)
+	me3:SetType(EFFECT_TYPE_IGNITION)
 	me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	me3:SetRange(LOCATION_MZONE)
 	me3:SetCountLimit(1)
