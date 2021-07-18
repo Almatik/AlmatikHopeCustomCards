@@ -1,4 +1,4 @@
---Performapal Joker Mage (WIP)
+--Performapal Joker Mage
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
@@ -141,7 +141,7 @@ end
 function s.penfilter(c)
 	return c:IsSetCard(0x9f) or c:IsSetCard(0x98) or c:IsSetCard(0x99)
 end
-function s.pencon(e)
+function s.pencon(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_PZONE,0,1,nil)
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
