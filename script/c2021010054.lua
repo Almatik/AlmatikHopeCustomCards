@@ -1,7 +1,7 @@
 --Hieratic Seal of Origin
 local s,id=GetID()
 function s.initial_effect(c)
-	local e1=Ritual.CreateProc(c,RITPROC_GREATER,s.ritfilter,nil,aux.Stringid(id,0),nil,stage2=s.stage2,s.mfilter,nil,LOCATION_HAND+LOCATION_DECK,function(e,tp,g,sc) return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler()) end)
+	local e1=Ritual.CreateProc(c,RITPROC_GREATER,s.ritfilter,nil,aux.Stringid(id,0),nil,nil,s.mfilter,s.stage2,LOCATION_HAND+LOCATION_DECK,function(e,tp,g,sc) return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler()) end)
 	e1:SetCountLimit(1,id)
 	c:RegisterEffect(e1)
 	--special summon
