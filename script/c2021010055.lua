@@ -1,0 +1,18 @@
+--Hieratic Dragon of Khepri
+local s,id=GetID()
+function s.initial_effect(c)
+	--pendulum summon
+	Pendulum.AddProcedure(c)
+	--splimit
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	e2:SetRange(LOCATION_PZONE)
+	e2:SetTargetRange(1,0)
+	e2:SetTarget(s.splimit)
+	c:RegisterEffect(e2)
+end
+function s.splimit(e,c)
+	return not c:IsSetCard(0x69)
+end
