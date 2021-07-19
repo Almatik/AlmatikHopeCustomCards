@@ -1,7 +1,7 @@
 --Hieratic Seal of Origin
 local s,id=GetID()
 function s.initial_effect(c)
-	local e1=Ritual.CreateProc(c,RITPROC_GREATER,s.ritfilter,nil,aux.Stringid(id,0),nil,nil,s.mfilter,nil,LOCATION_HAND+LOCATION_DECK,function(e,tp,g,sc) return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler()) end)
+	local e1=Ritual.CreateProc(c,RITPROC_GREATER,s.ritfilter,nil,aux.Stringid(id,0),nil,stage2=s.stage2,s.mfilter,nil,LOCATION_HAND+LOCATION_DECK,function(e,tp,g,sc) return not g:IsContains(e:GetHandler()), g:IsContains(e:GetHandler()) end)
 	e1:SetCountLimit(1,id)
 	c:RegisterEffect(e1)
 	--special summon
@@ -21,6 +21,21 @@ function s.ritfilter(c)
 end
 function s.mfilter(c)
 	return c:IsSetCard(0x69)
+end
+function s.stage2(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+	local c=e:GetHandler()
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,2))
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(s.splimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+end
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return c:IsLocation(LOCATION_EXTRA) and (not c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_LIGHT))
 end
 
 function s.spfilter(c,e,tp)
