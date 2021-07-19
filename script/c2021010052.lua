@@ -77,7 +77,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return c:IsLocation(LOCATION_EXTRA) and not c:IsRace(RACE_DRAGON) and not c:IsAttribute(ATTRIBUTE_LIGHT)
+	return c:IsLocation(LOCATION_EXTRA) and (not c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_LIGHT))
 end
 
 
