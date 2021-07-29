@@ -64,7 +64,7 @@ end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,0)
-	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil,ft,e,tp)
+	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,ft,e,tp)
 	if #g>0 then
 		local th=g:GetFirst():IsAbleToHand()
 		local sp=ft>0 and g:GetFirst():IsCanBeSpecialSummoned(e,0,tp,false,false) and g:GetFirst():IsCode(202002302)
