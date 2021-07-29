@@ -1,4 +1,4 @@
---Soul Slayer - Moon Slayer
+--Zabimaru the Snake Tail
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableUnsummonable()
@@ -32,13 +32,13 @@ function s.initial_effect(c)
 	e3a:SetCondition(s.effcon)
 	e3a:SetTarget(s.efftg)
 	e3a:SetOperation(s.effop)
-	local e3b=Effect.CreateEffect(c)
-	e3b:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
-	e3b:SetRange(LOCATION_SZONE)
-	e3b:SetTargetRange(LOCATION_MZONE,0)
-	e3b:SetTarget(s.effreg)
-	e3b:SetLabelObject(e3a)
-	c:RegisterEffect(e3b)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_GRANT)
+	e3:SetRange(LOCATION_SZONE)
+	e3:SetTargetRange(LOCATION_MZONE,0)
+	e3:SetTarget(s.effreg)
+	e3:SetLabelObject(e3a)
+	c:RegisterEffect(e3)
 	
 end
 function s.filter(c)
