@@ -49,8 +49,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetCode(EFFECT_EQUIP_LIMIT)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			e1:SetValue(s.eqlimit)
-			e1:SetLabelObject(g:GetFirst())
-			tc:RegisterEffect(e1)
+			e1:SetLabelObject(tc)
+			g:GetFirst():RegisterEffect(e1)
 		end
 	end
 end
