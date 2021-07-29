@@ -68,13 +68,15 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		local th=g:GetFirst():IsAbleToHand()
 		local sp=ft>0 and g:GetFirst():IsCanBeSpecialSummoned(e,0,tp,false,false) and g:GetFirst():IsCode(202002302)
-		local op=0
-		if th and sp then
-			op=Duel.SelectYesNo(tp,aux.Stringid(id,2))
-		elseif th then
-			op=0
+		local sel={}
+		if th then
+			table.insert(sel.aux.Stringid(id,2))
+			if sp then
+				table.insert(sel.aux.Stringid(id,3))
+			end
 		end
-		if op==0 then
+		local res=Duel.SelectOption(tp,false,table.unpack(sel))
+		if res==0 then
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 		else
