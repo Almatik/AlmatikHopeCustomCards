@@ -70,9 +70,9 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		local sp=ft>0 and g:GetFirst():IsCanBeSpecialSummoned(e,0,tp,false,false) and g:GetFirst():IsCode(202002302)
 		local sel={}
 		if th then
-			table.insert(sel.aux.Stringid(id,2))
+			table.insert(sel,aux.Stringid(id,2))
 			if sp then
-				table.insert(sel.aux.Stringid(id,3))
+				table.insert(sel,aux.Stringid(id,3))
 			end
 		end
 		local res=Duel.SelectOption(tp,false,table.unpack(sel))
