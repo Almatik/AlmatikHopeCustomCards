@@ -59,7 +59,7 @@ end
 
 function s.effcon(e)
 	local c=e:GetHandler()
-	return c:IsCode(202002106)
+	return c:IsCode(202002036)
 end
 function s.efffilter(c)
 	return c:IsPosition(POS_FACEUP_ATTACK)
