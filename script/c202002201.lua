@@ -44,10 +44,19 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.SelectMatchingCard(tp,s.eqfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil)
 		if #g>0 then
 			Duel.Equip(tp,g:GetFirst(),tc)
+			local e1=Effect.CreateEffect(c)
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_EQUIP_LIMIT)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			e1:SetValue(s.eqlimit)
+			e1:SetLabelObject(g:GetFirst())
+			tc:RegisterEffect(e1)
 		end
 	end
 end
-
+function s.eqlimit(e,c)
+	return c==e:GetLabelObject()
+end
 
 
 
