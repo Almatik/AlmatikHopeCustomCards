@@ -62,6 +62,7 @@ function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,0)
 	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,ft,e,tp)
@@ -80,7 +81,17 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoHand(g,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,g)
 		else
-			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+			Duel.Equip(tp,g:GetFirst(),c)
+			local e1=Effect.CreateEffect(c)
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_EQUIP_LIMIT)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			e1:SetValue(s.eqlimit)
+			e1:SetLabelObject(c)
+			g:GetFirst():RegisterEffect(e1)
 		end
 	end
+end
+function s.eqlimit(e,c)
+	return c==e:GetLabelObject()
 end
