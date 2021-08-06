@@ -1,4 +1,5 @@
 --Madolche Fondant au Chocula
+local s,id=GetID()
 function s.initial_effect(c)
 	c:SetSPSummonOnce(id)
 	--xyz summon
