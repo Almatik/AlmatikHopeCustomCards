@@ -51,7 +51,7 @@ end
 
 
 
-function s.thfilter(c)
+function s.thfilter(c,tp)
 	return c:IsSetCard(0x2010) and c:IsAbleToGrave() and c:IsType(TYPE_MONSTER)
 		and Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,c)
 end
