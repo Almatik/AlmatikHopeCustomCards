@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x2010),aux.FilterBoolFunctionEx(Card.IsSetCard,0x2019))
+	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x2010),aux.FilterBoolFunctionEx(Card.IsSetCard,0x2015))
 	--spsummon condition
 	local e0a=Effect.CreateEffect(c)
 	e0a:SetType(EFFECT_TYPE_SINGLE)
@@ -54,7 +54,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 s.listed_names={202002036,202002302}
-s.listed_series={0x2010,0x2019}
+s.listed_series={0x2010,0x2015}
 function s.hspfilter(c,tp,sc)
 	return c:IsCode(202002036)
 		and c:GetEquipGroup():IsExists(aux.FilterBoolFunction(Card.IsCode,202002302),1,nil)
