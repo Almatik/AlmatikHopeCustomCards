@@ -137,7 +137,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(-500)
 		tc:RegisterEffect(e1)
 		local dam=c:GetAttack()-tc:GetAttack()
-		if tc:GetAttack()<c:GetAttack() then
+		if tc:GetAttack()<=c:GetAttack() then
 			if Duel.Destroy(tc,REASON_EFFECT)~=0 then
 				Duel.Damage(1-tp,dam,REASON_EFFECT)
 			end
