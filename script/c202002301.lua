@@ -63,7 +63,7 @@ end
 
 function s.effcon(e)
 	local c=e:GetHandler()
-	return c:IsCode(202001011)
+	return c:IsCode(202001011) or c:IsCode(id)
 end
 function s.efffilter(c,atk)
 	return c:IsFaceup() and c:GetAttack()<atk
