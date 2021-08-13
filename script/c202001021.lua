@@ -26,7 +26,7 @@ end
 s.listed_names={202002011,202002301}
 s.listed_series={0x2010,0x2015}
 function s.hspfilter(c,tp,sc)
-	return c:IsCode(202002011)
+	return c:IsCode(202001011)
 		and c:GetEquipGroup():IsExists(aux.FilterBoolFunction(Card.IsCode,202002301),1,nil)
 		and c:IsControler(tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
