@@ -78,9 +78,9 @@ end
 function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
+	local dam=c:GetAttack()-tc:GetAttack()
 	if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsFaceup() and tc:IsRelateToEffect(e) and tc:GetAttack()<c:GetAttack() then
 		if Duel.Destroy(tc,REASON_EFFECT)~=0 then
-			local dam=c:GetAttack()-tc:GetAttack()
 			Duel.Damage(1-tp,dam,REASON_EFFCT)
 		end
 	end
