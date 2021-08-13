@@ -33,6 +33,7 @@ function s.initial_effect(c)
 	e1:SetCondition(s.undescon)
 	e1:SetOperation(s.undesop)
 	c:RegisterEffect(e1)
+	--Reduce and Destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_DESTROY)
