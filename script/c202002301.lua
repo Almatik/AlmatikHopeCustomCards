@@ -5,10 +5,10 @@ function s.initial_effect(c)
 	--Search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,id)
+	e1:SetCost(s.cost)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
@@ -41,22 +41,22 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	
 end
-function s.filter(c)
-	return c:IsCode(202002201) and c:IsAbleToHand()
+function s.field(c,tp)
+	return c:IsCode(202002201) and c:GetActivateEffect():IsActivatable(tp,true,true) and not c:IsForbidden()
 end
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil) and c:IsAbleToDeck() end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return c:IsAbleToGraveAsCost() end
+	Duel.SendtoGrave(c,REASON_COST)
 end
+function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.field,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,tp) end
+	if not Duel.CheckPhaseActivity() then Duel.RegisterFlagEffect(tp,CARD_MAGICAL_MIDBREAKER,RESET_CHAIN,0,1) end
+end
+
 function s.operation(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	local tg=Duel.GetFirstMatchingCard(s.filter,tp,LOCATION_DECK,0,nil)
-	if tg then
-		Duel.SendtoDeck(c,tp,2,REASON_EFFECT)
-		Duel.SendtoHand(tg,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,tg)
-	end
+	local tc=Duel.SelectMatchingCard(tp,s.field,tp,LOCATION_DECK+LOCATION_HAND,0,1,1,nil,tp):GetFirst()
+	return aux.PlayFieldSpell(tc,e,tp,eg,ep,ev,re,r,rp)
 end
 
 
