@@ -52,23 +52,21 @@ end
 
 
 function s.thfilter(c,ft,e,tp)
-	return c:IsSetCard(0x2019)
-	and (c:IsAbleToHand() or (ft>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)))
+	return c:IsSetCard(0x2015)
+	and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil,ft,e,tp)
+		return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil)
 	end
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,0)
-	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil,ft,e,tp)
+	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 	if #g>0 then
 		local th=g:GetFirst():IsAbleToHand()
-		local sp=ft>0 and g:GetFirst():IsCanBeSpecialSummoned(e,0,tp,false,false) and g:GetFirst():IsCode(202002302)
+		local sp=g:GetFirst():IsCode(202002302)
 		local sel={}
 		if th then
 			table.insert(sel,aux.Stringid(id,2))
