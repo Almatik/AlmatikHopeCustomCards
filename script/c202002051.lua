@@ -61,6 +61,8 @@ end
 
 
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+	if #g~=1 then return false end
 	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -90,7 +92,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(800)
-		e1:SetCondition(s.effcon)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 		local e2=Effect.CreateEffect(c)
@@ -98,14 +99,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e2:SetCode(EFFECT_IMMUNE_EFFECT)
 		e2:SetRange(LOCATION_MZONE)
-		e2:SetCondition(s.effcon)
 		e2:SetValue(s.efilter)
 		tc:RegisterEffect(e2)
 	end
-end
-function s.effcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return not Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_MZONE,0,1,c,TYPE_MONSTER)
 end
 function s.efilter(e,te)
 	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
