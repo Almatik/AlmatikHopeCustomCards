@@ -105,9 +105,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	if #g~=1 then return false end
-	return c:IsFaceup()
+	return not Duel.IsExistingMatchingCard(Card.IsType,tp,LOCATION_MZONE,0,1,c,TYPE_MONSTER)
 end
 function s.efilter(e,te)
 	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
