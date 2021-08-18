@@ -106,7 +106,8 @@ end
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	return c:IsFaceup() and #g==1
+	if #g~=1 then return false end
+	return c:IsFaceup()
 end
 function s.efilter(e,te)
 	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP)

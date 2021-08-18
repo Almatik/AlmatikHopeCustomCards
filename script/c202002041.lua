@@ -54,8 +54,8 @@ function s.cfilter(c,tp)
 	if not c:IsAbleToDeckAsCost() then return false end
 	return Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil)
 end
-function s.setfilter(c,ignore)
-	return c:IsSetCard(0x2014) and c:IsSSetable(ignore)
+function s.setfilter(c)
+	return c:IsSetCard(0x2014)
 		 and (c:IsType(TYPE_TRAP) or c:IsType(TYPE_SPELL))
 end
 function s.setcost(e,tp,eg,ep,ev,re,r,rp,chk)
