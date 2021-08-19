@@ -19,7 +19,6 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCondition(s.condition)
-	e2:SetTarget(s.target)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
 	--Force battle
