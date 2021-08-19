@@ -1,5 +1,6 @@
 --Captain of the 11th Division - Kenpachi Zaraki
-function c202002011.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	c:EnableUnsummonable()
 	--special summon
 	local e1=Effect.CreateEffect(c)
