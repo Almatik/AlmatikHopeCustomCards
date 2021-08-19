@@ -16,7 +16,7 @@ function s.initial_effect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_DISABLE)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
+	e2:SetCode(EVENT_BATTLE_START)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCondition(s.condition)
 	e2:SetOperation(s.operation)
@@ -55,7 +55,8 @@ end
 
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c==Duel.GetAttacker() or c==Duel.GetAttackTarget()
+	local tc=c:GetBattleTarget()
+	return tc
 end
 function s.disfilter(c)
 	return (c:IsFaceup() or c:IsType(TYPE_TRAPMONSTER)) and not (c:IsType(TYPE_NORMAL) and c:GetOriginalType()&TYPE_NORMAL>0)
