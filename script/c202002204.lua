@@ -13,11 +13,9 @@ function s.initial_effect(c)
 	--actlimit
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetTargetRange(0,1)
-	e2:SetValue(s.aclimit)
+	e2:SetTargetRange(LOCATION_SZONE,LOCATION_SZONE)
 	e2:SetCondition(s.actcon)
 	c:RegisterEffect(e2)
 	--Substitute destruction for 1 "Shinigami" monster
@@ -49,15 +47,13 @@ end
 
 
 
-function s.aclimit(e,re,tp)
-	return (re:IsHasType(EFFECT_TYPE_ACTIVATE) or re:IsActiveType(TYPE_MONSTER))
+function s.actfilter(c)
+	return c:IsSetCard(0x2010)
 end
-function s.actcon(e)
-	local tp=e:GetHandlerPlayer()
-	local a=Duel.GetAttacker()
-	local at=Duel.GetAttackTarget()
-	return (a and a:IsSetCard(0x2010) and a:IsControler(tp))
-		or (at and at:IsSetCard(0x2010) and at:IsControler(tp))
+function s.actcon(e,tp)
+	local ph=Duel.GetCurrentPhase()
+	return Duel.IsExistingMatchingCard(s.actfilter,tp,LOCATION_MZONE,0,1,nil)
+	and ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
 end
 
 

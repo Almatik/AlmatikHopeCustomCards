@@ -28,23 +28,23 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetCondition(s.battlecon)
 	e3:SetTarget(s.battletg)
 	e3:SetOperation(s.battleop)
 	c:RegisterEffect(e3)
 end
-function s.cfilter(c)
-	return c:GetSequence()<5
+function s.spfilter(c)
+	return c:IsFaceup()
 end
-function s.spcon(e,c)
-	if c==nil then return true end
-	local tp=c:GetControler()
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	local rg=Duel.GetReleaseGroup(tp)
-	return (#g>0 or #rg>0) and g:FilterCount(Card.IsReleasable,nil)==#g 
-		and g:FilterCount(s.cfilter,nil)+Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	local g1=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_MZONE,0,nil)
+	local g2=Duel.GetMatchingGroup(s.spfilter,tp,0,LOCATION_MZONE,nil)
+	local atk1=g1:GetSum(Card.GetAttack)
+	local atk2=g2:GetSum(Card.GetAttack)
+	return atk2>atk1 and g1:IsExists(Card.IsSetCard,1,nil,0x2010)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.GetReleaseGroup(tp)
+	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
 	Duel.Release(g,REASON_COST)
 end
 
@@ -95,7 +95,10 @@ end
 
 
 
-
+function s.battlecon(e,tp,eg,ep,ev,re,r,rp)
+	local ph=Duel.GetCurrentPhase()
+	return ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
+end
 function s.battletg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
 	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
