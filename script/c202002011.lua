@@ -33,15 +33,22 @@ function s.initial_effect(c)
 	e3:SetOperation(s.battleop)
 	c:RegisterEffect(e3)
 end
+function s.spfilter(c)
+	return c:GetSequence()<5
+end
+
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local g1=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_MZONE,0,nil)
-	local atk1=g1:GetSum(Card.GetAttack)
-	local g2=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
-	local atk2=g2:GetSum(Card.GetAttack)
-	return atk2>atk1 and g1:IsExists(Card.IsSetCard,1,nil,0x2010)
+	if c==nil then return true end
+	local tp=c:GetControler()
+	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+	local og=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
+	local rg=Duel.GetReleaseGroup(tp)
+	return (#g>0 or #rg>0) and g:FilterCount(Card.IsReleasable,nil)==#g 
+		and g:FilterCount(s.spfilter,nil)+Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and g:GetSum(Card.GetAttack)<og:GetSum(Card.GetAttack)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+	local g=Duel.GetReleaseGroup(tp)
 	Duel.Release(g,REASON_COST)
 end
 
