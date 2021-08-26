@@ -8,6 +8,7 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
+	e1:SetCounterLimit(id,1)
 	e1:SetCondition(s.spcon)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
@@ -21,36 +22,35 @@ function s.initial_effect(c)
 	e2:SetValue(s.aclimit)
 	e2:SetCondition(s.actcon)
 	c:RegisterEffect(e2)
-	--Force battle
+	--Destroy and Inflict
 	local e3=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_ANNOUNCE)
-	e3:SetType(EFFECT_TYPE_QUICK_O)
-	e3:SetCode(EVENT_FREE_CHAIN)
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCondition(s.battlecon)
-	e3:SetTarget(s.battletg)
-	e3:SetOperation(s.battleop)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e3:SetCode(EVENT_BATTLE_DESTROYING)
+	e3:SetCounterLimit(id,1^2)
+	e3:SetCondition(s.descon)
+	e3:SetTarget(s.destg)
+	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
-end
-function s.spfilter(c)
-	return c:GetSequence()<5
-end
 
-function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+end
+function s.rescon(sg,e,tp,mg)
+	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:GetSum(Card.GetAttack)>=3000
+		and sg:FilterCount(Card.IsSetCard,nil,0x2010)~=0
+end
+function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	local g=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-	local og=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
 	local rg=Duel.GetReleaseGroup(tp)
-	return (#g>0 or #rg>0) and g:FilterCount(Card.IsReleasable,nil)==#g 
-		and g:FilterCount(s.spfilter,nil)+Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and g:GetSum(Card.GetAttack)<og:GetSum(Card.GetAttack)
+	return aux.SelectUnselectGroup(rg,e,tp,1,7,s.rescon,0)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.GetReleaseGroup(tp)
+	local rg=Duel.GetReleaseGroup(tp)
+	local g=aux.SelectUnselectGroup(rg,e,tp,1,7,s.rescon,1,tp,HINTMSG_RELEASE,s.rescon)
 	Duel.Release(g,REASON_COST)
 end
+
 
 
 
@@ -73,20 +73,25 @@ end
 
 
 
-function s.battlecon(e,tp,eg,ep,ev,re,r,rp)
-	local ph=Duel.GetCurrentPhase()
-	return ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
-end
-function s.battletg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,nil)
-end
-function s.battleop(e,tp,eg,ep,ev,re,r,rp)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		Duel.CalculateDamage(c,tc)
+	local a=Duel.GetAttacker()
+	local d=Duel.GetAttackTarget()
+	if a~=c then d=a end
+	return c:IsRelateToBattle() and c:IsFaceup()
+		and d and d:GetLocation()==LOCATION_GRAVE and d:IsType(TYPE_MONSTER)
+end
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,#g*500)
+end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
+	local ct=Duel.Destroy(g,REASON_EFFECT)
+	if ct>0 then
+		Duel.Damage(1-tp,ct*500,REASON_EFFECT)
 	end
 end
+
