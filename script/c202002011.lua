@@ -61,7 +61,9 @@ function s.aclimit(e,re,tp)
 	return (re:IsHasType(EFFECT_TYPE_ACTIVATE) or re:IsActiveType(TYPE_MONSTER))
 end
 function s.actcon(e)
-	return Duel.GetAttacker()==e:GetHandler()
+	local c=e:GetHandler()
+	return Duel.GetAttacker()==c
+		or Duel.GetAttackTarget()==c
 end
 
 
