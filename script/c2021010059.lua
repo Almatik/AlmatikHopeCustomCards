@@ -65,10 +65,12 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return c:CheckRemoveOverlayCard(tp,1,REASON_COST) end
+	if chk==0 then return c:CheckRemoveOverlayCard(tp,1,REASON_COST)
+		and c:GetFlagEffect(id)==0 end
 	c:RemoveOverlayCard(tp,1,1,REASON_COST)
 	local tc=Duel.GetOperatedGroup():GetFirst()
 	e:SetLabelObject(ct)
+	c:RegisterFlagEffect(id,RESET_PHASE+PHASE_DAMAGE_CAL,0,1)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=Duel.GetAttacker()
