@@ -69,7 +69,7 @@ function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 		and c:GetFlagEffect(id)==0 end
 	c:RemoveOverlayCard(tp,1,1,REASON_COST)
 	local tc=Duel.GetOperatedGroup():GetFirst()
-	e:SetLabelObject(ct)
+	e:SetLabelObject(tc)
 	c:RegisterFlagEffect(id,RESET_PHASE+PHASE_DAMAGE_CAL,0,1)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
