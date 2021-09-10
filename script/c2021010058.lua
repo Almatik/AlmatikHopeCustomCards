@@ -84,9 +84,7 @@ function s.spoppfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x8e)
 end
 function s.oppcon(e)
-	local c=e:GetHandler()
-	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.spoppfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(s.spoppfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function s.oppfilter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
