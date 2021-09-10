@@ -112,6 +112,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)~=0 then
 		local tc=Duel.GetFirstTarget()
 		Duel.Overlay(c,Group.FromCards(tc))
-		end
 	end
 end

@@ -83,7 +83,7 @@ end
 function s.spoppfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x8e)
 end
-function s.spcon(e,c)
+function s.oppcon(e,c)
 	if c==nil then return true end
 	return Duel.IsExistingMatchingCard(s.spoppfilter,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
