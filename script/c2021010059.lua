@@ -72,7 +72,7 @@ function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=Duel.GetAttacker()
-	local atk=e:GetLabelObject():GetAttack()
+	local atk=e:GetLabelObject():GetFirst():GetAttack()
 	if c:IsControler(1-tp) then c=Duel.GetAttackTarget() end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
