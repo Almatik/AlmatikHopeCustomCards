@@ -12,6 +12,19 @@ function s.initial_effect(c)
 	pe1:SetTargetRange(1,0)
 	pe1:SetTarget(s.splimit)
 	c:RegisterEffect(pe1)
+	--tribute substitute
+	local pe2=Effect.CreateEffect(c)
+	pe2:SetType(EFFECT_TYPE_FIELD)
+	pe2:SetDescription(aux.Stringid(id,0))
+	pe2:SetCode(CARD_URSARCTIC_BIG_DIPPER)
+	pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	pe2:SetTargetRange(1,0)
+	pe2:SetRange(LOCATION_PZONE)
+	pe2:SetCountLimit(1)
+	pe2:SetCondition(s.repcon)
+	pe2:SetValue(s.repval)
+	pe2:SetOperation(s.repop)
+	c:RegisterEffect(pe2)
 	--Special Summon procedure
 	local me1=Effect.CreateEffect(c)
 	me1:SetDescription(aux.Stringid(id,0))
@@ -47,6 +60,40 @@ end
 function s.splimit(e,c)
 	return not c:IsSetCard(0x69)
 end
+
+function s.repcfilter(c,extracon,base,params)
+	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_DRAGON) and c:IsAbleToRemoveAsCost() and (not extracon or extracon(base,c,table.unpack(params)))
+end
+function s.repcon(e)
+	return Duel.IsExistingMatchingCard(s.repcfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil)
+end
+function s.repval(base,e,tp,eg,ep,ev,re,r,rp,chk,extracon)
+	local c=e:GetHandler()
+	return c:IsSetCard(0x69) and
+		(not extracon or Duel.IsExistingMatchingCard(s.repcfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil,extracon,base,{e,tp,eg,ep,ev,re,r,rp,chk}))
+end
+function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,0,id)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectMatchingCard(tp,s.repcfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	Duel.Remove(g,POS_FACEUP,REASON_COST+REASON_REPLACE)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function s.hspcon(e,c)
 	if c==nil then return true end
 	return Duel.CheckReleaseGroup(c:GetControler(),Card.IsSetCard,1,true,1,true,c,c:GetControler(),nil,false,e:GetHandler(),0x69)
@@ -66,9 +113,15 @@ function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Release(g,REASON_COST)
 	g:DeleteGroup()
 end
+function s.thtfilter(c)
+	return c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_LIGHT)
+		and not c:IsStatus(STATUS_BATTLE_DESTROYED)
+end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.thtfilter,1,false,nil,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.thtfilter,1,1,false,nil,nil)
+	Duel.Release(g,REASON_COST)
 end
 function s.thfilter(c)
 	return c:IsSetCard(0x69) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand() and not c:IsCode(id)

@@ -12,6 +12,16 @@ function s.initial_effect(c)
 	pe1:SetTargetRange(1,0)
 	pe1:SetTarget(s.splimit)
 	c:RegisterEffect(pe1)
+	--destroy replace
+	local pe2=Effect.CreateEffect(c)
+	pe2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	pe2:SetCode(EFFECT_DESTROY_REPLACE)
+	pe2:SetRange(LOCATION_PZONE)
+	pe2:SetCountLimit(1)
+	pe2:SetTarget(s.reptg)
+	pe2:SetValue(s.repval)
+	pe2:SetOperation(s.repop)
+	c:RegisterEffect(pe2)
 	--summon with no tribute
 	local me1=Effect.CreateEffect(c)
 	me1:SetDescription(aux.Stringid(id,0))
@@ -45,6 +55,48 @@ end
 function s.splimit(e,c)
 	return not c:IsSetCard(0x69)
 end
+function s.repfilter(c,tp)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_DRAGON)
+end
+function s.cfilter(c,e,tp)
+	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_DRAGON) and c:IsControler(tp) and c:IsReleasableByEffect(e)
+		and not c:IsStatus(STATUS_DESTROY_CONFIRMED+STATUS_BATTLE_DESTROYED)
+end
+function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local ct=eg:FilterCount(s.repfilter,nil,tp)
+	if chk==0 then return ct>0 and Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil,e,tp)
+		and Duel.GetFlagEffect(tp,id)==0 end
+	if Duel.SelectEffectYesNo(tp,e:GetHandler(),96) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESREPLACE)
+		local tg=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,nil,e,tp)
+		Duel.SetTargetCard(tg)
+		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
+		return true
+	else return false end
+end
+function s.repval(e,c)
+	return s.repfilter(c,e:GetHandlerPlayer())
+end
+function s.repop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,1-tp,id)
+	local tc=Duel.GetFirstTarget()
+	Duel.Release(tc,REASON_EFFECT+REASON_REPLACE)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function s.cfilter(c)
 	return c:IsFacedown() or not c:IsSetCard(0x69)
 end
@@ -54,9 +106,15 @@ function s.ntcon(e,c,minc,zone)
 	return minc==0 and c:GetLevel()>4 and Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_TOFIELD,zone)>0
 		and (Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 or not Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil))
 end
+function s.thtfilter(c)
+	return c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_LIGHT)
+		and not c:IsStatus(STATUS_BATTLE_DESTROYED)
+end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.thtfilter,1,false,nil,nil) end
+	local g=Duel.SelectReleaseGroupCost(tp,s.thtfilter,1,1,false,nil,nil)
+	Duel.Release(g,REASON_COST)
 end
 function s.thfilter(c)
 	return c:IsSetCard(0x69) and (c:IsType(TYPE_SPELL) or c:IsType(TYPE_TRAP)) and c:IsAbleToHand() and not c:IsCode(id)
