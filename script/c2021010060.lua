@@ -113,7 +113,7 @@ function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if Duel.SendtoDeck(c,tp,nil,REASON_EFFECT)~=0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+	if Duel.SendtoDeck(c,tp,0,REASON_EFFECT)~=0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 		local c=e:GetHandler()
 		local reset={}
 		local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
