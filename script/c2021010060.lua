@@ -71,7 +71,7 @@ function s.sendcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsSummonType(SUMMON_TYPE_XYZ) and c:GetFlagEffect(id)>0
 end
-function s.sendfilter(с)
+function s.sendfilter(c)
 	return c:IsFacedown()
 		or not c:HasLevel()
 end
