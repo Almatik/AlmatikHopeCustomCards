@@ -72,7 +72,7 @@ function s.sendcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsSummonType(SUMMON_TYPE_XYZ) and c:GetFlagEffect(id)>0
 end
 function s.sendfilter(e)
-	return c:IsFacedown
+	return c:IsFacedown()
 		or not c:HasLevel()
 end
 function s.sendtg(e,tp,eg,ep,ev,re,r,rp,chk)
