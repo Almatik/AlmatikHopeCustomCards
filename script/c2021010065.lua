@@ -91,13 +91,13 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.GetDecktopGroup(1-tp,lv):Filter(s.monfilter,nil,e,tp)
 		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			local sg=g:Select(tp,1,1,nil)
-			Duel.SendToGrave(sg,REASON_EFFECT)
+			Duel.SendtoGrave(sg,REASON_EFFECT)
 			Duel.ShuffleDeck(1-tp)
 			Duel.SendtoHand(tc,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,tc)
 		else
 			Duel.SortDecktop(tp,1-tp,lv)
-			Duel.SendToGrave(tc,REASON_EFFECT)
+			Duel.SendtoGrave(tc,REASON_EFFECT)
 		end
 	end
 end
