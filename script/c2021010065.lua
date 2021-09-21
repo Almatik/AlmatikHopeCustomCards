@@ -126,7 +126,7 @@ end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsRelateToEffect(e) then
+	if c:IsSSetable() and tc:IsRelateToEffect(e) and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 then
 		Duel.SSet(tp,c)
 		--Banish it if it leaves the field
 		local e1=Effect.CreateEffect(c)
