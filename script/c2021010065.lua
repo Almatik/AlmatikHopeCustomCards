@@ -16,6 +16,7 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCountLimit(1,id)
+	e2:SetCondition(s.thcon)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
@@ -30,8 +31,6 @@ function s.initial_effect(c)
 	e3:SetTarget(s.bantg)
 	e3:SetOperation(s.banop)
 	c:RegisterEffect(e3)
-
-
 end
 s.listed_series={0x8e}
 s.listed_names={62188962}
