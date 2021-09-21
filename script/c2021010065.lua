@@ -87,7 +87,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,rc)
 		local tc=rc:GetFirst()
 		Duel.ConfirmDeckTop(1-tp,3)
-		local g=Duel.GetDecktopGroup(1-tp,3):Filter(s.monfilter,nil,e,tp)
+		local g=Duel.GetDecktopGroup(1-tp,3):Filter(s.monfilter,nil)
 		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			local sg=g:Select(tp,1,1,nil)
 			Duel.SendToGrave(sg,REASON_EFFECT)
