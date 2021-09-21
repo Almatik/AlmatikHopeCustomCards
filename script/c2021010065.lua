@@ -12,14 +12,18 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_TODECK)
-	e2:SetType(EFFECT_TYPE_QUICK_O)
-	e2:SetCode(EVENT_FREE_CHAIN)
+	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.thcon)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
+	local e2a=e2:Clone()
+	e2a:SetType(EFFECT_TYPE_QUICK_O)
+	e2a:SetCode(EVENT_FREE_CHAIN)
+	e2a:SetCondition(s.thcon2)
+	c:RegisterEffect(e2a)
 	--to deck
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,3))
@@ -68,6 +72,12 @@ function s.thgfilter(c,top)
 end
 function s.monfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
+end
+function s.thcon(e,tp,eg,ep,ev,re,r,rp,chk)
+	return not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,62188962),tp,LOCATION_ONFIELD,0,1,nil)
+end
+function s.thcon2(e,tp,eg,ep,ev,re,r,rp,chk)
+	return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,62188962),tp,LOCATION_ONFIELD,0,1,nil) and Duel.IsMainPhase()
 end
 	--Activation legality
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
