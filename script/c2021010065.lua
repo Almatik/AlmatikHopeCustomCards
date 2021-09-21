@@ -62,8 +62,8 @@ end
 
 
 	--Check for a LIGHT fairy monster
-function s.thgfilter(c,lv)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x8e) and c:IsLevelBelow(lv)
+function s.thgfilter(c,top)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x8e) and c:IsLevelBelow(top)
 		and not c:IsPublic()
 		and (c:IsAbleToDeck() or c:IsAbleToGrave())
 end
@@ -72,17 +72,17 @@ function s.monfilter(c)
 end
 	--Activation legality
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local lv=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,lv) end
+	local top=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,top) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
 	--Reveal 1 LIGHT fairy monster, add 1 level 7 LIGHT dragon monster, place revealed monster on bottom of deck
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	local lv=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
-	if not Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,lv) then return end
+	local top=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
+	if not Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,top) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local rc=Duel.SelectMatchingCard(tp,s.thgfilter,tp,LOCATION_DECK,0,1,1,nil,lv)
+	local rc=Duel.SelectMatchingCard(tp,s.thgfilter,tp,LOCATION_DECK,0,1,1,nil,top)
 	if #rc>0 then
 		Duel.ConfirmCards(1-tp,rc)
 		local tc=rc:GetFirst()
