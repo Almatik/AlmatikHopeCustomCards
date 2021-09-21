@@ -108,7 +108,12 @@ function s.xyzcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then
+	if chk==0 then return c:IsAbleToDeck() end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_GRAVE)
+end
+function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if Duel.SendtoDeck(c,tp,nil,REASON_EFFECT)~=0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 		local c=e:GetHandler()
 		local reset={}
 		local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
@@ -116,49 +121,28 @@ function s.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_XYZ_MATERIAL)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
 			table.insert(reset,e1)
 		end
-		local res=Duel.IsExistingMatchingCard(s.xyzfilter,tp,LOCATION_EXTRA,0,1,nil,mg)
-		for _,eff in ipairs(reset) do
-			eff:Reset()
-		end
-		return res and c:IsAbleToDeck()
-	end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
-
-end
-function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if Duel.SendtoDeck(c,tp,nil,REASON_EFFECT)==0 then return end
-	local c=e:GetHandler()
-	local reset={}
-	local mg=Duel.GetMatchingGroup(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
-	for tc in aux.Next(mg) do
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_XYZ_MATERIAL)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(e1)
-		table.insert(reset,e1)
-	end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local xyz=Duel.SelectMatchingCard(tp,s.xyzfilter,tp,LOCATION_EXTRA,0,1,1,nil,mg):GetFirst()
-	if xyz then
-		Duel.XyzSummon(tp,xyz,nil,mg,99,99)
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_SPSUMMON_COST)
-		e1:SetOperation(function()
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local xyz=Duel.SelectMatchingCard(tp,s.xyzfilter,tp,LOCATION_EXTRA,0,1,1,nil,mg):GetFirst()
+		if xyz then
+			Duel.XyzSummon(tp,xyz,nil,mg,99,99)
+			local e1=Effect.CreateEffect(c)
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_SPSUMMON_COST)
+			e1:SetOperation(function()
+				for _,eff in ipairs(reset) do
+					eff:Reset()
+				end
+			end)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			xyz:RegisterEffect(e1,true)
+		else
 			for _,eff in ipairs(reset) do
 				eff:Reset()
 			end
-		end)
-		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		xyz:RegisterEffect(e1,true)
-	else
-		for _,eff in ipairs(reset) do
-			eff:Reset()
 		end
 	end
 end
