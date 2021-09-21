@@ -62,8 +62,8 @@ end
 
 
 	--Check for a LIGHT fairy monster
-function s.thgfilter(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x8e)
+function s.thgfilter(c,top)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x8e) and c:IsLevelBelow(top)
 		and not c:IsPublic()
 		and (c:IsAbleToDeck() or c:IsAbleToGrave())
 end
@@ -72,22 +72,23 @@ function s.monfilter(c)
 end
 	--Activation legality
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil)
-		and Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)>=3 end
+	local top=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,top) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
 	--Reveal 1 LIGHT fairy monster, add 1 level 7 LIGHT dragon monster, place revealed monster on bottom of deck
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
-	if not Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil)
-		and Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)>=3  then return end
+	local top=Duel.GetFieldGroupCount(1-tp,LOCATION_DECK,0)
+	if not Duel.IsExistingMatchingCard(s.thgfilter,tp,LOCATION_DECK,0,1,nil,top) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local rc=Duel.SelectMatchingCard(tp,s.thgfilter,tp,LOCATION_DECK,0,1,1,nil)
+	local rc=Duel.SelectMatchingCard(tp,s.thgfilter,tp,LOCATION_DECK,0,1,1,nil,top)
 	if #rc>0 then
 		Duel.ConfirmCards(1-tp,rc)
 		local tc=rc:GetFirst()
-		Duel.ConfirmDeckTop(1-tp,3)
-		local g=Duel.GetDecktopGroup(1-tp,3):Filter(s.monfilter,nil)
+		local lv=tc:GetLevel()
+		Duel.ConfirmDecktop(1-tp,lv)
+		local g=Duel.GetDecktopGroup(1-tp,lv):Filter(s.monfilter,nil,e,tp)
 		if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			local sg=g:Select(tp,1,1,nil)
 			Duel.SendToGrave(sg,REASON_EFFECT)
@@ -95,7 +96,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SendtoHand(tc,nil,REASON_EFFECT)
 			Duel.ConfirmCards(1-tp,tc)
 		else
-			Duel.SortDecktop(tp,1-tp,3)
+			Duel.SortDecktop(tp,1-tp,lv)
 			Duel.SendToGrave(tc,REASON_EFFECT)
 		end
 	end
