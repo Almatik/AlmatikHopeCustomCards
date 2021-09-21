@@ -114,7 +114,7 @@ end
 function s.banfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x8e) and c:IsAbleToGrave()
 end
-function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.bantg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and s.banfilter(chkc) end
 	if chk==0 then return e:GetHandler():IsAbleToHand()
 		and Duel.IsExistingTarget(s.banfilter,tp,LOCATION_REMOVED,0,1,nil) end
@@ -123,7 +123,7 @@ function s.tgtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
 end
-function s.tdop(e,tp,eg,ep,ev,re,r,rp)
+function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and Duel.SendtoGrave(tc,REASON_EFFECT)~=0 and tc:IsRelateToEffect(e) then
