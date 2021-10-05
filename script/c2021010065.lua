@@ -3,6 +3,11 @@ local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableCounterPermit(0x21065)
 	c:SetCounterLimit(0x21065,3)
+	--Activate
+	local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_ACTIVATE)
+	e0:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e0)
 	--Must Pay
 	local e0a=Effect.CreateEffect(c)
 	e0a:SetType(EFFECT_TYPE_FIELD)
