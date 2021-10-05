@@ -1,8 +1,8 @@
 --Vampire Empirelocal s,id=GetID()
 local s,id=GetID()
 function s.initial_effect(c)
-	c:EnableCounterPermit(0x21065)
-	c:SetCounterLimit(0x21065,3)
+	c:EnableCounterPermit(0x2021)
+	c:SetCounterLimit(0x2021,3)
 	--Activate
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_ACTIVATE)
@@ -78,7 +78,7 @@ function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if ep~=tp then return end
 	local ct=math.floor(ev/500)
-	c:AddCounter(0x21065,ct)
+	c:AddCounter(0x14a,ct)
 end
 
 
@@ -92,9 +92,9 @@ function s.con(e,tp)
 	return Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x8e)
 end
 function s.cost1(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x21065,1,REASON_COST) end
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x2021,1,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	e:GetHandler():RemoveCounter(tp,0x21065,1,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x2021,1,REASON_COST)
 end
 function s.filter1(c)
 	return c:IsFaceup() and c:IsRace(RACE_ZOMBIE)
@@ -127,9 +127,9 @@ end
 
 --Counter 2
 function s.cost2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x21065,2,REASON_COST) end
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x2021,2,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	e:GetHandler():RemoveCounter(tp,0x21065,2,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x2021,2,REASON_COST)
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -153,9 +153,9 @@ end
 
 --Counter 3
 function s.cost3(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x21065,3,REASON_COST) end
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x2021,3,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	e:GetHandler():RemoveCounter(tp,0x21065,3,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x2021,3,REASON_COST)
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and chkc:IsFaceup() end
