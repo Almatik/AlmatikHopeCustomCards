@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	Link.AddProcedure(c,nil,2,nil,s.matcheck)
+	Link.AddProcedure(c,nil,2,2,s.matcheck)
 	--atkup
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
@@ -35,8 +35,8 @@ function s.initial_effect(c)
 	e6:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	c:RegisterEffect(e6)
 end
-function s.matcheck(g,lc,sumtype,tp)
-	return g:IsExists(Card.IsSetCard,1,nil,0x3e,lc,sumtype,tp)
+function s.matcheck(c,lc,sumtype,tp)
+	return c:IsRace(RACE_REPTILE,lc,sumtype,tp) and c:IsSetCard(0x3e,lc,sumtype,tp)
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
