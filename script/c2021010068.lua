@@ -9,7 +9,7 @@ function s.initial_effect(c)
 	e1:SetCategory(CATEGORY_TOGRAVE)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1)
+	e1:SetCountLimit(1,id)
 	e1:SetTarget(s.tgtg)
 	e1:SetOperation(s.tgop)
 	c:RegisterEffect(e1)
@@ -19,7 +19,7 @@ function s.initial_effect(c)
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCountLimit(1,id)
+	e2:SetCountLimit(1,id^2)
 	e2:SetCost(s.thcost)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
@@ -61,18 +61,40 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,600) end
 	Duel.PayLPCost(tp,600)
 end
-function s.thfilter(c)
+function s.thfilter1(c)
 	return c:IsCode(24094653) and c:IsAbleToHand()
 end
+function s.thfilter2(c)
+	return c:IsCode(6077601) and c:IsAbleToHand()
+end
+function s.chfilter(c)
+	return c:IsCode(70245411) and c:IsFaceup()
+end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
+	if chk==0 then return 
+		Duel.IsExistingMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,1,nil) 
+		or (Duel.IsExistingMatchingCard(s.chfilter,tp,LOCATION_ONFIELD,0,1,nil)
+			and Duel.IsExistingMatchingCard(s.thfilter2,tp,LOCATION_DECK,0,1,nil))
+	end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	local sel={}
+	if Duel.IsExistingMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,1,nil) then
+		table.insert(sel,aux.Stringid(id,2))
+	end
+	if Duel.IsExistingMatchingCard(s.chfilter,tp,LOCATION_ONFIELD,0,1,nil) and Duel.IsExistingMatchingCard(s.thfilter2,tp,LOCATION_DECK,0,1,nil) then
+		table.insert(sel,aux.Stringid(id,3))
+	end
+	local res=Duel.SelectOption(tp,false,table.unpack(sel))
+	if res==0 then
+		local tc=Duel.GetFirstMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,nil)
+	else
+		local tc=Duel.GetFirstMatchingCard(s.thfilter2,tp,LOCATION_DECK,0,nil)
+	end
+	if tc then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,tc)
 	end
 end
