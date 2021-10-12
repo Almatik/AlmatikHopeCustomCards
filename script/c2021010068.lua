@@ -28,7 +28,7 @@ function s.initial_effect(c)
 end
 s.listed_series={0xa9,0xc3}
 function s.matfilter(c,lc,stype,tp)
-	return c:IsSetCard(0xa9,lc,stype,tp) or c:IsSetCard(0xc3,lc,stype,tp)
+	return c:IsSetCard(0xa9,lc,stype,tp)
 end
 
 function s.filter(c)
@@ -58,8 +58,8 @@ end
 
 
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,600) end
-	Duel.PayLPCost(tp,600)
+	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+	Duel.PayLPCost(tp,1000)
 end
 function s.thfilter1(c)
 	return c:IsCode(24094653) and c:IsAbleToHand()
@@ -90,11 +90,15 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local res=Duel.SelectOption(tp,false,table.unpack(sel))
 	if res==0 then
 		local tc=Duel.GetFirstMatchingCard(s.thfilter1,tp,LOCATION_DECK,0,nil)
+		if tc then
+			Duel.SendtoHand(tc,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,tc)
+		end
 	else
 		local tc=Duel.GetFirstMatchingCard(s.thfilter2,tp,LOCATION_DECK,0,nil)
-	end
-	if tc then
-		Duel.SendtoHand(tc,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,tc)
+		if tc then
+			Duel.SendtoHand(tc,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,tc)
+		end
 	end
 end
