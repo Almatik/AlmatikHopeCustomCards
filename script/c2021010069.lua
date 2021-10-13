@@ -1,55 +1,29 @@
 --Frightfur Broken Bear
 local s,id=GetID()
 function s.initial_effect(c)
-	--summon with 1 tribute
+	--damage
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_SUMMON_PROC)
-	e1:SetTarget(s.ottg)
-	e1:SetOperation(s.otop)
-	e1:SetValue(SUMMON_TYPE_TRIBUTE)
+	e1:SetCategory(CATEGORY_DAMAGE)
+	e1:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_SINGLE)
+	e1:SetCode(EVENT_SUMMON_SUCCESS)
+	e1:SetTarget(s.damtg)
+	e1:SetOperation(s.damop)
 	c:RegisterEffect(e1)
-	--damage
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_DAMAGE)
-	e2:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_SINGLE)
-	e2:SetCode(EVENT_SUMMON_SUCCESS)
-	e2:SetTarget(s.damtg)
-	e2:SetOperation(s.damop)
+	local e2=e1:Clone()
+	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e2)
-	--Special summon itself from GY
+	--Special summon itself from hand or GY
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,2))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_IGNITION)
-	e3:SetRange(LOCATION_GRAVE)
+	e3:SetRange(LOCATION_HAND+LOCATION_GRAVE)
 	e3:SetCountLimit(1,{id,1})
 	e3:SetCondition(s.sscon)
 	e3:SetTarget(s.sstg)
 	e3:SetOperation(s.ssop)
 	c:RegisterEffect(e3)
-end
-function s.rmfilter(c)
-	return c:IsRace(RACE_WINDBEAST) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
-end
-function s.ottg(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_GRAVE,0,1,1,true,nil)
-	if g then
-		g:KeepAlive()
-		e:SetLabelObject(g)
-		return true
-	end
-	return false
-end
-function s.otop(e,tp,eg,ep,ev,re,r,rp,c)
-	local sg=e:GetLabelObject()
-	if not sg then return end
-	Duel.Remove(sg,POS_FACEUP,REASON_COST)
-	sg:DeleteGroup()
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -91,7 +65,7 @@ function s.ssop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
-	e1:SetDescription(aux.Stringid(id,3))
+	e1:SetDescription(aux.Stringid(id,2))
 	e1:SetTargetRange(1,0)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetTarget(s.sslimit)
