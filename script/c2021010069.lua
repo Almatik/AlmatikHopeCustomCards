@@ -33,7 +33,6 @@ function s.initial_effect(c)
 end
 function s.otop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=Duel.SelectMatchingCard(tp,Card.IsRace,tp,LOCATION_GRAVE,0,1,1,nil,RACE_WINDBEAST)
-	c:SetMaterial(g)
 	Duel.Remove(g,POS_FACEUP,REASON_SUMMON+REASON_MATERIAL)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
