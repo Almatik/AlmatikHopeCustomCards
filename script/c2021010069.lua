@@ -7,6 +7,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_SUMMON_PROC)
+	e1:SetTarget(s.ottg)
 	e1:SetOperation(s.otop)
 	e1:SetValue(SUMMON_TYPE_TRIBUTE)
 	c:RegisterEffect(e1)
@@ -31,9 +32,24 @@ function s.initial_effect(c)
 	e3:SetOperation(s.ssop)
 	c:RegisterEffect(e3)
 end
+function s.rmfilter(c)
+	return c:IsRace(RACE_WINDBEAST) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
+end
+function s.ottg(e,tp,eg,ep,ev,re,r,rp,c)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectMatchingCard(tp,s.rmfilter,tp,LOCATION_GRAVE,0,1,1,true,nil)
+	if g then
+		g:KeepAlive()
+		e:SetLabelObject(g)
+		return true
+	end
+	return false
+end
 function s.otop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectMatchingCard(tp,Card.IsRace,tp,LOCATION_GRAVE,0,1,1,nil,RACE_WINDBEAST)
-	Duel.Remove(g,POS_FACEUP,REASON_SUMMON+REASON_MATERIAL)
+	local sg=e:GetLabelObject()
+	if not sg then return end
+	Duel.Remove(sg,POS_FACEUP,REASON_COST)
+	sg:DeleteGroup()
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
