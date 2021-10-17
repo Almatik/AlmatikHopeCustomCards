@@ -67,10 +67,10 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.penfilter(chkc,e,tp,lsc,rsc) end
-	if chk==0 then return Duel.IsExistingTarget(s.penfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,lsc,rsc) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,s.penfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,lsc,rsc)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,lsc,rsc) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,s.penfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,lsc,rsc)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
