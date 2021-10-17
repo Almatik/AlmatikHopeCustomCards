@@ -74,7 +74,7 @@ end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if #sg=<0 then return end
+	if #sg<=0 then return end
 	local tc=sg:GetFirst()
 	for tc in aux.Next(sg) do
 		Duel.SendtoGrave(tc,REASON_EFFECT)
