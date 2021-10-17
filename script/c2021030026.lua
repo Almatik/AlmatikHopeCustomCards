@@ -32,7 +32,7 @@ function s.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCondition(s.spcon)
-	e2:SetOperation(s.spop)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--Set in P.Zone
 	local e2=Effect.CreateEffect(c)
