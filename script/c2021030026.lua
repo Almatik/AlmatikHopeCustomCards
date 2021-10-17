@@ -59,6 +59,7 @@ end
 function s.penfilter(c,lsc,rsc)
 	local lv=c:GetLevel()
 	return lv>lsc and lv<rsc and c:IsAbleToGrave()
+		and c:IsSetCard(0x8e) and c:IsType(TYPE_MONSTER)
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()

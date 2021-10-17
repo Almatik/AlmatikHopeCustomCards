@@ -60,6 +60,7 @@ end
 function s.penfilter(c,e,tp,lsc,rsc)
 	local lv=c:GetLevel()
 	return lv>lsc and lv<rsc and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and c:IsSetCard(0x8e) and c:IsType(TYPE_MONSTER)
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
@@ -75,7 +76,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
 	if #sg>0 then
-		Duel.SpecialSummon(tc,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummon(sg,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
 	end
 end
 
