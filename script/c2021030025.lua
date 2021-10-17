@@ -49,7 +49,7 @@ function s.pencon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.penfilter(c,e,tp,lsc,rsc)
 	local lv=c:GetLevel()
-	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_PENDULUM,tp,false,false)
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
