@@ -75,8 +75,10 @@ end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
-	if #sg>0 then
-		Duel.SpecialSummon(sg,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
+	if #sg=<0 then return end
+	local tc=sg:GetFirst()
+	for tc in aux.Next(sg) do
+		Duel.SpecialSummon(tc,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
 	end
 end
 
