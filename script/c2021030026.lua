@@ -65,7 +65,7 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
-	if chk==0 then return Duel.IsExistingTarget(s.penfilter,tp,LOCATION_DECK,0,1,nil,e,tp,lsc,rsc) end
+	if chk==0 then return Duel.IsExistingTarget(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectTarget(tp,s.penfilter,tp,LOCATION_DECK,0,1,1,nil,lsc,rsc)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
