@@ -59,16 +59,16 @@ function s.pencon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.penfilter(c,e,tp,lsc,rsc)
 	local lv=c:GetLevel()
-	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_PENDULUM,tp,false,false)
+	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	if lsc>rsc then lsc,rsc=rsc,lsc end
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.filter(chkc,e,tp,lsc,rsc) end
-	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,LOCATION_GRAVE,0,2,nil,e,tp,lsc,rsc) end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.penfilter(chkc,e,tp,lsc,rsc) end
+	if chk==0 then return Duel.IsExistingTarget(s.penfilter,tp,LOCATION_GRAVE,0,2,nil,e,tp,lsc,rsc) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,0,2,2,nil,e,tp,lsc,rsc)
+	local g=Duel.SelectTarget(tp,s.penfilter,tp,LOCATION_GRAVE,0,2,2,nil,e,tp,lsc,rsc)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,2,0,0)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)

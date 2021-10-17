@@ -31,7 +31,8 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetCost(s.spcost)
+	e1:SetCondition(s.spcon)
+	e2:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--Set in P.Zone
 	local e2=Effect.CreateEffect(c)
@@ -55,33 +56,37 @@ function s.pencon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return Duel.IsExistingMatchingCard(Card.IsSetCard,e:GetHandlerPlayer(),LOCATION_PZONE,0,1,c,0x8e)
 end
-function s.penfilter(c,e,tp,lsc,rsc)
+function s.penfilter(c,lsc,rsc)
 	local lv=c:GetLevel()
-	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_PENDULUM,tp,false,false)
+	return lv>lsc and lv<rsc and c:IsAbleToHand() and c:IsAbleToGrave()
 end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	if lsc>rsc then lsc,rsc=rsc,lsc end
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and s.filter(chkc,e,tp,lsc,rsc) end
-	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,LOCATION_GRAVE,0,2,nil,e,tp,lsc,rsc) end
+	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
+	if chk==0 then return Duel.IsExistingTarget(s.penfilter,tp,LOCATION_DECK,0,2,nil,e,tp,lsc,rsc) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectTarget(tp,s.filter,tp,LOCATION_GRAVE,0,2,2,nil,e,tp,lsc,rsc)
+	local g=Duel.SelectTarget(tp,s.penfilter,tp,LOCATION_DECK,0,2,2,nil,lsc,rsc)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,2,0,0)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
 	if #sg>0 then
-		Duel.SpecialSummon(tc,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
+		Duel.SendtoGrave(sg,REASON_EFFECT)
 	end
 end
 
 
 
 
-function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+function s.spcon(e,c)
+	if c==nil then return true end
+	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 and
+		Duel.CheckLPCost(c:GetControler(),1000)
+end
+function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.PayLPCost(tp,1000)
 end
 
@@ -89,7 +94,7 @@ end
 
 
 function s.pzfilter(c,e,tp)
-	return c:IsSetCard(0x8e) and c:IsLevel(6) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x8e) and c:IsLevel(5) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.pztg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_PZONE,0)<2 end
