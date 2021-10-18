@@ -68,6 +68,7 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	local mon=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)
+	if mon<=0 then m=1 end
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
 	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) and mon>0 end
@@ -117,4 +118,15 @@ function s.pzop(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	end
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(s.splimit)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+end
+function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return not c:IsRace(RACE_ZOMBIE) and c:IsLocation(LOCATION_EXTRA)
 end
