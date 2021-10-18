@@ -68,7 +68,7 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
 	local mon=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)
-	if mon<=0 then m=1 end
+	if mon<1 then mon=1 end
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
 	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) and mon>0 end
