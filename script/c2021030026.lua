@@ -86,10 +86,10 @@ end
 function s.spcon(e,c)
 	if c==nil then return true end
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 and
-		Duel.CheckLPCost(c:GetControler(),1000)
+		Duel.CheckLPCost(c:GetControler(),2200)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.PayLPCost(tp,1000)
+	Duel.PayLPCost(tp,2200)
 end
 
 
@@ -106,7 +106,7 @@ function s.pzop(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) then
 		Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp)and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp)and Duel.SelectYesNo(tp,aux.Stringid(id,3))~=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g=Duel.SelectMatchingCard(tp,s.pzfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 			if #g>0 then

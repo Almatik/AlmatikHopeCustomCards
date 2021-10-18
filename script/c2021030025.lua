@@ -79,7 +79,7 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp)
 	if #g<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local sg=g:Select(tp,1,mon,nil)
-	if #sg==1 then
+	if #sg>0 then
 		Duel.SpecialSummon(sg,SUMMON_TYPE_PENDULUM,tp,tp,false,false,POS_FACEUP)
 	end
 end
@@ -125,7 +125,7 @@ function s.pzop(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) then
 		Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp)and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp)and Duel.SelectYesNo(tp,aux.Stringid(id,3))~=0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g=Duel.SelectMatchingCard(tp,s.pzfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
 			if #g>0 then
