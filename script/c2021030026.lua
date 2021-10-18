@@ -64,18 +64,19 @@ end
 function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local lsc=Duel.GetFieldCard(tp,LOCATION_PZONE,0):GetLeftScale()
 	local rsc=Duel.GetFieldCard(tp,LOCATION_PZONE,1):GetRightScale()
+	local mon=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
-	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) end
-	e:SetLabel(lsc,rsc)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) and mon>0 end
+	e:SetLabel(lsc,rsc,mon)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,1,0,0)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
-	local lsc,rsc=e:GetLabel()
+	local lsc,rsc,mon=e:GetLabel()
 	local g=Duel.GetMatchingGroup(s.penfilter,tp,LOCATION_DECK,0,nil,lsc,rsc)
 	if #g<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local sg=g:Select(tp,1,1,nil)
+	local sg=g:Select(tp,1,mon,nil)
 	Duel.SendtoGrave(sg,REASON_EFFECT)
 end
 
