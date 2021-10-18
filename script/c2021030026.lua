@@ -67,10 +67,12 @@ function s.pentg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if lsc>rsc then lsc,rsc=rsc,lsc end
 	if chkc then return chkc:IsLocation(LOCATION_DECK) and chkc:IsControler(tp) and s.penfilter(chkc,lsc,rsc) end
 	if chk==0 then return Duel.IsExistingMatchingCard(s.penfilter,tp,LOCATION_DECK,0,1,nil,lsc,rsc) end
+	e:SetLabel(lsc,rsc)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,g,1,0,0)
 end
 function s.penop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.penfilter,tp,LOCATION_DECK,0,nil)
+	local lsc,rsc=e:GetLabel()
+	local g=Duel.GetMatchingGroup(s.penfilter,tp,LOCATION_DECK,0,nil,lsc,rsc)
 	if #g<1 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local sg=g:Select(tp,1,1,nil)
