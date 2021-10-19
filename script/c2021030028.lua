@@ -24,10 +24,46 @@ function s.initial_effect(c)
 	e2:SetCondition(s.accon)
 	e2:SetOperation(s.acop)
 	c:RegisterEffect(e2)
-
-
-
-	
+	--Delete card
+	local e4a=Effect.CreateEffect(c)
+	e4a:SetType(EFFECT_TYPE_FIELD)
+	e4a:SetCode(EFFECT_CHANGE_CODE)
+	e4a:SetRange(LOCATION_MZONE)
+	e4a:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+	e4a:SetTarget(s.steal)
+	e4a:SetValue(0)
+	c:RegisterEffect(e4a)
+	local e4b=Effect.CreateEffect(c)
+	e4b:SetType(EFFECT_TYPE_SINGLE)
+	e4b:SetCode(EFFECT_ADD_CODE)
+	e4b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4b:SetRange(LOCATION_MZONE)
+	e4b:SetValue(s.steal)
+	c:RegisterEffect(e4b)
+	local e5a=e4a:Clone()
+	e5a:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+	c:RegisterEffect(e5a)
+	local e5b=e4b:Clone()
+	e5b:SetCode(EFFECT_ADD_ATTRIBUTE)
+	c:RegisterEffect(e5b)
+	local e6a=e4a:Clone()
+	e6a:SetCode(EFFECT_CHANGE_RACE)
+	c:RegisterEffect(e6a)
+	local e6b=e4b:Clone()
+	e6b:SetCode(EFFECT_ADD_RACE)
+	c:RegisterEffect(e6b)
+	local e7a=e4a:Clone()
+	e7a:SetCode(EFFECT_SET_ATTACK_FINAL)
+	c:RegisterEffect(e7a)
+	local e7b=e4b:Clone()
+	e7b:SetCode(EFFECT_UPDATE_ATTACK)
+	c:RegisterEffect(e7b)
+	local e8a=e4a:Clone()
+	e8a:SetCode(EFFECT_SET_DEFENSE_FINAL)
+	c:RegisterEffect(e8a)
+	local e8b=e4b:Clone()
+	e8b:SetCode(EFFECT_UPDATE_DEFENSE)
+	c:RegisterEffect(e8b)
 end
 function s.lcheck(g,lc,sumtype,tp)
 	return g:CheckDifferentProperty(Card.GetCode,lc,sumtype,tp)
@@ -110,4 +146,16 @@ function s.acop(e,tp,eg,ep,ev,re,r,rp)
 			etc=g:GetNext()
 		end
 	end
+end
+
+
+
+function s.steal(e,c)
+	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil)
+end
+function s.stealatk(e,c)
+	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetAttack()
+end
+function s.stealdef(e,c)
+	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetDefense()
 end
