@@ -5,13 +5,13 @@ function s.initial_effect(c)
 	Pendulum.AddProcedure(c)
 	--Special Summon limit
 	local e0=Effect.CreateEffect(c)
+	e0:SetDescription(aux.Stringid(id,4))
 	e0:SetType(EFFECT_TYPE_FIELD)
 	e0:SetRange(LOCATION_PZONE)
 	e0:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE)
+	e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
 	e0:SetTargetRange(1,0)
-	e0:SetCondition(s.splimcon)
-	e0:SetTarget(s.splimit)
+	e0:SetTarget(s.sumlimit)
 	c:RegisterEffect(e0)
 	--Activate
 	local pe1=Effect.CreateEffect(c)
@@ -48,11 +48,8 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x8e}
-function s.splimcon(e)
-	return not e:GetHandler():IsForbidden()
-end
-function s.splimit(e,c,tp,sumtp,sumpos)
-	return not c:IsSetCard(0x8e) and (sumtp&SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
+function s.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return c:IsLocation(LOCATION_EXTRA) and not c:IsRace(RACE_ZOMBIE)
 end
 
 function s.pencon(e,tp,eg,ep,ev,re,r,rp)
@@ -118,15 +115,4 @@ function s.pzop(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	end
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
-	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e1:SetTargetRange(1,0)
-	e1:SetTarget(s.splimit)
-	e1:SetReset(RESET_PHASE+PHASE_END)
-	Duel.RegisterEffect(e1,tp)
-end
-function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not c:IsRace(RACE_ZOMBIE) and c:IsLocation(LOCATION_EXTRA)
 end
