@@ -153,11 +153,11 @@ end
 
 
 function s.steal(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil)
+	return e:GetHandler():GetLinkedGroup():IsContains(c)
 end
 function s.stealatk(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)
+	return e:GetHandler():GetLinkedGroup():IsContains(c):GetSum(Card.GetBaseAttack)
 end
 function s.stealdef(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseDefense)
+	return e:GetHandler():GetLinkedGroup():IsContains(c):GetSum(Card.GetBaseDefense)
 end
