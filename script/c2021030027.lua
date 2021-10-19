@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--Link Summon
 	c:EnableReviveLimit()
-	Link.AddProcedure(c,nil,3,4,s.matcheck)
+	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),3,4,s.matcheck)
 	--Extra Material for Link Summon
 	local le0=Effect.CreateEffect(c)
 	le0:SetType(EFFECT_TYPE_FIELD)
@@ -75,8 +75,11 @@ function s.initial_effect(c)
 	e4:SetValue(1)
 	c:RegisterEffect(e4)
 end
-function s.matcheck(c,lc,sumtype,tp)
-	return c:IsType(TYPE_XYZ,lc,sumtype,tp) and c:IsSetCard(0x8e,lc,sumtype,tp)
+function s.matcheck(g,lc,sumtype,tp)
+	return g:IsExists(s.mzfilter,1,nil,lc,sumtype,tp)
+end
+function s.mzfilter(c,lc,sumtype,tp)
+	return c:IsSetCard(0x8e,lc,sumtype,tp) and c:IsType(TYPE_XYZ,lc,sumtype,tp)
 end
 s.curgroup=nil
 function s.extracon(c,e,tp,sg,mg,lc,og,chk)
