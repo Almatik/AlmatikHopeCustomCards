@@ -61,11 +61,53 @@ function s.accon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and Duel.IsExistingMatchingCard(s.fieldfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp)
 end
 function s.fieldfilter(c,tp)
-	return c:IsCode(75223115) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
+	return c:IsCode(75223115) and c:CheckActivateEffect(false,false,false)~=nil
 end
 function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
-	local tc=Duel.SelectMatchingCard(tp,s.fieldfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,tp):GetFirst()
-	aux.PlayFieldSpell(tc,e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.SelectMatchingCard(tp,s.fieldfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,tp):GetFirst()   local tpe=tc:GetType()
+	local te=tc:GetActivateEffect()
+	local tg=te:GetTarget()
+	local co=te:GetCost()
+	local op=te:GetOperation()
+	e:SetCategory(te:GetCategory())
+	e:SetProperty(te:GetProperty())
+	Duel.ClearTargetCard()
+	local loc=LOCATION_SZONE
+	if (tpe&TYPE_FIELD)~=0 then
+		local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
+		if fc then Duel.SendtoGrave(fc,REASON_RULE) end
+		if Duel.GetFlagEffect(tp,62765383)>0 then
+			fc=Duel.GetFieldCard(1-tp,LOCATION_SZONE,5)
+			if fc and Duel.Destroy(fc,REASON_RULE)==0 then Duel.SendtoGrave(tc,REASON_RULE) end
+		end
+		loc=LOCATION_FZONE
+	end
+	Duel.MoveToField(tc,tp,tp,loc,POS_FACEUP,true)
+	Duel.Hint(HINT_CARD,0,tc:GetCode())
+	tc:CreateEffectRelation(te)
+	if (tpe&TYPE_EQUIP+TYPE_CONTINUOUS+TYPE_FIELD)==0 then
+		tc:CancelToGrave(false)
+	end
+	if co then co(te,tp,eg,ep,ev,re,r,rp,1) end
+	if tg then tg(te,tp,eg,ep,ev,re,r,rp,1) end
+	Duel.BreakEffect()
+	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
+	if g then
+		local etc=g:GetFirst()
+		while etc do
+			etc:CreateEffectRelation(te)
+			etc=g:GetNext()
+		end
+	end
+	if op then op(te,tp,eg,ep,ev,re,r,rp) end
+	tc:ReleaseEffectRelation(te)
+	if etc then
+		etc=g:GetFirst()
+		while etc do
+			etc:ReleaseEffectRelation(te)
+			etc=g:GetNext()
+		end
+	end
 end
