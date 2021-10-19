@@ -23,7 +23,7 @@ function s.lcheck(g,lc,sumtype,tp)
 end
 s.curgroup=nil
 function s.extracon(c,e,tp,sg,mg,lc,og,chk)
-	return not s.curgroup or #(sg&s.curgroup)<1
+	return not s.curgroup or #(sg&s.curgroup)<4
 end
 function s.extraval(chk,summon_type,e,...)
 	if chk==0 then
@@ -35,7 +35,7 @@ function s.extraval(chk,summon_type,e,...)
 			s.curgroup:KeepAlive()
 			return s.curgroup
 		end
-	elseif chk==1 then
+	elseif chk==4 then
 		if s.curgroup then
 			s.curgroup:DeleteGroup()
 		end
