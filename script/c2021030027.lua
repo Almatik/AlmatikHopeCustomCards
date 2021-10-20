@@ -9,6 +9,7 @@ function s.initial_effect(c)
 	b1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	b1:SetRange(LOCATION_EXTRA)
 	b1:SetCountLimit(1)
+	b1:SetValue(SUMMON_TYPE_LINK)
 	c:RegisterEffect(b1)
 	--Link Summon
 	c:EnableReviveLimit()
