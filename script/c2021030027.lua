@@ -1,16 +1,6 @@
 --Dragulas the Vampiric Dragon King
 local s,id=GetID()
 function s.initial_effect(c)
-	--special summon
-	local b1=Effect.CreateEffect(c)
-	b1:SetDescription(aux.Stringid(id,1))
-	b1:SetType(EFFECT_TYPE_FIELD)
-	b1:SetCode(EFFECT_SPSUMMON_PROC)
-	b1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-	b1:SetRange(LOCATION_EXTRA)
-	b1:SetCountLimit(1)
-	b1:SetValue(SUMMON_TYPE_LINK)
-	c:RegisterEffect(b1)
 	--Link Summon
 	c:EnableReviveLimit()
 	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),3,4,s.matcheck)
