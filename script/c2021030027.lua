@@ -32,7 +32,6 @@ function s.initial_effect(c)
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_QUICK_O)
 	e1:SetCode(EVENT_CHAINING)
-	e1:SetCountLimit(1)
 	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCondition(s.discon)
@@ -183,7 +182,7 @@ end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return rp~=tp and not c:IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
-		and c:GetLinkedGroup():GetCount()>=1
+		and c:GetLinkedGroup():GetCount()>=2
 end
 function s.disfilter(c,g)
 	return g:IsContains(c) and c:IsReleasable()
@@ -217,7 +216,7 @@ end
 
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetLinkedGroup():GetCount()>=2
+	return c:GetLinkedGroup():GetCount()>=1
 end
 function s.efftg(e,c)
 	return e:GetHandler()==c or e:GetHandler():GetLinkedGroup():IsContains(c)
