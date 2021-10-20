@@ -26,7 +26,7 @@ function s.initial_effect(c)
 	e0:SetTarget(s.sptg)
 	e0:SetOperation(s.spop)
 	c:RegisterEffect(e0)
-	--If "1" then OMNI Negate
+	--If "2" then OMNI Negate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,3))
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -39,9 +39,10 @@ function s.initial_effect(c)
 	e1:SetTarget(s.distg)
 	e1:SetOperation(s.disop)
 	c:RegisterEffect(e1)
-	--If "2" then cannot be used as Materials
+	--If "1" then cannot be used as Materials
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,4))
+	e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 	e2:SetType(EFFECT_TYPE_FIELD)
 	e2:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL+EFFECT_CANNOT_BE_SYNCHRO_MATERIAL+EFFECT_CANNOT_BE_XYZ_MATERIAL+EFFECT_CANNOT_BE_LINK_MATERIAL)
 	e2:SetRange(LOCATION_MZONE)
