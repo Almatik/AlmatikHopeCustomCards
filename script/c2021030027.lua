@@ -131,13 +131,14 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetLinkedGroup():GetCount()>=0
 end
 function s.spfilter(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,tp)
-		or c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,1-tp)
+	return c:IsType(TYPE_MOSNTER)
+		and (c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,tp)
+		or c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE,1-tp))
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and s.spfilter(chkc,e,tp) end
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE,tp)>0
-						or Duel.GetLocationCount(1-tp,LOCATION_MZONE,1-tp)>0
+	if chk==0 then return (Duel.GetLocationCount(tp,LOCATION_MZONE,tp)>0
+						or Duel.GetLocationCount(1-tp,LOCATION_MZONE,1-tp)>0)
 		and Duel.IsExistingTarget(s.spfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectTarget(tp,s.spfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
