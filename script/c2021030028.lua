@@ -4,6 +4,16 @@ function s.initial_effect(c)
 	--Link Summon
 	c:EnableReviveLimit()
 	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsSetCard,0x23),3,3,s.lcheck)
+	--Special Summon limit
+	local e0=Effect.CreateEffect(c)
+	e0:SetDescription(aux.Stringid(id,0))
+	e0:SetType(EFFECT_TYPE_FIELD)
+	e0:SetRange(LOCATION_PZONE)
+	e0:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e0:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+	e0:SetTargetRange(1,0)
+	e0:SetTarget(s.sumlimit)
+	c:RegisterEffect(e0)
 	--Extra Materials
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -24,48 +34,25 @@ function s.initial_effect(c)
 	e2:SetCondition(s.accon)
 	e2:SetOperation(s.acop)
 	c:RegisterEffect(e2)
-	--Delete card
-	local e4a=Effect.CreateEffect(c)
-	e4a:SetType(EFFECT_TYPE_FIELD)
-	e4a:SetCode(EFFECT_CHANGE_CODE)
-	e4a:SetRange(LOCATION_MZONE)
-	e4a:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e4a:SetTarget(s.steal)
-	e4a:SetValue(0)
-	c:RegisterEffect(e4a)
-	local e4b=Effect.CreateEffect(c)
-	e4b:SetType(EFFECT_TYPE_SINGLE)
-	e4b:SetCode(EFFECT_ADD_CODE)
-	e4b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e4b:SetRange(LOCATION_MZONE)
-	e4b:SetValue(s.steal)
-	c:RegisterEffect(e4b)
-	local e5a=e4a:Clone()
-	e5a:SetCode(EFFECT_CHANGE_ATTRIBUTE)
-	c:RegisterEffect(e5a)
-	local e5b=e4b:Clone()
-	e5b:SetCode(EFFECT_ADD_ATTRIBUTE)
-	c:RegisterEffect(e5b)
-	local e6a=e4a:Clone()
-	e6a:SetCode(EFFECT_CHANGE_RACE)
-	c:RegisterEffect(e6a)
-	local e6b=e4b:Clone()
-	e6b:SetCode(EFFECT_ADD_RACE)
-	c:RegisterEffect(e6b)
-	local e7a=e4a:Clone()
-	e7a:SetCode(EFFECT_SET_ATTACK_FINAL)
-	c:RegisterEffect(e7a)
-	local e7b=e4b:Clone()
-	e7b:SetCode(EFFECT_UPDATE_ATTACK)
-	e7b:SetValue(s.stealatk)
-	c:RegisterEffect(e7b)
-	local e8a=e4a:Clone()
-	e8a:SetCode(EFFECT_SET_DEFENSE_FINAL)
-	c:RegisterEffect(e8a)
-	local e8b=e4b:Clone()
-	e8b:SetCode(EFFECT_UPDATE_DEFENSE)
-	e8b:SetValue(s.stealdef)
-	c:RegisterEffect(e8b)
+	--destroy
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,2))
+	e3:SetCategory(CATEGORY_REMOVE+CATEGORY_DAMAGE)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_SUMMON_SUCCESS)
+	e3:SetProperty(EFFECT_FLAG_DELAY)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCountLimit(1,{id,1})
+	e3:SetCondition(s.descon)
+	e3:SetTarget(s.destg)
+	e3:SetOperation(s.desop)
+	c:RegisterEffect(e3)
+	local e4=e3:Clone()
+	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+	c:RegisterEffect(e4)
+end
+function s.sumlimit(e,c,sump,sumtype,sumpos,targetp,se)
+	return c:IsLocation(LOCATION_EXTRA)
 end
 function s.lcheck(g,lc,sumtype,tp)
 	return g:CheckDifferentProperty(Card.GetCode,lc,sumtype,tp)
@@ -96,7 +83,9 @@ end
 
 
 function s.accon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) and Duel.IsExistingMatchingCard(s.fieldfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp)
+	local c=e:GetHandler()
+	return c:IsSummonType(SUMMON_TYPE_LINK) and Duel.IsExistingMatchingCard(s.fieldfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp)
+		and c:IsInExtraMZone()
 end
 function s.fieldfilter(c,tp)
 	return c:IsCode(75223115) and c:CheckActivateEffect(false,false,false)~=nil
@@ -152,12 +141,45 @@ end
 
 
 
-function s.steal(e,c)
-	return e:GetHandler():GetLinkedGroup():IsContains(c)
+
+
+
+
+
+function s.desfilter(c,ec)
+	if c:IsLocation(LOCATION_MZONE) then
+		return ec:GetLinkedGroup():IsContains(c)
+	else
+		return (ec:GetLinkedZone(c:GetPreviousControler())&(0x1<<c:GetPreviousSequence()))~=0
+	end
 end
-function s.stealatk(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)
+function s.descon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return eg:IsExists(s.desfilter,1,nil,c)
+		and c:IsInExtraMZone()
 end
-function s.stealdef(e,c)
-	return e:GetHandler():GetLinkedGroup():Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseDefense)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local g=e:GetHandler():GetLinkedGroup()
+	if chk==0 then return #g>0 end
+	Duel.SetOperationInfo(0,CATEGORY_CONTROL,g,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,500)
 end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetHandler():GetLinkedGroup()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
+	local tg=g:Select(tp,1,1,nil)
+	if #tg>0 then
+		Duel.HintSelection(tg)
+		if Duel.GetControl(tg,tp)>0 then
+			local e1=Effect.CreateEffect(c)
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+			e1:SetRange(LOCATION_MZONE)
+			e1:SetCode(EFFECT_CHANGE_CODE)
+			e1:SetValue(2021030029)
+			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			tg:RegisterEffect(e1)
+		end
+	end
+end
+
