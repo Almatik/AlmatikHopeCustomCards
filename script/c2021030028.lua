@@ -165,7 +165,8 @@ function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,500)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
-	local g=e:GetHandler():GetLinkedGroup()
+	local c=e:GetHandler()
+	local g=c:GetLinkedGroup()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
 	local tg=g:Select(tp,1,1,nil)
 	if #tg>0 then
