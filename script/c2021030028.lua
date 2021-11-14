@@ -174,7 +174,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetControl(tc,tp)>0 then
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetCode(EFFECT_CHANGE_CODE)
+			e1:SetCode(EFFECT_ADD_CODE)
 			e1:SetValue(2021030029)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e1)
