@@ -168,16 +168,17 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=c:GetLinkedGroup()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	local tg=g:Select(tp,1,1,nil)
-	if #tg>0 then
-		Duel.HintSelection(tg)
-		if Duel.GetControl(tg,tp)>0 then
+	local tc=g:Select(tp,1,1,nil)
+	if #tc>0 then
+		Duel.HintSelection(tc)
+		if Duel.GetControl(tc,tp)>0 then
+			Duel.NegateRelatedChain(tc,RESET_TURN_SET)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_CHANGE_CODE)
 			e1:SetValue(2021030029)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-			tg:RegisterEffect(e1)
+			tc:RegisterEffect(e1)
 		end
 	end
 end
