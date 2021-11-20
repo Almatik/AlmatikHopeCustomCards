@@ -48,12 +48,12 @@ function aux.LegendTarget(mat)
 	end
 end
 function aux.LegendOperation(mat)
-	function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-		local g=e:GetLabelObject()
-		if not g then return end
-		c:SetMaterial(g)
-		Duel.SendtoGrave(g,REASON_COST)
-		g:DeleteGroup()
-	end
+	return function(e,tp,eg,ep,ev,re,r,rp,c)
+			local g=e:GetLabelObject()
+			if not g then return end
+			c:SetMaterial(g)
+			Duel.SendtoGrave(g,REASON_COST)
+			g:DeleteGroup()
+		end
 end
 
