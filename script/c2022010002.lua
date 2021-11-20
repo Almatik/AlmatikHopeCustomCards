@@ -5,5 +5,5 @@ function s.initial_effect(c)
 	aux.LegendProcedure(c,s.material)
 end
 function s.material(c)
-	return c:IsCode(2022010002)
+	return c:IsCode(2022010001)
 end
