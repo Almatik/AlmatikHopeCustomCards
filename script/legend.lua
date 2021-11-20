@@ -3,7 +3,7 @@ REASON_LEGEND        = 0x100000000
 SUMMON_TYPE_LEGEND     = 0x100000000
 
 --Legend Summon
-function aux.LegendProcedure(c,mat,markop,setcode)
+function aux.LegendProcedure(c,mat,markcon,markop,setcode)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -18,10 +18,11 @@ function aux.LegendProcedure(c,mat,markop,setcode)
 	local e2=Effect.CreateEffect(c) 
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e1:SetCode(setcode)
-	e1:SetRange(LOCATION_ALL)
-	e1:SetOperation(markop)
-	c:RegisterEffect(e1)
+	e2:SetCode(setcode)
+	e2:SetRange(LOCATION_ALL)
+	e2:SetOperation(markcon)
+	e2:SetOperation(markop)
+	c:RegisterEffect(e2)
 end
 function aux.LegendCondition(mat)
 	return function(e,c)
