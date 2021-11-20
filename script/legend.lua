@@ -10,7 +10,7 @@ if not Legend then
 	Legend = aux.LegendProcedure
 end
 --Legend Summon
-function Legend.AddProcedure(c,desc,mat)
+function Legend.AddProcedure(c,mat,desc)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	if desc then
