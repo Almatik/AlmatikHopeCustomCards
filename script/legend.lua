@@ -14,6 +14,7 @@ function aux.LegendProcedure(c,mat,markcon,markop,setcode)
 	e1:SetOperation(aux.LegendOperation(mat))
 	e1:SetValue(SUMMON_TYPE_LEGEND)
 	c:RegisterEffect(e1)
+	if not markcon and not markop then return end
 	local e2=Effect.CreateEffect(c) 
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
