@@ -1,9 +1,9 @@
-TYPE_LEGEND      = 0x100000000
-REASON_LEGEND        = 0x100000000
-SUMMON_TYPE_LEGEND     = 0x100000000
+TYPE_LEGEND	  = 0x100000000
+REASON_LEGEND		= 0x100000000
+SUMMON_TYPE_LEGEND	 = 0x100000000
 
 --Legend Summon
-function aux.LegendProcedure(c,matcon,matm,markcon,markop,setcode)
+function aux.LegendProcedure(c,matcon,matm,mark,setcode)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -14,14 +14,13 @@ function aux.LegendProcedure(c,matcon,matm,markcon,markop,setcode)
 	e1:SetOperation(aux.LegendOperation(matm))
 	e1:SetValue(SUMMON_TYPE_LEGEND)
 	c:RegisterEffect(e1)
-	if not markcon and not markop then return end
+	if not mark then return end
 	local e2=Effect.CreateEffect(c) 
 	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(setcode)
 	e2:SetRange(LOCATION_ALL)
-	e2:SetOperation(markcon)
-	e2:SetOperation(markop)
+	e2:SetOperation(mark)
 	c:RegisterEffect(e2)
 end
 function aux.LegendCondition(matcon,matm)
