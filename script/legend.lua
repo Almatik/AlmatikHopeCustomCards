@@ -25,7 +25,7 @@ function aux.LegendCondition(id,n,matm)
 	return function(e,c)
 		if c==nil then return true end
 		local tp=c:GetControler()
-		local rg=Duel.GetMatchingGroup(matm,tp,LOCATION_MZONE,0,nil)
+		local rg=Duel.GetMatchingGroup(matm,tp,LOCATION_HAND+LOCATION_MZONE,0,nil)
 		local code=c:GetCode()
 		return #rg>0 and aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),0) and Duel.GetFlagEffect(tp,id)>=n
 	end
@@ -34,7 +34,7 @@ function aux.LegendTarget(matm)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
 		local g=nil
-		local rg=Duel.GetMatchingGroup(matm,tp,LOCATION_MZONE,0,nil)
+		local rg=Duel.GetMatchingGroup(matm,tp,LOCATION_HAND+LOCATION_MZONE,0,nil)
 		local g=aux.SelectUnselectGroup(rg,e,tp,1,1,aux.ChkfMMZ(1),1,tp,HINTMSG_TOGRAVE,nil,nil,true)
 		if #g>0 then
 			g:KeepAlive()
