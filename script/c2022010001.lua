@@ -5,10 +5,10 @@ function s.initial_effect(c)
 	aux.LegendProcedure(c,id,1,s.mat,s.mark,EVENT_SPSUMMON_SUCCESS)
 end
 function s.mat(c)
-	return c:IsCode(id+1)
+	return c:IsCode(2022010002)
 end
-function s.filter(c)
-	return c:IsCode(id+2) and c:IsControler(c:GetControler())
+function s.filter(c,tp)
+	return c:IsCode(2022010003) and c:IsControler(tp)
 end
 function s.mark(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetFlagEffect(tp,id)>=3 and eg:IsExists(s.filter,1,nil,tp) then
