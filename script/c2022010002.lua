@@ -11,7 +11,7 @@ function s.filter(c,tp)
 	return c:IsCode(2022010003) and c:IsControler(tp)
 end
 function s.mark(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetFlagEffect(tp,id)<1 and eg:IsExists(s.filter,1,nil,tp) and eg:IsControler(tp) then
+	if Duel.GetFlagEffect(tp,id)<1 and eg:IsExists(s.filter,1,nil,tp) then
 		Duel.RegisterFlagEffect(tp,id,0,0,0)
 	end
 end
