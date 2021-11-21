@@ -2,7 +2,7 @@
 Duel.LoadScript("legend.lua")
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.LegendProcedure(c,id,1,s.mat,s.mark,EVENT_SPSUMMON_SUCCESS)
+	aux.LegendProcedure(c,id,3,s.mat,s.mark,EVENT_SPSUMMON_SUCCESS)
 end
 function s.mat(c)
 	return c:IsCode(id+1)
