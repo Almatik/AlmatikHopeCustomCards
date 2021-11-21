@@ -4,7 +4,8 @@ local s,id=GetID()
 function s.initial_effect(c)
 	aux.LegendProcedure(c,s.matcon,s.matm,s.mark,EVENT_SPSUMMON_SUCCESS)
 end
-function s.matcon(e,tp)
+function s.matcon(e)
+	local tp=e:GetHandler():GetControler()
 	return Duel.GetFlagEffect(tp,id)>0
 end
 function s.matm(c)
