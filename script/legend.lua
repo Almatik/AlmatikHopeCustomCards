@@ -1,9 +1,6 @@
-TYPE_LEGEND	  = 0x100000000
-REASON_LEGEND		= 0x100000000
-SUMMON_TYPE_LEGEND	 = 0x100000000
-
 --Legend Summon
 function aux.LegendProcedure(c,id,n,matm,mark,setcode)
+	c:EnableReviveLimit()
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -12,7 +9,7 @@ function aux.LegendProcedure(c,id,n,matm,mark,setcode)
 	e1:SetCondition(aux.LegendCondition(id,n,matm))
 	e1:SetTarget(aux.LegendTarget(matm))
 	e1:SetOperation(aux.LegendOperation(matm))
-	e1:SetValue(SUMMON_TYPE_LEGEND)
+	e1:SetValue(SUMMON_TYPE_SPECIAL)
 	c:RegisterEffect(e1)
 	if not mark then return end
 	local e2=Effect.CreateEffect(c) 
