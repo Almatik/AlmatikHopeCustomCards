@@ -2,10 +2,7 @@
 Duel.LoadScript("legend.lua")
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.LegendProcedure(c,s.matcon,s.matm,s.mark,EVENT_SPSUMMON_SUCCESS)
-end
-function s.matcon(e,tp)
-	return Duel.GetFlagEffect(tp,id)>0
+	aux.LegendProcedure(c,id,1,s.matm,s.mark,EVENT_SPSUMMON_SUCCESS)
 end
 function s.matm(c)
 	return c:IsCode(2022010001)
