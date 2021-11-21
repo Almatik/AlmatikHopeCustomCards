@@ -1,5 +1,6 @@
 --Legend Summon
 function aux.LegendProcedure(c,id,n,matm,mark,setcode)
+	c:
 	c:EnableReviveLimit()
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
