@@ -10,7 +10,6 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetCode(EFFECT_CHANGE_BATTLE_DAMAGE)
-	e2:SetCondition(s.rdcon)
 	e2:SetValue(aux.ChangeBattleDamage(1,HALF_DAMAGE))
 	c:RegisterEffect(e2)
 	--ATK increase
@@ -31,10 +30,6 @@ function s.initial_effect(c)
 	e4:SetTarget(s.sptg)
 	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
-end
-function s.rdcon(e)
-	local tp=e:GetHandlerPlayer()
-	return Duel.GetAttackTarget()==nil and e:GetHandler():GetEffectCount(EFFECT_DIRECT_ATTACK)<2 and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>0
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.IsBattlePhase()
@@ -59,7 +54,6 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_CHANGE_BATTLE_DAMAGE)
-		e2:SetCondition(s.rdcon)
 		e2:SetValue(aux.ChangeBattleDamage(1,HALF_DAMAGE))
 		token:RegisterEffect(e2)
 	end
