@@ -2,7 +2,7 @@
 Duel.LoadScript("legend.lua")
 local s,id=GetID()
 function s.initial_effect(c)
-	aux.LegendProcedure(c,id,0,s.mat,s.mark,EVENT_SPSUMMON_SUCCESS)
+	aux.LegendProcedure(c,id,3,s.mat,s.mark,EVENT_SPSUMMON_SUCCESS)
 	--Special Summon 1 monster
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
