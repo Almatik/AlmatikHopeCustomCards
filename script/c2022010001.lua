@@ -14,7 +14,18 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-
+	--indestructable
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
+	e2:SetCondition(s.indcon)
+	e2:SetValue(1)
+	c:RegisterEffect(e2)
+	local e3=e2:Clone()
+	e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	c:RegisterEffect(e3)
 end
 function s.mat(c)
 	return c:IsCode(id+1)
@@ -94,4 +105,15 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tg=g:Filter(s.desfilter,nil,e:GetLabel())
 	g:DeleteGroup()
 	Duel.Destroy(tg,REASON_EFFECT)
+end
+
+
+
+
+
+function s.ifilter(c)
+	return c:IsFaceup() and c:IsCode(id+2)
+end
+function s.indcon(e)
+	return Duel.IsExistingMatchingCard(s.ifilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,e:GetHandler())
 end
