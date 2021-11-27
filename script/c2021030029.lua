@@ -46,7 +46,7 @@ function s.rectg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,val)
 end
 function s.recop(e,tp,eg,ep,ev,re,r,rp)
-	local val=Duel.GetMatchingGroupCount(s.filter,tp,LOCATION_GRAVE,0,nil)*200
+	local val=Duel.GetMatchingGroupCount(s.recfilter,tp,LOCATION_GRAVE,0,nil)*200
 	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
 	Duel.Recover(p,val,REASON_EFFECT)
 end
