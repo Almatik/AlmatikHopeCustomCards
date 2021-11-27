@@ -69,7 +69,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.DiscardDeck(tp,1,REASON_COST)
 end
 function s.thfilter(c)
-	return c:IsAbleToHand()
+	return c:IsSetCard(0x4001) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
