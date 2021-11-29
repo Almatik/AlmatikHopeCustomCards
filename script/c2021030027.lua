@@ -4,16 +4,6 @@ function s.initial_effect(c)
 	--Link Summon
 	c:EnableReviveLimit()
 	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsType,TYPE_EFFECT),3,4,s.matcheck)
-	--Extra Material for Link Summon
-	local le0=Effect.CreateEffect(c)
-	le0:SetType(EFFECT_TYPE_FIELD)
-	le0:SetRange(LOCATION_EXTRA)
-	le0:SetCode(EFFECT_EXTRA_MATERIAL)
-	le0:SetProperty(EFFECT_FLAG_PLAYER_TARGET|EFFECT_FLAG_CANNOT_DISABLE|EFFECT_FLAG_SET_AVAILABLE)
-	le0:SetTargetRange(1,1)
-	le0:SetOperation(s.extracon)
-	le0:SetValue(s.extraval)
-	c:RegisterEffect(le0)
 	--If "0" then Special Summon
 	local e0=Effect.CreateEffect(c)
 	e0:SetDescription(aux.Stringid(id,0))
@@ -90,27 +80,6 @@ end
 function s.mzfilter(c,lc,sumtype,tp)
 	return c:IsSetCard(0x8e,lc,sumtype,tp) and c:IsType(TYPE_XYZ,lc,sumtype,tp)
 end
-s.curgroup=nil
-function s.extracon(c,e,tp,sg,mg,lc,og,chk)
-	return not s.curgroup or #(sg&s.curgroup)<2
-end
-function s.extraval(chk,summon_type,e,...)
-	if chk==0 then
-		local tp,sc=...
-		if summon_type~=SUMMON_TYPE_LINK or sc~=e:GetHandler() then
-			return Group.CreateGroup()
-		else
-			s.curgroup=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
-			s.curgroup:KeepAlive()
-			return s.curgroup
-		end
-	elseif chk==2 then
-		if s.curgroup then
-			s.curgroup:DeleteGroup()
-		end
-		s.curgroup=nil
-	end
-end
 
 
 
@@ -118,7 +87,7 @@ end
 
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetLinkedGroup():GetCount()>=0
+	return c:GetLinkedGroup():GetCount()>=0 and c:IsInExtraMZone()
 end
 function s.spfilter(c,e,tp)
 	return c:IsType(TYPE_MONSTER)
@@ -194,6 +163,7 @@ function s.discon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return rp~=tp and not c:IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
 		and c:GetLinkedGroup():GetCount()>=2
+		and c:IsInExtraMZone()
 end
 function s.disfilter(c,g)
 	return g:IsContains(c) and c:IsReleasable()
@@ -228,6 +198,7 @@ end
 function s.effcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:GetLinkedGroup():GetCount()>=1
+		and c:IsInExtraMZone()
 end
 function s.efftg(e,c)
 	return e:GetHandler()==c or e:GetHandler():GetLinkedGroup():IsContains(c)
@@ -246,6 +217,7 @@ end
 function s.etcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:GetLinkedGroup():GetCount()>=3
+		and c:IsInExtraMZone()
 end
 function s.ettg(e,c)
 	return e:GetHandler()==c or (c:IsSetCard(0x8e) and e:GetHandler():GetLinkedGroup():IsContains(c))
@@ -258,6 +230,7 @@ end
 function s.undcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:GetLinkedGroup():GetCount()==4
+		and c:IsInExtraMZone()
 end
 function s.undtg(e,c)
 	return e:GetHandler()==c or (c:IsSetCard(0x8e) and c:IsType(TYPE_XYZ) and e:GetHandler():GetLinkedGroup():IsContains(c))
