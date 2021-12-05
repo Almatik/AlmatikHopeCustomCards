@@ -34,31 +34,15 @@ function s.initial_effect(c)
 
 	
 end
-function s.filter1(c)
+function s.filter(c)
 	return c:IsCode(202002011) and c:IsAbleToHand()
-end
-function s.filter1(c,e,tp)
-	return c:IsCode(202002011) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	local tc1=Duel.GetFirstMatchingCard(s.filter,tp,LOCATION_DECK,0,nil)
-	local tc2=Duel.GetFirstMatchingCard(s.filter,tp,LOCATION_HAND,0,nil,e,tp)
-	if tc1 or tc2 then
-		local sel={}
-		table.insert(sel,aux.Stringid(id,0))
-		table.insert(sel,aux.Stringid(id,1))
-		table.insert(sel,aux.Stringid(id,2))
-		local res=Duel.SelectOption(tp,false,table.unpack(sel))
-		if res==0 then return end
-		Duel.BreakEffect()
-		if res==1 then
-			Duel.SendtoHand(tc,nil,REASON_EFFECT)
-			Duel.ConfirmCards(1-tp,tc1)
-		end
-		if res==2 then
-			Duel.SpecialSummon(tc2,0,tp,tp,false,false,POS_FACEUP)
-		end
+	local tc=Duel.GetFirstMatchingCard(s.filter,tp,LOCATION_DECK,0,nil)
+	if tc then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,tc)
 	end
 end
 
