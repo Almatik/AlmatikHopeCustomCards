@@ -33,13 +33,15 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 		--2) Destroy Monsters
-		local g1=Duel.GetMatchingGroup(s.desmfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,tc,tc:GetAttack())
-		if #g1>0 then
-			Duel.Destroy(g1,REASON_EFFECT)
+		local g2c=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)
+		local g2d=Duel.GetMatchingGroup(s.desmfilter,tp,0,LOCATION_ONFIELD,nil,tc:GetAttack())
+		if #g2c==1 and #g2d>0 then
+			Duel.Destroy(g2d,REASON_EFFECT)
 			--3) Destroy Spell Traps
-			local g2=Duel.GetMatchingGroup(s.destfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,c)
-			if #g2>0 then
-				Duel.Destroy(g2,REASON_EFFECT)
+			local g3c=Duel.GetFieldGroupCount(tp,LOCATION_SZONE,0)
+			local g3d=Duel.GetMatchingGroup(s.destfilter,tp,0,LOCATION_ONFIELD,nil)
+			if #g3c==1 and #g3d>0 then
+				Duel.Destroy(g3d,REASON_EFFECT)
 			end
 		end
 	end
