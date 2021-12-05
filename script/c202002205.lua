@@ -35,12 +35,12 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		--2) Destroy Monsters
 		local g2c=Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)
 		local g2d=Duel.GetMatchingGroup(s.desmfilter,tp,0,LOCATION_ONFIELD,nil,tc:GetAttack())
-		if #g2c==1 and #g2d>0 then
+		if g2c==1 and #g2d>0 then
 			Duel.Destroy(g2d,REASON_EFFECT)
 			--3) Destroy Spell Traps
 			local g3c=Duel.GetFieldGroupCount(tp,LOCATION_SZONE,0)
 			local g3d=Duel.GetMatchingGroup(s.destfilter,tp,0,LOCATION_ONFIELD,nil)
-			if #g3c==1 and #g3d>0 then
+			if g3c==1 and #g3d>0 then
 				Duel.Destroy(g3d,REASON_EFFECT)
 			end
 		end
