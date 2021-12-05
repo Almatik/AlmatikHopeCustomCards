@@ -12,27 +12,15 @@ function s.initial_effect(c)
 	e1:SetCondition(s.spcon)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--actlimit
+	--destroy
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e2:SetCode(EFFECT_CANNOT_ACTIVATE)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetTargetRange(0,1)
-	e2:SetValue(s.aclimit)
-	e2:SetCondition(s.actcon)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e2:SetCode(EVENT_DAMAGE_STEP_END)
+	e2:SetTarget(s.destg)
+	e2:SetOperation(s.desop)
 	c:RegisterEffect(e2)
-	--Destroy and Inflict
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
-	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
-	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-	e3:SetCode(EVENT_BATTLE_DESTROYING)
-	e3:SetCountLimit(id,1^2)
-	e3:SetCondition(s.descon)
-	e3:SetTarget(s.destg)
-	e3:SetOperation(s.desop)
-	c:RegisterEffect(e3)
 
 end
 function s.rescon(sg,e,tp,mg)
@@ -57,35 +45,11 @@ end
 
 
 
-function s.aclimit(e,re,tp)
-	return (re:IsHasType(EFFECT_TYPE_ACTIVATE) or re:IsActiveType(TYPE_MONSTER))
-end
-function s.actcon(e)
-	local c=e:GetHandler()
-	return Duel.GetAttacker()==c
-		or Duel.GetAttackTarget()==c
-end
 
-
-
-
-
-
-
-
-function s.descon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local a=Duel.GetAttacker()
-	local d=Duel.GetAttackTarget()
-	if a~=c then d=a end
-	return c:IsRelateToBattle() and c:IsFaceup()
-		and d and d:GetLocation()==LOCATION_GRAVE and d:IsType(TYPE_MONSTER)
-end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+	if chk==0 then return Duel.GetAttackTarget()~=nil end
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,#g*500)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
