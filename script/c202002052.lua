@@ -38,9 +38,11 @@ function s.sop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.SelectMatchingCard(tp,s.sfilter,tp,LOCATION_DECK,0,1,1,nil)
 	local tc=g:GetFirst()
-	if tc and Duel.SendtoHand(tc,tp,REASON_EFFECT)~=0 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
-		if Duel.SendtoHand(c,tp,REASON_EFFECT)~=0 and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and tc:IsCode(202002011) then
-			Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	if tc and Duel.SendtoHand(tc,tp,REASON_EFFECT)~=0 then
+		if Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==1 and tc:IsCode(202002011) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+			if Duel.SendtoHand(c,tp,REASON_EFFECT)~=0 then
+				Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+			end
 		end
 	end
 end
