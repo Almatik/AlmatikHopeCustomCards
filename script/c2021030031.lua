@@ -61,6 +61,7 @@ end
 
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	return c:GetCounter(COUNTER_SPELL)>0
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
