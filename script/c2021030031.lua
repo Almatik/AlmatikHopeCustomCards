@@ -54,6 +54,11 @@ function s.initial_effect(c)
 end
 s.counter_place_list={COUNTER_SPELL}
 s.listed_names={2021030032}
+function s.resetop(e,tp,eg,ep,ev,re,r,rp)
+	s.name_list[0]={}
+	s.name_list[1]={}
+	return false
+end
 function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:GetFlagEffect(1)>0 then
@@ -104,10 +109,7 @@ function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if not te then return end
 	local op=te:GetOperation()
-	if op then op(e,tp,eg,ep,ev,re,r,rp) end
-end
-function s.resetop(e,tp,eg,ep,ev,re,r,rp)
-	s.name_list[0]={}
-	s.name_list[1]={}
-	return false
+	if op then op(e,tp,eg,ep,ev,re,r,rp)
+		Duel.BreakEffect()
+		table.insert(s.name_list[tp],te:GetCode()) end
 end
