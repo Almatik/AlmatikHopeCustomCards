@@ -16,6 +16,7 @@ function s.initial_effect(c)
 	if not GhostBelleTable then GhostBelleTable={} end
 	table.insert(GhostBelleTable,e1)
 end
+s.listed_names={2021030031}
 function s.matfilter(c)
 	return c:HasLevel() and c:IsRace(RACE_SPELLCASTER) and c:IsAbleToRemove()
 end
