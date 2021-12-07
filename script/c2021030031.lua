@@ -86,11 +86,10 @@ function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	return true
 end
 function s.ritfilter(c,tp)
-	local code=c:GetCode()
 	return c:IsType(TYPE_SPELL)
 		and c:IsAbleToGraveAsCost()
 		and c:CheckActivateEffect(true,true,false)~=nil
-		and s.name_list[tp]&code==0
+		and not table.includes(s.name_list[tp],c:GetCode())
 end
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
@@ -116,4 +115,21 @@ function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	if op then op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		table.insert(s.name_list[tp],te:GetCode()) end
+end
+if not table.includes then
+	--binary search
+	function table.includes(t,val)
+		if #t<1 then return false end
+		if #t==1 then return t[1]==val end --saves sorting for efficiency
+		table.sort(t)
+		local left=1
+		local right=#t
+		while left<=right do
+			local middle=(left+right)//2
+			if t[middle]==val then return true
+			elseif t[middle]<val then left=middle+1
+			else right=middle-1 end
+		end
+		return false
+	end
 end
