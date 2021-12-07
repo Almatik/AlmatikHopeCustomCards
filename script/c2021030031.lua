@@ -107,9 +107,10 @@ function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(tc,REASON_COST)
 	e:SetProperty(te:GetProperty())
 	local tg=te:GetTarget()
+	local cost=te:GetCost()
+	if cost then cost(e,tp,eg,ep,ev,re,r,rp) end
 	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1)
 		table.insert(s.name_list[tp],tc:GetCode()) end
-	
 	Duel.ClearOperationInfo(0)
 end
 function s.ritop(e,tp,eg,ep,ev,re,r,rp)
