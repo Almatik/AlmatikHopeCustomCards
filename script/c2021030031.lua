@@ -105,16 +105,16 @@ function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(tc,REASON_COST)
 	e:SetProperty(te:GetProperty())
 	local tg=te:GetTarget()
-	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1) end
+	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1)
+		table.insert(s.name_list[tp],tc:GetCode()) end
+	
 	Duel.ClearOperationInfo(0)
 end
 function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if not te then return end
 	local op=te:GetOperation()
-	if op then op(e,tp,eg,ep,ev,re,r,rp)
-		Duel.BreakEffect()
-		table.insert(s.name_list[tp],te:GetCode()) end
+	if op then op(e,tp,eg,ep,ev,re,r,rp) end
 end
 if not table.includes then
 	--binary search
