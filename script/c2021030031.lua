@@ -61,7 +61,7 @@ end
 
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
-	return c:GetCounter(COUNTER_SPELL)>=0
+	return c:GetCounter(COUNTER_SPELL)>0
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
