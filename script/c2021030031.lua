@@ -83,10 +83,10 @@ function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	e:SetLabel(1)
-	return true
 	if chk==0 then return c:GetFlagEffect(id)==0 end
 	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
+	e:SetLabel(1)
+	return true
 end
 function s.ritfilter(c,tp)
 	return c:IsType(TYPE_SPELL)
