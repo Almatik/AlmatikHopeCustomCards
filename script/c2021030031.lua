@@ -33,7 +33,6 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
 	e3:SetCondition(s.ritcon)
 	e3:SetCost(s.ritcost)
 	e3:SetTarget(s.rittg)
@@ -62,7 +61,7 @@ end
 
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsTurnPlayer(1-tp)
+	return c:GetCounter(COUNTER_SPELL)>=0
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
