@@ -50,7 +50,20 @@ function s.initial_effect(c)
 		ge1:SetCountLimit(1)
 		ge1:SetCondition(s.resetop)
 		Duel.RegisterEffect(ge1,0)
-	end	
+	end
+	--cannot target
+	local e4a=Effect.CreateEffect(c)
+	e4a:SetType(EFFECT_TYPE_SINGLE)
+	e4a:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4a:SetRange(LOCATION_MZONE)
+	e4a:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	e4a:SetCondition(s.indcon)
+	e4a:SetValue(aux.tgoval)
+	c:RegisterEffect(e4a)
+	local e4b=e4a:Clone()
+	e4b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e4b:SetValue(s.indval)
+	c:RegisterEffect(e4b)
 end
 s.counter_place_list={COUNTER_SPELL}
 s.listed_names={2021030032}
@@ -79,7 +92,7 @@ end
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetCounter(COUNTER_SPELL)>0
+	return c:GetCounter(COUNTER_SPELL)>=3
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
@@ -135,4 +148,23 @@ if not table.includes then
 		end
 		return false
 	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+function s.indcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:GetCounter(COUNTER_SPELL)>=6
+end
+function s.indval(e,re,tp)
+	return tp~=e:GetHandlerPlayer()
 end
