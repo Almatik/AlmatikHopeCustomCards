@@ -38,7 +38,19 @@ function s.initial_effect(c)
 	e3:SetTarget(s.rittg)
 	e3:SetOperation(s.ritop)
 	c:RegisterEffect(e3)
-	
+	--register names
+	if not s.global_flag then
+		s.global_flag=true
+		s.name_list={}
+		s.name_list[0]={}
+		s.name_list[1]={}
+		local ge1=Effect.CreateEffect(c)
+		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge1:SetCode(EVENT_PHASE+PHASE_END)
+		ge1:SetCountLimit(1)
+		ge1:SetCondition(s.resetop)
+		Duel.RegisterEffect(ge1,0)
+	end	
 end
 s.counter_place_list={COUNTER_SPELL}
 s.listed_names={2021030032}
@@ -62,24 +74,24 @@ end
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetCounter(COUNTER_SPELL)>0
+	return c:GetCounter(COUNTER_SPELL)>=2
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
 	return true
 end
-function s.ritfilter(c)
-	return c:IsType(TYPE_SPELL) and c:IsAbleToGraveAsCost() and c:CheckActivateEffect(true,true,false)~=nil
+function s.ritfilter(c,tp)
+	return c:IsType(TYPE_SPELL) and c:IsAbleToGraveAsCost() and c:CheckActivateEffect(true,true,false)~=nil and not table.includes(s.name_list[tp],c:GetCode())
 end
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
 		if e:GetLabel()==0 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingMatchingCard(s.ritfilter,tp,LOCATION_DECK,0,1,nil)
+		return Duel.IsExistingMatchingCard(s.ritfilter,tp,LOCATION_DECK,0,1,nil,tp)
 	end
 	e:SetLabel(0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local tc=Duel.SelectMatchingCard(tp,s.ritfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,s.ritfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
 	local te=tc:CheckActivateEffect(true,true,false)
 	e:SetLabelObject(te)
 	Duel.SendtoGrave(tc,REASON_COST)
@@ -93,4 +105,9 @@ function s.ritop(e,tp,eg,ep,ev,re,r,rp)
 	if not te then return end
 	local op=te:GetOperation()
 	if op then op(e,tp,eg,ep,ev,re,r,rp) end
+end
+function s.resetop(e,tp,eg,ep,ev,re,r,rp)
+	s.name_list[0]={}
+	s.name_list[1]={}
+	return false
 end
