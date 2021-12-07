@@ -3,7 +3,6 @@ local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
 	c:EnableCounterPermit(COUNTER_SPELL)
-	c:SetCounterLimit(COUNTER_SPELL,c:GetLevel())
 	--add counter
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
@@ -25,6 +24,7 @@ s.listed_names={2021030032}
 function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:GetFlagEffect(1)>0 then
+		c:SetCounterLimit(COUNTER_SPELL,c:GetLevel())
 		c:AddCounter(COUNTER_SPELL,1)
 	end
 end
