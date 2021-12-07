@@ -6,7 +6,8 @@ function s.initial_effect(c)
 		handler=c,
 		filter=aux.FilterBoolFunction(Card.IsCode,2021030031),
 		location=LOCATION_HAND+LOCATION_DECK,
-		extrafil=s.extramat
+		extrafil=s.extramat,
+		stage2=s.stage2
 	})
 	e1:SetCategory(e1:GetCategory()+CATEGORY_TOGRAVE)
 	e1:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
@@ -21,4 +22,14 @@ end
 function s.extramat(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.IsPlayerAffectedByEffect(tp,69832741)
 		and Group.NewGroup() or Duel.GetMatchingGroup(s.matfilter,tp,LOCATION_GRAVE,0,nil)
+end
+function s.stage2(mat,e,tp,eg,ep,ev,re,r,rp,tc)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_CHANGE_LEVEL)
+	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetValue(mat:GetSum(Card.GetLevel))
+	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	tc:RegisterEffect(e1)
 end
