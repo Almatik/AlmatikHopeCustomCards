@@ -86,7 +86,11 @@ function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	return true
 end
 function s.ritfilter(c,tp)
-	return c:IsType(TYPE_SPELL) and c:IsAbleToGraveAsCost() and c:CheckActivateEffect(true,true,false)~=nil and not table.includes(s.name_list[tp],c:GetCode())
+	local code=c:GetCode()
+	return c:IsType(TYPE_SPELL)
+		and c:IsAbleToGraveAsCost()
+		and c:CheckActivateEffect(true,true,false)~=nil
+		and s.name_list[tp]&code==0
 end
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
