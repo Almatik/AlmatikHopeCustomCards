@@ -92,6 +92,7 @@ function s.ritfilter(c,tp)
 		and not table.includes(s.name_list[tp],c:GetCode())
 end
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
 	if chk==0 then 
 		if e:GetLabel()==0 then return false end
 		e:SetLabel(0)
