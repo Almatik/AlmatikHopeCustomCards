@@ -82,9 +82,6 @@ function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetCounter(COUNTER_SPELL)>0
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return c:GetFlagEffect(id)==0 end
-	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
 	e:SetLabel(1)
 	return true
 end
@@ -98,8 +95,9 @@ function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then 
 		if e:GetLabel()==0 then return false end
 		e:SetLabel(0)
-		return Duel.IsExistingMatchingCard(s.ritfilter,tp,LOCATION_DECK,0,1,nil,tp)
+		return Duel.IsExistingMatchingCard(s.ritfilter,tp,LOCATION_DECK,0,1,nil,tp) and c:GetFlagEffect(id)==0
 	end
+	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
 	e:SetLabel(0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local tc=Duel.SelectMatchingCard(tp,s.ritfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
