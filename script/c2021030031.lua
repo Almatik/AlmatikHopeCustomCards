@@ -107,33 +107,30 @@ function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetCounter(COUNTER_SPELL)>=2
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	e:SetLabel(1)
-	return true
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,COUNTER_SPELL,2,REASON_COST) end
+	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+	Duel.RemoveCounter(tp,1,0,COUNTER_SPELL,2,REASON_COST)
 end
 function s.ritfilter(c,tp)
 	return c:IsType(TYPE_SPELL)
 		and aux.IsCodeListed(c,id)
-		and c:IsAbleToGraveAsCost()
+		and c:IsAbleToGrave()
 		and c:CheckActivateEffect(true,true,false)~=nil
 		and not table.includes(s.name_list[tp],c:GetCode())
+		and not c:IsCode(id)
 end
 function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then 
-		if e:GetLabel()==0 then return false end
-		e:SetLabel(0)
 		return Duel.IsExistingMatchingCard(s.ritfilter,tp,LOCATION_DECK,0,1,nil,tp) and c:GetFlagEffect(id)==0
 	end
 	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
-	e:SetLabel(0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local tc=Duel.SelectMatchingCard(tp,s.ritfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
 	local te=tc:CheckActivateEffect(true,true,false)
 	e:SetLabelObject(te)
-	Duel.SendtoGrave(tc,REASON_COST+REASON_EFFECT)
+	Duel.SendtoGrave(tc,REASON_EFFECT)
 	e:SetProperty(te:GetProperty())
-	local cost=te:GetCost()
-	if cost then cost(e,tp,eg,ep,ev,re,r,rp) end
 	local tg=te:GetTarget()
 	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1)
 		table.insert(s.name_list[tp],tc:GetCode()) end

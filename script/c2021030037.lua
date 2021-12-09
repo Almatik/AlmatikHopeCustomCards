@@ -60,7 +60,7 @@ end
 
 function s.filter(c)
 	return c:IsAbleToDeck()
-		and (c:IsCode(2021030031) or aux.IsCodeListed(c,2021030031))
+		and c:IsCode(2021030032)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp)
