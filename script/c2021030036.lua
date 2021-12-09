@@ -1,9 +1,9 @@
---Ruddy Magic - Disaster
+--Ruddy Magic - Red Order
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_DESTROY)
+	e1:SetCategory(CATEGORY_REMOVE)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
@@ -25,20 +25,33 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
 	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and s.filter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(s.filter,tp,0,LOCATION_ONFIELD,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_ONFIELD,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectTarget(tp,s.filter,tp,0,LOCATION_ONFIELDE,1,1,nil)
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 then
-		local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_ONFIELD,nil)
-		if #g>0 and Duel.GetCounter(0,1,1,COUNTER_SPELL)>=4 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-			local dg=g:Select(tp,1,1,nil)
-			Duel.HintSelection(dg)
-			Duel.Destroy(dg,REASON_EFFECT)
+	if tc then
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_DISABLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_DISABLE_EFFECT)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e2)
+		if tc:IsRelateToEffect(e) then
+			local e3=Effect.CreateEffect(c)
+			e3:SetDescription(3300)
+			e3:SetType(EFFECT_TYPE_SINGLE)
+			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CLIENT_HINT)
+			e3:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+			e3:SetValue(LOCATION_REMOVED)
+			e3:SetReset(RESET_EVENT+RESETS_REDIRECT)
+			tc:RegisterEffect(e3,true)
 		end
 	end
 end
