@@ -189,7 +189,7 @@ end
 
 
 
-function spcon(e,tp,eg,ep,ev,re,r,rp)
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:GetCounter(COUNTER_SPELL)>=8
 end
