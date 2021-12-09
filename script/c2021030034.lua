@@ -12,9 +12,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,COUNTER_SPELL,1,REASON_COST) end
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,COUNTER_SPELL,2,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,tp,e:GetDescription())
-	Duel.RemoveCounter(tp,1,0,COUNTER_SPELL,1,REASON_COST)
+	Duel.RemoveCounter(tp,1,0,COUNTER_SPELL,2,REASON_COST)
 end
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_SPELLCASTER)
@@ -36,7 +36,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(1)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
-		if tc:IsRelateToEffect() and Duel.GetCounter(0,1,1,COUNTER_SPELL)>=1 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+		if tc:IsRelateToEffect() and Duel.GetCounter(0,1,1,COUNTER_SPELL)>=4 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
 			--Cannot be destroyed by battle
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)

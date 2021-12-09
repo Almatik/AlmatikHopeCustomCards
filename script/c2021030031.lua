@@ -74,7 +74,7 @@ function s.resetop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.acop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:GetFlagEffect(1)>0 then
+	if c:GetFlagEffect(1)>0 and e~=re then
 		c:SetCounterLimit(COUNTER_SPELL,c:GetLevel())
 		c:AddCounter(COUNTER_SPELL,1)
 	end
@@ -92,7 +92,7 @@ end
 
 function s.ritcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetCounter(COUNTER_SPELL)>=3
+	return c:GetCounter(COUNTER_SPELL)>=2
 end
 function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
@@ -163,7 +163,7 @@ end
 
 function s.indcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:GetCounter(COUNTER_SPELL)>=6
+	return c:GetCounter(COUNTER_SPELL)>=4
 end
 function s.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
