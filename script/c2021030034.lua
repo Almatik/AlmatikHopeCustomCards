@@ -20,7 +20,7 @@ function s.cfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_SPELLCASTER)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	return Duel.IsExistingMatchingCard(s.cfilter,LOCATION_MZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
