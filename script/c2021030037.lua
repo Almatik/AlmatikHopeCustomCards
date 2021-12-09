@@ -30,7 +30,7 @@ function s.initial_effect(c)
 end
 s.listed_names={2021030031}
 function s.filter(c,e,tp)
-	return c:IsCode(2021030031) and c:IsAbleToHand()
+	return c:IsCode(2021030032) and c:IsAbleToHand()
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp) -- Add to hand
 	if not e:GetHandler():IsRelateToEffect(e) then return end
@@ -60,7 +60,7 @@ end
 
 function s.filter(c)
 	return c:IsAbleToDeck()
-		and c:IsCode(2021030032)
+		and (c:IsCode(2021030032) or aux.IsCodeListed(c,2021030031))
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp)
