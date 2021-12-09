@@ -48,7 +48,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(1)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
-		if tc:IsRelateToEffect() and Duel.GetCounter(0,1,0,COUNTER_SPELL)>=4 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+		if Duel.GetCounter(0,1,0,COUNTER_SPELL)>=4 and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
 			--Cannot be destroyed by battle
 			local e2=Effect.CreateEffect(c)
 			e2:SetType(EFFECT_TYPE_SINGLE)

@@ -82,13 +82,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	local res=Duel.SelectOption(tp,false,table.unpack(sel))
 	if res==0 then
-		local loc=LOCATION_HAND
-		local num=1
+		local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil)
 	else
-		local loc=LOCATION_GRAVE
-		local num=3
+		local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_GRAVE,0,3,3,nil)
 	end
-	local g=Duel.SelectMatchingCard(tp,s.filter,tp,loc,0,num,num,nil)
 	if #g>0 then
 		Duel.ConfirmCards(1-tp,g)
 		Duel.SendtoDeck(g,nil,0,REASON_EFFECT)

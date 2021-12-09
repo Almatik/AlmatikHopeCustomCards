@@ -132,9 +132,9 @@ function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabelObject(te)
 	Duel.SendtoGrave(tc,REASON_COST)
 	e:SetProperty(te:GetProperty())
-	local tg=te:GetTarget()
 	local cost=te:GetCost()
 	if cost then cost(e,tp,eg,ep,ev,re,r,rp) end
+	local tg=te:GetTarget()
 	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1)
 		table.insert(s.name_list[tp],tc:GetCode()) end
 	Duel.ClearOperationInfo(0)
@@ -194,7 +194,7 @@ function spcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetCounter(COUNTER_SPELL)>=8
 end
 function s.spfilter(c,e,tp,lv)
-	return c:IsLevel(lv) and c:IsAttribute(ATTRIBUTE_FIRE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsLevel(lv) and c:IsRace(0x8e) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
