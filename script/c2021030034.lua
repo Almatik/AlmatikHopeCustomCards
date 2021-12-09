@@ -13,7 +13,7 @@ function s.initial_effect(c)
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,COUNTER_SPELL,1,REASON_COST) end
-	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+	Duel.Hint(HINT_OPSELECTED,tp,e:GetDescription())
 	Duel.RemoveCounter(tp,1,0,COUNTER_SPELL,1,REASON_COST)
 end
 function s.cfilter(c)
