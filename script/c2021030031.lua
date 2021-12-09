@@ -1,6 +1,7 @@
 --Ruddy Magician
 local s,id=GetID()
 function s.initial_effect(c)
+	c:SetUniqueOnField(1,0,id)
 	c:EnableReviveLimit()
 	c:EnableCounterPermit(COUNTER_SPELL)
 	--add counter
@@ -64,6 +65,17 @@ function s.initial_effect(c)
 	e4b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e4b:SetValue(s.indval)
 	c:RegisterEffect(e4b)
+	--special summon
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_IGNITION)
+	e5:SetDescription(aux.Stringid(id,0))
+	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetCountLimit(1)
+	e5:SetCondition(s.spcon)
+	e5:SetTarget(s.sptg)
+	e5:SetOperation(s.spop)
+	c:RegisterEffect(e5)
 end
 s.counter_place_list={COUNTER_SPELL}
 s.listed_names={2021030032}
@@ -100,6 +112,7 @@ function s.ritcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.ritfilter(c,tp)
 	return c:IsType(TYPE_SPELL)
+		and aux.IsCodeListed(c,id)
 		and c:IsAbleToGraveAsCost()
 		and c:CheckActivateEffect(true,true,false)~=nil
 		and not table.includes(s.name_list[tp],c:GetCode())
@@ -167,4 +180,33 @@ function s.indcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.indval(e,re,tp)
 	return tp~=e:GetHandlerPlayer()
+end
+
+
+
+
+
+
+
+
+function spcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:GetCounter(COUNTER_SPELL)>=8
+end
+function s.spfilter(c,e,tp,lv)
+	return c:IsLevel(lv) and c:IsAttribute(ATTRIBUTE_FIRE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil,e,tp,c:GetCounter(COUNTER_SPELL)) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_EXTRA)
+end
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,e,tp,c:GetCounter(COUNTER_SPELL))
+	if #g>0 and c:RemoveCounter(tp,COUNTER_SPELL,c:GetCounter(COUNTER_SPELL),REASON_EFFCT)~=0 then
+		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+	end
 end
