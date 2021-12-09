@@ -130,7 +130,7 @@ function s.rittg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tc=Duel.SelectMatchingCard(tp,s.ritfilter,tp,LOCATION_DECK,0,1,1,nil,tp):GetFirst()
 	local te=tc:CheckActivateEffect(true,true,false)
 	e:SetLabelObject(te)
-	Duel.SendtoGrave(tc,REASON_COST)
+	Duel.SendtoGrave(tc,REASON_COST+REASON_EFFECT)
 	e:SetProperty(te:GetProperty())
 	local cost=te:GetCost()
 	if cost then cost(e,tp,eg,ep,ev,re,r,rp) end
