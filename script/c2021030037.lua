@@ -58,14 +58,14 @@ end
 
 
 
-function s.filter(c)
+function s.filter2(c)
 	return c:IsAbleToDeck()
 		and (c:IsCode(2021030032) or aux.IsCodeListed(c,2021030031))
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp)
-		and (Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil)
-		or Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_GRAVE,0,3,nil)) end
+		and (Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_HAND,0,1,nil)
+		or Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_GRAVE,0,3,nil)) end
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_HAND)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
@@ -74,17 +74,17 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanDraw(tp) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 	local sel={}
-	if Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil) then
+	if Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_HAND,0,1,nil) then
 		table.insert(sel,aux.Stringid(id,1))
 	end
-	if Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_GRAVE,0,3,nil) then
+	if Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_GRAVE,0,3,nil) then
 		table.insert(sel,aux.Stringid(id,2))
 	end
 	local res=Duel.SelectOption(tp,false,table.unpack(sel))
 	if res==0 then
-		local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_HAND,0,1,1,nil)
 	else
-		local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_GRAVE,0,3,3,nil)
+		local g=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_GRAVE,0,3,3,nil)
 	end
 	if #g>0 then
 		Duel.ConfirmCards(1-tp,g)
