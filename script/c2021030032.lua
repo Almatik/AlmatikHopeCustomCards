@@ -18,7 +18,7 @@ function s.initial_effect(c)
 end
 s.listed_names={2021030031}
 function s.matfilter(c)
-	return c:HasLevel() and c:IsRace(0x8e) and c:IsAbleToRemove()
+	return c:HasLevel() and c:IsSetCard(0x8e) and c:IsAbleToRemove()
 end
 function s.extramat(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.IsPlayerAffectedByEffect(tp,69832741)
