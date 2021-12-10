@@ -28,6 +28,8 @@ function s.initial_effect(c)
 	e3:SetCondition(s.setcon)
 	c:RegisterEffect(e3)
 end
+s.listed_series={0x2010}
+s.division_number=11
 function s.spfilter(c,e,tp,lv)
 	return c:IsSetCard(0x2010) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and c:IsLevelBelow(lv)

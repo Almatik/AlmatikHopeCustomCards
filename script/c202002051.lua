@@ -31,6 +31,8 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 
 end
+s.listed_series={0x2010}
+s.division_number=11
 function s.setfilter(c)
 	return c:IsSetCard(0x2014) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable()
 end

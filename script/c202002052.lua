@@ -28,6 +28,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.negop)
 	c:RegisterEffect(e3)
 end
+s.listed_series={0x2010}
+s.division_number=11
 function s.sfilter(c)
 	return c:IsSetCard(0x2010) and c:IsType(TYPE_MONSTER) and c:IsLevelAbove(7)
 end
