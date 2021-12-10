@@ -45,7 +45,8 @@ function s.extraval(chk,summon_type,e,...)
 	local c=e:GetHandler()
 	if chk==0 then
 		local tp,sc=...
-		if summon_type~=SUMMON_TYPE_LINK or not sc:IsSetCard(0x2000) or Duel.GetFlagEffect(tp,id)>0 then
+		if (summon_type~=SUMMON_TYPE_LINK
+			or summon_type~=SUMMON_TYPE_FUSION) or not sc:IsSetCard(0x2000) or Duel.GetFlagEffect(tp,id)>0 then
 			return Group.CreateGroup()
 		else
 			table.insert(s.flagmap[c],c:RegisterFlagEffect(id,0,0,1))
@@ -53,7 +54,8 @@ function s.extraval(chk,summon_type,e,...)
 		end
 	elseif chk==1 then
 		local sg,sc,tp=...
-		if summon_type&SUMMON_TYPE_LINK == SUMMON_TYPE_LINK and #sg>0 then
+		if (summon_type&SUMMON_TYPE_LINK == SUMMON_TYPE_LINK
+			or summon_type&SUMMON_TYPE_FUSION == SUMMON_TYPE_FUSION) and #sg>0 then
 			Duel.Hint(HINT_CARD,tp,id)
 			Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		end
