@@ -133,15 +133,15 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		e1:SetValue(-500)
+		e1:SetValue(-800)
 		tc:RegisterEffect(e1)
 		local dam=c:GetAttack()-tc:GetAttack()
-		if tc:GetAttack()<=c:GetAttack() then
+		if dam>0 then
 			if Duel.Destroy(tc,REASON_EFFECT)~=0 then
 				Duel.Damage(1-tp,dam,REASON_EFFECT)
 			end
 		else
-			Duel.Damage(1-tp,500,REASON_EFFECT)
+			Duel.Damage(1-tp,800,REASON_EFFECT)
 		end
 	end
 end
