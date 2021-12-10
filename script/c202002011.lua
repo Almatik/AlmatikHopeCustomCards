@@ -40,6 +40,8 @@ function s.initial_effect(c)
 
 
 end
+s.listed_series={0x2010}
+s.division_number=11
 function s.rescon(sg,e,tp,mg)
 	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:GetSum(Card.GetAttack)>=3000
 		and sg:FilterCount(Card.IsSetCard,nil,0x2010)~=0

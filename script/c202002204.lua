@@ -29,13 +29,12 @@ function s.initial_effect(c)
 	e3:SetValue(s.repval)
 	e3:SetOperation(s.repop)
 	c:RegisterEffect(e3)
-
-
-
-	
 end
+s.listed_series={0x2010}
+s.division_number=11
 function s.filter(c)
-	return c:IsCode(202002011) and c:IsAbleToHand()
+	local num=c.division_number
+	return num and num==11 and c:IsSetCard(0x2010) and c:IsAbleToHand()
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
