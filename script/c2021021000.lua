@@ -28,7 +28,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		for _,v in ipairs(s.deck) do
 			table.insert(decklist,id+1+#decklist)
 		end
-		local decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+		local deckcode=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+		local decknum=deckcode:GetCode()-id
 	end
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
