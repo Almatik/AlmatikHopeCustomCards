@@ -23,6 +23,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
+	Duel.ConfirmCards(tp,Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0))
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
 end
