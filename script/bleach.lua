@@ -55,8 +55,8 @@ function Bleach.AddUnionProcedure(c,f,oldequip,oldprotect)
 		m.old_union=true
 	end
 end
-if not Card.CheckUnionTarget then
-	Card.CheckUnionTarget=function(c,target)
+if not Bleach.CheckUnionTarget then
+	Bleach.CheckUnionTarget=function(c,target)
 		local ct1,ct2=c:GetUnionCount()
 		return c:IsHasEffect(EFFECT_UNION_LIMIT) and (((not c:IsHasEffect(EFFECT_OLDUNION_STATUS)) or ct1 == 0)
 			and ((not c:IsHasEffect(EFFECT_UNION_STATUS)) or ct2 == 0))
