@@ -48,8 +48,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local fieldid=coverid
-	local token=Duel.CreateToken(tp,fieldid)
+	local fid=coverid
+	local token=Duel.CreateToken(tp,fid,nil)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
