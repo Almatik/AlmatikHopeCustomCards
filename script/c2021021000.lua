@@ -45,7 +45,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local token=Debug.AddCard(deckid,tp,tp,LOCATION_FZONE,1,POS_FACEUP)
+	local token=Debug.AddCard(deckid,tp,tp,LOCATION_SZONE,1,POS_FACEUP)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
