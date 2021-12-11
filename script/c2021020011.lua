@@ -15,18 +15,18 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
+
+
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
 	local deck=s.deck[decknum]
-	for code in aux.Next(deck) do
+	for idx,code in inpairs(deck) do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
+	Debug.ReloadFieldEnd()
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
 end
 
 s.deck={}
-	s.deck[1]={}
-	s.deck[2]={22073844}
-	for _,v in ipairs(s.deck[2]) do table.insert(s.deck[1],v) end
-	s.deck[3]={62941499}
-	for _,v in ipairs(s.deck[3]) do table.insert(s.deck[1],v) end
+	s.deck[1]={22073844}
+	s.deck[2]={62941499}
