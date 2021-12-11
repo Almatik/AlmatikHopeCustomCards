@@ -12,10 +12,9 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Delete Your Cards
-	local c=e:GetHandler()
-	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
-	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
+	local del=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
@@ -27,17 +26,19 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Debug.ReloadFieldEnd()
 
+
 	--Add Covers
-	local dg=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	local tc=dg:GetFirst()
+	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	local tc=g:GetFirst()
 	local coverid=decknum+2021020000
 	while tc do
 		--generate a cover for a card
 		tc:Cover(coverid)
-		tc=dg:GetNext()
+		tc=g:GetNext()
 	end
-	Duel.ConfirmCards(tp,dg)
+	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
+	--Duel.ShuffleExtra(tp)
 end
 
 s.deck={}
