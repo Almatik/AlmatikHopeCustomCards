@@ -19,6 +19,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	for code in ipairs(deck[1]) do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN_DEFENSE)
 	end
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleExtra(p)
 end
 
 deck={}
