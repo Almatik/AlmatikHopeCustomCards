@@ -25,8 +25,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	for code,codex in ipairs(deck) do
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
-	Debug.ReloadFieldEnd()
 	local token=Duel.CreateToken(tp,deckid)
+	Debug.ReloadFieldEnd()
 
 	
 
