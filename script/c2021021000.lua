@@ -45,7 +45,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local token=Duel.CreateToken(tp,deckid)
+	--local token=Duel.CreateToken(tp,deckid)
+	Duel.Hint(HINT_SKILL_FLIP,tp,deckid|(1<<32))
+	local token=Duel.GetFieldGroup(tp,LOCATION_FZONE,0)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
