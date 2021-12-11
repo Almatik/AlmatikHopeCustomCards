@@ -28,7 +28,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local fieldid=decknum+2021020000
+	local fieldid=decknum+id
 	local token=Duel.CreateToken(tp,fieldid)
 	e:SetLabelObject(token)
 		 --redirect
@@ -77,7 +77,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Covers
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	local tc=g:GetFirst()
-	local coverid=decknum+2021020000
+	local coverid=decknum+id
 	while tc do
 		--generate a cover for a card
 		tc:Cover(coverid)
