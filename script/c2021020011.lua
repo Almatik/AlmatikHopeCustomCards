@@ -19,7 +19,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
 	local deck=s.deck[decknum]
-	for idx,code in inpairs(deck) do
+	for idx,code in ipairs(deck) do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
