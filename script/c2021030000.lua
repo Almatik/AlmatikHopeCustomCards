@@ -28,7 +28,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local fieldid=decknum+id
+	local fieldid=decknum+2021030000
 	local token=Duel.CreateToken(tp,fieldid)
 	e:SetLabelObject(token)
 		 --redirect
