@@ -19,14 +19,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,1)
-	local deck=s.deck[decknum][1]+s.deck[decknum][2]
-	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
-	end
-	local extra=s.deck[decknum][2]
-	for code,codex in ipairs(extra) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
-	end
+	local deck=s.deck[decknum][1]
+	table.foreach(deck,Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN))
 	Debug.ReloadFieldEnd()
 
 	--Add Covers
