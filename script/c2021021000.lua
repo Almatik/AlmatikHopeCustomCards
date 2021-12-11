@@ -18,6 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
+	local deckid=decknum+id
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
@@ -33,10 +34,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Covers
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	local tc=g:GetFirst()
-	local coverid=decknum+id
 	while tc do
 		--generate a cover for a card
-		tc:Cover(coverid)
+		tc:Cover(deckid)
 		tc=g:GetNext()
 	end
 	Duel.ConfirmCards(tp,g)
@@ -48,8 +48,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local fid=coverid
-	local token=Duel.CreateToken(tp,fid)
+	local token=Duel.CreateToken(tp,deckid)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
