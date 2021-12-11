@@ -28,7 +28,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
 	e2:SetValue(1)
-	e2:SetOperation(s.btlop)
 	c:RegisterEffect(e2)
 	local e3a=Effect.CreateEffect(c)
 	e3a:SetDescription(aux.Stringid(id,0))
@@ -106,16 +105,6 @@ end
 
 
 
-function s.btlop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	--Cannot be destroyed by battle
-	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,1))
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-	c:RegisterEffect(e1)
-end
 
 
 
