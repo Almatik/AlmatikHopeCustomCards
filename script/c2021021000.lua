@@ -39,9 +39,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc:Cover(deckid)
 		tc=g:GetNext()
 	end
-	Duel.ConfirmCards(tp,g)
-	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
 
 
 
@@ -89,6 +86,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
+
+
+	--Confirm Deck
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	--Duel.ShuffleExtra(tp)
 	Duel.TagSwap(p)
 end
 function s.returnop(e)
