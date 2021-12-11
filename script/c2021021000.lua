@@ -45,7 +45,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local token=Duel.CreateToken(tp,deckid)
+	local token=Duel.CreateToken(p,deckid)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
