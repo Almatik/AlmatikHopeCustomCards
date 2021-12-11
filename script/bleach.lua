@@ -164,7 +164,7 @@ function Bleach.SetUnionState(c)
 		c:RegisterEffect(e2)
 	end
 end
-function Bleach.CheckUnionEquip(uc,tc)
+function Auxiliary.CheckUnionEquip(uc,tc)
 	ct1,ct2=tc:GetUnionCount()
 	if uc.old_union then return ct1==0
 	else return ct2==0 end
