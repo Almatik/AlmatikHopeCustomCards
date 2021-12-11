@@ -48,7 +48,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local fieldid=math.rad(decknum+id)
+	local fieldid=decknum+id
 	local token=Duel.CreateToken(tp,fieldid)
 	e:SetLabelObject(token)
 		 --redirect
