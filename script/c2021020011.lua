@@ -17,7 +17,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
 	for code in ipairs(s.deck[1]) do
-		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN_DEFENSE)
+		Debug.AddCard(code,tp,tp,LOCATION_HAND,1,POS_FACEUP)
 	end
 end
 
