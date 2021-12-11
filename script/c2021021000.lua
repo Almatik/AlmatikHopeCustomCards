@@ -26,7 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
-	local token=Duel.CreateToken(p,deckid)
+	local token=Duel.CreateToken(tp,deckid)
 
 	
 
