@@ -26,7 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		local decklist={}
 		for _,v in ipairs(s.deck) do
-			table.insert(decklist,id+1)
+			table.insert(decklist,id+1+#decklist)
 		end
 		local deckselect=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 		local decknum=deckselect-id
