@@ -18,7 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
 
 	--Add Random Deck
-	local decknum=Duel.GetRandomNumber(1,1)
+	local decknum=Duel.GetRandomNumber(1,#s.deck)
 	local deck=s.deck[decknum][1]
 	for _,v in ipairs(s.deck[decknum][2]) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
