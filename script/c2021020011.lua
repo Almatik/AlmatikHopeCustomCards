@@ -20,13 +20,13 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,1)
 	local deck=s.deck[decknum]
-	local mdeck=deck[1]
-	local edeck=deck[2]
-	for idx,code in ipairs(mdeck) do
-		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
+	local mnd=deck[1]
+	local exd=deck[2]
+	for idx1,code1 in ipairs(mnd) do
+		Debug.AddCard(code1,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
-	for idx,code in ipairs(edeck) do
-		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
+	for idx2,code2 in ipairs(exd) do
+		Debug.AddCard(code2,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
 
