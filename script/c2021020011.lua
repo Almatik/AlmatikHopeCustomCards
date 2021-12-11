@@ -70,7 +70,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
-
+	Debug.AddCard(50913601,tp,tp,LOCATION_HAND,1,POS_FACEDOWN)
 
 
 
