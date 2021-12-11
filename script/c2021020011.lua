@@ -29,7 +29,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Field
 	local fieldid=decknum+2021020000
-	local token=Duel.CreateToken(tp,fieldid)
+	local token=Duel.CreateToken(tp,2021020002)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
