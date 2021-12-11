@@ -20,7 +20,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN_DEFENSE)
 	end
 	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(p)
+	Duel.ShuffleExtra(tp)
 end
 
 deck={}
