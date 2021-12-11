@@ -18,6 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	local randomdeck={}
+	local decknum
 	table.insert(randomdeck,aux.Stringid(id,0))
 	table.insert(randomdeck,aux.Stringid(id,1))
 	local res=Duel.SelectOption(tp,false,table.unpack(randomdeck))
