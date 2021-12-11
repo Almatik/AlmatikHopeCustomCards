@@ -71,6 +71,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
 	Duel.SendtoHand(Duel.CreateToken(tp,50913601),tp,REASON_RULE)
+	Duel.SendtoHand(Duel.CreateToken(tp,50913601),tp,REASON_RULE)
+	Duel.SendtoHand(Duel.CreateToken(tp,5318639),tp,REASON_RULE)
 	
 
 
@@ -91,7 +93,7 @@ end
 function s.returnop(e)
 	local c=e:GetLabelObject()
 	local tp=c:GetControler()
-	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
+	if Duel.IsExistingMatchingCard(Card.IsFaceup,0,LOCATION_FZONE,0,1,nil) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	end
 end
