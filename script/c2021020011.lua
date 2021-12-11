@@ -1,4 +1,4 @@
---Иди нахуй
+--Deck Random: Almatik Hope
 local s,id=GetID()
 function s.initial_effect(c)
 	--skill
