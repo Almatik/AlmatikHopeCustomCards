@@ -18,7 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
-	local deckid=decknum+2021021000
+	local deckid=decknum+id
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
@@ -45,7 +45,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local token=Duel.CreateToken(tp,deckid)
+	local token=Duel.CreateToken(tp,2021021000)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
