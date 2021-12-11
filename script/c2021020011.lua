@@ -37,6 +37,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmCards(tp,dg)
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
+	print("Hello World")
 end
 
 s.deck={}
