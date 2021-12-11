@@ -3,7 +3,16 @@ Duel.LoadScript("bleach.lua")
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableUnsummonable()
-	Bleach.AddUnionProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x2010),true)
+	-- Equip
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetCategory(CATEGORY_EQUIP)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e1:SetRange(LOCATION_HAND+LOCATION_MZONE)
+	e1:SetTarget(s.eqtg)
+	e1:SetOperation(s.eqop)
+	c:RegisterEffect(e1)
 	--Double Piercing
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
@@ -29,24 +38,42 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	
 end
-
-function s.filter(c)
-	return c:IsCode(202002201) and c:IsAbleToHand()
+function s.eqfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0x2010)
 end
-function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil) and c:IsAbleToDeck() end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp)
+		 and c~=chkc and s.filter(chkc) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
+		and Duel.IsExistingTarget(s.filter,tp,LOCATION_MZONE,0,1,c) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
+	Duel.SelectTarget(tp,s.filter,tp,LOCATION_MZONE,0,1,1,c)
+	Duel.SetOperationInfo(0,CATEGORY_EQUIP,c,1,0,0)
 end
-function s.operation(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tg=Duel.GetFirstMatchingCard(s.filter,tp,LOCATION_DECK,0,nil)
-	if tg then
-		Duel.SendtoDeck(c,tp,2,REASON_EFFECT)
-		Duel.SendtoHand(tg,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,tg)
+	if not c:IsRelateToEffect(e) then return end
+	if c:IsLocation(LOCATION_MZONE) and c:IsFacedown() then return end
+	local tc=Duel.GetFirstTarget()
+	if Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and tc
+		and tc:IsFaceup() and tc:IsRelateToEffect(e) then
+		Duel.Equip(tp,c,tc,true)
+		-- Equip limit
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_EQUIP_LIMIT)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		e1:SetValue(function(e,c)return c==e:GetLabelObject()end)
+		e1:SetLabelObject(tc)
+		c:RegisterEffect(e1)
+	else
+		Duel.SendtoGrave(c,REASON_RULE)
 	end
 end
+
+
+
 
 
 
