@@ -27,25 +27,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Debug.ReloadFieldEnd()
 
-	
-
-
-
-	--Add Covers
-	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	local tc=g:GetFirst()
-	while tc do
-		--generate a cover for a card
-		tc:Cover(deckid)
-		tc=g:GetNext()
-	end
-
 
 
 
 
 	--Field
-	token=Duel.CreateToken(tp,deckid)
+	local token=Duel.CreateToken(tp,deckid)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
@@ -85,6 +72,19 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.MoveToField(token,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
+	end
+
+	
+
+
+
+	--Add Covers
+	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	local tc=g:GetFirst()
+	while tc do
+		--generate a cover for a card
+		tc:Cover(deckid)
+		tc=g:GetNext()
 	end
 
 
