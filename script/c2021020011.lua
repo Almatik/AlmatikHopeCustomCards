@@ -28,7 +28,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Covers
 	local dg=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	local tc=dg:GetFirst()
-	local coverid=Duel.GetRandomNumber(1,#s.deck)+2021020000
+	local coverid=decknum+2021020000
 	while tc do
 		--generate a cover for a card
 		tc:Cover(coverid)
