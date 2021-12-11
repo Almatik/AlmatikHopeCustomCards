@@ -18,7 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
-	for deckidx in ipairs(s.deck[decknum][3]) do
+	for _,deckidx in ipairs(s.deck[decknum][3]) do
 		local deckid=deckidx
 	end
 	local deck=s.deck[decknum][1]
