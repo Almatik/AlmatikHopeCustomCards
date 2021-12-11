@@ -93,7 +93,7 @@ end
 function s.returnop(e)
 	local c=e:GetLabelObject()
 	local tp=c:GetControler()
-	if Duel.IsExistingMatchingCard(Card.IsFaceup,0,LOCATION_FZONE,0,1,nil) then
+	if not Duel.IsExistingMatchingCard(Card.IsFaceup,0,LOCATION_FZONE,0,1,nil) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	end
 end
