@@ -37,7 +37,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmCards(tp,dg)
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
-	dofile ('c2021020011.lua')
 end
 
 s.deck={}
