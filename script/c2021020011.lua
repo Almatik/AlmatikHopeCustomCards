@@ -16,14 +16,13 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
-	local deck=s.deck[decknum]
 	for code in s.deck[decknum] do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN_DEFENSE)
 	end
 end
 
 s.deck={}
-	s.deck[1]={22073844,68468459}
-	s.deck[2]={62941499,45484331}
-	s.deck[3]={47710198,82489470}
-	s.deck[4]={99726621,19096726}
+	s.deck[1]={22073844}
+	s.deck[2]={62941499}
+	s.deck[3]={47710198}
+	s.deck[4]={99726621}
