@@ -27,6 +27,53 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Debug.ReloadFieldEnd()
 
 
+	--Field
+	local fieldid=decknum+2021020000
+	local token=Duel.CreateToken(tp,fieldid)
+	e:SetLabelObject(token)
+		 --redirect
+	local e1=Effect.CreateEffect(token)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_LEAVE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e1:SetOperation(function(e) Duel.SendtoDeck(e:GetHandler(),nil,-2,REASON_RULE) end)
+	token:RegisterEffect(e1)
+	local e2=Effect.CreateEffect(token)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_CHAIN_END)
+	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e2:SetLabelObject(token)
+	e2:SetOperation(s.returnop)
+	Duel.RegisterEffect(e2,0)
+	--unaffectable
+	local ea=Effect.CreateEffect(tc)
+	ea:SetType(EFFECT_TYPE_SINGLE)
+	ea:SetCode(EFFECT_CANNOT_TO_DECK)
+	ea:SetRange(LOCATION_SZONE)
+	ea:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	tc:RegisterEffect(ea)
+	local eb=ea:Clone()
+	eb:SetCode(EFFECT_CANNOT_REMOVE)
+	tc:RegisterEffect(eb)
+	local ec=ea:Clone()
+	ec:SetCode(EFFECT_CANNOT_TO_HAND)
+	tc:RegisterEffect(ec)
+	local ed=ea:Clone()
+	ed:SetCode(EFFECT_CANNOT_TO_GRAVE)
+	tc:RegisterEffect(ed)
+	local ee=ea:Clone()
+	ee:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	ee:SetValue(1)
+	tc:RegisterEffect(ee)
+	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
+		Duel.MoveToField(token,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
+	else
+		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
+	end
+
+
+
+
 	--Add Covers
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	local tc=g:GetFirst()
@@ -40,6 +87,23 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
+function s.returnop(e)
+	local c=e:GetLabelObject()
+	local tp=c:GetControler()
+	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
+		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
+	end
+end
+
+
+
+
+
+
+
+
+
+
 
 s.deck={}
 	--"Albuz Dogmatik"
