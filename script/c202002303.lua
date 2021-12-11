@@ -20,7 +20,7 @@ function s.initial_effect(c)
 	e1b:SetType(EFFECT_TYPE_IGNITION)
 	e1b:SetRange(LOCATION_SZONE)
 	e1b:SetCountLimit(1,{id,0})
-	e1b:SetTarget(s.eqsptg)
+	e1b:SetTarget(s.eqstg)
 	e1b:SetOperation(s.eqsop)
 	c:RegisterEffect(e1b)
 	--Equip Effect
