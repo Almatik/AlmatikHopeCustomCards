@@ -91,7 +91,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
+	Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(p)
 end
 function s.returnop(e)
