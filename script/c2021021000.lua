@@ -27,6 +27,19 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Debug.ReloadFieldEnd()
 
+	
+
+
+
+	--Add Covers
+	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	local tc=g:GetFirst()
+	while tc do
+		--generate a cover for a card
+		tc:Cover(deckid)
+		tc=g:GetNext()
+	end
+
 
 
 
@@ -74,25 +87,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
 
-	
-
-
-
-	--Add Covers
-	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	local tc=g:GetFirst()
-	while tc do
-		--generate a cover for a card
-		tc:Cover(deckid)
-		tc=g:GetNext()
-	end
-
 
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
-	--Duel.TagSwap(p)
+	--Duel.ShuffleExtra(tp)
+	Duel.TagSwap(1-tp)
 end
 function s.returnop(e)
 	local c=e:GetLabelObject()
