@@ -85,7 +85,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
+	Duel.ShuffleExtra(tp)
 end
 function s.returnop(e)
 	local c=e:GetLabelObject()
