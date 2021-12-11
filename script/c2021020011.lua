@@ -16,11 +16,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
-	local deck=s.deck[2]
-	local code=deck:GetFirst()
-	while code do
+	local deck=s.deck[decknum]
+	for code in aux.Next(deck) do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
-		code=deck:GetNext()
 	end
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
