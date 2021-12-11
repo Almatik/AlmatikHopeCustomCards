@@ -49,7 +49,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Field
 	local fid=coverid
-	local token=Duel.CreateToken(tp,fid,nil)
+	local token=Duel.CreateToken(tp,fid)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
@@ -90,7 +90,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
-	Duel.TagSwap(1-tp)
+	Duel.TagSwap(p)
 end
 function s.returnop(e)
 	local c=e:GetLabelObject()
