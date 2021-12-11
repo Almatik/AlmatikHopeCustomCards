@@ -22,7 +22,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(randomdeck,aux.Stringid(id,1))
 	local res=Duel.SelectOption(tp,false,table.unpack(randomdeck))
 	if res==0 then
-		local decknum=Duel.GetRandomNumber(1,#s.deck)
+		return decknum=Duel.GetRandomNumber(1,#s.deck)
 	else
 		local decklist={}
 		for _,v in ipairs(s.deck) do
