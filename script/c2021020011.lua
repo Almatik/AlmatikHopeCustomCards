@@ -15,7 +15,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	Duel.SendtoDeck(g,tp,-2,REASON_RULE)
-	local decknum=Duel.GetRandomNumber(1,#s.deck)
+	local decknum=Duel.GetRandomNumber(1,#deck)
 	for code in ipairs(deck[1]) do
 		Debug.AddCard(code,tp,tp,LOCATION_DECK,1,POS_FACEDOWN_DEFENSE)
 	end
