@@ -21,7 +21,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-s.deck={}
+s.deck={22073844}
 	s.deck[1]={22073844}
 	s.deck[2]={62941499}
 	s.deck[3]={47710198}
