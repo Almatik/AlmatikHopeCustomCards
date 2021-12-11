@@ -27,6 +27,6 @@ end
 s.deck={}
 	s.deck[1]={22073844}
 	s.deck[2]={22073844}
-	for _,v in ipairs(s.decl[2]) do table.insert(s.decl[1],v) end
+	for _,v in ipairs(s.deck[2]) do table.insert(s.deck[1],v) end
 	s.deck[3]={62941499}
-	for _,v in ipairs(s.decl[3]) do table.insert(s.decl[1],v) end
+	for _,v in ipairs(s.deck[3]) do table.insert(s.deck[1],v) end
