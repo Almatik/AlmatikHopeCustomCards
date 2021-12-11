@@ -26,6 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
+	local token=Duel.CreateToken(p,deckid)
 
 	
 
@@ -45,7 +46,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Field
-	local token=Duel.CreateToken(p,deckid)
 	e:SetLabelObject(token)
 		 --redirect
 	local e1=Effect.CreateEffect(token)
