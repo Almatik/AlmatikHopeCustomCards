@@ -32,7 +32,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	while tc do
 		--generate a cover for a card
 		tc:Cover(coverid)
-		tc=gd:GetNext()
+		tc=dg:GetNext()
 	end
 	Duel.ConfirmCards(tp,dg)
 	Duel.ShuffleDeck(tp)
