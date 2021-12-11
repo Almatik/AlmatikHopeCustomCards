@@ -81,9 +81,9 @@ function Bleach.UnionTarget(f,oldrule)
 		local code=c:GetOriginalCode()
 		if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and Bleach.UnionFilter(c,f,oldrule) end
 		if chk==0 then return e:GetHandler():GetFlagEffect(code)==0 and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-			and Duel.IsExistingTarget(Auxiliary.UnionFilter,tp,LOCATION_MZONE,0,1,c,f,oldrule) end
+			and Duel.IsExistingTarget(Bleach.UnionFilter,tp,LOCATION_MZONE,0,1,c,f,oldrule) end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-		local g=Duel.SelectTarget(tp,Auxiliary.UnionFilter,tp,LOCATION_MZONE,0,1,1,c,f,oldrule)
+		local g=Duel.SelectTarget(tp,Bleach.UnionFilter,tp,LOCATION_MZONE,0,1,1,c,f,oldrule)
 		Duel.SetOperationInfo(0,CATEGORY_EQUIP,g,1,0,0)
 		c:RegisterFlagEffect(code,RESET_EVENT+(RESETS_STANDARD-RESET_TOFIELD-RESET_LEAVE)+RESET_PHASE+PHASE_END,0,1)
 	end
@@ -164,7 +164,7 @@ function Bleach.SetUnionState(c)
 		c:RegisterEffect(e2)
 	end
 end
-function Auxiliary.CheckUnionEquip(uc,tc)
+function Bleach.CheckUnionEquip(uc,tc)
 	ct1,ct2=tc:GetUnionCount()
 	if uc.old_union then return ct1==0
 	else return ct2==0 end
