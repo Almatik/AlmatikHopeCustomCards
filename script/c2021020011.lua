@@ -70,7 +70,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
-	Duel.SendtoHand(Duel.CreateToken(tp,2021020002),tp,REASON_RULE)
+	Duel.SendtoHand(Duel.CreateToken(tp,50913601),tp,REASON_RULE)
 	
 
 
