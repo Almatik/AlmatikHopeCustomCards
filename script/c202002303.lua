@@ -1,5 +1,4 @@
 --Hozukimaru the Winter Cherry
-Duel.LoadScript("bleach.lua")
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableUnsummonable()
