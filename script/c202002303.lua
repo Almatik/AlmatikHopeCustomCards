@@ -9,11 +9,24 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetRange(LOCATION_HAND+LOCATION_MZONE)
+	e1:SetCountLimit(1,{id,0})
 	e1:SetTarget(s.eqtg)
 	e1:SetOperation(s.eqop)
 	c:RegisterEffect(e1)
-	--Double Piercing
+	-- Return to hand
+	local e1b=Effect.CreateEffect(c)
+	e1b:SetDescription(aux.Stringid(id,0))
+	e1b:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1b:SetType(EFFECT_TYPE_IGNITION)
+	e1b:SetRange(LOCATION_SZONE)
+	e1b:SetCountLimit(1,{id,0})
+	e1b:SetTarget(s.eqsptg)
+	e1b:SetOperation(s.eqsop)
+	c:RegisterEffect(e1b)
+	--Equip Effect
 	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 	e2:SetType(EFFECT_TYPE_EQUIP)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
 	e2:SetValue(1)
@@ -24,7 +37,7 @@ function s.initial_effect(c)
 	e3a:SetType(EFFECT_TYPE_TRIGGER_O)
 	e3a:SetCode(EVENT_BATTLED)
 	e3a:SetRange(LOCATION_MZONE)
-	e3a:SetCountLimit(1,id^2)
+	e3a:SetCountLimit(1,,{id,1})
 	e3a:SetCondition(s.effcon)
 	e3a:SetTarget(s.efftg)
 	e3a:SetOperation(s.effop)
@@ -70,6 +83,33 @@ function s.eqop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoGrave(c,REASON_RULE)
 	end
 end
+function s.eqstg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if not c:GetEquipTarget() then return false end
+	if chkc then return end
+	if chk==0 then 
+		return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+			and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
+end
+function s.eqsop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
+	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+end
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
