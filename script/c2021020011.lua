@@ -38,7 +38,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.ConfirmCards(tp,dg)
 	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
 end
 
 s.deck={}
