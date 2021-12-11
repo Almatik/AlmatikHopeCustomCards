@@ -17,19 +17,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 	--Add Random Deck
-	local randomdeck={}
-	table.insert(randomdeck,aux.Stringid(id,0))
-	table.insert(randomdeck,aux.Stringid(id,1))
-	local res=Duel.SelectOption(tp,false,table.unpack(randomdeck))
-	if res==0 then
-		return decknum=Duel.GetRandomNumber(1,#s.deck)
-	else
-		local decklist={}
-		for _,v in ipairs(s.deck) do
-			table.insert(decklist,id+1+#decklist)
-		end
-		local decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))-id
-	end
+	local decknum=Duel.GetRandomNumber(1,#s.deck)
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
@@ -102,6 +90,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
 	end
+	Duel.TagSwap(1-tp)
 end
 function s.returnop(e)
 	local c=e:GetLabelObject()
