@@ -22,7 +22,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)+id
 	else
-		local codelist=table.unpack(#s.deckcode)
+		local codelist=table.unpack(s.deckcode)
 		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist)-id
 	end
 	--Add Random Deck
