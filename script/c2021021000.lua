@@ -23,7 +23,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
 	else
-		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deck[][2]))
+		local up=table.unpack(s.deck)
+		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(up[3]))
 		decknum=deckid-id
 	end
 	--Add Random Deck
@@ -71,6 +72,7 @@ s.deckcode={}
 			--Extra Deck
 	s.deck[1][2]={44146295,44146295,34848821,41373230,41373230,41373230,87746184,87746184,80532587,80532587,80532587,79606837,79606837,79606837,70369116}
 			--Deck Cover
+	s.deck[1][3]=2021021001
 	s.deckcode[1]=2021021001
 
 
@@ -82,6 +84,7 @@ s.deckcode={}
 	s.deck[2][2]={44146295,44146295,70534340,1906812,1906812,1906812,41373230,87746184,90448279,62941499,62941499,62941499,48285768,48285768,70369116}
 			--Deck Cover
 	s.deck[2][3]=2021021002
+	s.deck[2][3]=2021021002
 	
 
 	--"Albuz Swordsoul"
@@ -91,6 +94,7 @@ s.deckcode={}
 			--Extra Deck
 	s.deck[3][2]={44146295,44146295,70534340,87746184,96633955,96633955,84815190,47710198,47710198,92519087,9464441,69248256,69248256,69248256,70369116}
 			--Deck Cover
+	s.deck[3][3]=2021021003
 	s.deck[3][3]=2021021003
 
 
