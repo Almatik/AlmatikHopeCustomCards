@@ -23,7 +23,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		decknum=Duel.GetRandomNumber(1,#s.deck)+id
 	else
 		local codelist=table.unpack(s.deckcover)
-		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist):GetCode()
+		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist)
 	end
 	--Add Random Deck
 	local deckid=decknum
