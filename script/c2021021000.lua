@@ -58,7 +58,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Debug.SetPlayerInfo(tp,4000,0,2)
 	Debug.SetAIName("Pidor")
 	Debug.ShowHint("Choose a card")
-	Debug.ReloadFieldBegin()
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
 end
