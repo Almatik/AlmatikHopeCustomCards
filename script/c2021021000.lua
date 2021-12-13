@@ -17,7 +17,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	local sel={}
 	table.insert(sel,"Pidor")
-	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
+	local selop=Duel.SelectOption(tp,true,table.unpack(sel))
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
