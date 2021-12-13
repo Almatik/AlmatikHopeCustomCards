@@ -17,7 +17,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	local sel={}
 	table.inster(sel,"Dick")
-	local Duel.SelectOption(tp,false,table.unpack(sel))
+	Duel.SelectOption(tp,false,table.unpack(sel))
 
 
 	--Add Random Deck
