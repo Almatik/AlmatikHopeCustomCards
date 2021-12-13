@@ -25,7 +25,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		local decklist={}
 		table.insert(decklist,table.unpack(s.deck[1][3]))
-		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.decklist))
+		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deck[1][3]))
 		decknum=deckid-id
 	end
 	--Add Random Deck
