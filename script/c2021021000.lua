@@ -24,7 +24,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		deckid=decknum+id
 	else
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deckcode))
-		decknum=codelist-id
+		decknum=deckid-id
 	end
 	--Add Random Deck
 	local deck=s.deck[decknum][1]
