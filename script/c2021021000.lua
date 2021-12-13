@@ -25,7 +25,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	else
 		local decklist={}
 		for i=1,#s.deck do
-			table.insert(decklist,s.deck[i][3]) end
+			table.insert(decklist,s.deck[i][3])
 		end
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.decklist))
 		decknum=deckid-id
