@@ -42,67 +42,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 
-
-
-	--Field
-	local token=Duel.CreateToken(tp,deckid)
-	e:SetLabelObject(token)
-		 --redirect
-	local e1=Effect.CreateEffect(token)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e1:SetCode(EVENT_LEAVE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	e1:SetOperation(function(e) Duel.SendtoDeck(e:GetHandler(),nil,-2,REASON_RULE) end)
-	token:RegisterEffect(e1)
-	local e2=Effect.CreateEffect(token)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_CHAIN_END)
-	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetLabelObject(token)
-	e2:SetOperation(s.returnop)
-	Duel.RegisterEffect(e2,0)
-	--unaffectable
-	local ea=Effect.CreateEffect(token)
-	ea:SetType(EFFECT_TYPE_SINGLE)
-	ea:SetCode(EFFECT_CANNOT_TO_DECK)
-	ea:SetRange(LOCATION_SZONE)
-	ea:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	token:RegisterEffect(ea)
-	local eb=ea:Clone()
-	eb:SetCode(EFFECT_CANNOT_REMOVE)
-	token:RegisterEffect(eb)
-	local ec=ea:Clone()
-	ec:SetCode(EFFECT_CANNOT_TO_HAND)
-	token:RegisterEffect(ec)
-	local ed=ea:Clone()
-	ed:SetCode(EFFECT_CANNOT_TO_GRAVE)
-	token:RegisterEffect(ed)
-	local ee=ea:Clone()
-	ee:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-	ee:SetValue(1)
-	token:RegisterEffect(ee)
-	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
-		Duel.MoveToField(token,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-	else
-		Duel.SendtoDeck(token,nil,-2,REASON_RULE)
-	end
-
-
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
 end
-function s.returnop(e)
-	local c=e:GetLabelObject()
-	local tp=c:GetControler()
-	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
-		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-	end
-end
-
-
 
 
 
