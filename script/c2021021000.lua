@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 
 	local sel={}
-	table.insert(sel,1="Pidor")
+	table.insert(sel,"Pidor"=1)
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)
