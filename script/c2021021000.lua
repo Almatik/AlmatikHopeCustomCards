@@ -22,7 +22,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 	else
-		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,id+table.unpack(s.deck))
+		local codelist=table.unpack(s.deckcover)
+		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist)
 	end
 	--Add Random Deck
 	local deckid=id+decknum
@@ -63,6 +64,7 @@ end
 
 
 s.deck={}
+s.deckcover={}
 	--"Albuz Dogmatik"
 	s.deck[1]={}
 			--Main Deck
@@ -70,7 +72,7 @@ s.deck={}
 			--Extra Deck
 	s.deck[1][2]={44146295,44146295,34848821,41373230,41373230,41373230,87746184,87746184,80532587,80532587,80532587,79606837,79606837,79606837,70369116}
 			--Deck Cover
-	s.deck[1][3]=2021021001
+	s.deckcover[1]=2021021001
 
 
 	--"Albuz Springans"
