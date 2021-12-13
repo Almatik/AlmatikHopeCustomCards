@@ -15,6 +15,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 
+	local sel={}
+	table.inster(sel,"Dick")
+	local Duel.SelectOption(tp,false,table.unpack(sel))
+
 
 	--Add Random Deck
 	local decknum=Duel.GetRandomNumber(1,#s.deck)
