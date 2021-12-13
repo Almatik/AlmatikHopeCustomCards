@@ -55,6 +55,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
+	Debug.SetPlayerInfo(tp,4000,0,2)
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
 end
