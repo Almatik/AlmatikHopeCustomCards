@@ -23,7 +23,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
 	else
-		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deck[1,2][3]))
+		local decklist={}
+		local deckunpack=table.unpack(s.deck)
+		for _,v in ipairs(deckunpack[3]) do table.insert(decklist,v) end
+		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.decklist)
 		decknum=deckid-id
 	end
 	--Add Random Deck
