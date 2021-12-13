@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 
 	local sel={}
-	table.insert(sel,io.write("hello"))
+	table.insert(sel,"Sad"&0xfffff)
 	Duel.SelectOption(tp,false,table.unpack(sel))
 
 
