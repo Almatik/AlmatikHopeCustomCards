@@ -26,7 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist)-id
 	end
 	--Add Random Deck
-	local deckid=decknum
+	deckid=decknum
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
