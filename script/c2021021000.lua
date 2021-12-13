@@ -23,7 +23,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
 	else
-		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deck[s.deck][2]))
+		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.deck[][2]))
 		decknum=deckid-id
 	end
 	--Add Random Deck
