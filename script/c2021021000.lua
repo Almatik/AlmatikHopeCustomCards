@@ -20,13 +20,13 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(sel,aux.Stringid(id,1))
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
-		decknum=Duel.GetRandomNumber(1,#s.deck)
+		decknum=Duel.GetRandomNumber(1,#s.deck)+id
 	else
 		local codelist=table.unpack(s.deckcover)
-		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist)
+		decknum=Duel.SelectCardsFromCodes(tp,1,1,false,false,codelist):GetCode()
 	end
 	--Add Random Deck
-	local deckid=id+decknum
+	local deckid=decknum
 	local deck=s.deck[decknum][1]
 	local extra=s.deck[decknum][2]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
