@@ -24,8 +24,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		deckid=decknum+id
 	else
 		local decklist={}
-		local deckunpack=s.deck
-		for _,v in ipairs(deckunpack) do table.insert(decklist,v[3]) end
+		for _,v in ipairs(s.deck) do table.insert(decklist,v) end
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.decklist))
 		decknum=deckid-id
 	end
