@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 
 	local sel={}
-	table.insert(sel,aux.Stringid(id,0))
+	table.insert(sel,aux.Stringid(id,"0"))
 	table.insert(sel,aux.Stringid(id,1))
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
