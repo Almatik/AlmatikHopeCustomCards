@@ -12,8 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	c=e:GetHandler()
-	startlp=1000
-	Debug.SetPlayerInfo(tp,startlp,5,1)
+	startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
