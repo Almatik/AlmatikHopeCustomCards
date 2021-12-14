@@ -20,9 +20,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(sel,aux.Stringid(id,1))
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
+		Debug.ShowHint("Random Deck")
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
 	else
+		Debug.ShowHint("Chosen Deck")
 		local decklist={}
 		for i=1,#s.deck do
 			table.insert(decklist,s.deck[i][1])
@@ -55,9 +57,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Debug.SetPlayerInfo(tp,4000,0,2)
-	Debug.SetAIName("Pidor")
-	Debug.ShowHint("Choose a card")
+	--Debug.SetPlayerInfo(tp,4000,0,2)
+	--Debug.SetAIName("Pidor")
+	--Debug.ShowHint("Choose a card")
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
 end
