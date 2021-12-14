@@ -12,6 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	c=e:GetHandler()
+	startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
@@ -83,7 +84,6 @@ function s.addsleeve(tp)
 	end
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.SetLP(tp,1000)
 end
 
 
@@ -93,11 +93,11 @@ end
 
 
 
-function s.relaymode(c,tp)
+function s.relaymode(c,tp,startlp)
 	local rs1=Effect.GlobalEffect()
 	rs1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	rs1:SetCode(EVENT_ADJUST)
-	rs1:SetOperation(s.relayop)
+	rs1:SetOperation(s.relayop(startlp))
 	Duel.RegisterEffect(rs1,tp)
 	local rs2=rs1:Clone()
 	rs2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
@@ -107,18 +107,21 @@ function s.relaymode(c,tp)
 	rs3:SetCode(EVENT_DAMAGE)
 	Duel.RegisterEffect(rs3,tp)
 end
-function s.relayop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)==0 then
-		Duel.RegisterFlagEffect(tp,id,0,0,1)
-		--Delete Your Cards
-		s.deleteyourdeck(tp)
-		--Get Random Deck
-		s.getrandomdeck()
-		--Add Random Deck
-		s.adddeck(tp)
-		--Add Card Sleeves
-		s.addsleeve(tp,deckid)
-		Duel.Draw(tp,5,REASON_RULE)
+function s.relayop(startlp)
+	function (e,tp,eg,ep,ev,re,r,rp)
+		if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)==0 then
+			Duel.RegisterFlagEffect(tp,id,0,0,1)
+			--Delete Your Cards
+			s.deleteyourdeck(tp)
+			--Get Random Deck
+			s.getrandomdeck()
+			--Add Random Deck
+			s.adddeck(tp)
+			--Add Card Sleeves
+			s.addsleeve(tp,deckid)
+			Duel.SetLP(startlp)
+			Duel.Draw(tp,5,REASON_RULE)
+		end
 	end
 end
 
