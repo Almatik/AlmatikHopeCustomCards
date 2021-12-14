@@ -74,7 +74,7 @@ function s.adddeck(tp)
 end
 function s.addsleeve(tp)
 	--Add Covers
-	g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	tc=g:GetFirst()
 	while tc do
 		--generate a cover for a card
