@@ -51,7 +51,7 @@ function s.getrandomdeck()
 end
 function s.choosedeck(tp)
 	--Choose 1 of the Deck
-	decklist={}
+	local decklist={}
 	for i=1,#s.deck do
 		table.insert(decklist,s.deck[i][1])
 	end
