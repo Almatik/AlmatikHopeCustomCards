@@ -129,6 +129,12 @@ function s.relayop(startlp,relop)
 					s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
+					if Duel.GetFlagEffect(tp,id)==1 then
+						aux.RegisterClientHint(e:GetHandler(),nil,tp,1,0,aux.Stringid(id,5),nil)
+					end
+					if Duel.GetFlagEffect(tp,id)==2 then
+						aux.RegisterClientHint(e:GetHandler(),nil,tp,1,0,aux.Stringid(id,6),nil)
+					end
 				end
 			end
 end
