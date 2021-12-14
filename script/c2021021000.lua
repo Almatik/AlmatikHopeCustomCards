@@ -127,9 +127,8 @@ function s.relayop(startlp,relop)
 					s.adddeck(tp)
 					--Add Card Sleeves
 					s.addsleeve(tp,deckid)
-					Debug.SetPlayerInfo(tp,startlp,5,1)
-					--Duel.SetLP(startlp)
-					--Duel.Draw(tp,5,REASON_RULE)
+					Duel.SetLP(startlp)
+					Duel.Draw(tp,5,REASON_RULE)
 				end
 			end
 end
