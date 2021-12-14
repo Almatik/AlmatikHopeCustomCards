@@ -68,6 +68,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e4:SetCode(EVENT_ADJUST)
+	e4:SetCondition(s.relaycon)
 	e4:SetOperation(s.relayop(startlp))
 	Duel.RegisterEffect(e4,tp)
 
@@ -97,9 +98,11 @@ end
 function s.cannotlose(e,tp,eg,ev,ep,re,r,rp)
 	return Duel.GetFlagEffect(tp,id)<3
 end
+function s.relaycon(e,tp,eg,ep,ev,re,r,rp,chk)
+	return Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0
+end
 function s.relayop(startlp)
 	return function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if Duel.GetLP(tp)>0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0 then return end
 		local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 		Duel.RemoveCards(p1,0,-2,REASON_RULE)
 		Duel.SetLP(tp,startlp)
