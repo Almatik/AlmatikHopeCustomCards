@@ -116,7 +116,7 @@ function s.relaymode(c,tp,startlp,relop)
 	Duel.RegisterEffect(rs3,tp)
 end
 function s.relayop(startlp,relop)
-	function (e,tp,eg,ep,ev,re,r,rp)
+	function(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)<=relop then
 			Duel.RegisterFlagEffect(tp,id,0,0,1)
 			--Delete Your Cards
