@@ -56,6 +56,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 	end
 
+	Duel.SetLP(tp,1000)
 
 
 	if relop then
@@ -92,7 +93,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.SetLP(tp,1000)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
 	--Debug.ShowHint("Choose a card")
