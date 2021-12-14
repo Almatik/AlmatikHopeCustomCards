@@ -113,8 +113,6 @@ function s.relayop(startlp)
 		local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 		Duel.RemoveCards(p1,0,-2,REASON_RULE)
 		Duel.SetLP(tp,startlp)
-		Duel.Draw(tp,5,REASON_RULE)
-		Duel.RegisterFlagEffect(tp,id,0,0,0)
 		local decknum=Duel.GetRandomNumber(1,#s.deck)
 		local deckid=decknum+id
 			--Add Random Deck
@@ -136,6 +134,8 @@ function s.relayop(startlp)
 		--Confirm Deck
 		Duel.ConfirmCards(tp,g)
 		Duel.ShuffleDeck(tp)
+		Duel.Draw(tp,5,REASON_RULE)
+		Duel.RegisterFlagEffect(tp,id,0,0,0)
 	end
 end
 
