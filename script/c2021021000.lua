@@ -18,7 +18,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
 	table.insert(sel,aux.Stringid(id,1))
-	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
+	selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
@@ -51,6 +51,37 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 	end
 
+	startlp=Duel.GetLP(tp)
+	--Relay 1v1 (3 Deck) Mode
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetCode(EFFECT_CANNOT_LOSE_LP)
+	e1:SetTargetRange(1,0)
+	e1:SetCondition(s.cannotlose)
+	e1:SetValue(1)
+	Duel.RegisterEffect(e1,tp)
+	local e2=e1:Clone()
+	e2:SetCode(EFFECT_CANNOT_LOSE_DECK)
+	Duel.RegisterEffect(e2,tp)
+	local e3=e1:Clone()
+	e3:SetCode(EFFECT_CANNOT_LOSE_EFFECT)
+	Duel.RegisterEffect(e3,tp)
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_ADJUST)
+	e4:SetCondition(s.relaycon)
+	e4:SetOperation(s.relayop(startlp))
+	Duel.RegisterEffect(e4,tp)
+
+
+
+
+
+
+
+
+
 
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
@@ -65,7 +96,21 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RemoveCards(p1,0,-2,REASON_RULE)
 
 end
-
+function s.cannotlose(e,tp,eg,ev,ep,re,r,rp)
+	return Duel.GetFlagEffect(tp,id)<3
+end
+function s.relaycon(e,tp,eg,ev,ep,re,r,rp)
+	return Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0
+end
+function s.relayop(startlp)
+	return function(e,tp,eg,ep,ev,re,r,rp,chk)
+		local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+		Duel.RemoveCards(p1,0,-2,REASON_RULE)
+		Duel.SetLP(tp,startlp)
+		Duel.Draw(tp,5,REASON_RULE)
+		Duel.RegisterFlagEffect(tp,id)
+	end
+end
 
 
 
