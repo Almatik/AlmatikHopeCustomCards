@@ -39,9 +39,16 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(rel,aux.Stringid(id,2))
 	table.insert(rel,aux.Stringid(id,3))
 	table.insert(rel,aux.Stringid(id,4))
-	relop=Duel.SelectOption(tp,false,table.unpack(rel))
+	local relop=Duel.SelectOption(tp,false,table.unpack(rel))
+	if relop==0 then
+		extralp=0
+	elseif relop==1 then
+		extralp=1
+	else
+		extralp=2
+	end
 	--Add Relay Mode
-	s.relaymode(c,tp,startlp,relop)
+	s.relaymode(c,tp,startlp,extralp)
 
 
 	--Debug.SetPlayerInfo(tp,4000,0,2)
@@ -101,11 +108,11 @@ end
 
 
 
-function s.relaymode(c,tp,startlp,relop)
+function s.relaymode(c,tp,startlp,extralp)
 	local rs1=Effect.GlobalEffect()
 	rs1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	rs1:SetCode(EVENT_ADJUST)
-	rs1:SetOperation(s.relayop(tp,startlp,relop))
+	rs1:SetOperation(s.relayop(tp,startlp,extralp))
 	Duel.RegisterEffect(rs1,tp)
 	local rs2=rs1:Clone()
 	rs2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
@@ -115,8 +122,8 @@ function s.relaymode(c,tp,startlp,relop)
 	rs3:SetCode(EVENT_DAMAGE)
 	Duel.RegisterEffect(rs3,tp)
 end
-function s.relayop(tp,startlp,relop)
-	if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)<=relop then
+function s.relayop(tp,startlp,extralp)
+	if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)<=extralp then
 		Duel.RegisterFlagEffect(tp,id,0,0,1)
 		--Delete Your Cards
 		s.deleteyourdeck(tp)
