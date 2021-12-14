@@ -109,7 +109,8 @@ function s.cannotlose(relop)
 	end
 end
 function s.relaycon(e,tp,eg,ep,ev,re,r,rp,chk)
-	return Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0
+	return Duel.GetFlagEffect(tp,id)<=relop
+		and (Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0)
 end
 function s.relayop(startlp)
 	return function(e,tp,eg,ep,ev,re,r,rp,chk)
