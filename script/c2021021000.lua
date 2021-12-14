@@ -39,7 +39,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(rel,aux.Stringid(id,2))
 	table.insert(rel,aux.Stringid(id,3))
 	table.insert(rel,aux.Stringid(id,4))
-	local relop=Duel.SelectOption(tp,false,table.unpack(rel))
+	relop=Duel.SelectOption(tp,false,table.unpack(rel))
 	--Add Relay Mode
 	s.relaymode(c,tp,startlp,relop)
 
