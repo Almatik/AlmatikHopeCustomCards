@@ -51,27 +51,34 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 	end
 
-	startlp=Duel.GetLP(tp)
-	--Relay 1v1 (3 Deck) Mode
-	local c=e:GetHandler()
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetCode(EFFECT_CANNOT_LOSE_LP)
-	e1:SetTargetRange(1,0)
-	e1:SetCondition(s.cannotlose)
-	e1:SetValue(1)
-	Duel.RegisterEffect(e1,tp)
-	local e2=e1:Clone()
-	e2:SetCode(EFFECT_CANNOT_LOSE_DECK)
-	Duel.RegisterEffect(e2,tp)
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e4:SetCode(EVENT_ADJUST)
-	e4:SetCondition(s.relaycon)
-	e4:SetOperation(s.relayop(startlp))
-	Duel.RegisterEffect(e4,tp)
 
+
+	local rel={}
+	table.insert(rel,aux.Stringid(id,2))
+	table.insert(rel,aux.Stringid(id,3))
+	relop=Duel.SelectOption(tp,false,table.unpack(rel))
+	if relop==0 then
+		startlp=Duel.GetLP(tp)
+		--Relay 1v1 (3 Deck) Mode
+		local c=e:GetHandler()
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+		e1:SetCode(EFFECT_CANNOT_LOSE_LP)
+		e1:SetTargetRange(1,0)
+		e1:SetCondition(s.cannotlose)
+		e1:SetValue(1)
+		Duel.RegisterEffect(e1,tp)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_CANNOT_LOSE_DECK)
+		Duel.RegisterEffect(e2,tp)
+		local e4=Effect.CreateEffect(c)
+		e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e4:SetCode(EVENT_ADJUST)
+		e4:SetCondition(s.relaycon)
+		e4:SetOperation(s.relayop(startlp))
+		Duel.RegisterEffect(e4,tp)
+	end
 
 
 
@@ -107,7 +114,28 @@ function s.relayop(startlp)
 		Duel.RemoveCards(p1,0,-2,REASON_RULE)
 		Duel.SetLP(tp,startlp)
 		Duel.Draw(tp,5,REASON_RULE)
-		Duel.RegisterFlagEffect(tp,id)
+		Duel.RegisterFlagEffect(tp,id,0,0,0)
+		local decknum=Duel.GetRandomNumber(1,#s.deck)
+		local deckid=decknum+id
+			--Add Random Deck
+		local deck=s.deck[decknum][2]
+		local extra=s.deck[decknum][3]
+		for _,v in ipairs(extra) do table.insert(deck,v) end
+		for code,codex in ipairs(deck) do
+			Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
+		end
+		Debug.ReloadFieldEnd()
+		--Add Covers
+		local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+		local tc=g:GetFirst()
+		while tc do
+			--generate a cover for a card
+			tc:Cover(deckid)
+			tc=g:GetNext()
+		end
+		--Confirm Deck
+		Duel.ConfirmCards(tp,g)
+		Duel.ShuffleDeck(tp)
 	end
 end
 
