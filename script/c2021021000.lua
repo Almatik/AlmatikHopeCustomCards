@@ -12,6 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	c=e:GetHandler()
+	Debug.SetPlayerInfo(tp,1000,5,1)
 	startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
@@ -126,8 +127,9 @@ function s.relayop(startlp,relop)
 			s.adddeck(tp)
 			--Add Card Sleeves
 			s.addsleeve(tp,deckid)
-			Duel.SetLP(startlp)
-			Duel.Draw(tp,5,REASON_RULE)
+			Debug.SetPlayerInfo(tp,1000,5,1)
+			--Duel.SetLP(startlp)
+			--Duel.Draw(tp,5,REASON_RULE)
 		end
 	end
 end
