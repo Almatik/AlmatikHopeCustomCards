@@ -12,29 +12,53 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Delete Your Cards
-	local del=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
-
+	s.deleteyourdeck(tp)
+	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
 	table.insert(sel,aux.Stringid(id,1))
 	selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
-		decknum=Duel.GetRandomNumber(1,#s.deck)
-		deckid=decknum+id
-		rel={}
-		table.insert(rel,aux.Stringid(id,2))
-		table.insert(rel,aux.Stringid(id,3))
-		table.insert(rel,aux.Stringid(id,4))
-		relop=Duel.SelectOption(tp,false,table.unpack(rel))
+		--Get Random Deck
+		s.getrandomdeck()
 	else
-		local decklist={}
-		for i=1,#s.deck do
-			table.insert(decklist,s.deck[i][1])
-		end
-		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-		decknum=deckid-id
+		--Choose 1 of the Decks
+		s.choosedeck(tp)
 	end
+
+	--Add Random Deck
+	s.adddeck(tp)
+	--Add Card Sleeves
+	s.addsleeve(tp,deckid)
+
+	--Debug.SetPlayerInfo(tp,4000,0,2)
+	--Debug.SetAIName("Pidor")
+	--Debug.ShowHint("Choose a card")
+	--Duel.ShuffleExtra(tp)
+	--Duel.TagSwap(1-tp)
+	--local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
+
+end
+function s.deleteyourdeck(tp)
+	del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.RemoveCards(del,tp,-2,REASON_RULE)
+end
+function s.getrandomdeck()
+	--Get Random Deck
+	decknum=Duel.GetRandomNumber(1,#s.deck)
+	deckid=decknum+id
+end
+function s.choosedeck(tp)
+	--Choose 1 of the Deck
+	decklist={}
+	for i=1,#s.deck do
+		table.insert(decklist,s.deck[i][1])
+	end
+	deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	decknum=deckid-id
+end
+function s.adddeck(tp)
 	--Add Random Deck
 	local deck=s.deck[decknum][2]
 	local extra=s.deck[decknum][3]
@@ -43,104 +67,31 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
-	
-
-
-
+end
+function s.addsleeve(tp)
 	--Add Covers
-	local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-	local tc=g:GetFirst()
+	g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
+	tc=g:GetFirst()
 	while tc do
 		--generate a cover for a card
 		tc:Cover(deckid)
 		tc=g:GetNext()
 	end
-
-	Duel.SetLP(tp,1000)
-
-
-	if relop then
-		startlp=Duel.GetLP(tp)
-		--Relay 1v1 (3 Deck) Mode
-		local c=e:GetHandler()
-		local e1=Effect.CreateEffect(c)
-		e1:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
-		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-		e1:SetCode(EFFECT_CANNOT_LOSE_LP)
-		e1:SetTargetRange(1,0)
-		e1:SetCondition(s.cannotlose(relop))
-		e1:SetValue(1)
-		Duel.RegisterEffect(e1,tp)
-		local e2=e1:Clone()
-		e2:SetCode(EFFECT_CANNOT_LOSE_DECK)
-		Duel.RegisterEffect(e2,tp)
-		local e4=Effect.CreateEffect(c)
-		e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e4:SetCode(EVENT_ADJUST)
-		e4:SetCondition(s.relaycon)
-		e4:SetOperation(s.relayop(startlp))
-		Duel.RegisterEffect(e4,tp)
-	end
-
-
-
-
-
-
-
-
-
-	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	--Debug.SetPlayerInfo(tp,4000,0,2)
-	--Debug.SetAIName("Pidor")
-	--Debug.ShowHint("Choose a card")
-	--Duel.ShuffleExtra(tp)
-	--Duel.TagSwap(1-tp)
+	Duel.SetLP(tp,1000)
+end
 
-	--local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
 
-end
-function s.cannotlose(relop)
-	return function(e,tp,eg,ep,ev,re,r,rp,chk)
-		return Duel.GetFlagEffect(tp,id)<=relop
-	end
-end
-function s.relaycon(e,tp,eg,ep,ev,re,r,rp,chk)
-	return Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0
-end
-function s.relayop(startlp)
-	return function(e,tp,eg,ep,ev,re,r,rp,chk)
-		local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-		Duel.RemoveCards(p1,0,-2,REASON_RULE)
-		Duel.SetLP(tp,startlp)
-		local decknum=Duel.GetRandomNumber(1,#s.deck)
-		local deckid=decknum+id
-			--Add Random Deck
-		local deck=s.deck[decknum][2]
-		local extra=s.deck[decknum][3]
-		for _,v in ipairs(extra) do table.insert(deck,v) end
-		for code,codex in ipairs(deck) do
-			Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
-		end
-		Debug.ReloadFieldEnd()
-		--Add Covers
-		local g=Duel.GetFieldGroup(tp,LOCATION_ALL,0)
-		local tc=g:GetFirst()
-		while tc do
-			--generate a cover for a card
-			tc:Cover(deckid)
-			tc=g:GetNext()
-		end
-		--Confirm Deck
-		Duel.ConfirmCards(tp,g)
-		Duel.ShuffleDeck(tp)
-		Duel.Draw(tp,5,REASON_RULE)
-		Duel.RegisterFlagEffect(tp,id,0,0,0)
-	end
-end
+
+
+
+
+
+
+
+
+
 
 
 
