@@ -111,19 +111,21 @@ function s.relaymode(c,tp,startlp)
 	Duel.RegisterEffect(rs3,tp)
 end
 function s.relayop(tp,startlp)
-	if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)<=1 then
-		Duel.RegisterFlagEffect(tp,id,0,0,1)
-		--Delete Your Cards
-		s.deleteyourdeck(tp)
-		--Get Random Deck
-		s.getrandomdeck()
-		--Add Random Deck
-		s.adddeck(tp)
-		--Add Card Sleeves
-		s.addsleeve(tp,deckid)
-		Debug.SetPlayerInfo(tp,startlp,5,1)
-		--Duel.SetLP(startlp)
-		--Duel.Draw(tp,5,REASON_RULE)
+	function(e,tp,eg,ep,ev,re,r,rp)
+		if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)<=1 then
+			Duel.RegisterFlagEffect(tp,id,0,0,1)
+			--Delete Your Cards
+			s.deleteyourdeck(tp)
+			--Get Random Deck
+			s.getrandomdeck()
+			--Add Random Deck
+			s.adddeck(tp)
+			--Add Card Sleeves
+			s.addsleeve(tp,deckid)
+			Debug.SetPlayerInfo(tp,startlp,5,1)
+			--Duel.SetLP(startlp)
+			--Duel.Draw(tp,5,REASON_RULE)
+		end
 	end
 end
 
