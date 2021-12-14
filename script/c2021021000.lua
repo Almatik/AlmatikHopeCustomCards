@@ -11,6 +11,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	c=e:GetHandler()
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
