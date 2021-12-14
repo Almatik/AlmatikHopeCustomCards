@@ -22,6 +22,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if selop==0 then
 		decknum=Duel.GetRandomNumber(1,#s.deck)
 		deckid=decknum+id
+		rel={}
+		table.insert(rel,aux.Stringid(id,2))
+		table.insert(rel,aux.Stringid(id,3))
+		table.insert(rel,aux.Stringid(id,4))
+		relop=Duel.SelectOption(tp,false,table.unpack(rel))
 	else
 		local decklist={}
 		for i=1,#s.deck do
@@ -53,11 +58,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 
 
-	local rel={}
-	table.insert(rel,aux.Stringid(id,2))
-	table.insert(rel,aux.Stringid(id,3))
-	relop=Duel.SelectOption(tp,false,table.unpack(rel))
-	if relop==0 then
+	if relop then
 		startlp=Duel.GetLP(tp)
 		--Relay 1v1 (3 Deck) Mode
 		local c=e:GetHandler()
@@ -66,7 +67,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 		e1:SetCode(EFFECT_CANNOT_LOSE_LP)
 		e1:SetTargetRange(1,0)
-		e1:SetCondition(s.cannotlose)
+		e1:SetCondition(s.cannotlose(relop))
 		e1:SetValue(1)
 		Duel.RegisterEffect(e1,tp)
 		local e2=e1:Clone()
@@ -102,8 +103,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
 
 end
-function s.cannotlose(e,tp,eg,ev,ep,re,r,rp)
-	return Duel.GetFlagEffect(tp,id)<3
+function s.cannotlose(relop)
+	return function(e,tp,eg,ep,ev,re,r,rp,chk)
+		return Duel.GetFlagEffect(tp,id)<=relop
+	end
 end
 function s.relaycon(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetLP(tp)==0 or Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)==0
