@@ -40,7 +40,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(rel,aux.Stringid(id,2))
 	table.insert(rel,aux.Stringid(id,3))
 	table.insert(rel,aux.Stringid(id,4))
-	local selop=Duel.SelectOption(tp,false,table.unpack(rel))
+	local relop=Duel.SelectOption(tp,false,table.unpack(rel))
 	s.relaymode(c,tp,startlp,relop)
 
 
