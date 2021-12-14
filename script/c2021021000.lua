@@ -60,6 +60,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Debug.ShowHint("Choose a card")
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
+
+	local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.RemoveCards(p1,0,-2,REASON_RULE)
+
 end
 
 
