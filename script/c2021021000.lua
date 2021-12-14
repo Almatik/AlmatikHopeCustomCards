@@ -94,18 +94,22 @@ end
 
 
 function s.relaymode(c,tp)
-	aux.GlobalCheck(s,function()
-		local e1=Effect.CreateEffect(c)
-		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e1:SetCode(EVENT_ADJUST)
-		e1:SetOperation(s.lpcheckop)
-		Duel.RegisterEffect(e1,tp)
-	end)
+	local rs1=Effect.GlobalEffect()
+	rs1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	rs1:SetCode(EVENT_ADJUST)
+	rs1:SetOperation(s.relayop)
+	Duel.RegisterEffect(rs1,0)
+	local rs2=rs1:Clone()
+	rs2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	rs2:SetCode(EVENT_CHAIN_SOLVED)
+	Duel.RegisterEffect(rs2,0)
+	local rs3=rs2:Clone()
+	rs3:SetCode(EVENT_DAMAGE)
+	Duel.RegisterEffect(rs3,0)
 end
-function s.lpcheckop(e,tp,eg,ev,ep,re,r,rp)
-	if Duel.GetLP(tp)==0 and Duel.GetFlagEffect(tp,id)<1 then
-		Duel.RegisterEffect(tp,id,0,0,0)
+function s.relayop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetLP(tp)<=0 and Duel.GetFlagEffect(tp,id)==0 then
+		Duel.RegisterFlagEffect(tp,id,0,0,1)
 		--Delete Your Cards
 		s.deleteyourdeck(tp)
 		--Get Random Deck
@@ -116,10 +120,6 @@ function s.lpcheckop(e,tp,eg,ev,ep,re,r,rp)
 		s.addsleeve(tp,deckid)
 	end
 end
-
-
-
-
 
 
 
