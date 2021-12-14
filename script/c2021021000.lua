@@ -92,7 +92,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Confirm Deck
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.Damage(tp,startlp,REASON_RULE)
+	Duel.SetLP(tp,1000)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
 	--Debug.ShowHint("Choose a card")
