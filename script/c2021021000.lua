@@ -30,6 +30,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.adddeck(tp)
 	--Add Card Sleeves
 	s.addsleeve(tp,deckid)
+	--Add Relay Mode
+	s.relaymode(c,tp)
+
 
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
@@ -86,6 +89,31 @@ end
 
 
 
+
+
+
+function s.relaymode(c,tp)
+	local tp=e:GetHandlerPlayer()
+	local e1=Effect.CreateEffect(c)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_ADJUST)
+	e1:SetOperation(s.lpcheckop)
+	Duel.RegisterEffect(e1,tp)
+end
+function s.lpcheckop(e,tp,eg,ev,ep,re,r,rp)
+	if Duel.GetLP(tp)==0 and Duel.GetFlagEffect(tp,id)<1 then
+		Duel.RegisterEffect(tp,id,0,0,0)
+		--Delete Your Cards
+		s.deleteyourdeck(tp)
+		--Get Random Deck
+		s.getrandomdeck()
+		--Add Random Deck
+		s.adddeck(tp)
+		--Add Card Sleeves
+		s.addsleeve(tp,deckid)
+	end
+end
 
 
 
