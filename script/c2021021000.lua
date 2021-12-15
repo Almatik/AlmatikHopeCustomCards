@@ -11,6 +11,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetFlagEffect(0,id)>0 and Duel.GetFlagEffect(1,id)>0 then return end
+	Duel.RegisterFlagEffect(0,id,0,0,1)
+	Duel.RegisterFlagEffect(1,id,0,0,1)
 	for p=0,1 do
 	c=e:GetHandler()
 	---Duel.SetLP(tp,1000)
@@ -118,7 +121,7 @@ function s.relaymode(c,p,startlp,relop)
 end
 function s.relayop(startlp,relop,p)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
-				if Duel.GetLP(p)<=0 and Duel.GetFlagEffect(p,id)<=relop then
+				if Duel.GetLP(p)<=1 and Duel.GetFlagEffect(p,id)<=relop+1 then
 					Duel.RegisterFlagEffect(p,id,0,0,1)
 					--Delete Your Cards
 					s.deleteyourdeck(p)
