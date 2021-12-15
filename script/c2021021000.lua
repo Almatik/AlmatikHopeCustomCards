@@ -133,13 +133,8 @@ function s.relayop(startlp,relop,p)
 					s.addsleeve(p,deckid)
 					Duel.SetLP(p,startlp)
 					Duel.Draw(p,5,REASON_RULE)
-					if Duel.GetFlagEffect(p,id)==1 then
-						aux.RegisterClientHint(e:GetHandler(),nil,p,1,0,aux.Stringid(id,5),nil)
-					end
-					if Duel.GetFlagEffect(p,id)==2 then
-						aux.RegisterClientHint(e:GetHandler(),nil,p,1,0,aux.Stringid(id,6),nil)
-					end
 					if Duel.GetTurnPlayer()~=p then
+						Duel.SkipPhase(p,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
 						Duel.SkipPhase(p,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
 					end
 				end
