@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterFlagEffect(1,id,0,0,1)
 	for p=0,1 do
 	c=e:GetHandler()
-	Duel.SetLP(tp,1000)
+	Duel.SetLP(p,1000)
 	startlp=Duel.GetLP(p)
 	--Delete Your Cards
 	s.deleteyourdeck(p)
