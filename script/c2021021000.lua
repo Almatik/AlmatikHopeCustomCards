@@ -12,7 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	c=e:GetHandler()
-	Duel.SetLP(tp,1000)
+	---Duel.SetLP(tp,1000)
 	startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
