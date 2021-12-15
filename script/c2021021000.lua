@@ -137,6 +137,7 @@ function s.relayop(startlp,relop,p)
 					if Duel.GetTurnPlayer()~=p then
 						Duel.SkipPhase(1-p,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
 						Duel.SkipPhase(1-p,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
+						Duel.SkipPhase(1-p,PHASE_MAIN2,RESET_PHASE+PHASE_END,1)
 					end
 				end
 			end
