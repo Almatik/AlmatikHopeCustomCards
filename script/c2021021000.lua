@@ -96,6 +96,7 @@ function s.addsleeve(p)
 	end
 	Duel.ConfirmCards(p,g)
 	Duel.ShuffleDeck(p)
+	Duel.ShuffleExtra(p)
 end
 
 
