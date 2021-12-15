@@ -134,6 +134,9 @@ function s.relayop(startlp,relop)
 					if Duel.GetFlagEffect(tp,id)==2 then
 						aux.RegisterClientHint(e:GetHandler(),nil,tp,1,0,aux.Stringid(id,6),nil)
 					end
+					if Duel.GetTurnPlayer()~=tp then
+						Duel.SkipPhase(tp,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
+					end
 				end
 			end
 end
