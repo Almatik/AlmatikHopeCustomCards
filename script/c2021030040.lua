@@ -31,9 +31,9 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.operations(e,tp,eg,ep,ev,re,r,rp)
-	local mc=Duel.GetFirstTarget()
 	local c=e:GetHandler()
-	if not mc or mc:IsFacedown() or not mc:IsRelateToEffect(e) or mc:IsControler(1-tp) or mc:IsImmuneToEffect(e) then return end
+	local mc=Duel.GetFirstTarget()
+	if not mc or mc:IsFacedown() or not mc:IsRelateToEffect(e) or not mc:IsControler(1-tp) or mc:IsImmuneToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,mc)
 	local sc=g:GetFirst()
