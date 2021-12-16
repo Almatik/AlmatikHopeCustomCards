@@ -39,7 +39,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local mat=Group.FromCards(tc,c)
 	if g then
 		g:SetMaterial(mat)
-		Duel.Overlay(sc,mat)
+		Duel.Overlay(g,mat)
 		Duel.SpecialSummon(sc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 		g:CompleteProcedure()
 		if c:IsRelateToEffect(e) then
