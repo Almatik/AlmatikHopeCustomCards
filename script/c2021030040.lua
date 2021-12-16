@@ -48,9 +48,8 @@ function s.operation(e,tp,eg,ev,ep,re,r,rp)
 	local mc=e:GetHandler()
 	local sc=Duel.GetFirstTarget()
 	if not mc:IsRelateToEffect(e) or Duel.SpecialSummon(mc,0,tp,tp,false,false,POS_FACEUP)==0 then return end
-	if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
-	if not s.filter1(e,tp,mc) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	if not sc:IsRelateToEffect(e) or sc:IsFacedown() then return end
+	local mg=Group.FromCards(mc,sc)
 	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,tp,mc,sc)
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
@@ -63,6 +62,6 @@ function s.operation(e,tp,eg,ev,ep,re,r,rp)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			xc:RegisterEffect(e1)
 		end
-		Duel.XyzSummon(tp,sg:GetFirst(),mc,Group.FromCards(mc,sc))
+		Duel.XyzSummon(tp,sg:GetFirst(),mc,mg)
 	end
 end
