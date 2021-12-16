@@ -37,6 +37,14 @@ function s.filter1(c,e,tp)
 end
 function s.filter2(c,e,tp,mc)
 	local lv=mc:HasLevel() and mc:GetLevel() or mc:GetRank()
+	if mc:IsType(TYPE_XYZ) then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_XYZ_LEVEL)
+		e1:SetValue(s.xyzlv)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		mc:RegisterEffect(e1)
+	end
 	return mc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
@@ -73,7 +81,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		--Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 		--g:CompleteProcedure()
 		--if c:IsRelateToEffect(e) then
-		--	Duel.Overlay(sc,c)
+		--  Duel.Overlay(sc,c)
 		--end
 	end
 end
