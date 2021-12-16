@@ -40,7 +40,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if g then
 		g:SetMaterial(mat)
 		Duel.Overlay(g,mat)
-		Duel.SpecialSummon(sc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
+		Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 		g:CompleteProcedure()
 		if c:IsRelateToEffect(e) then
 			Duel.Overlay(sc,c)
