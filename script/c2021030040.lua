@@ -18,7 +18,12 @@ function s.filter1(c,e,tp)
 		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
 end
 function s.filter2(c,e,tp,mc)
-	if mc:IsType(TYPE_XYZ) then local lv=mc:GetRank() elseif mc:HasLevel() then local lv=mc:GetLevel() end
+	local lv
+	if mc:IsType(TYPE_XYZ) then
+		lv=mc:GetRank()
+	elseif mc:HasLevel() then
+		lv=mc:GetLevel()
+	end
 	return c:IsRank(lv) and mc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
