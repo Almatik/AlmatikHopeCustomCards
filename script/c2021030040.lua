@@ -37,9 +37,11 @@ function s.filter1(c,e,tp)
 end
 function s.filter2(c,e,tp,mc)
 	local lv=mc:HasLevel() and mc:GetLevel() or mc:GetRank()
-	return c:IsRank(lv) and mc:IsCanBeXyzMaterial(c,tp)
+	return mc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
+		and not c:IsCode(mc:GetCode())
+		and c:IsRank(lv)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
