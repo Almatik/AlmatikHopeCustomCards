@@ -30,36 +30,37 @@ function s.xyzlv(e,c,rc)
 	end
 end
 
-function s.filter1(c,e,tp)
+function s.filter1(c,e,tp,mc)
 	return c:IsFaceup() and not c:IsCode(id)
 		and (c:IsType(TYPE_XYZ) or c:HasLevel())
-		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
+		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mc,c)
 end
-function s.filter2(c,e,tp,mc)
-	local lv=mc:HasLevel() and mc:GetLevel() or mc:GetRank()
-	if mc:IsType(TYPE_XYZ) then
+function s.filter2(c,e,tp,mc,sc)
+	local lv=sc:HasLevel() and sc:GetLevel() or sc:GetRank()
+	if sc:IsType(TYPE_XYZ) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_XYZ_LEVEL)
 		e1:SetValue(lv)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		mc:RegisterEffect(e1)
+		sc:RegisterEffect(e1)
 	end
 	return mc:IsCanBeXyzMaterial(c,tp)
+		and sc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
-		and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
-		and not c:IsCode(mc:GetCode())
+		and Duel.GetLocationCountFromEx(tp,tp,sc,c)>0
+		and not c:IsCode(sc:GetCode())
 		and c:IsRank(lv)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.filter1(chkc,e,tp) end
-	if chk==0 then return Duel.IsExistingTarget(s.filter1,tp,LOCATION_MZONE,0,1,nil,e,tp)
+	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and s.filter1(chkc,e,tp,c) end
+	if chk==0 then return Duel.IsExistingTarget(s.filter1,tp,LOCATION_MZONE,0,1,nil,e,tp,c)
 			and Duel.IsPlayerCanSpecialSummonCount(tp,2)
 			and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 			and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,s.filter1,tp,LOCATION_MZONE,0,1,1,nil,e,tp)
+	local g=Duel.SelectTarget(tp,s.filter1,tp,LOCATION_MZONE,0,1,1,nil,e,tp,c)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
@@ -70,7 +71,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) or Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)==0 then return end
 	if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,tc)
+	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,c,tc)
 	local mat=Group.FromCards(tc,c)
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
