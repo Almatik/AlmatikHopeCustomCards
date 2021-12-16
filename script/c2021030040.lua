@@ -13,7 +13,23 @@ function s.initial_effect(c)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
+	--Can be treated as a level 3 or 5 for the Xyz summon of a WATER monster
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_XYZ_LEVEL)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetValue(s.xyzlv)
+	c:RegisterEffect(e2)
 end
+function s.xyzlv(e,c,rc)
+	if rc:IsSetCard() then
+		return 1,2,3,4,5,6,7,8,9,10,11,2
+	else
+		return e:GetHandler():GetLevel()
+	end
+end
+
 function s.filter1(c,e,tp)
 	return c:IsFaceup()
 		and (c:IsType(TYPE_XYZ) or c:HasLevel())
