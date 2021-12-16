@@ -45,8 +45,9 @@ function s.filter2(c,e,tp,mc,sc)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		sc:RegisterEffect(e1)
 	end
-	local mat=Group.FromCards(mc,sc)
-	return mat:IsCanBeXyzMaterial(c,tp)
+	return mc:IsCanBeXyzMaterial(c,tp)
+		and mc:GetLevel()==lv
+		and sc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,sc,c)>0
 		and not c:IsCode(sc:GetCode())
