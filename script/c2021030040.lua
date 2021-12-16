@@ -48,7 +48,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local mat=Group.FromCards(tc,c)
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local xg=g:Select(tp,1,1,nil)
+		local xg=g:Select(tp,1,1,nil):GetFirst()
 		Duel.XyzSummon(tp,xg,nil,mat,2,2)
 		--g:SetMaterial(mat)
 		--Duel.Overlay(g,mat)
