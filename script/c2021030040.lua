@@ -23,11 +23,11 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.xyzlv(e,c,rc)
-	if rc:IsSetCard(0x4002) then
+	--if rc:IsSetCard(0x4002) then
 		return 1,2,3,4,5,6,7,8,9,10,11,2
-	else
-		return e:GetHandler():GetLevel()
-	end
+	--else
+		--return e:GetHandler():GetLevel()
+	--end
 end
 
 function s.filter1(c,e,tp,mc)
