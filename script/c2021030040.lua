@@ -29,7 +29,7 @@ function s.filter2(c,e,tp,mc,sc)
 		sc:RegisterEffect(e1)
 	end
 	local mg=Group.FromCards(mc,sc)
-	local chk=c:IsXyzSummonable(nil,mg,2,2)
+	local chk=c:IsXyzSummonable(nil,sc,2,2)
 	e1:Reset()
 	return chk and Duel.GetLocationCountFromEx(tp,tp,mg,c)>0
 end
@@ -57,6 +57,6 @@ function s.operation(e,tp,eg,ev,ep,re,r,rp)
 			e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			xc:RegisterEffect(e1)
 		end
-		Duel.XyzSummon(tp,tc,nil,Group.FromCards(mc,sc))
+		Duel.XyzSummon(tp,tc,nil,sc)
 	end
 end
