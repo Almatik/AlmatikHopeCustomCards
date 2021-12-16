@@ -49,7 +49,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if #g>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local xg=g:Select(tp,1,1,nil):GetFirst()
-		Duel.XyzSummon(tp,xg,nil,mat,2,2)
+		Duel.XyzSummon(tp,xg,mat)
 		--g:SetMaterial(mat)
 		--Duel.Overlay(g,mat)
 		--Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
