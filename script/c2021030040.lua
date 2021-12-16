@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function s.xyzlv(e,c,rc)
-	if rc:IsSetCard() then
+	if rc:IsSetCard(0x4001) then
 		return 1,2,3,4,5,6,7,8,9,10,11,2
 	else
 		return e:GetHandler():GetLevel()
@@ -31,7 +31,7 @@ function s.xyzlv(e,c,rc)
 end
 
 function s.filter1(c,e,tp)
-	return c:IsFaceup()
+	return c:IsFaceup() and not c:IsCode(id)
 		and (c:IsType(TYPE_XYZ) or c:HasLevel())
 		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
 end
