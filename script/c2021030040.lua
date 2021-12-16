@@ -41,7 +41,7 @@ function s.filter2(c,e,tp,mc)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_XYZ_LEVEL)
-		e1:SetValue(s.xyzlv)
+		e1:SetValue(lv)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		mc:RegisterEffect(e1)
 	end
