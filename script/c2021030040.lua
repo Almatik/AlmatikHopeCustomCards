@@ -32,7 +32,8 @@ function s.filter2(c,tp,mc,sc)
 	e1:Reset()
 	return chk and Duel.GetLocationCountFromEx(tp,tp,mg,c)>0
 end
-function s.target(e,tp,eg,ev,ep,re,r,rp,chk,chkc)
+function s.target(e,tp,eg,ev,ep,re,r,rp,chk,chkc).
+	local c=e:GetHandler()
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and s.filter1(chkc,tp,c) end
 	if chk==0 then return Duel.IsPlayerCanSpecialSummonCount(tp,2)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
