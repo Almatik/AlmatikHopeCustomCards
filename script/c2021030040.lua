@@ -20,7 +20,7 @@ function s.filter1(c,e,tp,mc)
 		 and Duel.IsExistingTarget(s.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mc,c)
 end
 function s.filter2(c,e,tp,mc,sc)
-	if c:IsType(TYPE_XYZ) then
+	if sc:IsType(TYPE_XYZ) then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_XYZ_LEVEL)
