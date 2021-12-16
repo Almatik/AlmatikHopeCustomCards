@@ -46,7 +46,6 @@ function s.filter2(c,e,tp,mc,sc)
 		sc:RegisterEffect(e1)
 	end
 	return mc:IsCanBeXyzMaterial(c,tp)
-		and mc:GetLevel()==lv
 		and sc:IsCanBeXyzMaterial(c,tp)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,sc,c)>0
