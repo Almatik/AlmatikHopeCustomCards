@@ -1,4 +1,5 @@
 --Deck Random: Almatik Hope
+
 local s,id=GetID()
 function s.initial_effect(c)
 	--skill
@@ -61,6 +62,10 @@ function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.RemoveCards(del,p,-2,REASON_RULE)
 end
+function s.deleteyourdeck2(p)
+	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.SendtoDeck(del,p,-2,REASON_RULE)
+end
 function s.getrandomdeck()
 	--Get Random Deck
 	decknum=Duel.GetRandomNumber(1,#s.deck)
@@ -82,6 +87,17 @@ function s.adddeck(p)
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		Debug.AddCard(codex,p,p,LOCATION_DECK,1,POS_FACEDOWN)
+	end
+	Debug.ReloadFieldEnd()
+end
+function s.adddeck2(p)
+	--Add Random Deck
+	local deck=s.deck[decknum][2]
+	local extra=s.deck[decknum][3]
+	for _,v in ipairs(extra) do table.insert(deck,v) end
+	for code,codex in ipairs(deck) do
+		local new=Duel.CreateToken(tp,codex)
+		Duel.SendtoDeck(new,p,1,REASON_EFFECT)
 	end
 	Debug.ReloadFieldEnd()
 end
