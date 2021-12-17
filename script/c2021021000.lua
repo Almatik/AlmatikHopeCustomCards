@@ -99,7 +99,6 @@ function s.adddeck2(p)
 		local new=Duel.CreateToken(tp,codex)
 		Duel.SendtoDeck(new,p,1,REASON_EFFECT)
 	end
-	Debug.ReloadFieldEnd()
 end
 function s.addsleeve(p)
 	--Add Covers
