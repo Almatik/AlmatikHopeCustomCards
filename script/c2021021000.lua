@@ -75,8 +75,8 @@ function s.choosedeck(tp,selop)
 	local extra={}
 	for i=1,#s.deck[selop] do
 		table.insert(decklist,s.deck[selop][i][1])
-		table.insert(decklist,s.deck[selop][i][2])
-		table.insert(decklist,s.deck[selop][i][3])
+		table.insert(deck,s.deck[selop][i][2])
+		table.insert(extra,s.deck[selop][i][3])
 	end
 	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 	local mathid=deckid-id
