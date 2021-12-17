@@ -31,7 +31,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.choosedeck(tp)
 	end
 	--Add Random Deck
-	s.adddeck(tp)
+	s.adddeck2(tp)
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
@@ -84,14 +84,13 @@ function s.adddeck2(tp)
 	--Add Random Deck
 	local deck=s.deck[decknum][2]
 	local extra=s.deck[decknum][3]
+	local g=Group.CreateGroup()
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
-		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
-		new:Cover(deckid)
+		new:AddCard(g)
 	end
-	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
+	Duel.SendtoDeck(g,tp,1,REASON_RULE)
 end
 function s.addsleeve(tp)
 	--Add Covers
