@@ -71,7 +71,7 @@ end
 function s.choosedeck(tp,selop)
 	--Choose 1 of the Deck
 	local decklist={}
-	for i=1,#s.deck do
+	for i=1,#s.deck[selop] do
 		table.insert(decklist,s.deck[selop][i][1])
 	end
 	deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
@@ -274,7 +274,7 @@ s.deck={}
 
 
 
-	--"Almatik Hope Deck"
+	--"Whility Deck"
 	s.deck[2]={}
 	--"Adamancipator"
 	s.deck[2][1]={}
