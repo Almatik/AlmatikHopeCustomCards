@@ -74,7 +74,7 @@ function s.adddeck(tp)
 	for code,codex in ipairs(deck) do
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 	end
-	--Debug.ReloadFieldBegin()
+	Debug.ReloadFieldBegin()
 	Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
