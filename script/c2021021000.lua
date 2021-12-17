@@ -97,22 +97,6 @@ function s.choosedeck(tp,selop)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
-function s.addsleeve(tp)
-	--Add Covers
-	g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	tc=g:GetFirst()
-	while tc do
-		--generate a cover for a card
-		tc:Cover(deckid)
-		tc=g:GetNext()
-	end
-	Duel.ConfirmCards(tp,g)
-	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
-end
-
-
-
 
 
 
