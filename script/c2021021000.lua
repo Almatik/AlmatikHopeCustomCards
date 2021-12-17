@@ -15,7 +15,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetFlagEffect(0,id)>0 and Duel.GetFlagEffect(1,id)>0 then return end
 	Duel.RegisterFlagEffect(0,id,0,0,1)
 	Duel.RegisterFlagEffect(1,id,0,0,1)
-	for p=0,1 do
+	p=tp
 	c=e:GetHandler()
 	--Duel.SetLP(p,1000)
 	startlp=Duel.GetLP(p)
@@ -56,7 +56,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Duel.TagSwap(1-tp)
 	--local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
-	end
+
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
