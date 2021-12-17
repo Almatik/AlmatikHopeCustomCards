@@ -20,7 +20,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Duel.SetLP(p,1000)
 	startlp=Duel.GetLP(p)
 	--Delete Your Cards
-	s.deleteyourdeck(p)
+	s.deleteyourdeck2(p)
 	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
@@ -35,7 +35,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 
 	--Add Random Deck
-	s.adddeck(p)
+	s.adddeck2(p)
 	--Add Card Sleeves
 	s.addsleeve(p,deckid)
 
