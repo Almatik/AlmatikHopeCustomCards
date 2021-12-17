@@ -12,9 +12,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetFlagEffect(0,id)>0 and Duel.GetFlagEffect(1,id)>0 then return end
-	Duel.RegisterFlagEffect(0,id,0,0,1)
-	Duel.RegisterFlagEffect(1,id,0,0,1)
 	p=tp
 	c=e:GetHandler()
 	--Duel.SetLP(p,1000)
