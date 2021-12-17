@@ -63,7 +63,7 @@ function s.choosedeck(tp)
 	for i=1,#s.deck do
 		table.insert(decklist,s.deck[i][1])
 	end
-	deckid=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(decklist))
+	deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 	decknum=deckid-id
 end
 function s.adddeck(tp)
