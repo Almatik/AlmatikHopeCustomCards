@@ -33,7 +33,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Random Deck
 	s.adddeck(tp)
 	--Add Card Sleeves
-	s.addsleeve(tp,deckid)
+	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
 	s.relaymode(c,tp,startlp)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
@@ -72,7 +72,7 @@ function s.adddeck(tp)
 	local extra=s.deck[decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
+		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 	end
 	Debug.ReloadFieldEnd()
 end
@@ -125,13 +125,13 @@ function s.relayop(startlp)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 					--Delete Your Cards
-					s.deleteyourdeck2(tp)
+					s.deleteyourdeck(tp)
 					--Get Random Deck
 					s.getrandomdeck()
 					--Add Random Deck
-					s.adddeck2(tp)
+					s.adddeck(tp)
 					--Add Card Sleeves
-					s.addsleeve(tp,deckid)
+					--s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
 					if Duel.GetTurnPlayer()~=tp then
