@@ -84,7 +84,6 @@ function s.adddeck(p)
 	for code,codex in ipairs(deck) do
 		Debug.AddCard(codex,p,p,LOCATION_DECK,1,POS_FACEDOWN)
 	end
-	Debug.ReloadFieldEnd()
 end
 function s.addsleeve(p)
 	--Add Covers
