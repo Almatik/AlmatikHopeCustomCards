@@ -94,20 +94,6 @@ function s.choosedeck(tp,selop)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
-function s.adddeck(tp,selop)
-	--Add Random Deck
-	local deck=s.deck[selop][decknum][2]
-	local extra=s.deck[selop][decknum][3]
-	for _,v in ipairs(extra) do table.insert(deck,v) end
-	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
-	end
-	Debug.ReloadFieldEnd()
-	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.ConfirmCards(tp,g)
-	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
-end
 function s.adddeck2(tp)
 	--Add Random Deck
 	local deck=s.deck[decknum][2]
