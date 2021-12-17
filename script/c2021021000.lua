@@ -82,8 +82,8 @@ function s.adddeck2(tp)
 	local extra=s.deck[decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
-		local new=Duel.CreateToken(tp,codex)
-		Duel.SendtoDeck(new,tp,1,REASON_EFFECT):Cover(deckid)
+		local new=Duel.CreateToken(tp,codex):Cover(deckid)
+		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
 	end
 end
 function s.addsleeve(tp)
