@@ -41,8 +41,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Debug.ShowHint("Choose a card")
 	--Duel.ShuffleExtra(tp)
 	--Duel.TagSwap(1-tp)
-	--local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
@@ -88,6 +86,7 @@ function s.adddeck2(tp)
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
+		new:Cover(deckid)
 		g:AddCard(new)
 	end
 	Duel.SendtoDeck(g,tp,1,REASON_RULE)
