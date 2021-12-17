@@ -130,11 +130,11 @@ function s.relayop(startlp)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 					--Delete Your Cards
-					s.deleteyourdeck(tp)
+					s.deleteyourdeck2(tp)
 					--Get Random Deck
 					s.getrandomdeck()
 					--Add Random Deck
-					s.adddeck(tp)
+					s.adddeck2(tp)
 					--Add Card Sleeves
 					s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
