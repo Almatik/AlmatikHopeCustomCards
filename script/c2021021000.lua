@@ -89,7 +89,7 @@ function s.choosedeck(tp,selop)
 		--Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 		local new=Duel.CreateToken(tp,codex)
 		new:Cover(deckid)
-		Duel.SendtoDeck(g,tp,1,REASON_RULE)
+		Duel.SendtoDeck(new,tp,1,REASON_RULE)
 	end
 	Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
