@@ -84,7 +84,7 @@ function s.adddeck2(tp)
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
 		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
-		new:GetFirst():Cover(deckid)
+		new:Cover(deckid)
 	end
 end
 function s.addsleeve(tp)
