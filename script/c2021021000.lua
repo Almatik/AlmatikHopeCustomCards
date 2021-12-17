@@ -35,6 +35,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Add Random Deck
 	s.adddeck(p)
+	Debug.ReloadFieldEnd()
 	--Add Card Sleeves
 	s.addsleeve(p,deckid)
 
