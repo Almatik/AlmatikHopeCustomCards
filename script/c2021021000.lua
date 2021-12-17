@@ -31,7 +31,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.choosedeck(tp)
 	end
 	--Add Random Deck
-	s.adddeck2(tp)
+	s.adddeck(tp)
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
@@ -74,7 +74,11 @@ function s.adddeck(tp)
 	for code,codex in ipairs(deck) do
 		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 	end
-	Debug.ReloadFieldEnd()
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleExtra(tp)
+	--Debug.ReloadFieldEnd()
 end
 function s.adddeck2(tp)
 	--Add Random Deck
