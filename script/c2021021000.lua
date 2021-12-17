@@ -16,7 +16,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Duel.SetLP(p,1000)
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
-	s.deleteyourdeck2(tp)
+	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
@@ -30,7 +30,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.choosedeck(tp)
 	end
 	--Add Random Deck
-	s.adddeck2(tp)
+	s.adddeck(tp)
 	--Add Card Sleeves
 	Duel.BreakEffect()
 	s.addsleeve(tp,deckid)
