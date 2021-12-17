@@ -32,7 +32,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Add Random Deck
 	s.adddeck(tp)
 	--Add Card Sleeves
-	Duel.BreakEffect()
 	s.addsleeve(tp,deckid)
 	--Add Relay Mode
 	s.relaymode(c,tp,startlp)
