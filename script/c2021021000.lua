@@ -90,6 +90,8 @@ function s.adddeck2(tp)
 		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
 		new:Cover(deckid)
 	end
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleExtra(tp)
 end
 function s.addsleeve(tp)
 	--Add Covers
