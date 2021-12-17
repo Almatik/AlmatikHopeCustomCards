@@ -31,7 +31,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.choosedeck(tp)
 	end
 	--Add Random Deck
-	s.adddeck(tp)
+	s.adddeck2(tp)
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
@@ -83,7 +83,7 @@ function s.adddeck2(tp)
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
-		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
+		Duel.SendtoDeck(new,tp,1,REASON_EFFECT):Cover(deckid)
 	end
 end
 function s.addsleeve(tp)
