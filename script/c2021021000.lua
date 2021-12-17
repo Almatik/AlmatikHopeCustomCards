@@ -16,6 +16,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ann=Duel.AnnounceNumber(tp,1000,2000,4000,8000)
 	Duel.SetLP(tp,ann)
 	local startlp=Duel.GetLP(tp)
+	--Delete Your Cards
+	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,1))
@@ -25,19 +27,15 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
-		s.getrandomdeck()
+		s.randomdeck(tp)
 	else
 		--Choose 1 of the Decks
 		s.choosedeck(tp,selop)
 	end
-	--Delete Your Cards
-	s.deleteyourdeck(tp)
-	--Add Random Deck
-	s.adddeck(tp,selop)
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
-	s.relaymode(c,tp,startlp)
+	s.relaymode(c,tp,startlp,selop)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
 	--Debug.ShowHint("Choose a card")
@@ -52,10 +50,23 @@ function s.deleteyourdeck2(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
-function s.getrandomdeck()
+function s.randomdeck(tp)
 	--Get Random Deck
-	decknum=Duel.GetRandomNumber(1,#s.deck)
-	deckid=decknum+id
+	deckplayer=Duel.GetRandomNumber(1,#s.deck)
+	decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
+	deckid=table.unpack(s.deck[deckplayer][decknum][1])
+	--Add Random Deck
+	local deck=s.deck[deckplayer][decknum][2]
+	local extra=s.deck[deckplayer][decknum][3]
+	for _,v in ipairs(extra) do table.insert(deck,v) end
+	for code,codex in ipairs(deck) do
+		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
+	end
+	Debug.ReloadFieldEnd()
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleExtra(tp)
 end
 function s.choosedeck(tp,selop)
 	--Choose 1 of the Deck
@@ -64,7 +75,19 @@ function s.choosedeck(tp,selop)
 		table.insert(decklist,s.deck[selop][i][1])
 	end
 	deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-	decknum=deckid-id
+	decknum=s.deck[selop][deckid][1]
+	--Add Random Deck
+	local deck=s.deck[selop][decknum][2]
+	local extra=s.deck[selop][decknum][3]
+	for _,v in ipairs(extra) do table.insert(deck,v) end
+	for code,codex in ipairs(deck) do
+		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
+	end
+	Debug.ReloadFieldEnd()
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleExtra(tp)
 end
 function s.adddeck(tp,selop)
 	--Add Random Deck
@@ -128,16 +151,19 @@ function s.relaymode(c,tp,startlp)
 	rs3:SetCode(EVENT_DAMAGE)
 	Duel.RegisterEffect(rs3,tp)
 end
-function s.relayop(startlp)
+function s.relayop(startlp,selop)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 					--Delete Your Cards
 					s.deleteyourdeck(tp)
 					--Get Random Deck
-					s.getrandomdeck()
-					--Add Random Deck
-					s.adddeck(tp)
-					--Add Card Sleeves
+					if selop==0 then
+						--Get Random Deck
+						s.randomdeck(tp)
+					else
+						--Choose 1 of the Decks
+						s.choosedeck(tp,selop)
+					end
 					--s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
