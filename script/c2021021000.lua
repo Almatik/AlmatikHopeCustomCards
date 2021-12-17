@@ -80,8 +80,8 @@ function s.choosedeck(tp,selop)
 	end
 	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 	local math1=selop*100
-	local math2=deckid-id-math1
-	Duel.Damage(tp,math2,REASON_RULE)
+	local decknum=deckid-id-math1
+	Duel.Damage(tp,decknum,REASON_RULE)
 	--Add Random Deck
 	local deck=s.deck[selop][decknum][2]
 	local extra=s.deck[selop][decknum][3]
