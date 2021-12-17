@@ -88,7 +88,7 @@ function s.adddeck2(tp)
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
-		new:AddCard(g)
+		g:AddCard(new)
 	end
 	Duel.SendtoDeck(g,tp,1,REASON_RULE)
 end
