@@ -12,29 +12,28 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	p=tp
 	c=e:GetHandler()
 	--Duel.SetLP(p,1000)
-	startlp=Duel.GetLP(p)
+	startlp=Duel.GetLP(tp)
 	--Delete Your Cards
-	s.deleteyourdeck2(p)
+	s.deleteyourdeck2(tp)
 	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,0))
 	table.insert(sel,aux.Stringid(id,1))
-	local selop=Duel.SelectOption(p,false,table.unpack(sel))
+	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
 		s.getrandomdeck()
 	else
 		--Choose 1 of the Decks
-		s.choosedeck(p)
+		s.choosedeck(tp)
 	end
 
 	--Add Random Deck
-	s.adddeck2(p)
+	s.adddeck2(tp)
 	--Add Card Sleeves
-	s.addsleeve(p,deckid)
+	s.addsleeve(tp,deckid)
 
 
 	--Add Relay Mode
@@ -42,8 +41,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(rel,aux.Stringid(id,2))
 	table.insert(rel,aux.Stringid(id,3))
 	table.insert(rel,aux.Stringid(id,4))
-	local relop=Duel.SelectOption(p,false,table.unpack(rel))
-	s.relaymode(c,p,startlp,relop)
+	local relop=Duel.SelectOption(tp,false,table.unpack(rel))
+	s.relaymode(c,tp,startlp,relop)
 
 
 	--Debug.SetPlayerInfo(tp,4000,0,2)
@@ -57,18 +56,18 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.RemoveCards(del,p,-2,REASON_RULE)
+	Duel.RemoveCards(del,tp,-2,REASON_RULE)
 end
 function s.deleteyourdeck2(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.SendtoDeck(del,p,-2,REASON_RULE)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 function s.getrandomdeck()
 	--Get Random Deck
 	decknum=Duel.GetRandomNumber(1,#s.deck)
 	deckid=decknum+id
 end
-function s.choosedeck(p)
+function s.choosedeck(tp)
 	--Choose 1 of the Deck
 	local decklist={}
 	for i=1,#s.deck do
@@ -77,38 +76,38 @@ function s.choosedeck(p)
 	deckid=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(decklist))
 	decknum=deckid-id
 end
-function s.adddeck(p)
+function s.adddeck(tp)
 	--Add Random Deck
 	local deck=s.deck[decknum][2]
 	local extra=s.deck[decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,p,p,LOCATION_DECK,1,POS_FACEDOWN)
+		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
 	end
 	Debug.ReloadFieldEnd()
 end
-function s.adddeck2(p)
+function s.adddeck2(tp)
 	--Add Random Deck
 	local deck=s.deck[decknum][2]
 	local extra=s.deck[decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
 		local new=Duel.CreateToken(tp,codex)
-		Duel.SendtoDeck(new,p,1,REASON_EFFECT)
+		Duel.SendtoDeck(new,tp,1,REASON_EFFECT)
 	end
 end
-function s.addsleeve(p)
+function s.addsleeve(tp)
 	--Add Covers
-	g=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	tc=g:GetFirst()
 	while tc do
 		--generate a cover for a card
 		tc:Cover(deckid)
 		tc=g:GetNext()
 	end
-	Duel.ConfirmCards(p,g)
-	Duel.ShuffleDeck(p)
-	--Duel.ShuffleExtra(p)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	--Duel.ShuffleExtra(tp)
 end
 
 
@@ -118,38 +117,38 @@ end
 
 
 
-function s.relaymode(c,p,startlp,relop)
+function s.relaymode(c,tp,startlp,relop)
 	local rs1=Effect.GlobalEffect()
 	rs1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	rs1:SetCode(EVENT_ADJUST)
-	rs1:SetOperation(s.relayop(startlp,relop,p))
-	Duel.RegisterEffect(rs1,p)
+	rs1:SetOperation(s.relayop(startlp,relop))
+	Duel.RegisterEffect(rs1,tp)
 	local rs2=rs1:Clone()
 	rs2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	rs2:SetCode(EVENT_CHAIN_SOLVED)
-	Duel.RegisterEffect(rs2,p)
+	Duel.RegisterEffect(rs2,tp)
 	local rs3=rs2:Clone()
 	rs3:SetCode(EVENT_DAMAGE)
-	Duel.RegisterEffect(rs3,p)
+	Duel.RegisterEffect(rs3,tp)
 end
-function s.relayop(startlp,relop,p)
+function s.relayop(startlp,relop)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
-				if Duel.GetLP(p)<=1 and Duel.GetFlagEffect(p,id)<=relop+1 then
-					Duel.RegisterFlagEffect(p,id,0,0,1)
+				if Duel.GetLP(tp)<=1 and Duel.GetFlagEffect(tp,id)<=relop+1 then
+					Duel.RegisterFlagEffect(tp,id,0,0,1)
 					--Delete Your Cards
-					s.deleteyourdeck(p)
+					s.deleteyourdeck(tp)
 					--Get Random Deck
 					s.getrandomdeck()
 					--Add Random Deck
-					s.adddeck(p)
+					s.adddeck(tp)
 					--Add Card Sleeves
-					s.addsleeve(p,deckid)
-					Duel.SetLP(p,startlp)
-					Duel.Draw(p,5,REASON_RULE)
-					if Duel.GetTurnPlayer()~=p then
-						Duel.SkipPhase(1-p,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
-						Duel.SkipPhase(1-p,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
-						Duel.SkipPhase(1-p,PHASE_MAIN2,RESET_PHASE+PHASE_END,1)
+					s.addsleeve(tp,deckid)
+					Duel.SetLP(tp,startlp)
+					Duel.Draw(tp,5,REASON_RULE)
+					if Duel.GetTurnPlayer()~=tp then
+						Duel.SkipPhase(1-tp,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
+						Duel.SkipPhase(1-tp,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
+						Duel.SkipPhase(1-tp,PHASE_MAIN2,RESET_PHASE+PHASE_END,1)
 					end
 				end
 			end
