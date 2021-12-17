@@ -78,7 +78,8 @@ function s.adddeck(tp)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
 	Duel.ShuffleExtra(tp)
-	--Debug.ReloadFieldEnd()
+	Debug.ReloadFieldBegin()
+	Debug.ReloadFieldEnd()
 end
 function s.adddeck2(tp)
 	--Add Random Deck
