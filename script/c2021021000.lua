@@ -12,9 +12,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	c=e:GetHandler()
+	local c=e:GetHandler()
 	--Duel.SetLP(p,1000)
-	startlp=Duel.GetLP(tp)
+	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck2(tp)
 	--Choose 1 of 2 Options
@@ -29,17 +29,13 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		--Choose 1 of the Decks
 		s.choosedeck(tp)
 	end
-
 	--Add Random Deck
 	s.adddeck2(tp)
 	--Add Card Sleeves
+	Duel.BreakEffect()
 	s.addsleeve(tp,deckid)
-
-
 	--Add Relay Mode
 	s.relaymode(c,tp,startlp)
-
-
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
 	--Debug.ShowHint("Choose a card")
@@ -47,7 +43,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Duel.TagSwap(1-tp)
 	--local p1=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	--Duel.RemoveCards(p1,0,-2,REASON_RULE)
-
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
