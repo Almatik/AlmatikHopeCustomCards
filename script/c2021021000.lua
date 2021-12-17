@@ -74,8 +74,10 @@ function s.choosedeck(tp,selop)
 	for i=1,#s.deck[selop] do
 		table.insert(decklist,s.deck[selop][i][1])
 	end
-	deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-	decknum=s.deck[selop][deckid][1]
+	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	local deckmath1=selop*100
+	local deckmath2=deckid-deckmath1-id
+	local decknum=s.deck[selop][deckmath2][1]
 	--Add Random Deck
 	local deck=s.deck[selop][decknum][2]
 	local extra=s.deck[selop][decknum][3]
