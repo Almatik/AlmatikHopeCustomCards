@@ -66,7 +66,7 @@ function s.randomdeck(tp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
+	--Duel.ShuffleExtra(tp)
 end
 function s.choosedeck(tp,selop)
 	--Choose 1 of the Deck
@@ -92,7 +92,7 @@ function s.choosedeck(tp,selop)
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	Duel.ShuffleExtra(tp)
+	--Duel.ShuffleExtra(tp)
 end
 function s.adddeck(tp,selop)
 	--Add Random Deck
