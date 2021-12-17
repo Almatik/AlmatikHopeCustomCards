@@ -52,9 +52,9 @@ function s.deleteyourdeck2(p)
 end
 function s.randomdeck(tp)
 	--Get Random Deck
-	deckplayer=Duel.GetRandomNumber(1,#s.deck)
-	decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
-	deckid=table.unpack(s.deck[deckplayer][decknum][1])
+	local deckplayer=Duel.GetRandomNumber(1,#s.deck)
+	local decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
+	local deckid=s.deck[deckplayer][decknum][1]
 	--Add Random Deck
 	local deck=s.deck[deckplayer][decknum][2]
 	local extra=s.deck[deckplayer][decknum][3]
