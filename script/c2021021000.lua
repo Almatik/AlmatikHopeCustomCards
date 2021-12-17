@@ -59,7 +59,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.deleteyourdeck(p)
-	del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.RemoveCards(del,p,-2,REASON_RULE)
 end
 function s.getrandomdeck()
