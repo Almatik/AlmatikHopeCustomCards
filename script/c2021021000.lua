@@ -11,6 +11,34 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
+	local startlp=Duel.GetLP(tp)
+	--Delete Your Cards
+	s.deleteyourdeck(tp)
+	--Choose 1 of 2 Options
+	local sel={}
+	table.insert(sel,aux.Stringid(id,1))
+	table.insert(sel,aux.Stringid(id,2))
+	table.insert(sel,aux.Stringid(id,3))
+	table.insert(sel,aux.Stringid(id,4))
+	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
+	if selop==0 then
+		--Get Random Deck
+		s.randomdeck(tp)
+	else
+		--Choose 1 of the Decks
+		s.choosedeck(tp,selop)
+	end
+	--Add Card Sleeves
+	--s.addsleeve(tp,deckid)
+	--Add Relay Mode
+	s.relaymode(tp,startlp)
+	--Debug.SetPlayerInfo(tp,4000,0,2)
+	--Debug.SetAIName("Pidor")
+	--Debug.ShowHint("Choose a card")
+	--Duel.ShuffleExtra(tp)
+	--Duel.TagSwap(1-tp)
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
@@ -77,7 +105,7 @@ end
 
 
 
-function s.relaymode(c,tp,startlp)
+function s.relaymode(tp,startlp)
 	local e1=Effect.GlobalEffect()
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_ADJUST)
