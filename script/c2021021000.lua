@@ -12,8 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local ann=Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000)
-	Duel.SetLP(tp,ann)
+	Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.deleteyourdeck(tp)
@@ -107,20 +106,20 @@ end
 
 
 function s.relaymode(c,tp,startlp)
-	local rs1=Effect.GlobalEffect()
-	rs1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	rs1:SetCode(EVENT_ADJUST)
-	rs1:SetOperation(s.relayop(startlp))
-	Duel.RegisterEffect(rs1,tp)
-	local rs2=rs1:Clone()
-	rs2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
-	rs2:SetCode(EVENT_CHAIN_SOLVED)
-	Duel.RegisterEffect(rs2,tp)
-	local rs3=rs2:Clone()
-	rs3:SetCode(EVENT_DAMAGE)
-	Duel.RegisterEffect(rs3,tp)
+	local e1=Effect.GlobalEffect()
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_ADJUST)
+	e1:SetOperation(s.relayop(startlp))
+	Duel.RegisterEffect(e1,tp)
+	local e2=e1:Clone()
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	e2:SetCode(EVENT_CHAIN_SOLVED)
+	Duel.RegisterEffect(e2,tp)
+	local e3=e2:Clone()
+	e3:SetCode(EVENT_DAMAGE)
+	Duel.RegisterEffect(e3,tp)
 end
-function s.relayop(startlp,selop)
+function s.relayop(startlp)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 					--Delete Your Cards
