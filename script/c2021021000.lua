@@ -1,5 +1,4 @@
 --Deck Random: Almatik Hope
-Duel.LoadScript("proc_xyz.lua")
 local s,id=GetID()
 function s.initial_effect(c)
 	--skill
