@@ -98,6 +98,29 @@ function s.choosedeck(tp,selop)
 	--Duel.ShuffleExtra(tp)
 end
 
+function s.randomdeck2(tp)
+	--Get Random Deck
+	local deckplayer=Duel.GetRandomNumber(1,#s.deck)
+	local decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
+	local deckid=s.deck[deckplayer][decknum][1]
+	--Add Random Deck
+	local deck=s.deck[deckplayer][decknum][2]
+	local extra=s.deck[deckplayer][decknum][3]
+	for _,v in ipairs(extra) do table.insert(deck,v) end
+	for code,codex in ipairs(deck) do
+		local new=Duel.CreateToken(tp,codex)
+		new:Cover(deckid)
+		Duel.SendtoDeck(new,tp,1,REASON_RULE)
+	end
+	--Debug.ReloadFieldEnd()
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	--Duel.ShuffleExtra(tp)
+end
+
+
+
 
 
 
@@ -122,7 +145,7 @@ function s.relayop(startlp,selop)
 					--Delete Your Cards
 					s.deleteyourdeck(tp)
 					--Get Random Deck
-					s.randomdeck(tp)
+					s.randomdeck2(tp)
 					--s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
