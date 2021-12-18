@@ -1,18 +1,11 @@
 --Deck Random: Almatik Hope
 local s,id=GetID()
-if not aux.RandomDeck then
-	aux.RandomDeck = {}
-	RandomDeck = aux.RandomDeck
-end
-if not RandomDeck then
-	RandomDeck = aux.RandomDeck
-end
-function RandomDeck.initial_effect(c)
+function s.initial_effect(c)
 	--skill
 	local e1=Effect.CreateEffect(c) 
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e1:SetCode(EVENT_PREDRAW)
+	e1:SetCode(EVENT_STARTUP)
 	e1:SetRange(0x5f)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
