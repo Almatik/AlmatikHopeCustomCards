@@ -13,7 +13,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local ann=Duel.AnnounceNumber(tp,1000,2000,4000,8000)
+	local ann=Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000)
 	Duel.SetLP(tp,ann)
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
