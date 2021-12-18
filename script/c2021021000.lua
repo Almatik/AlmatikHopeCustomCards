@@ -118,17 +118,11 @@ function s.relaymode(c,tp,startlp)
 end
 function s.relayop(startlp,selop)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
-				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+				if Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 					--Delete Your Cards
 					s.deleteyourdeck(tp)
 					--Get Random Deck
-					if selop==0 then
-						--Get Random Deck
-						s.randomdeck(tp)
-					else
-						--Choose 1 of the Decks
-						s.choosedeck(tp,selop)
-					end
+					s.randomdeck(tp)
 					--s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
