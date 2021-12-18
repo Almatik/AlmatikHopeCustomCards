@@ -30,8 +30,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		--Choose 1 of the Decks
 		s.choosedeck(tp,selop)
 	end
-	--Add Card Sleeves
-	--s.addsleeve(tp,deckid)
 	--Add Relay Mode
 	s.relaymode(tp,startlp)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
