@@ -119,6 +119,39 @@ function s.randomdeck2(tp)
 	--Duel.ShuffleExtra(tp)
 end
 
+function s.choosedeck(tp,selop)
+	--Choose 1 of the Deck
+	local decklist={}
+	local deck={}
+	local extra={}
+	for i=1,#s.deck[selop] do
+		table.insert(decklist,s.deck[selop][i][1])
+		table.insert(deck,s.deck[selop][i][2])
+		table.insert(extra,s.deck[selop][i][3])
+	end
+	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	local mathid=selop*100
+	local decknum=deckid-id-mathid
+	--Add Random Deck
+	local deck=s.deck[selop][decknum][2]
+	local extra=s.deck[selop][decknum][3]
+	for _,v in ipairs(extra) do table.insert(deck,v) end
+	for code,codex in ipairs(deck) do
+		local new=Duel.CreateToken(tp,codex)
+		new:Cover(deckid)
+		Duel.SendtoDeck(new,tp,1,REASON_RULE)
+	end
+	Debug.ReloadFieldEnd()
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
+	Duel.ShuffleDeck(tp)
+	--Duel.ShuffleExtra(tp)
+end
+
+
+
+
+
 
 
 
