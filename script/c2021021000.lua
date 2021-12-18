@@ -141,7 +141,6 @@ function s.choosedeck(tp,selop)
 		new:Cover(deckid)
 		Duel.SendtoDeck(new,tp,1,REASON_RULE)
 	end
-	Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
