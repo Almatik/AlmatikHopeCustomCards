@@ -27,10 +27,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
-		s.randomdeck2(tp)
+		s.randomdeck(tp)
 	else
 		--Choose 1 of the Decks
-		s.choosedeck2(tp,selop)
+		s.choosedeck(tp,selop)
 	end
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
@@ -44,11 +44,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.RemoveCards(del,tp,-2,REASON_RULE)
-end
-function s.deleteyourdeck2(p)
-	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+	--Duel.RemoveCards(del,tp,-2,REASON_RULE)
 end
 function s.randomdeck(tp)
 	--Get Random Deck
@@ -60,54 +57,7 @@ function s.randomdeck(tp)
 	local extra=s.deck[deckplayer][decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
-	end
-	Debug.ReloadFieldEnd()
-	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.ConfirmCards(tp,g)
-	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
-end
-function s.choosedeck(tp,selop)
-	--Choose 1 of the Deck
-	local decklist={}
-	local deck={}
-	local extra={}
-	for i=1,#s.deck[selop] do
-		table.insert(decklist,s.deck[selop][i][1])
-		table.insert(deck,s.deck[selop][i][2])
-		table.insert(extra,s.deck[selop][i][3])
-	end
-	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-	local mathid=selop*100
-	local decknum=deckid-id-mathid
-	--Add Random Deck
-	local deck=s.deck[selop][decknum][2]
-	local extra=s.deck[selop][decknum][3]
-	for _,v in ipairs(extra) do table.insert(deck,v) end
-	for code,codex in ipairs(deck) do
-		Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
-		--local new=Duel.CreateToken(tp,codex)
-		--new:Cover(deckid)
-		--Duel.SendtoDeck(new,tp,1,REASON_RULE)
-	end
-	Debug.ReloadFieldEnd()
-	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.ConfirmCards(tp,g)
-	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
-end
-
-function s.randomdeck2(tp)
-	--Get Random Deck
-	local deckplayer=Duel.GetRandomNumber(1,#s.deck)
-	local decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
-	local deckid=s.deck[deckplayer][decknum][1]
-	--Add Random Deck
-	local deck=s.deck[deckplayer][decknum][2]
-	local extra=s.deck[deckplayer][decknum][3]
-	for _,v in ipairs(extra) do table.insert(deck,v) end
-	for code,codex in ipairs(deck) do
+		--Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 		local new=Duel.CreateToken(tp,codex)
 		new:Cover(deckid)
 		Duel.SendtoDeck(new,tp,1,REASON_RULE)
@@ -118,7 +68,6 @@ function s.randomdeck2(tp)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
-
 function s.choosedeck(tp,selop)
 	--Choose 1 of the Deck
 	local decklist={}
@@ -137,16 +86,17 @@ function s.choosedeck(tp,selop)
 	local extra=s.deck[selop][decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
 	for code,codex in ipairs(deck) do
+		--Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
 		local new=Duel.CreateToken(tp,codex)
 		new:Cover(deckid)
 		Duel.SendtoDeck(new,tp,1,REASON_RULE)
 	end
+	--Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
-
 
 
 
@@ -175,9 +125,9 @@ function s.relayop(startlp,selop)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 					--Delete Your Cards
-					s.deleteyourdeck2(tp)
+					s.deleteyourdeck(tp)
 					--Get Random Deck
-					s.randomdeck2(tp)
+					s.randomdeck(tp)
 					--s.addsleeve(tp,deckid)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
