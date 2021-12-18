@@ -27,10 +27,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
-		s.randomdeck(tp)
+		s.randomdeck2(tp)
 	else
 		--Choose 1 of the Decks
-		s.choosedeck(tp,selop)
+		s.choosedeck2(tp,selop)
 	end
 	--Add Card Sleeves
 	--s.addsleeve(tp,deckid)
