@@ -12,7 +12,7 @@ function s.initial_effect(c)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsLocation()==LOCATION_HAND then Duel.Draw(tp,1,REASON_RULE) end
+	if c:IsLocation(LOCATION_HAND) then Duel.Draw(tp,1,REASON_RULE) end
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
 	aux.AddSkillProcedure(c,1,false,s.flipcon,s.flipop,1)
 end
