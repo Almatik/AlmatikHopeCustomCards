@@ -17,7 +17,6 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsLocation(LOCATION_HAND) then Duel.Draw(tp,1,REASON_RULE) end
 	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
-	--Duel.Hint(HINT_SKILL,tp,c:GetCode())
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(2<<32))
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -27,7 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.tagcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsMainPhase()
+	return Duel.IsMainPhase() and Duel.GetTurnPlayer()==tp
 end
 function s.tagop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
