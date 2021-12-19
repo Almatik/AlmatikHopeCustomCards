@@ -1,4 +1,5 @@
 --Deck Random: Almatik Hope
+Duel.LoadScript("84013237")
 local s,id=GetID()
 function s.initial_effect(c)
 	--skill
