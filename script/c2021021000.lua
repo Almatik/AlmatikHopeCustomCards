@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
+	--Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
 	s.DeleteDeck(tp)
