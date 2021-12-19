@@ -1,6 +1,7 @@
 --Deck Random: Almatik Hope
 local s,id=GetID()
 function s.initial_effect(c)
+	Xyz.AddProcedure(c,nil,4,2)
 	--skill
 	local e1=Effect.CreateEffect(c) 
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
