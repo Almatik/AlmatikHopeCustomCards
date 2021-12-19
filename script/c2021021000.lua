@@ -45,11 +45,14 @@ function s.RandomDeck(tp)
 	--Get Random Deck
 	local deckplayer=Duel.GetRandomNumber(1,#s.DeckList[1]+#s.DeckList[2]+#s.DeckList[3])
 	if deckplayer>0
-		and deckplayer<=#s.DeckList[1] then deckplayer=1
+		and deckplayer<=#s.DeckList[1]
+			then deckplayer=1
 	elseif deckplayer>#s.DeckList[1]
-		and deckplayer<=#s.DeckList[1]+#s.DeckList[2] then deckplayer=2
-	else
-		deckplayer=3
+		and deckplayer<=#s.DeckList[1]+#s.DeckList[2]
+			then deckplayer=2
+	elseif deckplayer>#s.DeckList[1]+#s.DeckList[2] 
+		and deckplayer<=#s.DeckList[1]+#s.DeckList[2]+#s.DeckList[3]
+			then deckplayer=3
 	end
 	local decknum=Duel.GetRandomNumber(1,#s.DeckList[deckplayer])
 	local deckid=s.DeckList[deckplayer][decknum][1]
