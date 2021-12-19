@@ -11,7 +11,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
 	Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
@@ -31,7 +30,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.choosedeck(tp,selop)
 	end
 	--Add Relay Mode
-	--s.relaymode(tp,startlp)
+	s.relaymode(tp,startlp)
 	--Debug.SetPlayerInfo(tp,4000,0,2)
 	--Debug.SetAIName("Pidor")
 	--Debug.ShowHint("Choose a card")
