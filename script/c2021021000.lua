@@ -1,26 +1,20 @@
 --Deck Random: Almatik Hope
-if not aux.RandomDeckProcedure then
-	aux.RandomDeckProcedure = {}
-	RandomDeck = aux.RandomDeckProcedure
-end
-if not RandomDeck then
-	RandomDeck = aux.RandomDeckProcedure
-end
-function RandomDeck.initial_effect(c)
+local s,id=GetID()
+function s.initial_effect(c)
 	--skill
 	local e1=Effect.CreateEffect(c) 
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_STARTUP)
 	e1:SetRange(0x5f)
-	e1:SetOperation(RandomDeck.operation)
+	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
 end
-function RandomDeck.operation(e,tp,eg,ep,ev,re,r,rp)
+function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SetLP(tp,Duel.AnnounceNumber(tp,8000,16000,4000,2000,1000))
 	local startlp=Duel.GetLP(tp)
 	--Delete Your Cards
-	RandomDeck.deleteyourdeck(tp)
+	s.deleteyourdeck(tp)
 	--Choose 1 of 2 Options
 	local sel={}
 	table.insert(sel,aux.Stringid(id,1))
@@ -30,21 +24,21 @@ function RandomDeck.operation(e,tp,eg,ep,ev,re,r,rp)
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
-		RandomDeck.randomdeck(tp)
+		s.randomdeck(tp)
 	else
 		--Choose 1 of the Decks
-		RandomDeck.choosedeck(tp,selop)
+		s.choosedeck(tp,selop)
 	end
 	--Add Relay Mode
-	RandomDeck.relaymode(tp,startlp)
+	s.relaymode(tp,startlp)
 	--Duel.TagSwap(1-tp)
 end
-function RandomDeck.deleteyourdeck(p)
+function s.deleteyourdeck(p)
 	local del=Duel.GetFieldGroup(p,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 	--Duel.RemoveCards(del,tp,-2,REASON_RULE)
 end
-function RandomDeck.randomdeck(tp)
+function s.randomdeck(tp)
 	--Get Random Deck
 	local deckplayer=Duel.GetRandomNumber(1,#s.deck)
 	local decknum=Duel.GetRandomNumber(1,#s.deck[deckplayer])
@@ -65,7 +59,7 @@ function RandomDeck.randomdeck(tp)
 	Duel.ShuffleDeck(tp)
 	--Duel.ShuffleExtra(tp)
 end
-function RandomDeck.choosedeck(tp,selop)
+function s.choosedeck(tp,selop)
 	--Choose 1 of the Deck
 	local decklist={}
 	local deck={}
@@ -104,11 +98,11 @@ end
 
 
 
-function RandomDeck.relaymode(tp,startlp)
+function s.relaymode(tp,startlp)
 	local e1=Effect.GlobalEffect()
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_ADJUST)
-	e1:SetOperation(RandomDeck.relayop(startlp))
+	e1:SetOperation(s.relayop(startlp))
 	Duel.RegisterEffect(e1,tp)
 	local e2=e1:Clone()
 	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
@@ -118,13 +112,13 @@ function RandomDeck.relaymode(tp,startlp)
 	e3:SetCode(EVENT_DAMAGE)
 	Duel.RegisterEffect(e3,tp)
 end
-function RandomDeck.relayop(startlp)
+function s.relayop(startlp)
 	return  function(e,tp,eg,ep,ev,re,r,rp)
 				if Duel.GetLP(tp)<=1 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 					--Delete Your Cards
-					RandomDeck.deleteyourdeck(tp)
+					s.deleteyourdeck(tp)
 					--Get Random Deck
-					RandomDeck.randomdeck(tp)
+					s.randomdeck(tp)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
 					if Duel.GetTurnPlayer()~=tp then
