@@ -29,7 +29,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.team[2]=Duel.GetPlayersCount(1-tp)
 end
 function s.tagcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsMainPhase() and Duel.GetTurnPlayer()==tp and 
+	return Duel.IsMainPhase() and Duel.GetTurnPlayer()==tp and s.team[1]==2
 end
 function s.tagop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SKILL_FLIP,tp,id|(1<<32))
