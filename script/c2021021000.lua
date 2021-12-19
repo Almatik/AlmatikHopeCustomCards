@@ -20,10 +20,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.DeleteDeck(tp)
 	--Choose 1 of 2 Options
 	local sel={}
-	table.insert(sel,aux.Stringid(id,1))
 	table.insert(sel,aux.Stringid(id,2))
 	table.insert(sel,aux.Stringid(id,3))
 	table.insert(sel,aux.Stringid(id,4))
+	table.insert(sel,aux.Stringid(id,5))
 	local selop=Duel.SelectOption(tp,false,table.unpack(sel))
 	if selop==0 then
 		--Get Random Deck
@@ -124,6 +124,7 @@ function s.RelayOp(startlp)
 					s.RandomDeck(tp)
 					Duel.SetLP(tp,startlp)
 					Duel.Draw(tp,5,REASON_RULE)
+					aux.RegisterClientHint(e:GetHandler(),nil,tp,1,0,aux.Stringid(id,1),nil)
 					if Duel.GetTurnPlayer()~=tp then
 						Duel.SkipPhase(1-tp,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
 						Duel.SkipPhase(1-tp,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
