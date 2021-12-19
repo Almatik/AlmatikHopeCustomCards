@@ -47,11 +47,11 @@ function s.RandomDeck(tp)
 	local deck=s.DeckList[deckplayer][decknum][2]
 	local extra=s.DeckList[deckplayer][decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
-	for code,codex in ipairs(deck) do
-		--Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
-		local new=Duel.CreateToken(tp,codex)
-		new:Cover(deckid)
-		Duel.SendtoDeck(new,tp,1,REASON_RULE)
+	for code,code2 in ipairs(deck) do
+		--Debug.AddCard(code2,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
+		local tc=Duel.CreateToken(tp,code2)
+		tc:Cover(deckid)
+		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 	--Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
@@ -76,11 +76,11 @@ function s.ChooseDeck(tp,selop)
 	local deck=s.DeckList[selop][decknum][2]
 	local extra=s.DeckList[selop][decknum][3]
 	for _,v in ipairs(extra) do table.insert(deck,v) end
-	for code,codex in ipairs(deck) do
-		--Debug.AddCard(codex,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
-		local new=Duel.CreateToken(tp,codex)
-		new:Cover(deckid)
-		Duel.SendtoDeck(new,tp,1,REASON_RULE)
+	for code,code2 in ipairs(deck) do
+		--Debug.AddCard(code2,tp,tp,LOCATION_DECK,1,POS_FACEDOWN):Cover(deckid)
+		local tc=Duel.CreateToken(tp,code2)
+		tc:Cover(deckid)
+		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 	--Debug.ReloadFieldEnd()
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
