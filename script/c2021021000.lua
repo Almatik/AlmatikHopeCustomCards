@@ -91,7 +91,7 @@ function s.choosedeck(tp,selop)
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 	Duel.ShuffleDeck(tp)
-	--Duel.ShuffleExtra(tp)
+	Duel.ShuffleExtra(tp)
 end
 
 
