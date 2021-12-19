@@ -6,7 +6,6 @@ end
 if not RandomDeck then
 	RandomDeck = aux.RandomDeckProcedure
 end
-local s,id=GetID()
 function RandomDeck.initial_effect(c)
 	--skill
 	local e1=Effect.CreateEffect(c) 
