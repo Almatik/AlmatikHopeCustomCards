@@ -87,7 +87,7 @@ function s.ChooseDeck(tp,selop)
 	local selectdeck=0
 	repeat
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-		selectdeck=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(decklist[deckid-id-mathid]))
+		selectdeck=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(deck[deckid-id-mathid])[2],table.unpack(extra[deckid-id-mathid])[2])
 	until selectdeck~=0
 	local decknum=deckid-id-mathid
 	--Add Random Deck
