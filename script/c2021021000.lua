@@ -83,7 +83,7 @@ function s.ChooseDeck(tp,selop)
 		table.insert(deck,s.DeckList[selop][i][2])
 		table.insert(extra,s.DeckList[selop][i][3])
 	end
-	do 
+	repeat 
 		deckid=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(decklist))
 	until deckid~=0
 	local mathid=selop*100
