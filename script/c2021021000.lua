@@ -75,19 +75,15 @@ end
 function s.ChooseDeck(tp,selop)
 	--Choose 1 of the Deck
 	local decklist={}
-	local deck={}
-	local extra={}
 	local mathid=selop*100
 	for i=1,#s.DeckList[selop] do
 		table.insert(decklist,s.DeckList[selop][i][1])
-		table.insert(deck,s.DeckList[selop][i][2])
-		table.insert(extra,s.DeckList[selop][i][3])
 	end
 	local deckid=0
 	local selectdeck=0
 	repeat
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-		selectdeck=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(deck[deckid-id-mathid])[2],table.unpack(extra[deckid-id-mathid])[2])
+		selectdeck=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(s.DeckList[selop][deckid-id-mathid][2]),table.unpack(s.DeckList[selop][deckid-id-mathid][3]))
 	until selectdeck~=0
 	local decknum=deckid-id-mathid
 	--Add Random Deck
