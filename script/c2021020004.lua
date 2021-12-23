@@ -54,8 +54,8 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterEffect(e3)
 end
 function s.checkop()
-	if s.RidingSpeed~=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91) then
-		s.RidingSpeed=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91)
+	if s.RidingSpeed~=Duel.GetCounter(tp,1,0,0x91) then
+		s.RidingSpeed=Duel.GetCounter(tp,1,0,0x91)
 	end
 end
 function s.RemoveField(e,tp)
