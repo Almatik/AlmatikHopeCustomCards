@@ -64,7 +64,7 @@ function s.damop2(e,tp,eg,ep,ev,re,r,rp)
 		c=eg:GetNext()
 	end
 	if count>0 then
-		local s.RidingSpeed=count
+		s.RidingSpeed=count
 		Duel.Damage(tp,count*100,REASON_EFFECT)
 	end
 end
