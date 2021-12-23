@@ -56,7 +56,7 @@ end
 function s.checkop(tp)
 	if Duel.GetFlagEffect(tp,id)~=Duel.GetCounter(tp,1,0,0x91) then
 		Duel.ResetFlagEffect(tp,id)
-		Duel.RegisterFlagEffect(id,0,0,0)
+		Duel.RegisterFlagEffect(tp,id,0,0,0)
 	end
 end
 function s.RemoveField(e,tp)
