@@ -59,7 +59,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function s.checkop(tp)
-	s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91)
+	s[tp]=1
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
