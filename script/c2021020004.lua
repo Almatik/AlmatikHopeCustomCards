@@ -38,7 +38,8 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetLabelObject(tc)
 	e2:SetOperation(s.ReturnField)
 	Duel.RegisterEffect(e2,tp)
-
+	s[0]=nil
+	s[1]=nil
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e6:SetCode(EVENT_LEAVE_FIELD)
@@ -53,24 +54,23 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetOperation(s.addop)
 	tc:RegisterEffect(e3)
 end
-s.RidingSpeed=0
 function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local count=0
 	local c=eg:GetFirst()
 	while c~=nil do
-		if c:IsPreviousLocation(LOCATION_ONFIELD) then
+		if c:IsPreviousLocation(LOCATION_FZONE) then
 			count=count+c:GetCounter(0x91)
 		end
 		c=eg:GetNext()
 	end
 	if count>0 then
-		s.RidingSpeed=count
+		s[tp]=count
 		Duel.Damage(tp,count*100,REASON_EFFECT)
 	end
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	Duel.Damage(tp,s.RidingSpeed*100,REASON_RULE)
+	Duel.Damage(tp,s[tp]*100,REASON_RULE)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
@@ -78,7 +78,7 @@ function s.ReturnField(e)
 	local tp=c:GetControler()
 	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-		c:AddCounter(0x91,s.RidingSpeed)
+		c:AddCounter(0x91,s[tp])
 	end
 end
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
