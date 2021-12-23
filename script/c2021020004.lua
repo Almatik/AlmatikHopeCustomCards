@@ -1,5 +1,5 @@
 --Duel Links Turbo Duel
-Duel.LoadScript("turboduel.lua")
+Duel.LoadScript("ridingduel.lua")
 local s,id=GetID()
 function s.initial_effect(c)
 	--activate
@@ -11,13 +11,14 @@ function s.initial_effect(c)
 	e1:SetOperation(s.op)
 	c:RegisterEffect(e1)
 end
+s.Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
+s.RidingSpeed={}
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DisableShuffleCheck()
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
-	local Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
 	for p=0,1 do
 		Duel.Hint(HINT_SELECTMSG,p,aux.Stringid(id,1))
-		local code=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(Dwheel))
-		Duel.Hint(HINT_SKILL_FLIP,p,code|(1<<32))
+		local code=Duel.SelectCardsFromCodes(p,1,1,false,false,table.unpack(s.Dwheel))
+		RidingDuel.Accelaration(code,p)
 	end
 end
