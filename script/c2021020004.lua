@@ -12,6 +12,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 s.Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
+s.RidingSpeed=0
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DisableShuffleCheck()
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
@@ -23,6 +24,8 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.CreateToken(tp,code)
 	Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	e:SetLabelObject(tc)
+	tc:EnableCounterPermit(0x91)
+	tc:SetCounterLimit(0x91,12)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_LEAVE_FIELD)
@@ -36,15 +39,6 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetLabelObject(tc)
 	e2:SetOperation(s.ReturnField)
 	Duel.RegisterEffect(e2,tp)
-	aux.GlobalCheck(s,function()
-		s[0]=nil
-		s[1]=nil
-		local ge1=Effect.CreateEffect(c)
-		ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		ge1:SetCode(EVENT_ADJUST)
-		ge1:SetOperation(s.checkop)
-		Duel.RegisterEffect(ge1,tp)
-	end)
 	--AddCounter
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -54,21 +48,9 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetOperation(s.addop)
 	tc:RegisterEffect(e3)
 end
-function s.checkop(tp)
-	if not s[tp] or s[tp]~=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91) then
-		s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91)
-	end
-	local tc=Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil)
-	if tc:GetFlagEffect(id)==0 then
-		tc:EnableCounterPermit(0x91)
-		tc:SetCounterLimit(0x91,12)
-		if s[tp]~=0 then tc:AddCounter(0x91,s[tp]) end
-		tc:RegisterFlagEffect(id,0,0,0)
-	end
-end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	c:ResetFlagEffect(id)
+	s.RidingSpeed=c:GetCounter(0x91)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
@@ -76,6 +58,7 @@ function s.ReturnField(e)
 	local tp=c:GetControler()
 	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
+		c:AddCounter(0x91,s.RidingSpeed)
 	end
 end
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
