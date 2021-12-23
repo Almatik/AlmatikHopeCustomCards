@@ -61,10 +61,13 @@ function s.checkop()
 		if not Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,1,nil) then
 			return
 		else
-			local tc=Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil)
-			tc:AddCounter(0x91,s[tp])
-			tc:EnableCounterPermit(0x91)
-			tc:SetCounterLimit(0x91,12)
+			target=Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil)
+			if tc:GetFlagEffect(id)==0 then
+				tc:EnableCounterPermit(0x91)
+				tc:SetCounterLimit(0x91,12)
+				tc:AddCounter(0x91,s[tp])
+				tc:RegisterFlagEffect(id,0,0,0)
+			end
 		end
 		if not s[tp] then s[tp]=Duel.GetCounter(tp,1,0,0x91) end
 		if s[tp]~=Duel.GetCounter(tp,1,0,0x91) then
