@@ -71,13 +71,14 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local e5=e4:Clone()
 	e5:SetCategory(CATEGORY_DAMAGE)
 	e5:SetDescription(aux.Stringid(id,2))
-	e5:SetCost(s.ctcost(4))
+	e5:SetCost(s.ctcost(7))
 	e5:SetTarget(s.drtg)
 	e5:SetOperation(s.drop)
 	tc:RegisterEffect(e5)
 	local e6=e4:Clone()
 	e6:SetCategory(CATEGORY_DESTROY)
 	e6:SetDescription(aux.Stringid(id,3))
+	e5:SetCost(s.ctcost(10))
 	e6:SetTarget(s.destg)
 	e6:SetOperation(s.desop)
 	tc:RegisterEffect(e6)
@@ -121,10 +122,10 @@ end
 
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if Duel.GetFlagEffect(tp,id)<3 then
+	if Duel.GetFlagEffect(tp,id)<=3 then
 		Duel.RegisterFlagEffect(tp,id,0,0,0)
-		c:AddCounter(0x91,1+Duel.GetFlagEffect(tp,id))
 	end
+	c:AddCounter(0x91,Duel.GetFlagEffect(tp,id))
 end
 function s.addcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=eg:GetFirst()
