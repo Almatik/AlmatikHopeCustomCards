@@ -38,11 +38,12 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetLabelObject(tc)
 	e2:SetOperation(s.ReturnField)
 	Duel.RegisterEffect(e2,tp)
-	local ge1=Effect.CreateEffect(c)
-	ge1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	ge1:SetCode(EVENT_ADJUST)
-	ge1:SetOperation(s.checkop)
-	Duel.RegisterEffect(ge1,0)
+
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e6:SetCode(EVENT_LEAVE_FIELD)
+	e6:SetOperation(s.damop)
+	Duel.RegisterEffect(e6,tp)
 	--AddCounter
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -53,9 +54,18 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterEffect(e3)
 end
 s.RidingSpeed=0
-function s.checkop(tp)
-	if s.RidingSpeed~=Duel.GetCounter(tp,1,0,0x91) then
-		s.RidingSpeed=Duel.GetCounter(tp,1,0,0x91)
+function s.damop2(e,tp,eg,ep,ev,re,r,rp)
+	local count=0
+	local c=eg:GetFirst()
+	while c~=nil do
+		if c:IsPreviousLocation(LOCATION_ONFIELD) then
+			count=count+c:GetCounter(0x91)
+		end
+		c=eg:GetNext()
+	end
+	if count>0 then
+		local s.RidingSpeed=count
+		Duel.Damage(tp,count*100,REASON_EFFECT)
 	end
 end
 function s.RemoveField(e,tp)
