@@ -54,7 +54,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterEffect(e3)
 end
 s.RidingSpeed=0
-function s.damop2(e,tp,eg,ep,ev,re,r,rp)
+function s.damop(e,tp,eg,ep,ev,re,r,rp)
 	local count=0
 	local c=eg:GetFirst()
 	while c~=nil do
