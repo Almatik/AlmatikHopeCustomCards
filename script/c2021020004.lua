@@ -65,7 +65,7 @@ function s.checkop()
 			if tc:GetFlagEffect(id)==0 then
 				tc:EnableCounterPermit(0x91)
 				tc:SetCounterLimit(0x91,12)
-				tc:AddCounter(0x91,s[tp])
+				if s[tp]>0 then tc:AddCounter(0x91,s[tp]) end
 				tc:RegisterFlagEffect(id,0,0,0)
 			end
 		end
