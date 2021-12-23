@@ -60,9 +60,9 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.checkop()
 	for tp=0,1 do
-		if not s[tp] then s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91):GetCount() end
-		if s[tp]~=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91):GetCount() then
-			s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91):GetCount()
+		if not s[tp] then s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91) end
+		if s[tp]~=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91) then
+			s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91)
 		end
 	end
 end
