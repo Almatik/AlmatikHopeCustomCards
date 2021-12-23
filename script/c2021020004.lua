@@ -23,8 +23,6 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.CreateToken(tp,code)
 	Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	e:SetLabelObject(tc)
-	tc:EnableCounterPermit(0x91)
-	tc:SetCounterLimit(0x91,12)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_LEAVE_FIELD)
@@ -63,7 +61,10 @@ function s.checkop()
 		if not Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,1,nil) then
 			return
 		else
-			Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil):AddCounter(0x91,s[tp])
+			local tc=Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil)
+			tc:AddCounter(0x91,s[tp])
+			tc:EnableCounterPermit(0x91)
+			tc:SetCounterLimit(0x91,12)
 		end
 		if not s[tp] then s[tp]=Duel.GetCounter(tp,1,0,0x91) end
 		if s[tp]~=Duel.GetCounter(tp,1,0,0x91) then
