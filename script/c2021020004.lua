@@ -58,6 +58,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.checkop()
 	for tp=0,1 do
+		if not s[tp] then s[tp]=Duel.GetCounter(tp,1,0,0x91) end
 		if not Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,1,nil) then
 			return
 		else
@@ -69,7 +70,6 @@ function s.checkop()
 				tc:RegisterFlagEffect(id,0,0,0)
 			end
 		end
-		if not s[tp] then s[tp]=Duel.GetCounter(tp,1,0,0x91) end
 		if s[tp]~=Duel.GetCounter(tp,1,0,0x91) then
 			s[tp]=Duel.GetCounter(tp,1,0,0x91)
 		end
