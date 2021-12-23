@@ -15,7 +15,6 @@ function s.changecon(e,tp,eg,ep,ev,re,r,rp)
 	return #g>0
 end
 function s.flipop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	if #g==0 then return end
 	local ag=g:Select(tp,1,1,nil)
