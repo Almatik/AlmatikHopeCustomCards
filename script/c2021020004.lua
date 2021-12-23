@@ -12,7 +12,6 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 s.Dwheel={2021020005,2021020006,2021020007,2021020008,2021020009}
-s.RidingSpeed={}
 function s.op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DisableShuffleCheck()
 	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
@@ -55,16 +54,14 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function s.checkop(tp)
-	if #s.RidingSpeed~=Duel.GetCounter(tp,1,0,0x91) then
-		s.RidingSpeed={}
-		for i=1,#s.RidingSpeed do
-			table.insert(s.RidingSpeed,i)
-		end
+	if Duel.GetFlagEffect(tp,id)~=Duel.GetCounter(tp,1,0,0x91) then
+		Duel.ResetFlagEffect(tp,id)
+		Duel.RegisterFlagEffect(id,0,0,0)
 	end
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	Duel.Damage(tp,#s.RidingSpeed*100,REASON_RULE)
+	Duel.Damage(tp,Duel.GetFlagEffect(tp,id)*100,REASON_RULE)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
@@ -72,7 +69,7 @@ function s.ReturnField(e)
 	local tp=c:GetControler()
 	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-		c:AddCounter(0x91,#s.RidingSpeed)
+		c:AddCounter(0x91,Duel.GetFlagEffect(tp,id))
 	end
 end
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
