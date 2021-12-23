@@ -34,7 +34,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetLabelObject(tc)
 	e2:SetOperation(s.ReturnField)
-	Duel.RegisterEffect(e2,p)
+	Duel.RegisterEffect(e2,tp)
 	aux.GlobalCheck(s,function()
 		s[0]=nil
 		s[1]=nil
