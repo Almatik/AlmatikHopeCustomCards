@@ -17,7 +17,7 @@ function s.filter(c)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Filter(s.filter,nil)
-	return #g>0
+	return #g>0 and Duel.IsMainPhase()
 end
 function s.change(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Filter(s.filter,nil)
