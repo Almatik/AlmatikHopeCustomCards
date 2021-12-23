@@ -22,5 +22,5 @@ function s.flipop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(ag,tp,-2,REASON_RULE)
 	local code=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(s.speedspell))
 	local tc=Duel.CreateToken(tp,code)
-	Duel.SendtoDeck(tc,tp,REASON_RULE)
+	Duel.SendtoHand(tc,tp,REASON_RULE)
 end
