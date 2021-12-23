@@ -57,12 +57,16 @@ function s.checkop(tp)
 		s[tp]=Duel.GetCounter(tp,LOCATION_FZONE,0,0x91)
 	end
 	local tc=Duel.GetFirstMatchingCard(Card.IsFaceup,tp,LOCATION_FZONE,0,nil)
-	if tc:GetCounter(0x91)==0 then
-	tc:AddCounter(0x91,s[tp])
+	if tc:GetFlagEffect(id)==0 then
+		tc:EnableCounterPermit(0x91)
+		tc:SetCounterLimit(0x91,12)
+		tc:AddCounter(0x91,s[tp])
+		tc:RegisterFlagEffect(id,0,0,0)
 	end
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
+	c:ResetFlagEffect(id)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
