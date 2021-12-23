@@ -67,7 +67,7 @@ function s.checkop()
 				tc:EnableCounterPermit(0x91)
 				tc:SetCounterLimit(0x91,12)
 				if s[tp]>0 then tc:AddCounter(0x91,s[tp]) end
-				tc:RegisterFlagEffect(id,0,0,0)
+				tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,0)
 			end
 		end
 		if s[tp]~=Duel.GetCounter(tp,1,0,0x91) then
