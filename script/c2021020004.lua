@@ -22,6 +22,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	--Riding Duel Acceleration
 	local c=e:GetHandler()
 	local tc=Duel.CreateToken(tp,code)
+	Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 	e:SetLabelObject(tc)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
