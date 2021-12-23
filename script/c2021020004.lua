@@ -50,7 +50,7 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	Duel.Damage(tp,c:GetCounter(0x91),REASON_EFFECT)
+	Duel.Damage(tp,100,REASON_EFFECT)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
