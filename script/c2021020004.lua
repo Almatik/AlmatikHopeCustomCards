@@ -70,7 +70,8 @@ function s.damop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	Duel.Damage(tp,s[tp]*100,REASON_RULE)
+	local dam=s[tp]
+	Duel.Damage(tp,dam*100,REASON_RULE)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
@@ -78,7 +79,8 @@ function s.ReturnField(e)
 	local tp=c:GetControler()
 	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-		c:AddCounter(0x91,s[tp])
+		local i=s[tp]
+		c:AddCounter(0x91,i)
 	end
 end
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
