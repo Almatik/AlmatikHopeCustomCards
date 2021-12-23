@@ -4,7 +4,8 @@ function s.initial_effect(c)
 	--Change to Speed Spell
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,1))
-	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetRange(LOCATION_FZONE)
 	e1:SetOperation(s.change)
 	c:RegisterEffect(e1)
@@ -14,7 +15,7 @@ function s.changecon(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	return #g>0
 end
-function s.flipop(e,tp,eg,ep,ev,re,r,rp)
+function s.change(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	if #g==0 then return end
 	local ag=g:Select(tp,1,1,nil)
