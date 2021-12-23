@@ -52,18 +52,15 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetOperation(s.addop)
 	tc:RegisterEffect(e3)
 end
-
+s.RidingSpeed=0
 function s.checkop(tp)
-	if Duel.GetFlagEffect(tp,id)~=Duel.GetCounter(tp,1,0,0x91) then
-		Duel.ResetFlagEffect(tp,id)
-		for i=1,Duel.GetCounter(tp,1,0,0x91) do
-			Duel.RegisterFlagEffect(tp,id,0,0,0)
-		end
+	if s.RidingSpeed~=Duel.GetCounter(tp,1,0,0x91) then
+		s.RidingSpeed=Duel.GetCounter(tp,1,0,0x91)
 	end
 end
 function s.RemoveField(e,tp)
 	local c=e:GetHandler()
-	Duel.Damage(tp,Duel.GetFlagEffect(tp,id)*100,REASON_RULE)
+	Duel.Damage(tp,s.RidingSpeed*100,REASON_RULE)
 	Duel.SendtoDeck(c,nil,-2,REASON_RULE)
 end
 function s.ReturnField(e)
@@ -71,7 +68,7 @@ function s.ReturnField(e)
 	local tp=c:GetControler()
 	if Duel.CheckLocation(tp,LOCATION_FZONE,0) then
 		Duel.MoveToField(c,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
-		c:AddCounter(0x91,Duel.GetFlagEffect(tp,id))
+		c:AddCounter(0x91,s.RidingSpeed)
 	end
 end
 function s.addop(e,tp,eg,ep,ev,re,r,rp)
