@@ -58,30 +58,43 @@ function s.op(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetCondition(s.addcon)
 	tc:RegisterEffect(e2)
-	--DAMAGE, DRAW, DESTROY
-	local e4=Effect.CreateEffect(c)
-	e4:SetCategory(CATEGORY_DAMAGE)
-	e4:SetDescription(aux.Stringid(id,1))
-	e4:SetType(EFFECT_TYPE_IGNITION)
-	e4:SetRange(LOCATION_FZONE)
-	e4:SetCost(s.ctcost(4))
-	e4:SetTarget(s.dmtg)
-	e4:SetOperation(s.dmop)
+	--RemoveCounter
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e3:SetRange(LOCATION_FZONE)
+	e3:SetCode(EVENT_DAMAGE)
+	e3:SetCondition(s.downcon1)
+	e3:SetOperation(s.downop)
+	tc:RegisterEffect(e3)
+	local e4=e3:Clone()
+	e4:SetCode(EVENT_DESTROYED)
+	e4:SetCondition(s.downcon2)
 	tc:RegisterEffect(e4)
-	local e5=e4:Clone()
-	e5:SetCategory(CATEGORY_DAMAGE)
-	e5:SetDescription(aux.Stringid(id,2))
-	e5:SetCost(s.ctcost(7))
-	e5:SetTarget(s.drtg)
-	e5:SetOperation(s.drop)
-	tc:RegisterEffect(e5)
-	local e6=e4:Clone()
-	e6:SetCategory(CATEGORY_DESTROY)
-	e6:SetDescription(aux.Stringid(id,3))
-	e5:SetCost(s.ctcost(10))
-	e6:SetTarget(s.destg)
-	e6:SetOperation(s.desop)
-	tc:RegisterEffect(e6)
+	--DAMAGE, DRAW, DESTROY
+	local d1=Effect.CreateEffect(c)
+	d1:SetCategory(CATEGORY_DAMAGE)
+	d1:SetDescription(aux.Stringid(id,1))
+	d1:SetType(EFFECT_TYPE_IGNITION)
+	d1:SetRange(LOCATION_FZONE)
+	d1:SetCondition(s.ctcost(4))
+	d1:SetCountLimit(1,id)
+	d1:SetTarget(s.dmtg)
+	d1:SetOperation(s.dmop)
+	tc:RegisterEffect(d1)
+	local d2=d1:Clone()
+	d2:SetCategory(CATEGORY_DAMAGE)
+	d2:SetDescription(aux.Stringid(id,2))
+	d2:SetCondition(s.ctcost(7))
+	d2:SetTarget(s.drtg)
+	d2:SetOperation(s.drop)
+	tc:RegisterEffect(d2)
+	local d3=d1:Clone()
+	d3:SetCategory(CATEGORY_DESTROY)
+	d3:SetDescription(aux.Stringid(id,3))
+	d3:SetCondition(s.ctcost(10))
+	d3:SetTarget(s.destg)
+	d3:SetOperation(s.desop)
+	tc:RegisterEffect(d3)
 end
 function s.checkop()
 	for tp=0,1 do
@@ -131,19 +144,30 @@ function s.addcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=eg:GetFirst()
 	return ec:IsPreviousLocation(LOCATION_EXTRA) and ec:IsPreviousControler(tp)
 end
-function s.costfilter(c)
-	return c:IsSetCard(0x500) and not c:IsPublic()
+function s.downcon1(e,tp,eg,ep,ev,re,r,rp)
+	return tp==ep and (r==REASON_BATTLE or tp~=rp) and ev>=1000
 end
+function s.dfilter(c,tp)
+	return c:IsPreviousControler(tp)
+		and c:IsReason(REASON_BATTLE+REASON_EFFECT)
+end
+function s.downcon2(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.dfilter,1,nil,tp) and rp~=tp
+end
+function s.downop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	c:RemoveCounter(tp,0x91,1,REASON_RULE)
+end
+
+
+
+
+
+
+
 function s.ctcost(ct)
 	return function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x91,ct,REASON_COST)
-			and Duel.IsExistingMatchingCard(s.costfilter,tp,LOCATION_HAND,0,1,nil) end
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-		local g=Duel.SelectMatchingCard(tp,s.costfilter,tp,LOCATION_HAND,0,1,1,nil)
-		Duel.ConfirmCards(1-tp,g)
-		Duel.ShuffleHand(tp)
-		Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-		e:GetHandler():RemoveCounter(tp,0x91,ct,REASON_COST)
+		return Duel.GetCounter(tp,1,0,0x91)>=ct
 	end
 end
 function s.dmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
