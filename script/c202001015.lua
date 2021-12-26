@@ -18,17 +18,22 @@ function s.initial_effect(c)
 	c:RegisterEffect(e1)
 	--Negate
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
-	e2:SetCategory(CATEGORY_NEGATE)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
-	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
-	e2:SetCode(EVENT_CHAINING)
+	e2:SetCode(EVENT_BECOME_TARGET)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,{id,1})
-	e2:SetCondition(s.negcon)
-	e2:SetTarget(s.negtg)
-	e21:SetOperation(s.negop)
+	e2:SetCondition(s.efdrcon)
+	e2:SetTarget(s.drtg)
+	e2:SetOperation(s.effdrop)
 	c:RegisterEffect(e2)
+	local e4=e2:Clone()
+	e4:SetCode(EVENT_BE_BATTLE_TARGET)
+	e4:SetCondition(s.btdrcon)
+	e4:SetOperation(s.btdrop)
+	c:RegisterEffect(e4)
 	--special summon
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,2))
@@ -75,27 +80,23 @@ end
 
 
 --Negate
-function s.negfilter(c,g)
-	return g:IsContains(c)
+function s.drconfilter(c,tp)
+	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsSetCard(0x2000) and c:IsLinked()
 end
-function s.negcon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-	local lg=e:GetHandler():GetLinkedGroup()
-	lg:AddCard(c)
-	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	return tg and lg:IsExists(s.negfilter,1,nil,tg) and Duel.IsChainNegatable(ev)
+function s.efdrcon(e,tp,eg,ep,ev,re,r,rp)
+	return rp==1-tp and eg:IsExists(s.drconfilter,1,nil,tp)
 end
-function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+function s.btdrcon(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetAttackTarget()
+	return tc and Duel.IsTurnPlayer(1-tp) and s.drconfilter(tc,tp)
 end
-function s.negop(e,tp,eg,ep,ev,re,r,rp,chk)
-	if Duel.NegateActivation(ev) and re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsRelateToEffect(re) then
-		Duel.SendtoGrave(eg,REASON_EFFECT)
-	end
+function s.effdrop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.NegateEffect()
 end
+function s.btdrop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.NegateAttack()
+end
+
 
 
 

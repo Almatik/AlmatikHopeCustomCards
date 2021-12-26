@@ -92,12 +92,14 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
 			and a:IsLinked()
+			and a:IsSetCard(0x2000)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local a=Duel.GetAttacker()
 	local b=a:GetBattleTarget()
 	if a:IsControler(1-tp) then a,b=b,a end
+	local lg=a:GetLinkedGroup()
 	local atk=lg:Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)/2
 	if a:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(c)

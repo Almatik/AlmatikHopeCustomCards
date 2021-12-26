@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetTarget(s.indtg)
+	e2:SetTarget(s.indfilter)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--special summon
@@ -73,9 +73,8 @@ end
 
 
 --Cannot b destroyed
-function s.indtg(e,c)
-	local c=e:GetHandler()
-	return c or c:GetLinkedGroup():IsContains(c)
+function s.indfilter(c)
+	return c:IsLinked() and c:IsSetCard(0x2000)
 end
 
 

@@ -74,14 +74,13 @@ end
 
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local lg=c:GetLinkedGroup()
 	local a=Duel.GetAttacker()
 	local b=a:GetBattleTarget()
-	if lg<1 then return false end
 	if not b then return false end
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
-			and (a==c or lg:IsContains(a))
+			and a:IsLinked()
+			and a:IsSetCard(0x2000)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
