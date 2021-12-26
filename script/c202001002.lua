@@ -21,10 +21,11 @@ function s.initial_effect(c)
 	--Send to grave
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetProperty(EFFECT_FLAG_DELAY)
-	e2:SetCode(EVENT_BE_MATERIAL)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+	e2:SetCode(EVENT_TO_GRAVE)
+	e2:SetCountLimit(1,id)
 	e2:SetCondition(s.matcon)
 	e2:SetTarget(s.mattg)
 	e2:SetOperation(s.matop)
@@ -69,10 +70,9 @@ end
 --When used as material
 function s.matcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsLocation(LOCATION_GRAVE) and c:IsPreviousLocation(LOCATION_ONFIELD+LOCATION_HAND)
-		and c:GetReasonCard():IsSetCard(0x2000)
-		and (r==REASON_FUSION or r==REASON_SYNCHRO or r==REASON_XYZ or r==REASON_LINK )
-		and Duel.GetFlagEffect(tp,id)==0
+	return c:IsPreviousLocation(LOCATION_ONFIELD)
+		and c:IsPreviousPosition(POS_FACEUP)
+		and c:IsPreviousControler(tp)
 end
 function s.matfilter(c,e,tp)
 	return c:IsSetCard(0x2000) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsCode(id)
