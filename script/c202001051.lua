@@ -23,7 +23,7 @@ function s.filter(c,e,tp)
 			or (c:IsSetCard(0x2000) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable())
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetMatchingGroup(s.filter,tp,LOCATION_DECK,0,nil,e,tp)>0 end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end
 end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
