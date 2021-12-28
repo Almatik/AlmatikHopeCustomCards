@@ -73,16 +73,16 @@ end
 
 
 --Cannot b destroyed
-function s.indfilter(c,a)
+function s.indfilter(c,a,oc)
 	local alg=a:GetLinkedGroup()
 	local clg=c:GetLinkedGroup()
-	return (alg:IsContains(c) and a:IsLinkMonster()
-			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+	return (alg:IsContains(c) and a==oc) --Target is this card and linked
 		or (clg:IsContains(a) and c:IsLinkMonster()
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
 function s.indtg(c)
-	return Duel.GetMatchingGroup(s.indfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	local oc=e:GetHandler()
+	return Duel.IsExistingMatchingCard(s.indfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c,oc)
 end
 
 

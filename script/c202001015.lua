@@ -79,20 +79,21 @@ end
 
 
 --Negate
-function s.drconfilter(c,a)
+function s.drconfilter(c,a,oc)
 	local alg=a:GetLinkedGroup()
 	local clg=c:GetLinkedGroup()
-	return (alg:IsContains(c) and a:IsLinkMonster()
-			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+	return (alg:IsContains(c) and a==oc) --Target is this card and linked
 		or (clg:IsContains(a) and c:IsLinkMonster()
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
 function s.effdrcon(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,eg)
+	local c=e:GetHandle()
+	return rp~=tp and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,eg,c)
 end
 function s.btdrcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandle()
 	local tc=Duel.GetAttackTarget()
-	return tc and Duel.IsTurnPlayer(1-tp) and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tca)
+	return tc and Duel.IsTurnPlayer(1-tp) and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tc,c)
 end
 function s.effdrop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect()

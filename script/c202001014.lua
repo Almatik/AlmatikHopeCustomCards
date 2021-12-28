@@ -74,11 +74,10 @@ end
 
 
 --Linked Monster
-function s.banfilter(c,a)
+function s.banfilter(c,a,oc)
 	local alg=a:GetLinkedGroup()
 	local clg=c:GetLinkedGroup()
-	return (alg:IsContains(c) and a:IsLinkMonster()
-			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+	return (alg:IsContains(c) and a==oc) --Target is this card and linked
 		or (clg:IsContains(a) and c:IsLinkMonster()
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
@@ -89,7 +88,7 @@ function s.bancon(e,tp,eg,ep,ev,re,r,rp)
 	if not b then return false end
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
-			and Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a)
+			and Duel.IsExistingMatchingCard(s.banfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a,c)
 end
 function s.banop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
