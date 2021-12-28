@@ -70,11 +70,12 @@ end
 
 
 --"Karakura"
-function s.cfilter1(c,tp,re)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and re:GetHandler():IsSetCard(0x2000)
+function s.cfilter1(c,tp,rс)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and rc:IsSetCard(0x2000)
 end
 function s.con1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter1,1,nil,tp,re)
+	local rc=re:GetHandler()
+	return eg:IsExists(s.cfilter1,1,nil,tp,rс)
 end
 function s.tg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
