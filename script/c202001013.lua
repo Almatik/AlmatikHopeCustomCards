@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetTarget(s.indfilter)
+	e2:SetTarget(s.indtg)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 	--special summon
@@ -81,7 +81,7 @@ function s.indfilter(c,a)
 		or (clg:IsContains(a) and c:IsLinkMonster()
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
-function s.indfilter(c)
+function s.indtg(c)
 	return Duel.GetMatchingGroup(s.indfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
 end
 
