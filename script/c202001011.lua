@@ -86,10 +86,8 @@ end
 --Gain ATK in battle
 function s.atkfilter(c,a,tp)
 	return (a:IsContains(c) and a:IsLinkMonster()
-			and a:IsControler(tp)
 			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
 		or (c:IsContains(a) and c:IsLinkMonster()
-			and a:IsControler(tp) and c:IsControler(tp)
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
@@ -117,6 +115,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 		a:RegisterEffect(e1)
 	end
 end
+
 
 
 
