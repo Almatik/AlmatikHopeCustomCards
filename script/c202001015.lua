@@ -25,8 +25,7 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,{id,1})
-	e2:SetCondition(s.efdrcon)
-	e2:SetTarget(s.drtg)
+	e2:SetCondition(s.effdrcon)
 	e2:SetOperation(s.effdrop)
 	c:RegisterEffect(e2)
 	local e4=e2:Clone()
@@ -80,15 +79,20 @@ end
 
 
 --Negate
-function s.drconfilter(c,tp)
-	return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsSetCard(0x2000) and c:IsLinked()
+function s.drconfilter(c,a)
+	local alg=a:GetLinkedGroup()
+	local clg=c:GetLinkedGroup()
+	return (alg:IsContains(c) and a:IsLinkMonster()
+			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+		or (clg:IsContains(a) and c:IsLinkMonster()
+			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
-function s.efdrcon(e,tp,eg,ep,ev,re,r,rp)
-	return rp==1-tp and eg:IsExists(s.drconfilter,1,nil,tp)
+function s.effdrcon(e,tp,eg,ep,ev,re,r,rp)
+	return rp~=tp and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,eg)
 end
 function s.btdrcon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttackTarget()
-	return tc and Duel.IsTurnPlayer(1-tp) and s.drconfilter(tc,tp)
+	return tc and Duel.IsTurnPlayer(1-tp) and Duel.IsExistingMatchingCard(s.drconfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tca)
 end
 function s.effdrop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateEffect()

@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e2:SetRange(LOCATION_MZONE)
-	e1:SetCountLimit(1,{id,1})
+	e2:SetCountLimit(1,{id,1})
 	e2:SetCondition(s.atkcon)
 	e2:SetOperation(s.atkop)
 	c:RegisterEffect(e2)
@@ -34,7 +34,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_GRAVE)
-	e1:SetCountLimit(1,{id,2})
+	e3:SetCountLimit(1,{id,2})
 	e3:SetCondition(s.spcon)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
@@ -72,6 +72,15 @@ end
 
 
 
+--Linked Monster
+function s.atkfilter(c,a)
+	local alg=a:GetLinkedGroup()
+	local clg=c:GetLinkedGroup()
+	return (alg:IsContains(c) and a:IsLinkMonster()
+			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+		or (clg:IsContains(a) and c:IsLinkMonster()
+			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
+end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local a=Duel.GetAttacker()
@@ -79,8 +88,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	if not b then return false end
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
-			and a:IsLinked()
-			and a:IsSetCard(0x2000)
+			and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

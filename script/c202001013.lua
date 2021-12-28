@@ -33,7 +33,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_GRAVE)
-	e1:SetCountLimit(1,{id,2})
+	e3:SetCountLimit(1,{id,2})
 	e3:SetCondition(s.spcon)
 	e3:SetTarget(s.sptg)
 	e3:SetOperation(s.spop)
@@ -73,8 +73,16 @@ end
 
 
 --Cannot b destroyed
+function s.indfilter(c,a)
+	local alg=a:GetLinkedGroup()
+	local clg=c:GetLinkedGroup()
+	return (alg:IsContains(c) and a:IsLinkMonster()
+			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+		or (clg:IsContains(a) and c:IsLinkMonster()
+			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
+end
 function s.indfilter(c)
-	return c:IsLinked() and c:IsSetCard(0x2000)
+	return Duel.GetMatchingGroup(s.indfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
 end
 
 
