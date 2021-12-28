@@ -70,15 +70,11 @@ end
 
 
 --"Karakura"
-function s.cfilter(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp
-end
-function s.gfilter1(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2000)
+function s.cfilter1(c,tp)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2000)
 end
 function s.con1(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.gfilter1,tp,LOCATION_MZONE,0,nil)
-	return eg:IsExists(s.cfilter,1,nil,tp) and #g>0
+	return eg:IsExists(s.cfilter1,1,nil,tp)
 end
 function s.tg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
@@ -94,15 +90,11 @@ end
 
 
 --"Shinigami"
-function s.cfilter(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp
-end
-function s.gfilter2(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2010)
+function s.cfilter2(c,tp)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2010)
 end
 function s.con2(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.gfilter2,tp,LOCATION_MZONE,0,nil)
-	return eg:IsExists(s.cfilter,1,nil,tp) and #g>0
+	return eg:IsExists(s.cfilter2,1,nil,tp)
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_GRAVE,0,1,nil) end
@@ -121,15 +113,11 @@ end
 
 
 --"Quincy"
-function s.cfilter(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp
-end
-function s.gfilter3(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2040)
+function s.cfilter3(c,tp)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2040)
 end
 function s.con3(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.gfilter3,tp,LOCATION_MZONE,0,nil)
-	return eg:IsExists(s.cfilter,1,nil,tp) and #g>0
+	return eg:IsExists(s.cfilter3,1,nil,tp)
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,nil) end
@@ -148,15 +136,11 @@ end
 
 
 --"Hollow"
-function s.cfilter(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp
-end
-function s.gfilter4(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2020)
+function s.cfilter4(c,tp)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2020)
 end
 function s.con4(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.gfilter4,tp,LOCATION_MZONE,0,nil)
-	return eg:IsExists(s.cfilter,1,nil,tp) and #g>0
+	return eg:IsExists(s.cfilter4,1,nil,tp)
 end
 function s.tg4(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -191,15 +175,11 @@ end
 
 
 --"Xcution"
-function s.cfilter(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp
-end
-function s.gfilter5(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2030)
+function s.cfilter5(c,tp)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2030)
 end
 function s.con5(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(s.gfilter5,tp,LOCATION_MZONE,0,nil)
-	return eg:IsExists(s.cfilter,1,nil,tp) and #g>0
+	return eg:IsExists(s.cfilter5,1,nil,tp)
 end
 function s.tg5(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
