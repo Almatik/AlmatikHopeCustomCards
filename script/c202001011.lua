@@ -84,6 +84,14 @@ end
 
 
 --Gain ATK in battle
+function s.atkfilter(c,a,tp)
+	return (a:IsContains(c) and a:IsLinkMonster()
+			and a:IsControler(tp)
+			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
+		or (c:IsContains(a) and c:IsLinkMonster()
+			and a:IsControler(tp) and c:IsControler(tp)
+			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
+end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local a=Duel.GetAttacker()
@@ -91,8 +99,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	if not b then return false end
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
-			and a:IsLinked()
-			and a:IsSetCard(0x2000)
+			and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a,tp)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -100,7 +107,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local b=a:GetBattleTarget()
 	if a:IsControler(1-tp) then a,b=b,a end
 	local lg=a:GetLinkedGroup()
-	local atk=lg:Filter(Card.IsFaceup,nil):GetSum(Card.GetBaseAttack)/2
+	local atk=lg::FilterCount(Card.IsType,nil,TYPE_MONSTER)*500
 	if a:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
