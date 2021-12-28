@@ -106,14 +106,13 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local b=a:GetBattleTarget()
 	if a:IsControler(1-tp) then a,b=b,a end
-	local lg=a:GetLinkedGroup()
-	local atk=lg:GetCount()*500
+	local lg=Duel.GetMatchingGroup(s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,nil,a)
 	if a:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
-		e1:SetValue(atk)
+		e1:SetValue(#lg*500)
 		a:RegisterEffect(e1)
 	end
 end
