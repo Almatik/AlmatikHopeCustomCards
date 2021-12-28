@@ -107,7 +107,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local b=a:GetBattleTarget()
 	if a:IsControler(1-tp) then a,b=b,a end
 	local lg=a:GetLinkedGroup()
-	local atk=lg::FilterCount(Card.IsType,nil,TYPE_MONSTER)*500
+	local atk=lg:FilterCount(Card.IsType,nil,TYPE_MONSTER)*500
 	if a:IsRelateToBattle() then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
