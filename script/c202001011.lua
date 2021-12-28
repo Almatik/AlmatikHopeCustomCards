@@ -84,10 +84,12 @@ end
 
 
 --Gain ATK in battle
-function s.atkfilter(c,a,tp)
-	return (a:IsContains(c) and a:IsLinkMonster()
+function s.atkfilter(c,a)
+	local alg=a:GetLinkedGroup()
+	local clg=c:GetLinkedGroup()
+	return (alg:IsContains(c) and a:IsLinkMonster()
 			and a:IsSetCard(0x2000)) --Target is Karakura Link Monster and linked
-		or (c:IsContains(a) and c:IsLinkMonster()
+		or (clg:IsContains(a) and c:IsLinkMonster()
 			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
@@ -97,7 +99,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	if not b then return false end
 	if a:IsControler(1-tp) then a,b=b,a end
 	return a:GetControler()~=b:GetControler()
-			and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a,tp)
+			and Duel.IsExistingMatchingCard(s.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,a)
 end
 function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
