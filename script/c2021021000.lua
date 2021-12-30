@@ -142,8 +142,7 @@ function s.RelayOp(startlp)
 					end
 					if Duel.SelectYesNo(1-tp,aux.Stringid(id,7))~=0 then
 						local g=Duel.GetFieldGroup(1-tp,LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_REMOVED,0)
-						local gr=g:Select(1-tp,1,5)
-						Duel.SendtoDeck(gr,1-tp,1,REASON_RULE)
+						Duel.SendtoDeck(g:Select(1-tp,1,3),1-tp,1,REASON_RULE)
 					end
 				end
 			end
