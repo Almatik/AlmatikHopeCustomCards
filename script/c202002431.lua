@@ -29,10 +29,10 @@ end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsControler(1-tp) and Duel.IsExistingTarget(s.kefilter,tp,LOCATION_MZONE,0,1,nil) then
+	if tc:IsRelateToEffect(e) and tc:IsControler(1-tp) then
 		local atk=tc:GetAttack()
 		if atk<0 or tc:IsFacedown() then atk=0 end
-		if Duel.Destroy(tc,REASON_EFFECT)~=0 then
+		if Duel.Destroy(tc,REASON_EFFECT)~=0 and Duel.IsExistingTarget(s.kefilter,tp,LOCATION_MZONE,0,1,nil) then
 			Duel.Damage(1-tp,atk,REASON_EFFECT)
 		end
 	end
