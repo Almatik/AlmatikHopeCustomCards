@@ -71,7 +71,7 @@ function s.cpcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	return true
 end
 function s.cpfilter(c)
-	return c:GetType()==TYPE_SPELL and c:IsSetCard(0x14b) and c:IsAbleToRemoveAsCost()
+	return c:GetType()==TYPE_SPELL and c:IsSetCard(0x2013) and c:IsAbleToRemoveAsCost()
 		and c:CheckActivateEffect(false,true,false)~=nil
 end
 function s.cptg(e,tp,eg,ep,ev,re,r,rp,chk)
