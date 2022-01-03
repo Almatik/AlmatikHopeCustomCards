@@ -10,12 +10,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(id,{id,0})
 	e1:SetCondition(s.spcon)
-	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--special summon
-	local e1b=e1:Clone()
-	e1b:SetCondition(s.spcon2)
-	c:RegisterEffect(e1b)
 	--destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
@@ -37,36 +32,17 @@ function s.initial_effect(c)
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
-
-
 end
 s.listed_series={0x2010}
 s.division_number=11
-function s.rescon(sg,e,tp,mg)
-	return aux.ChkfMMZ(1)(sg,e,tp,mg) and sg:GetSum(Card.GetAttack)>=3000
-		and sg:FilterCount(Card.IsSetCard,nil,0x2010)~=0
+function s.spfilter(c)
+	return c:IsFaceup() and c:IsCode(202002204)
 end
 function s.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	local rg=Duel.GetReleaseGroup(tp)
-	return aux.SelectUnselectGroup(rg,e,tp,1,7,s.rescon,0)
-end
-function s.spfilter(c)
-	return c:IsFaceup() and c:IsCode(202002204)
-end
-function s.spcon2(e,c)
-	if c==nil then return true end
-	local tp=c:GetControler()
 	return Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_SZONE,0,1,nil)
 end
-function s.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local rg=Duel.GetReleaseGroup(tp)
-	local g=aux.SelectUnselectGroup(rg,e,tp,1,7,s.rescon,1,tp,HINTMSG_RELEASE,s.rescon)
-	Duel.Release(g,REASON_COST)
-end
-
-
 
 
 
