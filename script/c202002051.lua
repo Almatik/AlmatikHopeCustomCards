@@ -33,7 +33,7 @@ end
 s.listed_series={0x2010}
 s.division_number=11
 function s.setfilter(c)
-	return c:IsSetCard(0x2014) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSSetable()
+	return c:IsSetCard(0x2014) and c:IsType(TYPE_TRAP) and c:IsSSetable()
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
