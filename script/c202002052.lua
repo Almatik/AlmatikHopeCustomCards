@@ -34,14 +34,14 @@ function s.sfilter(c)
 	return c:IsSetCard(0x2010) and c:IsType(TYPE_MONSTER) and c:IsLevelAbove(7)
 end
 function s.stg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==1 end
 end
 function s.sop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.SelectMatchingCard(tp,s.sfilter,tp,LOCATION_DECK,0,1,1,nil)
 	local tc=g:GetFirst()
 	if tc and Duel.SendtoHand(tc,tp,REASON_EFFECT)~=0 then
-		if Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==1 and tc:IsCode(202002011) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
+		if tc:IsCode(202002011) and Duel.SelectYesNo(tp,aux.Stringid(id,1))~=0 then
 			if Duel.SendtoHand(c,tp,REASON_EFFECT)~=0 then
 				Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 			end
