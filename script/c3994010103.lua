@@ -31,6 +31,8 @@ function s.initial_effect(c)
 	e2:SetOperation(s.matop)
 	c:RegisterEffect(e2)
 end
+s.listed_names={id,BLEACH_ORIHIME}
+s.listed_series={0x39A1}
 
 --Additional Material
 function s.extrafilter(c,tp)
@@ -47,7 +49,7 @@ function s.extraval(chk,summon_type,e,...)
 	local c=e:GetHandler()
 	if chk==0 then
 		local tp,sc=...
-		if summon_type~=SUMMON_TYPE_LINK or not sc:IsSetCard(0x2000) or Duel.GetFlagEffect(tp,id)>0 then
+		if summon_type~=SUMMON_TYPE_LINK or not sc:IsSetCard(0x39A1) or Duel.GetFlagEffect(tp,id)>0 then
 			return Group.CreateGroup()
 		else
 			table.insert(s.flagmap[c],c:RegisterFlagEffect(id,0,0,1))
@@ -74,7 +76,7 @@ function s.matcon(e,tp,eg,ep,ev,re,r,rp)
 		and c:IsPreviousControler(tp)
 end
 function s.matfilter(c,e,tp)
-	return c:IsSetCard(0x2000) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and not c:IsCode(id)
+	return c:IsSetCard(0x39A1) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and not c:IsCode(id)
 end
 function s.mattg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chkc then return chkc:GetControler()==tp and chkc:GetLocation()==LOCATION_GRAVE and s.matfilter(chkc) end

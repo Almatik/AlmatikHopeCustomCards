@@ -40,13 +40,13 @@ function s.initial_effect(c)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
-s.listed_series={0x2000}
-s.listed_names={id}
+s.listed_names={id,BLEACH_ISHIDA}
+s.listed_series={0x39a1,0x39ac}
 
 
 --Link Material
 function s.lcheck(g,lc,sumtype,tp)
-	return g:IsExists(Card.IsSetCard,1,nil,0x2000,lc,sumtype,tp)
+	return g:IsExists(Card.IsSetCard,1,nil,0x39a1,lc,sumtype,tp)
 end
 
 
@@ -56,7 +56,7 @@ function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x2017) and c:IsAbleToHand()
+	return c:IsSetCard(0x39ac) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -79,7 +79,7 @@ function s.banfilter(c,a,oc)
 	local clg=c:GetLinkedGroup()
 	return (alg:IsContains(c) and a==oc) --Target is this card and linked
 		or (clg:IsContains(a) and c:IsLinkMonster()
-			and c:IsSetCard(0x2000)) --Target is linked to Karakura Link Monster
+			and c:IsSetCard(0x39a1)) --Target is linked to Karakura Link Monster
 end
 function s.bancon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -105,13 +105,13 @@ end
 
 --Special Summon from the GY
 function s.cfilter(c,e,tp,sc)
-	return c:IsSetCard(0x2000) and c:IsLinkMonster()
+	return c:IsSetCard(0x39a1) and c:IsLinkMonster()
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function s.tdfilter(c)
-	return c:IsSetCard(0x2000) and c:IsAbleToDeck() and not c:IsCode(id)
+	return c:IsSetCard(0x39a1) and c:IsAbleToDeck() and not c:IsCode(id)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and s.tdfilter(chkc) end

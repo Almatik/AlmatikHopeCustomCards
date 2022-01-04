@@ -31,9 +31,9 @@ function s.initial_effect(c)
 	e2:SetOperation(s.matop)
 	c:RegisterEffect(e2)
 end
-s.bleach_name={id}
-s.bleach_character={ ICHIGO }
-s.bleach_set
+s.listed_names={id,BLEACH_ICHIGO}
+s.listed_series={0x39A1}
+
 --Additional Material
 function s.extrafilter(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
