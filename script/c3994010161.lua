@@ -60,6 +60,9 @@ function s.initial_effect(c)
 	e8:SetOperation(s.op5)
 	c:RegisterEffect(e8)
 end
+s.listed_names={id,BLEACH_ICHIGO}
+s.listed_series={0x39a1,0x39a2,0x39a8,0x39ab,0x39ac}
+
 function s.filter(c)
 	return c:IsFaceup() and c:IsLinked()
 end
@@ -70,11 +73,14 @@ end
 
 
 --"Karakura"
-function s.cfilter1(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2000)
+function s.cfilter1(c,tp,eg)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a1)
+		and (not eg or eg:IsContains(c))
 end
 function s.con1(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter1,1,nil,tp) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter1,1,nil,tp,eg)
+		and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
@@ -90,69 +96,51 @@ end
 
 
 --"Shinigami"
-function s.cfilter2(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2010)
+function s.cfilter2(c,tp,eg)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a2)
+		and (not eg or eg:IsContains(c))
+		and c:IsAbleToDeck()
 end
 function s.con2(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter2,1,nil,tp) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter2,1,nil,tp,eg)
+		and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_GRAVE)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter2,tp,LOCATION_GRAVE,0,1,nil,tp,eg) end
+	local g=Duel.SelectTarget(tp,s.cfilter2,tp,0,LOCATION_GRAVE,1,1,nil,tp,eg)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,tp,LOCATION_GRAVE)
 end
 function s.op2(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_GRAVE,0,1,1,nil)
-	if #g>0 then
-		Duel.HintSelection(g,true)
-		Duel.SendtoDeck(g,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SendtoDeck(tc,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
 	end
 end
 
 
 
---"Quincy"
-function s.cfilter3(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2040)
+--"Arrancar"
+function s.cfilter3(c,e,tp,eg)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a8)
+		and (not eg or eg:IsContains(c))
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.con3(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter3,1,nil,tp) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter3,1,nil,e,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_REMOV,nil,1,tp,LOCATION_GRAVE)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+			and Duel.IsExistingMatchingCard(s.cfilter3,tp,LOCATION_GRAVE,0,1,nil,e,tp,eg) end
+	local g=Duel.SelectTarget(tp,s.cfilter3,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,eg)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,tp,LOCATION_GRAVE)
 end
 function s.op3(e,tp,eg,ep,ev,re,r,rp)
-	if not e:GetHandler():IsRelateToEffect(e) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,LOCATION_GRAVE,0,1,1,nil)
-	if #g>0 then
-		Duel.HintSelection(g,true)
-		Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
-	end
-end
-
-
-
---"Hollow"
-function s.cfilter4(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2020)
-end
-function s.con4(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter4,1,nil,tp) and not e:GetHandler():IsStatus(STATUS_CHAINING)
-end
-function s.tg4(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(Card.IsCanBeSpecialSummoned,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,e,0,tp,false,false,POS_FACEUP_DEFENSE) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE)
-end
-function s.op4(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,Card.IsCanBeSpecialSummoned,tp,LOCATION_GRAVE,0,1,1,nil,e,0,tp,false,false,POS_FACEUP_DEFENSE)
-	if #g>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)==0 then return end
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
@@ -161,36 +149,48 @@ function s.op4(e,tp,eg,ep,ev,re,r,rp)
 		local e2=e1:Clone()
 		e2:SetCode(EFFECT_DISABLE_EFFECT)
 		tc:RegisterEffect(e2)
-		local e3=e1:Clone()
-		e3:SetCode(EFFECT_SET_ATTACK)
-		e3:SetValue(0)
-		tc:RegisterEffect(e3)
-		local e4=e1:Clone()
-		e4:SetCode(EFFECT_SET_DEFENSE)
-		e4:SetValue(0)
-		tc:RegisterEffect(e4)
 	end
 end
 
 
 
 --"Xcution"
-function s.cfilter5(c,tp)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x2030)
+function s.cfilter4(c,tp,eg)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39ab)
+		and (not eg or eg:IsContains(c))
+end
+function s.con4(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(s.cfilter4,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+end
+function s.tg4(e,tp,eg,ep,ev,re,r,rp,chk)
+
+end
+function s.op4(e,tp,eg,ep,ev,re,r,rp)
+
+end
+
+
+
+--"Quincy"
+function s.cfilter5(c,tp,eg)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
+		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39ac)
+		and (not eg or eg:IsContains(c))
+		and c:IsAbleToRemove()
 end
 function s.con5(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter5,1,nil,tp) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter5,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg5(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(Card.IsCanBeSpecialSummoned,tp,LOCATION_HAND,0,1,nil,e,0,tp,false,false,POS_FACEUP_DEFENSE) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter5,tp,LOCATION_GRAVE,0,1,nil,tp,eg) end
+	local g=Duel.SelectTarget(tp,s.cfilter5,tp,0,LOCATION_GRAVE,1,1,nil,tp,eg)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,tp,LOCATION_GRAVE)
 end
 function s.op5(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,Card.IsCanBeSpecialSummoned,tp,LOCATION_HAND,0,1,1,nil,e,0,tp,false,false,POS_FACEUP_DEFENSE)
-	if #g>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 	end
+end
 end
