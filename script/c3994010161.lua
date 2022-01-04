@@ -18,7 +18,7 @@ function s.initial_effect(c)
 	local e3=e2:Clone()
 	e3:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e3)
-	--spsummon
+	--Trigger
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -60,7 +60,7 @@ function s.initial_effect(c)
 	e8:SetOperation(s.op5)
 	c:RegisterEffect(e8)
 end
-s.listed_names={id,BLEACH_ICHIGO}
+s.listed_names={id}
 s.listed_series={0x39a1,0x39a2,0x39a8,0x39ab,0x39ac}
 
 function s.filter(c)
@@ -74,7 +74,7 @@ end
 
 --"Karakura"
 function s.cfilter1(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+	return c:IsMonster() and c:IsControler(1-tp)
 		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 end
@@ -98,7 +98,7 @@ end
 
 --"Shinigami"
 function s.cfilter2(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+	return c:IsMonster() and c:IsControler(1-tp)
 		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsAbleToDeck()
@@ -124,7 +124,7 @@ end
 
 --"Arrancar"
 function s.cfilter3(c,e,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+	return c:IsMonster() and c:IsControler(1-tp)
 		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -160,7 +160,7 @@ end
 
 --"Xcution"
 function s.cfilter4(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+	return c:IsMonster() and c:IsControler(1-tp)
 		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 end
@@ -186,7 +186,7 @@ end
 
 --"Quincy"
 function s.cfilter5(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+	return c:IsMonster() and c:IsControler(1-tp)
 		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsAbleToRemove()
