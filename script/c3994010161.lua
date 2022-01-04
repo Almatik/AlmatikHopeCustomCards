@@ -107,7 +107,7 @@ function s.con2(e,tp,eg,ep,ev,re,r,rp)
 		and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter2,tp,LOCATION_GRAVE,0,1,nil,tp,eg) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter2,tp,0,LOCATION_GRAVE,1,nil,tp,eg) end
 	local g=Duel.SelectTarget(tp,s.cfilter2,tp,0,LOCATION_GRAVE,1,1,nil,tp,eg)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,tp,LOCATION_GRAVE)
 end
@@ -132,7 +132,7 @@ function s.con3(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-			and Duel.IsExistingMatchingCard(s.cfilter3,tp,LOCATION_GRAVE,0,1,nil,e,tp,eg) end
+			and Duel.IsExistingMatchingCard(s.cfilter3,tp,0,LOCATION_GRAVE,1,nil,e,tp,eg) end
 	local g=Duel.SelectTarget(tp,s.cfilter3,tp,0,LOCATION_GRAVE,1,1,nil,e,tp,eg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,tp,LOCATION_GRAVE)
 end
@@ -164,10 +164,16 @@ function s.con4(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter4,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg4(e,tp,eg,ep,ev,re,r,rp,chk)
-
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter4,tp,0,LOCATION_GRAVE,1,nil,tp,eg) and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
+	local g=Duel.SelectTarget(tp,s.cfilter5,tp,0,LOCATION_GRAVE,1,1,nil,tp,eg)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,tp,LOCATION_GRAVE)
 end
 function s.op4(e,tp,eg,ep,ev,re,r,rp)
-
+	local tc=Duel.GetFirstTarget()
+	local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
+	if tc and g then
+		Duel.Equip(tp,tc,g)
+	end
 end
 
 
@@ -183,7 +189,7 @@ function s.con5(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter5,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function s.tg5(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter5,tp,LOCATION_GRAVE,0,1,nil,tp,eg) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter5,tp,0,LOCATION_GRAVE,1,nil,tp,eg) end
 	local g=Duel.SelectTarget(tp,s.cfilter5,tp,0,LOCATION_GRAVE,1,1,nil,tp,eg)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,tp,LOCATION_GRAVE)
 end
