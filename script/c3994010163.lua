@@ -16,21 +16,18 @@ s.listed_names={id}
 s.listed_series={0x39a1}
 function s.filter(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x39a1)
-		and (c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)
-		or c:IsAbleToHand()
-		or c:IsAbleToDeck())
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_GRAVE,0,nil,e,tp)
-	if chk==0 then return g:GetClassCount(Card.GetCode)>=1 end
-	local n=0
+	local ct
 	if g:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)
-		and g:GetClassCount(Card.GetCode)>=1 then local n=1 end
+		and g:GetClassCount(Card.GetCode)>=1 then ct=1 end
 	if g:IsAbleToHand()
-		and g:GetClassCount(Card.GetCode)>=2 then local n=2 end
+		and g:GetClassCount(Card.GetCode)>=2 then ct=2 end
 	if g:IsAbletoDeck()
-		and g:GetClassCount(Card.GetCode)>=3 then local n=3 end
-	local tg=aux.SelectUnselectGroup(g,e,tp,1,n,aux.dncheck,1,tp,HINTMSG_SPSUMMON)
+		and g:GetClassCount(Card.GetCode)>=3 then ct=3 end
+	if chk==0 then return g:GetClassCount(Card.GetCode)>=ct end
+	local tg=aux.SelectUnselectGroup(g,e,tp,1,ct,aux.dncheck,1,tp,HINTMSG_SPSUMMON)
 	Duel.SetTargetCard(tg)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,tg,#tg,0,0)
 end
