@@ -19,14 +19,16 @@ function s.initial_effect(c)
 	e2:SetCondition(s.handcon)
 	c:RegisterEffect(e2)
 end
+s.listed_names={id}
+s.listed_series={0x39a1}
 function s.spfilter2(c,fg,minmat,maxmat)
-	return c:IsSetCard(0x2000) and c:IsLinkSummonable(nil,fg,minmat,maxmat)
+	return c:IsSetCard(0x39a1) and c:IsLinkSummonable(nil,fg,minmat,maxmat)
 end
 function s.rescon(sg,e,tp,mg)
 	return Duel.GetMatchingGroupCount(s.spfilter2,tp,LOCATION_EXTRA,0,nil,sg,#sg,#sg)>0
 end
 function s.filtercheck(c,e,tp)
-	return c:IsCanBeLinkMaterial() and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE) and c:IsSetCard(0x2000)
+	return c:IsCanBeLinkMaterial() and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE) and c:IsSetCard(0x39a1)
 		and (c:IsLocation(LOCATION_HAND) or c:IsLocation(LOCATION_GRAVE))
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)

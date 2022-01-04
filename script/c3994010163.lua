@@ -12,8 +12,10 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
+s.listed_names={id}
+s.listed_series={0x39a1}
 function s.filter(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x2000)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x39a1)
 		and (c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP)
 		or c:IsAbleToHand()
 		or c:IsAbleToDeck())
