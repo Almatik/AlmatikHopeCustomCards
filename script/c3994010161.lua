@@ -74,13 +74,14 @@ end
 
 --"Karakura"
 function s.cfilter1(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a1)
+	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 end
 function s.con1(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter1,1,nil,tp,eg)
 		and not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x39a1)
 end
 function s.tg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
@@ -97,14 +98,15 @@ end
 
 --"Shinigami"
 function s.cfilter2(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a2)
+	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsAbleToDeck()
 end
 function s.con2(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.cfilter2,1,nil,tp,eg)
 		and not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x39a2) 
 end
 function s.tg2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter2,tp,0,LOCATION_GRAVE,1,nil,tp,eg) end
@@ -122,13 +124,15 @@ end
 
 --"Arrancar"
 function s.cfilter3(c,e,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39a8)
+	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.con3(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter3,1,nil,e,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter3,1,nil,e,tp,eg)
+		and not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x39a8) 
 end
 function s.tg3(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -156,12 +160,14 @@ end
 
 --"Xcution"
 function s.cfilter4(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39ab)
+	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 end
 function s.con4(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter4,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter4,1,nil,tp,eg)
+		and not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x39ab) 
 end
 function s.tg4(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter4,tp,0,LOCATION_GRAVE,1,nil,tp,eg) and Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
@@ -180,13 +186,15 @@ end
 
 --"Quincy"
 function s.cfilter5(c,tp,eg)
-	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_MZONE)
-		and c:GetReasonPlayer()==tp and c:GetReasonCard():IsSetCard(0x39ac)
+	return c:IsPreviousControler(1-tp) and c:IsType(TYPE_MONSTER)
+		and c:GetReasonPlayer()==tp
 		and (not eg or eg:IsContains(c))
 		and c:IsAbleToRemove()
 end
 function s.con5(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.cfilter5,1,nil,tp,eg) and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return eg:IsExists(s.cfilter5,1,nil,tp,eg)
+		and not e:GetHandler():IsStatus(STATUS_CHAINING)
+		and Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_MZONE,0,1,nil,0x39ac) 
 end
 function s.tg5(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter5,tp,0,LOCATION_GRAVE,1,nil,tp,eg) end
