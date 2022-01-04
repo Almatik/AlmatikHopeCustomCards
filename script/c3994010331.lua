@@ -3,7 +3,7 @@ local s,id=GetID()
 function s.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x2010),aux.FilterBoolFunctionEx(Card.IsSetCard,0x2015))
+	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsSetCard,0x39a1),aux.FilterBoolFunctionEx(Card.IsSetCard,0x39a6))
 	--spsummon condition
 	local e0a=Effect.CreateEffect(c)
 	e0a:SetType(EFFECT_TYPE_SINGLE)
@@ -58,11 +58,11 @@ function s.initial_effect(c)
 	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={202002011,202002301}
-s.listed_series={0x2010,0x2015}
+s.listed_names={id,3994010131,3994010301}
+s.listed_series={0x39a1,0x39a6}
 function s.hspfilter(c,tp,sc)
-	return c:IsCode(202001011)
-		and c:GetEquipGroup():IsExists(aux.FilterBoolFunction(Card.IsCode,202002301),1,nil)
+	return c:IsCode(3994010131)
+		and c:GetEquipGroup():IsExists(aux.FilterBoolFunction(Card.IsCode,3994010301),1,nil)
 		and c:IsControler(tp) and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
 function s.hspcon(e,c)
@@ -94,7 +94,7 @@ function s.undescon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.undesfilter(c)
 	return c:IsFaceup()
-		and (c:IsSetCard(0x2000) or c:IsSetCard(0x2010))
+		and (c:IsSetCard(0x39a1) or c:IsSetCard(0x39a2))
 end
 function s.undesop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -158,7 +158,7 @@ function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spfilter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,0,tp,true,false)
-		and (c:IsSetCard(0x2000) or c:IsSetCard(0x2010)) 
+		and (c:IsSetCard(0x39a1) or c:IsSetCard(0x39a2)) 
 		and not c:IsType(TYPE_FUSION)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)

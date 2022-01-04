@@ -40,10 +40,11 @@ function s.initial_effect(c)
 	e3:SetTarget(s.effreg)
 	e3:SetLabelObject(e3a)
 	c:RegisterEffect(e3)
-	
 end
+s.listed_names={id}
+s.listed_series={0x39a1,0x39a2}
 function s.eqfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x2010)
+	return c:IsFaceup() and c:IsSetCard(0x39a2)
 end
 function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
@@ -98,7 +99,7 @@ end
 
 function s.effcon(e)
 	local c=e:GetHandler()
-	return c:IsCode(202001011) or c:IsCode(id)
+	return c:IsCode(3994010131) or c:IsCode(id)
 end
 function s.efffilter(c,atk)
 	return c:IsFaceup() and c:GetAttack()<atk
