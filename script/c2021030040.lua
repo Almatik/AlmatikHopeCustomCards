@@ -21,6 +21,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetHintTiming(0,TIMING_MAIN_END)
 	e2:SetCountLimit(1,id)
+	e2:SetCondition(s.xcon)
 	e2:SetTarget(s.xtg2)
 	e2:SetOperation(s.xop2)
 	c:RegisterEffect(e2)
@@ -69,6 +70,10 @@ end
 
 
 
+function s.xcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsSetCard(0x39b0) and c:IsType(TYPE_XYZ)
+end
 
 function s.xfilter2(c,e,tp,mc)
 	return mc:IsCanBeXyzMaterial(c,tp)
