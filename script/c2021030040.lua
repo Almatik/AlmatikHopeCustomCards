@@ -77,7 +77,7 @@ function s.xfilter2(c,e,tp,mc)
 end
 function s.xtg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.xfilter2,tp,LOCATION_EZONE,0,1,nil,e,tp,c) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.xfilter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function s.xop2(e,tp,eg,ep,ev,re,r,rp)
