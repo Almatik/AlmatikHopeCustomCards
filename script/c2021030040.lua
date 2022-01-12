@@ -80,7 +80,7 @@ function s.xfilter2(c,e,tp,mc)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 		and Duel.GetLocationCountFromEx(tp,tp,mc,c)>0
 		and (c:IsRank(mc:GetRank()+1) or c:IsRank(mc:GetRank()-1))
-		and (c:IsRace(sc:GetRace()) or c:IsSetCard(0x39b0))
+		and (c:IsRace(mc:GetRace()) or c:IsSetCard(0x39b0))
 end
 function s.xtg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
