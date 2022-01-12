@@ -40,9 +40,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsControler(1-tp) or tc:IsImmuneToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.GetMatchingGroup(s.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,c,tc)
+	local g=Duel.SelectMatchingCard(s.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,c,tc):GetFirst()
 	local mat=Group.FromCards(tc,c)
-	if #g>0 then
+	if g then
 		g:SetMaterial(mat)
 		Duel.Overlay(g,mat)
 		Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
