@@ -788,7 +788,7 @@ s.DeckList={}
 
 
 
-	--"Hieratic"
+	--"Zombie"
 	s.DeckList[2][40]={}
 			--Deck ID
 	s.DeckList[2][40][1]=id+200+40
