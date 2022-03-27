@@ -14,8 +14,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_DECK,0,nil,TYPE_MONSTER+TYPE_NORMAL)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
-		local effnum=Duel.GetRandomNumber(1,#s.EffectList)
-		s.EffectList[effnum]
+		s.EffectList[1]
 	end
 end
 
