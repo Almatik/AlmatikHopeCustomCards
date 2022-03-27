@@ -15,7 +15,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local effnum=Duel.GetRandomNumber(1,#s.EffectList)
-		s.EffectList[effnum](e,tc)
+		s.EffectList[effnum]
 	end
 end
 
