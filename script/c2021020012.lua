@@ -15,12 +15,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
 		local effnum=Duel.GetRandomNumber(1,#s.EffectList)
-					local e1=Effect.CreateEffect(e:GetHandler())
-					e1:SetType(EFFECT_TYPE_SINGLE)
-					e1:SetCode(EFFECT_UPDATE_ATTACK)
-					e1:SetValue(100)
-					e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-					tc:RegisterEffect(e1)
+		s.EffectList[effnum]
 	end
 end
 
@@ -33,7 +28,7 @@ end
 s.EffectList={}
 
 s.EffectList[1]={
-				function effect01(e,tc)
+				function s.effect01(e,tc)
 					local e1=Effect.CreateEffect(e:GetHandler())
 					e1:SetType(EFFECT_TYPE_SINGLE)
 					e1:SetCode(EFFECT_UPDATE_ATTACK)
