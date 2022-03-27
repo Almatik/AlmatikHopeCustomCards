@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_UPDATE_ATTACK)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetValue(s.atkval)
-	e2:SeOperation(s.atkop)
+	e2:SetOperation(s.atkop)
 	c:RegisterEffect(e2)
 	--Search
 	local e3=Effect.CreateEffect(c)
