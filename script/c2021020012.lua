@@ -14,13 +14,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(Card.IsType,tp,LOCATION_DECK,0,nil,TYPE_MONSTER+TYPE_NORMAL)
 	local tc=g:GetFirst()
 	for tc in aux.Next(g) do
-		local effnum=Duel.GetRandomNumber(1,#s.EffectList)
-					local e1=Effect.CreateEffect(e:GetHandler())
-					e1:SetType(EFFECT_TYPE_SINGLE)
-					e1:SetCode(EFFECT_UPDATE_ATTACK)
-					e1:SetValue(100)
-					e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-					tc:RegisterEffect(e1)
+		effnum=Duel.GetRandomNumber(1,#s.EffectList)
+		s.EffectList[effnum]
 	end
 end
 
