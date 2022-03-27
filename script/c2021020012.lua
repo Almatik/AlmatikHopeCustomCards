@@ -28,7 +28,7 @@ end
 s.EffectList={}
 
 s.EffectList[1]={
-				function (e,tc)
+				function effect01(e,tc)
 					local e1=Effect.CreateEffect(e:GetHandler())
 					e1:SetType(EFFECT_TYPE_SINGLE)
 					e1:SetCode(EFFECT_UPDATE_ATTACK)
