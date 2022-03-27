@@ -27,11 +27,13 @@ end
 
 s.EffectList={}
 
-function s.EffectList[1](e,tc)
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetValue(100)
-	e1:SetReset(RESET_EVENT+RESETS_STANDARD)
-	tc:RegisterEffect(e1)
-end
+s.EffectList[1]={
+				function (e,tc)
+					local e1=Effect.CreateEffect(e:GetHandler())
+					e1:SetType(EFFECT_TYPE_SINGLE)
+					e1:SetCode(EFFECT_UPDATE_ATTACK)
+					e1:SetValue(100)
+					e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+					tc:RegisterEffect(e1)
+				end
+				}
