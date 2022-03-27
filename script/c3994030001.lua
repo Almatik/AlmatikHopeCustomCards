@@ -1,4 +1,4 @@
---Sevens Road Magician
+--Sevens Road Witch
 local s,id=GetID()
 function s.initial_effect(c)
 	c:SetUniqueOnField(1,0,id)
@@ -25,13 +25,13 @@ function s.initial_effect(c)
 	--Search
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,3))
-	e3:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,{id,3})
-	e3:SetCost(s.addcost)
-	e3:SetTarget(s.addtg)
-	e3:SetOperation(s.addop)
+	e3:SetCost(s.spcost)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
 	c:RegisterEffect(e3)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
@@ -46,30 +46,30 @@ end
 
 
 function s.atkval(e,c)
-	local g=Duel.GetMatchingGroup(Card.IsType,e:GetHandlerPlayer(),LOCATION_GRAVE,0,nil,TYPE_MONSTER)
-	return g:GetClassCount(Card.GetAttribute)*300
+	local g=Duel.GetMatchingGroup(Card.IsType,e:GetHandlerPlayer(),LOCATION_MZONE,0,nil,TYPE_MONSTER)
+	return g:GetClassCount(Card.GetAttribute)*400
 end
 
 
 
 
-function s.addcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDiscardDeckAsCost(tp,1) and 
-	Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>1 end
-	Duel.DiscardDeck(tp,1,REASON_COST)
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
-function s.addfilter(c)
-	return c:IsSetCard(0x39C1) and c:IsAbleToHand()
+function s.spfilter(c,e,tp)
+	return c:IsSetCard(0x39C0) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function s.addtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.addfilter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
-function s.addop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,s.addfilter,tp,LOCATION_DECK,0,1,1,nil)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp)
 	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
