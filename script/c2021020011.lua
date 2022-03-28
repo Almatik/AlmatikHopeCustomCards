@@ -24,6 +24,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCondition(s.tagcon)
 	e1:SetOperation(s.tagop)
 	Duel.RegisterEffect(e1,tp)
+	--s.team[Team][Player][Life Points,Turn]
 	s.team={}
 	s.team[1]=Duel.GetPlayersCount(tp)
 	s.team[2]=Duel.GetPlayersCount(1-tp)
