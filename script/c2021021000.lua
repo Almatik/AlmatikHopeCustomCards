@@ -138,11 +138,6 @@ function s.RelayOp(startlp)
 					if Duel.GetTurnPlayer()~=tp then
 						Duel.SkipPhase(1-tp,PHASE_MAIN1,RESET_PHASE+PHASE_END,1)
 						Duel.SkipPhase(1-tp,PHASE_BATTLE,RESET_PHASE+PHASE_END,1)
-						Duel.SkipPhase(1-tp,PHASE_MAIN2,RESET_PHASE+PHASE_END,1)
-					end
-					if Duel.SelectYesNo(1-tp,aux.Stringid(id,7))~=0 then
-						local g=Duel.GetFieldGroup(1-tp,LOCATION_ONFIELD+LOCATION_GRAVE+LOCATION_REMOVED,0)
-						Duel.SendtoDeck(g:Select(1-tp,1,3),1-tp,1,REASON_RULE)
 					end
 				end
 			end
