@@ -43,28 +43,30 @@ function s.RandomPack(tp,gamemode,format)
 	local formatid=format*1000
 	local pack=packid-id-formatid
 	--Construct Random Packs "Card per Pack"
-	local cpp=s.PackList[format][pack][6]
-	for i=1,cpp do
-		if i<cpp then
-			local chance=Duel.GetRandomNumber(1,100*cpp)
-			if chance>100 then rarity=1
-				elseif chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				elseif chance>0 then rarity=5
+	repeat
+		local cpp=s.PackList[format][pack][6]
+		for i=1,cpp do
+			if i<cpp then
+				local chance=Duel.GetRandomNumber(1,100*cpp)
+				if chance>100 then rarity=1
+					elseif chance>16 then rarity=2
+					elseif chance>8 then rarity=3
+					elseif chance>4 then rarity=4
+					elseif chance>0 then rarity=5
+				end
+			else
+				local chance=Duel.GetRandomNumber(1,100)
+				if chance>16 then rarity=2
+					elseif chance>8 then rarity=3
+					elseif chance>4 then rarity=4
+					elseif chance>0 then rarity=5
+				end
 			end
-		else
-			local chance=Duel.GetRandomNumber(1,100)
-			if chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				elseif chance>0 then rarity=5
-			end
+			local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
+			local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		end
-		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
-		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
-	end
+	until Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)>=40
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 end
