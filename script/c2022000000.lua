@@ -71,7 +71,7 @@ function s.RandomPack(tp,gamemode,format)
 		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
-	Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packopen))
+	Duel.SelectCardsFromCodes(tp,1,1,false,true,table.unpack(packopen))
 end
 
 
