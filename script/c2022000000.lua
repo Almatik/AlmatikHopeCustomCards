@@ -34,7 +34,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		local num=Duel.AnnounceNumberRange(tp,1,100)
 		repeat
 			s.DraftPack(tp,format)
-			local num=num-1
+			num=num-1
 		until num==0
 	end
 	--Check and Go
