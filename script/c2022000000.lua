@@ -65,6 +65,8 @@ function s.RandomPack(tp,gamemode,format)
 		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
+	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.ConfirmCards(tp,g)
 end
 
 
