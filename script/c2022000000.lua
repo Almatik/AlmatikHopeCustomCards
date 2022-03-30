@@ -26,11 +26,18 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option2,aux.Stringid(id,4))
 	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
 	--Lets Go!
-	repeat 
-		if gamemod==1 then s.RandomPack(tp,format)
-		else s.DraftPack(tp,format)
-		end
-	until Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=40
+	if gamemod==1 then
+		repeat s.RandomPack(tp,format)
+		until Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=40
+	end
+	if gamemod==2 then
+		local num=Duel.AnnounceNumberRange(tp,1,100)
+		repeat
+			s.DraftPack(tp,format)
+			local num=num-1
+		until num==0
+	end
+	
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
 end
@@ -108,7 +115,7 @@ function s.DraftPack(tp,format)
 	local selected={Duel.SelectCardsFromCodes(tp,1,5,false,false,table.unpack(packopen))}
 	for _,code in ipairs(selected) do
 		local tc=Duel.CreateToken(tp,code)
-		Duel.SendtoDeck(tc,tp,0,REASON_RULE)
+		Duel.SendtoDeck(tc,tp,SEQ_DECKTOP,REASON_RULE)
 	end
 end
 
