@@ -44,14 +44,14 @@ function s.RandomPack(tp,gamemode,format)
 	local pack=packid-id-formatid
 	--Construct Random Packs
 	local cpp=s.PackList[format][pack][6]
-	local rare={}
-	local rare[1]={}--Common
-	local rare[2]={}--Rare
-	local rare[3]={}--Super
-	local rare[4]={}--Ultra
-	local rare[5]={}--Secret
+	local s.rare={}
+	local s.rare[1]={}--Common
+	local s.rare[2]={}--Rare
+	local s.rare[3]={}--Super
+	local s.rare[4]={}--Ultra
+	local s.rare[5]={}--Secret
 	for i=1,5 do
-		table.insert(rare[i],s.PackList[format][pack][i])
+		table.insert(s.rare[i],s.PackList[format][pack][i])
 	end
 	--Contruct Random Deck
 	local deck={}
@@ -64,8 +64,8 @@ function s.RandomPack(tp,gamemode,format)
 				elseif chance>4 then rarity=4
 				elseif chance>0 then rarity=5
 			end
-			local card=Duel.GetRandomNumber(1,#rare[chance])
-			local tc=Duel.CreateToken(tp,rare[chance][card])
+			local card=Duel.GetRandomNumber(1,#s.rare[chance])
+			local tc=Duel.CreateToken(tp,s.rare[chance][card])
 			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		else
 			local chance=Duel.GetRandomNumber(1,100)
@@ -74,8 +74,8 @@ function s.RandomPack(tp,gamemode,format)
 				elseif chance>4 then rarity=4
 				elseif chance>0 then rarity=5
 			end
-			local card=Duel.GetRandomNumber(1,#rare[chance])
-			local tc=Duel.CreateToken(tp,rare[chance][card])
+			local card=Duel.GetRandomNumber(1,#s.rare[chance])
+			local tc=Duel.CreateToken(tp,s.rare[chance][card])
 			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		end
 	end
