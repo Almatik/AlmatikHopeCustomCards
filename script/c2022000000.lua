@@ -57,22 +57,22 @@ function s.RandomPack(tp,format)
 	local formatid=format*1000
 	local pack=packid-id-formatid
 	--Construct Random Packs "Card per Pack"
-	local cpp=s.PackList[format][pack][6]
+	local cpp=s.PackList[format][pack][10]
 	for i=1,cpp do
 		if i<cpp then
 			local chance=Duel.GetRandomNumber(1,100*cpp)
-			if chance>100 then rarity=1
-				elseif chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				else rarity=5
+			if chance>100 and #s.PackList[format][pack][1]>0 then rarity=1
+				elseif chance>16 and #s.PackList[format][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.PackList[format][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.PackList[format][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.PackList[format][pack][5]>0 then rarity=5
 			end
 		else
 			local chance=Duel.GetRandomNumber(1,100)
-			if chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				else rarity=5
+			if chance>16 and #s.PackList[format][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.PackList[format][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.PackList[format][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.PackList[format][pack][5]>0 then rarity=5
 			end
 		end
 		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
@@ -91,22 +91,22 @@ function s.DraftPack(tp,format)
 	local pack=packid-id-formatid
 	--Construct Random Packs "Card per Pack"
 	local packopen={}
-	local cpp=s.PackList[format][pack][6]
+	local cpp=s.PackList[format][pack][10]
 	for i=1,cpp do
 		if i<cpp then
 			local chance=Duel.GetRandomNumber(1,100*cpp)
-			if chance>100 then rarity=1
-				elseif chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				else rarity=5
+			if chance>100 and #s.PackList[format][pack][1]>0 then rarity=1
+				elseif chance>16 and #s.PackList[format][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.PackList[format][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.PackList[format][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.PackList[format][pack][5]>0 then rarity=5
 			end
 		else
 			local chance=Duel.GetRandomNumber(1,100)
-			if chance>16 then rarity=2
-				elseif chance>8 then rarity=3
-				elseif chance>4 then rarity=4
-				else rarity=5
+			if chance>16 and #s.PackList[format][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.PackList[format][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.PackList[format][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.PackList[format][pack][5]>0 then rarity=5
 			end
 		end
 		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
@@ -162,11 +162,26 @@ s.PackList[1][1][4]={89631139,6368038,45231177,46986414}
 --Secret Rare
 s.PackList[1][1][5]={91152256}
 --Card Per Pack
-s.PackList[1][1][6]=5
+s.PackList[1][1][10]=5
 
 
 
 
 
-
+--Magic Ruler
+s.PackList[1][2]={}
+--Card List
+s.PackList[1][2][0]=id+01001
+--Common
+s.PackList[1][2][1]={596051,5318639,12470447,14015067,16430187,16762927,17653779,18591904,32539892,34442949,35565537,38552107,42703248,43641473,44763025,45986603,46534755,47879985,54579801,55998462,56789759,65570596,70046172,70368879,72053645,79323590,81380218,91996584,93013676,93108297,95174353,95744531,96981563,99597615}
+--Rare
+s.PackList[1][2][2]={82003859,17375316,65169794,80168720}
+--Super Rare
+s.PackList[1][2][3]={3056267,40619825,,42829885,81863068}
+--Ultra Rare
+s.PackList[1][2][4]={64631466,3797883,18807109}
+--Secret Rare
+s.PackList[1][2][5]={}
+--Card Per Pack
+s.PackList[1][2][10]=5
 
