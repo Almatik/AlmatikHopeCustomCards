@@ -54,6 +54,9 @@ function s.RandomPack(tp,gamemode,format)
 				elseif chance>4 then rarity=4
 				elseif chance>0 then rarity=5
 			end
+			local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][chance])
+			local tc=Duel.CreateToken(tp,s.PackList[format][pack][chance][card])
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		else
 			local chance=Duel.GetRandomNumber(1,100)
 			if chance>16 then rarity=2
@@ -61,10 +64,10 @@ function s.RandomPack(tp,gamemode,format)
 				elseif chance>4 then rarity=4
 				elseif chance>0 then rarity=5
 			end
+			local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][chance])
+			local tc=Duel.CreateToken(tp,s.PackList[format][pack][chance][card])
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		end
-		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][chance])
-		local tc=Duel.CreateToken(tp,s.PackList[format][pack][chance][card])
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 end
 
