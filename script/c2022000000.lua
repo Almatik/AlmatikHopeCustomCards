@@ -45,7 +45,7 @@ function s.RandomPack(tp,gamemode,format)
 	--Construct Random Packs "Card per Pack"
 	local cpp=s.PackList[format][pack][6]
 	for i=1,cpp do
-		local chance
+		local chance=0
 		if i<cpp then
 			local chance=Duel.GetRandomNumber(1,100*cpp)
 			if chance>100 then rarity=1
