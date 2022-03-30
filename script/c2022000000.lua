@@ -27,7 +27,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
 	--Lets Go!
 	repeat 
-		if gamemod=1 then s.RandomPack(tp,format)
+		if gamemod==1 then s.RandomPack(tp,format)
 		else s.DraftPack(tp,format)
 		end
 	until Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=40
