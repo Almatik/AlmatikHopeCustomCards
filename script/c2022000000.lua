@@ -26,7 +26,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option2,aux.Stringid(id,4))
 	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
 	--Lets Go!
-	repeat s.RandomPack(tp,gamemode,format)
+	repeat 
+		if gamemod=1 then s.RandomPack(tp,format)
+		else s.DraftPack(tp,format)
+		end
 	until Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=40
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.ConfirmCards(tp,g)
@@ -37,7 +40,40 @@ function s.DeleteDeck(tp)
 		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 	end
 end
-function s.RandomPack(tp,gamemode,format)
+function s.RandomPack(tp,format)
+	--Choose Pack
+	local packlist={}
+	for i=1,#s.PackList[format] do
+		table.insert(packlist,s.PackList[format][i][0])
+	end
+	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+	local formatid=format*1000
+	local pack=packid-id-formatid
+	--Construct Random Packs "Card per Pack"
+	local cpp=s.PackList[format][pack][6]
+	for i=1,cpp do
+		if i<cpp then
+			local chance=Duel.GetRandomNumber(1,100*cpp)
+			if chance>100 then rarity=1
+				elseif chance>16 then rarity=2
+				elseif chance>8 then rarity=3
+				elseif chance>4 then rarity=4
+				else rarity=5
+			end
+		else
+			local chance=Duel.GetRandomNumber(1,100)
+			if chance>16 then rarity=2
+				elseif chance>8 then rarity=3
+				elseif chance>4 then rarity=4
+				else rarity=5
+			end
+		end
+		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
+		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
+		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+	end
+end
+function s.DraftPack(tp,format)
 	--Choose Pack
 	local packlist={}
 	for i=1,#s.PackList[format] do
@@ -68,10 +104,11 @@ function s.RandomPack(tp,gamemode,format)
 		end
 		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
 		table.insert(packopen,s.PackList[format][pack][rarity][card])
-		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
-	Duel.SelectCardsFromCodes(tp,1,1,false,true,table.unpack(packopen))
+	local selected=Duel.SelectCardsFromCodes(tp,1,5,false,true,table.unpack(packopen))
+	for code,code2 in ipairs(selected) do
+		Debug.AddCard(code2,tp,tp,LOCATION_DECK,1,POS_FACEDOWN)
+	end
 end
 
 
