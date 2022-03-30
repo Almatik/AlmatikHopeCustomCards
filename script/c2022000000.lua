@@ -106,9 +106,9 @@ function s.DraftPack(tp,format)
 		table.insert(packopen,s.PackList[format][pack][rarity][card])
 	end
 	local selected={Duel.SelectCardsFromCodes(tp,1,5,false,false,table.unpack(packopen))}
-	for i=1,#selected do
-		local tc=Duel.CreateToken(tp,selected[i])
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+	for _,code in ipairs(selected) do
+		local tc=Duel.CreateToken(tp,code)
+		Duel.SendtoDeck(tc,tp,0,REASON_RULE)
 	end
 end
 
