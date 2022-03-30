@@ -47,6 +47,7 @@ function s.RandomPack(tp,gamemode,format)
 	local formatid=format*1000
 	local pack=packid-id-formatid
 	--Construct Random Packs "Card per Pack"
+	local packopen={}
 	local cpp=s.PackList[format][pack][6]
 	for i=1,cpp do
 		if i<cpp then
@@ -55,20 +56,22 @@ function s.RandomPack(tp,gamemode,format)
 				elseif chance>16 then rarity=2
 				elseif chance>8 then rarity=3
 				elseif chance>4 then rarity=4
-				elseif chance>0 then rarity=5
+				else rarity=5
 			end
 		else
 			local chance=Duel.GetRandomNumber(1,100)
 			if chance>16 then rarity=2
 				elseif chance>8 then rarity=3
 				elseif chance>4 then rarity=4
-				elseif chance>0 then rarity=5
+				else rarity=5
 			end
 		end
 		local card=Duel.GetRandomNumber(1,#s.PackList[format][pack][rarity])
+		table.insert(packopen,s.PackList[format][pack][rarity][card])
 		local tc=Duel.CreateToken(tp,s.PackList[format][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
+	Duel.SelectCardsFromCodes(tp,0,0,false,false,table.unpack(packopen))
 end
 
 
