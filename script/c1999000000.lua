@@ -51,18 +51,17 @@ function s.ChoosePack(e,tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	for i=0,12 do
+	local num=Duel.AnnounceNumberRange(tp,1,12)
+	for i=0,num-1 do
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local formatid=format*10000
 		local seriesid=series*100
 		local pack=packid-id-formatid-seriesid
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
-		if Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 then
-			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
-		elseif Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
-			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true)
+		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<num-1))
 		else
-			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true,(1<<num-7))
 		end
 		s.PackOpen(e,tp,format,series,pack)
 	end
