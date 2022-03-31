@@ -99,9 +99,9 @@ end
 
 
 
-s.gamemod
-s.format
-s.series
+s.gamemod=nil
+s.format=nil
+s.series=nil
 
 
 
