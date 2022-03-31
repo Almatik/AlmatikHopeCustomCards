@@ -52,6 +52,9 @@ function s.ChoosePack(tp,format,series)
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
 	local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
+	local formatid=format*10000
+	local seriesid=series*100
+	local pack=packid-id-formatid-seriesid
 	s.PackOpen(tp,format,series,pack)
 end
 function s.PackOpen(tp,format,series,pack)
