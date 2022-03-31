@@ -59,34 +59,37 @@ function s.ChoosePack(e,tp,format,series)
 end
 function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
-	for i=1,cpp do
-		s.RarityChance(format,series,pack,i,cpp)
+		for i=1,cpp do
+			if i<cpp then
+			local chance=Duel.GetRandomNumber(1,100*cpp)
+			if chance>100 and #s.Pack[format][series][pack][1]>0 then rarity=1
+				elseif chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5
+			end
+		else
+			local chance=Duel.GetRandomNumber(1,100)
+			if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2
+				elseif chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3
+				elseif chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4
+				elseif chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5
+			end
+		end
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(aux.Stringid(1999010103,rarity))
-		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		tc:RegisterEffect(e1)
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+		local e1=Effect.CreateEffect(c)
+		e1:SetDescription(3060)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+		e1:SetValue(1)
+		rc:RegisterEffect(e1)
 	end
 end
 function s.RarityChance(format,series,pack,i,cpp)
-	if i<cpp then
-		local chance=Duel.GetRandomNumber(1,100*cpp)
-		if chance>100 and #s.Pack[format][series][pack][1]>0 then rarity=1
-			elseif chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2
-			elseif chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3
-			elseif chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4
-			elseif chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5
-		end
-	else
-		local chance=Duel.GetRandomNumber(1,100)
-		if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2
-			elseif chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3
-			elseif chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4
-			elseif chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5
-		end
-	end
+
 end
 
 
