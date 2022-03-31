@@ -55,12 +55,16 @@ function s.ChoosePack(e,tp,format,series)
 	local formatid=format*10000
 	local seriesid=series*100
 	local pack=packid-id-formatid-seriesid
-	s.PackOpen(e,tp,format,series,pack)
+	for i=0,5 do
+		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
+		Duel.MoveToField(tc,tp,tp,LOCATION_ONFIELD,POS_FACEUP_ATTACK,true)
+		s.PackOpen(e,tp,format,series,pack)
+	end
+	local del=Duel.GetFieldGroup(tp,LOCATION_ONFIELD,0)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
-	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
-	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<7))
 	for i=1,cpp do
 		local rarity=1
 		if i==cpp then
@@ -83,7 +87,7 @@ function s.PackOpen(e,tp,format,series,pack)
 	end
 	local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
 	Duel.SendtoDeck(add,tp,1,REASON_RULE)
-	local del=Duel.GetFieldGroup(tp,LOCATION_HAND+LOCATION_ONFIELD,0)
+	local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 
