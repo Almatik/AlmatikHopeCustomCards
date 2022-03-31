@@ -40,8 +40,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.AutoDeckMode(e,tp,format,series)
 	end
 	--Check and Go
-	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-	Duel.ConfirmCards(tp,g)
+	--local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	--Duel.ConfirmCards(tp,g)
 end
 function s.DeleteDeck(tp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
