@@ -70,7 +70,7 @@ function s.PackOpen(e,tp,format,series,pack)
 		end
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+		Duel.SendtoHand(tc,tp,REASON_RULE)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetDescription(aux.Stringid(id,rarity))
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -79,6 +79,8 @@ function s.PackOpen(e,tp,format,series,pack)
 		e1:SetValue(0)
 		tc:RegisterEffect(e1)
 	end
+	local g=Duel.GetFieldGroup(tp,LOCATION_HANDK,0)
+	Duel.SendtoDeck(g,tp,1,REASON_RULE)
 end
 
 
