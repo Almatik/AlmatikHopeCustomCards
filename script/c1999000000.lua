@@ -127,10 +127,9 @@ function s.AutoDeckMode(e,tp,format,series)
 			e1:SetValue(0)
 			tc:RegisterEffect(e1)
 		end
-		local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,0,0,nil)
-		Duel.SendtoDeck(add,tp,1,REASON_RULE)
+		local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,1,nil)
 		local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
-		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+		Duel.SendtoDeck(des,tp,1,REASON_RULE)
 	end
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
