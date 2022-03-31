@@ -35,7 +35,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 	--Lets Go!
 	if gamemod==1 then
-		s.ChoosePack(tp,format,series)
+		s.ChoosePack(e,tp,format,series)
 	end
 	--Check and Go
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
@@ -45,7 +45,7 @@ function s.DeleteDeck(tp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
-function s.ChoosePack(tp,format,series)
+function s.ChoosePack(e,tp,format,series)
 	--Choose Pack
 	local packlist={}
 	for i=1,#s.Pack[format][series] do
@@ -55,15 +55,15 @@ function s.ChoosePack(tp,format,series)
 	local formatid=format*10000
 	local seriesid=series*100
 	local pack=packid-id-formatid-seriesid
-	s.PackOpen(tp,format,series,pack)
+	s.PackOpen(e,tp,format,series,pack)
 end
-function s.PackOpen(tp,format,series,pack)
+function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
 	for i=1,cpp do
 		s.RarityChance(format,series,pack,i,cpp)
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-		local e1=Effect.CreateEffect(tc)
+		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetDescription(aux.Stringid(1999010103,rarity))
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
