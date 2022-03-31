@@ -54,7 +54,7 @@ function s.ChoosePack(tp,format,series)
 	local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
 	s.PackOpen(tp,format,series,pack)
 end
-function s.PackOpen(tp,pack,format,series)
+function s.PackOpen(tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
 	for i=1,cpp do
 		s.RarityChance(format,series,pack,cpp)
