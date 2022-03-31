@@ -22,6 +22,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.DeleteDeck(tp)
 	--Choose Game Mode
 	local Option1={}
+	table.insert(Option1,aux.Stringid(id,0))
 	table.insert(Option1,aux.Stringid(id,1))
 	table.insert(Option1,aux.Stringid(id,2))
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
@@ -34,7 +35,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option3,aux.Stringid(id+10102,1))
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 	--Lets Go!
-	if gamemod==1 then
+	if gamemod==0 then
+		s.CheckPack(e,tp,format,series)
+	elseif gamemod==1 then
 		s.DraftMode(e,tp,format,series)
 	elseif gamemod==2 then
 		s.AutoDeckMode(e,tp,format,series)
@@ -46,6 +49,26 @@ end
 function s.DeleteDeck(tp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+end
+function s.CheckPack(e,tp,format,series)
+	--Choose Pack
+	local packlist={}
+	for i=1,#s.Pack[format][series] do
+		table.insert(packlist,s.Pack[format][series][i][0])
+	end
+	repeat
+			local packopen={}
+			local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+			local formatid=format*10000
+			local seriesid=series*100
+			local pack=packid-id-formatid-seriesid
+			for rarity=1,5 do
+				for i=1,#s.Pack[format][series][pack][rarity] for
+					table.insert(packopen,s.PackList[format][pack][card][rarity][i])
+				end
+			end
+			Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packopen))
+	until Duel.SelectYesNo(tp,aux.Stringid(id,10))==0
 end
 function s.DraftMode(e,tp,format,series)
 	--Choose Pack
