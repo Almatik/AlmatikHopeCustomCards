@@ -63,7 +63,7 @@ function s.CheckPack(e,tp,format,series)
 			local seriesid=series*100
 			local pack=packid-id-formatid-seriesid
 			for rarity=1,5 do
-				for i=1,#s.Pack[format][series][pack][rarity] for
+				for i=1,#s.Pack[format][series][pack][rarity] do
 					table.insert(packopen,s.PackList[format][pack][card][rarity][i])
 				end
 			end
