@@ -25,7 +25,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option1,aux.Stringid(id,0))
 	table.insert(Option1,aux.Stringid(id,1))
 	table.insert(Option1,aux.Stringid(id,2))
-	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
+	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
 	--Choose Game Format
 	local Option2={}
 	table.insert(Option2,aux.Stringid(id+10101,1))
