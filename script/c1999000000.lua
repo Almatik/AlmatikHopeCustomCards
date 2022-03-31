@@ -60,13 +60,13 @@ end
 function s.PackOpen(tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
 	for i=1,cpp do
-		s.RarityChance(format,series,pack,cpp)
+		s.RarityChance(format,series,pack,i,cpp)
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 end
-function s.RarityChance(format,series,pack,cpp)
+function s.RarityChance(format,series,pack,i,cpp)
 	if i<cpp then
 		local chance=Duel.GetRandomNumber(1,100*cpp)
 		if chance>100 and #s.Pack[format][series][pack][1]>0 then rarity=1
