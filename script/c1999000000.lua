@@ -48,8 +48,8 @@ end
 function s.RandomPack(tp,format,series)
 	--Choose Pack
 	local packlist={}
-	for i=1,#s.PackList[format][series] do
-		table.insert(packlist,s.PackList[format][series][i][0])
+	for i=1,#s.Pack[format][series] do
+		table.insert(packlist,s.Pack[format][series][i][0])
 	end
 	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 end
