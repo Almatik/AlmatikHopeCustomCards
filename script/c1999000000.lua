@@ -55,9 +55,12 @@ function s.ChoosePack(e,tp,format,series)
 	local formatid=format*10000
 	local seriesid=series*100
 	local pack=packid-id-formatid-seriesid
-	for i=0,5 do
+	for i=0,12 do
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
-		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true)
+		if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true)
+		else Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP_ATTACK,true)
+		end
 		s.PackOpen(e,tp,format,series,pack)
 	end
 	local del=Duel.GetFieldGroup(tp,LOCATION_ONFIELD,0)
