@@ -68,7 +68,6 @@ function s.PackOpen(e,tp,format,series,pack)
 			if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
 			if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
 		end
-		s.RarityChance1(format,series,pack,i,cpp)
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
