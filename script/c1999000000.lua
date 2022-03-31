@@ -62,7 +62,7 @@ function s.RandomPack(tp,format,series)
 	until num==0
 	for _,code in ipairs(packhand) do
 		local tc=Duel.CreateToken(tp,code)
-		Duel.MoveToField(tp,tc,LOCATION_ONFIELD,POS_FACEUP,true)
+		Duel.SendtoHand(tc,tp,REASON_RULE)
 	end
 end
 
