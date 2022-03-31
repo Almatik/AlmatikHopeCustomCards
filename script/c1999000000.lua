@@ -80,11 +80,11 @@ function s.PackOpen(e,tp,format,series,pack)
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(3060)
+		e1:SetDescription(aux.Stringid(1999010103,rarity))
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-		e1:SetValue(1)
+		e1:SetValue(0)
 		tc:RegisterEffect(e1)
 	end
 end
