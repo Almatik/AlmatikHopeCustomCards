@@ -22,8 +22,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.DeleteDeck(tp)
 	--Choose Game Mode
 	local Option1={}
-	table.insert(Option1,aux.Stringid(id,15))
-	table.insert(Option1,aux.Stringid(id,14))
+	table.insert(Option1,aux.Stringid(id,1))
+	table.insert(Option1,aux.Stringid(id,2))
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
 	--Choose Game Format
 	local Option2={}
@@ -59,39 +59,36 @@ function s.ChoosePack(e,tp,format,series)
 		local pack=packid-id-formatid-seriesid
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
 		Duel.SendtoGrave(tc,REASON_RULE)
-		s.PackOpen(e,tp,format,series,pack)
+		local cpp=s.Pack[format][series][pack][10]
+		for i=1,cpp do
+			local rarity=1
+			if i==8 then rarity=2 end
+			if i==cpp then
+				local chance=Duel.GetRandomNumber(1,100)
+				if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
+				if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
+				if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
+				if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
+			end
+			local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
+			local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
+			Duel.SendtoHand(tc,tp,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,rarity))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
+		end
+		local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
+		Duel.SendtoDeck(add,tp,1,REASON_RULE)
+		local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 	end
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
-function s.PackOpen(e,tp,format,series,pack)
-	local cpp=s.Pack[format][series][pack][10]
-	for i=1,cpp do
-		local rarity=1
-		if i==cpp then
-			local chance=Duel.GetRandomNumber(1,100)
-			if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
-			if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
-			if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
-			if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
-		end
-		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
-		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-		Duel.SendtoHand(tc,tp,REASON_RULE)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(aux.Stringid(id+10103,rarity))
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-		e1:SetValue(0)
-		tc:RegisterEffect(e1)
-	end
-	local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
-	Duel.SendtoDeck(add,tp,1,REASON_RULE)
-	local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
-	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
-end
-
 
 
 
