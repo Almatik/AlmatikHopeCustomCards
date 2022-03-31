@@ -54,10 +54,8 @@ function s.RandomPack(tp,format,series)
 	local num=Duel.AnnounceNumberRange(tp,1,24)
 	repeat
 		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
-		for _,code in ipairs(packid) do
-			local tc=Duel.CreateToken(tp,code)
-			Duel.SendtoGrave(tc,REASON_RULE)
-		end
+		local tc=Duel.CreateToken(tp,packid[1])
+		Duel.SendtoGrave(tc,REASON_RULE)
 		num=num-1
 	until num==0
 end
