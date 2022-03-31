@@ -55,7 +55,12 @@ function s.RandomPack(tp,format,series)
 		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
 		local tc=Duel.CreateToken(tp,packid[1])
 		Duel.SendtoHand(tc,tp,REASON_RULE)
-	until Duel.GetLocationCount(tp,LOCATION_ONFIELD)==0
+		local e1=Effect.CreateEffect(tc)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_PUBLIC)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(e1)
+	until Duel.GetLocationCount(tp,LOCATION_HAND)==10
 end
 
 
