@@ -85,7 +85,7 @@ function s.PackOpen(e,tp,format,series,pack)
 		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 		e1:SetValue(1)
-		rc:RegisterEffect(e1)
+		tc:RegisterEffect(e1)
 	end
 end
 function s.RarityChance(format,series,pack,i,cpp)
