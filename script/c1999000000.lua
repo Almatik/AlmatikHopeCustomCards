@@ -10,21 +10,25 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e1:SetCode(EVENT_STARTUP)
 	e1:SetRange(0x5f)
+	e1:SetCost(s.cost)
 	e1:SetOperation(s.operation)
 	c:RegisterEffect(e1)
+end
+function s.cost(e,tp)
+	Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Delete Your Cards
 	s.DeleteDeck(tp)
 	--Choose Game Mode
 	local Option1={}
-	table.insert(Option1,aux.Stringid(id,0))
 	table.insert(Option1,aux.Stringid(id,1))
-	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
+	table.insert(Option1,aux.Stringid(id,2))
+	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
 	--Choose Game Format
 	local Option2={}
 	table.insert(Option2,aux.Stringid(id,4))
-	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
+	local format=Duel.SelectOption(tp,false,table.unpack(Option2))
 	--Lets Go!
 	if gamemod==1 then
 		repeat s.RandomPack(tp,format)
@@ -42,10 +46,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmCards(tp,g)
 end
 function s.DeleteDeck(tp)
-	for tp=0,1 do
-		local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
-		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
-	end
+	local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 function s.RandomPack(tp,format)
 	--Choose Pack
