@@ -58,7 +58,7 @@ function s.ChoosePack(tp,format,series)
 		Duel.SendtoGrave(tc,REASON_RULE)
 		s.PackOpen(tp,packid,format,series)
 		num=num-1
-	until num=0
+	until num==0
 end
 function s.PackOpen(tp,packid,format,series)
 	local cpp=s.Pack[format][series][packid][10]
