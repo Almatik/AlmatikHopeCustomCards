@@ -51,10 +51,8 @@ function s.ChoosePack(tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	repeat
-		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
-		s.PackOpen(tp,packid[1],format,series)
-	until 1==1
+	local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
+	s.PackOpen(tp,packid[1],format,series)
 end
 function s.PackOpen(tp,packid,format,series)
 	local cpp=s.Pack[format][series][packid][10]
