@@ -53,7 +53,7 @@ function s.DraftMode(e,tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	local num=Duel.AnnounceNumberRange(tp,1,24)
+	local num=Duel.AnnounceNumberRange(tp,4,24)
 	for i=1,num do
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local formatid=format*10000
@@ -97,7 +97,7 @@ function s.AutoDeckMode(e,tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	local num=Duel.AnnounceNumberRange(tp,1,12)
+	local num=Duel.AnnounceNumberRange(tp,3,12)
 	for i=1,num do
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local formatid=format*10000
