@@ -60,7 +60,7 @@ end
 function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
 	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
-	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true)
+	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<2))
 	for i=1,cpp do
 		local rarity=1
 		if i==cpp then
