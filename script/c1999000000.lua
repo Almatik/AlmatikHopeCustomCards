@@ -22,8 +22,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	s.DeleteDeck(tp)
 	--Choose Game Mode
 	local Option1={}
-	table.insert(Option1,aux.Stringid(id,1))
-	table.insert(Option1,aux.Stringid(id,2))
+	table.insert(Option1,aux.Stringid(id,15))
+	table.insert(Option1,aux.Stringid(id,14))
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
 	--Choose Game Format
 	local Option2={}
@@ -80,7 +80,7 @@ function s.PackOpen(e,tp,format,series,pack)
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(aux.Stringid(id,rarity+9))
+		e1:SetDescription(aux.Stringid(id,rarity))
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
