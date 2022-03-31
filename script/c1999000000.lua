@@ -53,7 +53,7 @@ function s.ChoosePack(tp,format,series)
 	end
 	repeat
 		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
-		s.PackOpen(tp,packid,format,series)
+		s.PackOpen(tp,packid[1],format,series)
 	until 1==1
 end
 function s.PackOpen(tp,packid,format,series)
