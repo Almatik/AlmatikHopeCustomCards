@@ -54,7 +54,7 @@ function s.RandomPack(tp,format,series)
 	local num=Duel.AnnounceNumberRange(tp,1,24)
 	local packhand={}
 	repeat
-		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
+		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		table.insert(packhand,packid[1])
 		num=num-1
 	until num==0
