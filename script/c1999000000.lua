@@ -51,14 +51,10 @@ function s.ChoosePack(tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	local num=Duel.AnnounceNumberRange(tp,1,10)
 	repeat
 		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
-		local tc=Duel.CreateToken(tp,packid[1])
-		Duel.SendtoGrave(tc,REASON_RULE)
 		s.PackOpen(tp,packid,format,series)
-		num=num-1
-	until num==0
+	until
 end
 function s.PackOpen(tp,packid,format,series)
 	local cpp=s.Pack[format][series][packid][10]
