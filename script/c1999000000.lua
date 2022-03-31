@@ -60,6 +60,14 @@ end
 function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
 	for i=1,cpp do
+		local rarity=1
+		if i==cpp then
+			local chance=Duel.GetRandomNumber(1,100)
+			if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
+			if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
+			if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
+			if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
+		end
 		s.RarityChance1(format,series,pack,i,cpp)
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
@@ -73,18 +81,6 @@ function s.PackOpen(e,tp,format,series,pack)
 		tc:RegisterEffect(e1)
 	end
 end
-function s.RarityChance1(format,series,pack,i,cpp)
-	local rarity=1
-	if i==cpp then
-		local chance=Duel.GetRandomNumber(1,100)
-		if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
-		if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
-		if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
-		if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
-	end
-end
-
-
 
 
 
