@@ -24,15 +24,15 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local Option1={}
 	table.insert(Option1,aux.Stringid(id,1))
 	table.insert(Option1,aux.Stringid(id,2))
-	s.gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
+	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
 	--Choose Game Format
 	local Option2={}
 	table.insert(Option2,aux.Stringid(id+10101,1))
-	s.format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
+	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
 	--Choose Game Series
 	local Option3={}
 	table.insert(Option3,aux.Stringid(id+10102,1))
-	s.series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
+	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 	--Lets Go!
 	if gamemod==1 then
 		s.ChoosePack(tp,format,series)
@@ -98,10 +98,6 @@ end
 
 
 
-
-s.gamemod=nil
-s.format=nil
-s.series=nil
 
 
 
