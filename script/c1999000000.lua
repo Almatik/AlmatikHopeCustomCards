@@ -52,7 +52,7 @@ function s.ChoosePack(e,tp,format,series)
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
 	local num=Duel.AnnounceNumberRange(tp,1,12)
-	for i=0,num-1 do
+	for i=1,num do
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local formatid=format*10000
 		local seriesid=series*100
