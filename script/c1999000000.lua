@@ -64,7 +64,7 @@ function s.CheckPack(e,tp,format,series)
 			local pack=packid-id-formatid-seriesid
 			for rarity=1,5 do
 				for i=1,#s.Pack[format][series][pack][rarity] do
-					table.insert(packopen,s.Pack[format][pack][card][rarity][i])
+					table.insert(packopen,s.Pack[format][series][pack][rarity][i])
 				end
 			end
 			Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packopen))
