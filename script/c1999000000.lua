@@ -79,9 +79,9 @@ function s.PackOpen(e,tp,format,series,pack)
 		e1:SetValue(0)
 		tc:RegisterEffect(e1)
 	end
-	local g=Duel.SelectMatchingCard(tp,nil,tp,LOCATION_HAND,1,cpp,nil)
-	Duel.SendtoDeck(g,tp,1,REASON_RULE)
 	local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+	local add=del:Select(tp,1,5,nil)
+	Duel.SendtoDeck(add,tp,1,REASON_RULE)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 
