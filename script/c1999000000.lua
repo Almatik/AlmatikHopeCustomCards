@@ -63,7 +63,7 @@ function s.PackOpen(e,tp,format,series,pack)
 		s.RarityChance(format,series,pack,i,cpp)
 		local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-		tc:RegisterFlagEffect(0,0,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(1999010103,rarity))
+		tc:SetHint(CHINT_DESC,aux.Stringid(1999010103,rarity))
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 end
