@@ -79,7 +79,7 @@ function s.PackOpen(e,tp,format,series,pack)
 		e1:SetValue(0)
 		tc:RegisterEffect(e1)
 	end
-	local g=Duel.GetFieldGroup(tp,LOCATION_HANDK,0)
+	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	Duel.SendtoDeck(g,tp,1,REASON_RULE)
 end
 
