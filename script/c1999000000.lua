@@ -60,6 +60,8 @@ function s.ChoosePack(e,tp,format,series)
 		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
 		if Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)<7 then
 			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<i))
+		elseif Duel.GetFieldGroupCount(tp,LOCATION_SZONE,0)<1 then
+			Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 		elseif Duel.GetFieldGroupCount(tp,LOCATION_SZONE,0)<7 then
 			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true,(1<<i-6))
 		end
