@@ -59,6 +59,7 @@ function s.ChoosePack(e,tp,format,series)
 end
 function s.PackOpen(e,tp,format,series,pack)
 	local cpp=s.Pack[format][series][pack][10]
+		local rarity
 		for i=1,cpp do
 			if i<cpp then
 			local chance=Duel.GetRandomNumber(1,100*cpp)
