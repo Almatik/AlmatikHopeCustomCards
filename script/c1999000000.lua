@@ -61,7 +61,7 @@ function s.ChoosePack(e,tp,format,series)
 			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
 		elseif Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
 			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true)
-		elseif Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 then
+		elseif Duel.GetFieldGroupCount(tp,LOCATION_SZONE,0)==0 then
 			Duel.MoveToField(tc,tp,tp,LOCATION_FZONE,POS_FACEUP,true)
 		else
 			Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
