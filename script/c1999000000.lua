@@ -51,7 +51,11 @@ function s.RandomPack(tp,format,series)
 	for i=1,#s.Pack[format][series] do
 		table.insert(packlist,s.Pack[format][series][i][0])
 	end
-	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+	repeat
+		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+		local tc=Duel.CreateToken(tp,packid)
+		Duel.MoveToField(tc,tp,tp,LOCATION_ONFILED,POS_FACEUP,true)
+	until Duel.GetLocationCount(tp,LOCATION_ONFIELD)==0
 end
 
 
