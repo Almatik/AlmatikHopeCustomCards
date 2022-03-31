@@ -68,7 +68,7 @@ function s.CheckPack(e,tp,format,series)
 				end
 			end
 			Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packopen))
-	until Duel.SelectYesNo(tp,aux.Stringid(id,10))==0
+	until Duel.SelectYesNo(tp,aux.Stringid(id,3))==0
 end
 function s.DraftMode(e,tp,format,series)
 	--Choose Pack
