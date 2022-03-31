@@ -54,7 +54,7 @@ function s.RandomPack(tp,format,series)
 	repeat
 		local packid={Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))}
 		local tc=Duel.CreateToken(tp,packid[1])
-		Duel.MoveToField(tc,tp,tp,LOCATION_ONFIELD,POS_FACEUP,true)
+		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP,true)
 	until Duel.GetLocationCount(tp,LOCATION_ONFIELD)==0
 end
 
