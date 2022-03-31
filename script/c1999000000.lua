@@ -35,7 +35,9 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 	--Lets Go!
 	if gamemod==1 then
-		s.ChoosePack(e,tp,format,series)
+		s.DraftMode(e,tp,format,series)
+	elseif gamemod==2 then
+		s.AutoDeckMode(e,tp,format,series)
 	end
 	--Check and Go
 	local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
@@ -45,7 +47,7 @@ function s.DeleteDeck(tp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
-function s.ChoosePack(e,tp,format,series)
+function s.DraftMode(e,tp,format,series)
 	--Choose Pack
 	local packlist={}
 	for i=1,#s.Pack[format][series] do
@@ -89,6 +91,56 @@ function s.ChoosePack(e,tp,format,series)
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
+function s.AutoDeckMode(e,tp,format,series)
+	--Choose Pack
+	local packlist={}
+	for i=1,#s.Pack[format][series] do
+		table.insert(packlist,s.Pack[format][series][i][0])
+	end
+	local num=Duel.AnnounceNumberRange(tp,1,12)
+	for i=1,num do
+		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+		local formatid=format*10000
+		local seriesid=series*100
+		local pack=packid-id-formatid-seriesid
+		local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
+		Duel.SendtoGrave(tc,REASON_RULE)
+		local cpp=s.Pack[format][series][pack][10]
+		for i=1,cpp do
+			local rarity=1
+			if i==8 then rarity=2 end
+			if i==cpp then
+				local chance=Duel.GetRandomNumber(1,100)
+				if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
+				if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
+				if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
+				if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
+			end
+			local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
+			local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
+			Duel.SendtoHand(tc,tp,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,rarity))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
+		end
+		local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,0,0,nil)
+		Duel.SendtoDeck(add,tp,1,REASON_RULE)
+		local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+	end
+	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+end
+
+
+
+
+
+
 
 
 
