@@ -19,9 +19,7 @@ function s.cost(e,tp)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Delete Your Cards
-	for tp=0,1 do
-		s.DeleteDeck(tp)
-	end
+	s.DeleteDeck(tp)
 	--Choose Game Mode
 	local Option1={}
 	table.insert(Option1,aux.Stringid(id,0))
@@ -37,14 +35,12 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option3,aux.Stringid(id+10102,1))
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 	--Lets Go!
-	for tp=0,1 do
-		if gamemod==0 then
-			s.CheckPack(e,tp,format,series)
-		elseif gamemod==1 then
-			s.DraftMode(e,tp,format,series)
-		elseif gamemod==2 then
-			s.AutoDeckMode(e,tp,format,series)
-		end
+	if gamemod==0 then
+		s.CheckPack(e,tp,format,series)
+	elseif gamemod==1 then
+		s.DraftMode(e,tp,format,series)
+	elseif gamemod==2 then
+		s.AutoDeckMode(e,tp,format,series)
 	end
 	--Check and Go
 	--local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
