@@ -215,7 +215,7 @@ function s.RushBattle(e,tp)
 	--Choose Battle Deck
 	local decklist={}
 	for i=1,#s.Pack[2][2] do
-		table.insert(packlist,s.Pack[2][2][i][0])
+		table.insert(decklist,s.Pack[2][2][i][0])
 	end
 	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 	local deck=deckid-id-20000-200
