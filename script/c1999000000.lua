@@ -26,6 +26,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	table.insert(Option1,aux.Stringid(id,0)) "Duel Mode: Pack Opening"
 	table.insert(Option1,aux.Stringid(id,1)) "Draft: Construct your deck among packs (max.24) and cards (min.1) you choose."
 	table.insert(Option1,aux.Stringid(id,2)) "AutoDeck: Your Deck will be constrocted automatically among packs (max.12) you choose."
+	table.insert(Option1,aux.Stringid(id,3)) "Starter: Play with preconstructed deck"
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
 
 	--Choose Game Format
@@ -50,6 +51,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		s.DraftMode(e,tp,format,series)
 	elseif gamemod==2 then
 		s.AutoDeckMode(e,tp,format,series)
+	elseif gamemod==3 then
+		s.Preconstructed(e,tp,format,series)
 	end
 
 	--Check and Go
@@ -169,7 +172,35 @@ function s.AutoDeckMode(e,tp,format,series)
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
-
+function s.Preconstructed(e,tp,format,series)
+	--Choose Pack
+	local packlist={}
+	for i=1,#s.Pack[format][series] do
+		table.insert(packlist,s.Pack[format][series][i][0])
+	end
+	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+	local formatid=format*10000
+	local seriesid=series*100
+	local pack=packid-id-formatid-seriesid
+	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
+	Duel.SendtoGrave(tc,REASON_RULE)
+	--Rarity
+	for rarity=1,4 do
+		for code,code2 in ipairs(s.Pack[format][series][pack][rarity]) do
+			local tc=Duel.CreateToken(tp,code2)
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,rarity))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
+		end
+	end
+	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
+	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+end
 
 
 
