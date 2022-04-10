@@ -42,6 +42,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	elseif format==2 then
 		table.insert(Option3,aux.Stringid(id+20101,1))
 		table.insert(Option3,aux.Stringid(id+20101,2))
+		table.insert(Option3,aux.Stringid(id+20101,3))
 	end
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 
