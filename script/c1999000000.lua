@@ -225,11 +225,12 @@ s.Pack={}
 
 
 
---Format: Main Booster
-s.Pack[1]={}
---Series 1
-s.Pack[1][1]={}
-
+--Format
+s.Pack[1]={} --Main Booster
+s.Pack[2]={} --Rush Duel
+--Series
+s.Pack[1][1]={} --Series 1
+s.Pack[2][1]={} --Starter Deck
 
 
 
