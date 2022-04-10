@@ -41,6 +41,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		table.insert(Option3,aux.Stringid(id+10102,1))
 	elseif format==2 then
 		table.insert(Option3,aux.Stringid(id+20101,1))
+		table.insert(Option3,aux.Stringid(id+20101,2))
 	end
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
 
@@ -185,12 +186,16 @@ function s.Preconstructed(e,tp,format,series)
 	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][0])
 	Duel.SendtoGrave(tc,REASON_RULE)
 	--Rarity
-	for rarity=1,4 do
-		for code,code2 in ipairs(s.Pack[format][series][pack][rarity]) do
+	local rarity=1
+	if #s.Pack[format][series][pack][1]>0 then rarity=2 end
+	if #s.Pack[format][series][pack][2]>0 then rarity=3 end
+	if #s.Pack[format][series][pack][3]>0 then rarity=4 end
+	for i=1,rarity do
+		for code,code2 in ipairs(s.Pack[format][series][pack][i]) do
 			local tc=Duel.CreateToken(tp,code2)
 			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetDescription(aux.Stringid(id+10103,rarity))
+			e1:SetDescription(aux.Stringid(id+10103,i))
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
