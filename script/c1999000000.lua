@@ -31,7 +31,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
 
 	--If Special then Special Mode
-	if gamemod==4 then s.RushBattle(e,tp) end
+	if gamemod==4 then s.RushBattle(e,tp) return end
 
 	--Choose Game Format
 	local Option2={}
