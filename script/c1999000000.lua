@@ -236,6 +236,7 @@ s.Pack[2]={} --Rush Duel
 --Series
 s.Pack[1][1]={} --Series 1
 s.Pack[2][1]={} --Starter Deck
+s.Pack[2][2]={} --Strongest Battle Deck
 
 
 
