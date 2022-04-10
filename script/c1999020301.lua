@@ -1,4 +1,4 @@
-local s,id=1999000000
+local s=1999000000
 
 --Hyperspeed Rush Road!!
 s.Pack[2][3][1]={}
