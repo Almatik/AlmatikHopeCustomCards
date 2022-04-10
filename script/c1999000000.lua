@@ -20,20 +20,29 @@ end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--Delete Your Cards
 	s.DeleteDeck(tp)
+
 	--Choose Game Mode
 	local Option1={}
-	table.insert(Option1,aux.Stringid(id,0))
-	table.insert(Option1,aux.Stringid(id,1))
-	table.insert(Option1,aux.Stringid(id,2))
+	table.insert(Option1,aux.Stringid(id,0)) "Duel Mode: Pack Opening"
+	table.insert(Option1,aux.Stringid(id,1)) "Draft: Construct your deck among packs (max.24) and cards (min.1) you choose."
+	table.insert(Option1,aux.Stringid(id,2)) "AutoDeck: Your Deck will be constrocted automatically among packs (max.12) you choose."
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
+
 	--Choose Game Format
 	local Option2={}
-	table.insert(Option2,aux.Stringid(id+10101,1))
+		table.insert(Option2,aux.Stringid(id+10101,1))
+		table.insert(Option2,aux.Stringid(id+10101,2))
 	local format=Duel.SelectOption(tp,false,table.unpack(Option2))+1
+
 	--Choose Game Series
 	local Option3={}
-	table.insert(Option3,aux.Stringid(id+10102,1))
+	if format==1 then
+		table.insert(Option3,aux.Stringid(id+10102,1))
+	elseif format==2 then
+		table.insert(Option3,aux.Stringid(id+20101,1))
+	end
 	local series=Duel.SelectOption(tp,false,table.unpack(Option3))+1
+
 	--Lets Go!
 	if gamemod==0 then
 		s.CheckPack(e,tp,format,series)
@@ -42,6 +51,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	elseif gamemod==2 then
 		s.AutoDeckMode(e,tp,format,series)
 	end
+
 	--Check and Go
 	--local g=Duel.GetFieldGroup(tp,LOCATION_EXTRA+LOCATION_HAND+LOCATION_DECK,0)
 	--Duel.ConfirmCards(tp,g)
@@ -346,3 +356,25 @@ s.Pack[1][1][14][3]={}
 s.Pack[1][1][14][4]={}
 s.Pack[1][1][14][5]={}
 s.Pack[1][1][14][10]=5
+
+
+--Starter Deck Yuga - Cut Through! Sevens Road!!
+s.Pack[2][1][1]={}
+s.Pack[2][1][1][0]=1999020101
+s.Pack[2][1][1][1]={160301002,160301002,160301006,160301006,160301009,160301009,160301009,160301003,160301003,160301003,160301004,160301004,160301004,160301005,160301005,160301005,160301007,160301007,160301007,160301008,160301008,160301008,160301010,160301010,160301010,160301011,160301011,160301011,160301012,160301012,160301012,160301013,160301013,160301014,160301014,160301014}
+s.Pack[2][1][1][2]={160301002,160301006,160301013}
+s.Pack[2][1][1][3]={160301001}
+s.Pack[2][1][1][4]={}
+s.Pack[2][1][1][5]={}
+s.Pack[2][1][1][10]=40
+
+
+--Starter Deck Luke - Explosive Supremacy! Dragias!!
+s.Pack[2][1][2]={}
+s.Pack[2][1][2][0]=1999020102
+s.Pack[2][1][2][1]={160302002,160302002,160302003,160302003,160302003,160302004,160302004,160302004,160302005,160302005,160302005,160302006,160302006,160302007,160302007,160302007,160302008,160302008,160302008,160302009,160302009,160302009,160302010,160302010,160302010,160302011,160302011,160302012,160302012,160302012,160302013,160302013,160302013,160302014,160302014,160302014}
+s.Pack[2][1][2][2]={160302002,160302006,160302011}
+s.Pack[2][1][2][3]={160302001}
+s.Pack[2][1][2][4]={}
+s.Pack[2][1][2][5]={}
+s.Pack[2][1][2][10]=40
