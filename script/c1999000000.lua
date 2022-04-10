@@ -211,6 +211,48 @@ function s.Preconstructed(e,tp,format,series)
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
+function s.RushBattle(e,tp)
+	--Choose Battle Deck
+	local decklist={}
+	for i=1,#s.Pack[2][2] do
+		table.insert(packlist,s.Pack[2][2][i][0])
+	end
+	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	local deck=deckid-id-20000-200
+	local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
+	Duel.SendtoGrave(tc,REASON_RULE)
+	--Rarity
+	local rarity=1
+	if #s.Pack[2][2][deck][1]>0 then rarity=2 end
+	if #s.Pack[2][2][deck][2]>0 then rarity=3 end
+	if #s.Pack[2][2][deck][3]>0 then rarity=4 end
+	for i=1,rarity do
+		for code,code2 in ipairs(s.Pack[2][2][deck][i]) do
+			local tc=Duel.CreateToken(tp,code2)
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,i))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
+		end
+	end
+
+	--Choose Deck Modification
+	local num=Duel.AnnounceNumberRange(tp,1,10)
+	local packlist={}
+	for i=1,#s.Pack[2][3] do
+		table.insert(packlist,s.Pack[2][3][i][0])
+	end
+	for i=1,num do
+		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+		local pack=packid-id-20000-300
+		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
+		Duel.SendtoGrave(tc,REASON_RULE)
+	end
+end
 
 
 
