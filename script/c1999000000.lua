@@ -274,9 +274,9 @@ function s.RushBattle(e,tp)
 			e1:SetValue(0)
 			tc:RegisterEffect(e1)
 		end
-		local add=Duel.GetFieldGroup(tp,LOCATION_MZONE,0):Select(tp,0,5,nil)
+		local add=Duel.GetFieldGroup(tp,LOCATION_MZONE,0):Filter(Card.GetSequence,nil,<5):Select(tp,0,5,nil)
 		Duel.SendtoDeck(add,tp,1,REASON_RULE)
-		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE,0):Filter(Card.GetSequence,nil,<5)
 		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 		Duel.SendtoGrave(tc,REASON_RULE)
 	end
