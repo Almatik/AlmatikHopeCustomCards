@@ -260,12 +260,12 @@ function s.RushBattle(e,tp)
 			if i==cpp-1 then
 				rarity=2
 			elseif i==cpp then
-				--Chance 2%
-				if chance>0 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
 				--Chance 4%
-				if chance>2 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
+				if chance>0 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
 				--Chance 8%
-				if chance>6 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
+				if chance>4 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
+				--Chance 88%
+				if chance>12 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
 			end
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
