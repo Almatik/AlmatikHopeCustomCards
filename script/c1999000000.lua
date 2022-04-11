@@ -286,6 +286,25 @@ function s.RushBattle(e,tp)
 		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
 		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 	end
+
+	--Add Fusion card
+	local fusion=Duel.GetMatchingGroupCount(Card.IsType,c:GetControler(),LOCATION_EXTRA,0,nil,TYPE_FUSION)
+	local FusionOption={}
+	if fusion>0 then
+		table.insert(FusionOption,aux.Stringid(id+20102,1))
+	end
+	if fusion>1 then
+		table.insert(FusionOption,aux.Stringid(id+20102,2))
+	end
+	if fusion>2 then
+		table.insert(FusionOption,aux.Stringid(id+20102,3))
+	end
+	local FusionCount=Duel.SelectOption(tp,false,table.unpack(FusionOption))+1
+	for i=1,FusionCount do
+		local tc=Duel.CreateToken(tp,160204050)
+		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+	end
+	--Delete Packs
 	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
