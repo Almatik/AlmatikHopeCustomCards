@@ -265,7 +265,9 @@ function s.RushBattle(e,tp)
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
 			local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
-			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<ic-1))
+			if ic==1 then
+				Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<0))
+			end
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetDescription(aux.Stringid(id+10103,rarity))
 			e1:SetType(EFFECT_TYPE_SINGLE)
