@@ -259,8 +259,7 @@ function s.RushBattle(e,tp)
 			local rarity=1
 			if i==cpp-1 then
 				rarity=2
-			end
-			if i==cpp then
+			elseif i==cpp then
 				if chance>0 and #s.Pack[2][3][pack][5]>0 then rarity=5 end
 				if chance>4 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
 				if chance>8 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
