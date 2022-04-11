@@ -247,19 +247,40 @@ function s.RushBattle(e,tp)
 		table.insert(packlist,s.Pack[2][3][i][0])
 	end
 	for i=1,num do
-		local pack
-		s.choosepack1(e,tp,packlist)
+		--Choose Pack
+		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+		local pack=packid-id-20000-300
+		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
+		Duel.SendtoGrave(tc,REASON_RULE)
 		local cpp=s.Pack[2][3][pack][10]
 		for i=1,cpp do
-			local rarity
-			s.rare2(i,cpp,2,3,pack)
-			s.openpack1(e,tp,2,3,pack,rarity)
+			--Pack Rarity
+			local chance=Duel.GetRandomNumber(1,100)
+			if chance>0 and #s.Pack[2][3][pack][5]>0 then rarity=5 end
+			if chance>2 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
+			if chance>4 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
+			if chance>8 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
+			if i==cpp then return end
+			if chance>16 and #s.Pack[2][3][pack][1]>0 then rarity=1 end
+			--Open Pack
+			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
+			local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
+			Duel.SendtoHand(tc,tp,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,rarity))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
 		end
+		Duel.ShuffleHand(tp)
+		local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
+		Duel.SendtoDeck(add,tp,1,REASON_RULE)
+		local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 	end
-	Duel.ShuffleHand(tp)
-	local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
-	Duel.SendtoDeck(add,tp,1,REASON_RULE)
-	local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 
@@ -275,34 +296,16 @@ function s.rare1(i,cpp,format,series,pack)
 	end
 end
 function s.rare2(i,cpp,format,series,pack)
-	local chance=Duel.GetRandomNumber(1,100)
-	if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
-	if chance>2 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
-	if chance>4 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
-	if chance>8 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
-	if i==cpp then return end
-	if chance>16 and #s.Pack[format][series][pack][1]>0 then rarity=1 end
+
 end
 
 --Choose Packs
 function s.choosepack1(e,tp,packlist)
-	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
-	local pack=packid-id-20000-300
-	local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
-	Duel.SendtoGrave(tc,REASON_RULE)
+
 end
 --Open Packs
 function s.openpack1(e,tp,format,series,pack,rarity)
-	local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
-	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
-	Duel.SendtoHand(tc,tp,REASON_RULE)
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetDescription(aux.Stringid(id+10103,rarity))
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-	e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-	e1:SetValue(0)
-	tc:RegisterEffect(e1)
+
 end
 
 
