@@ -265,8 +265,10 @@ function s.RushBattle(e,tp)
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
 			local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
-			if ic==1 then
-				Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<0))
+			if ic<4 then
+				Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP_ATTACK,true,(1<<ic))
+			else
+				Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<ic+3))
 			end
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetDescription(aux.Stringid(id+10103,rarity))
@@ -276,9 +278,9 @@ function s.RushBattle(e,tp)
 			e1:SetValue(0)
 			tc:RegisterEffect(e1)
 		end
-		local add=Duel.GetFieldGroup(tp,LOCATION_MZONE,0):Filter(Card.IsSequence,nil,0,1,2,3,4):Select(tp,0,5,nil)
+		local add=Duel.GetFieldGroup(tp,LOCATION_MZONE+LOCATION_SZONE,0):Filter(Card.IsSequence,nil,0,1,2,3,4):Select(tp,0,5,nil)
 		Duel.SendtoDeck(add,tp,1,REASON_RULE)
-		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE,0):Filter(Card.IsSequence,nil,0,1,2,3,4)
+		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE+LOCATION_SZONE,0):Filter(Card.IsSequence,nil,0,1,2,3,4)
 		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 		Duel.SendtoGrave(tc,REASON_RULE)
 	end
