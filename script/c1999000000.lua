@@ -247,25 +247,13 @@ function s.RushBattle(e,tp)
 		table.insert(packlist,s.Pack[2][3][i][0])
 	end
 	for i=1,num do
-		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
-		local pack=packid-id-20000-300
-		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
-		Duel.SendtoGrave(tc,REASON_RULE)
-	end
-	local cpp=s.Pack[2][3][pack][10]
-	for i=1,cpp do
-		local rarity
-		s.rare2(i,cpp,2,3,pack)
-		local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
-		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
-		Duel.SendtoHand(tc,tp,REASON_RULE)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(aux.Stringid(id+10103,rarity))
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-		e1:SetValue(0)
-		tc:RegisterEffect(e1)
+		s.choosepack1(e,tp,packlist)
+		local cpp=s.Pack[2][3][pack][10]
+		for i=1,cpp do
+			local rarity
+			s.rare2(i,cpp,2,3,pack)
+			s.openpack1(e,tp,2,3,pack,rarity)
+		end
 	end
 	Duel.ShuffleHand(tp)
 	local add=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Select(tp,1,5,nil)
@@ -295,7 +283,26 @@ function s.rare2(i,cpp,format,series,pack)
 	if chance>16 and #s.Pack[format][series][pack][1]>0 then rarity=1 end
 end
 
-
+--Choose Packs
+function s.choosepack1(e,tp,packlist)
+	local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
+	local pack=packid-id-20000-300
+	local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
+	Duel.SendtoGrave(tc,REASON_RULE)
+end
+--Open Packs
+function s.openpack1(e,tp,format,series,pack,rarity)
+	local card=Duel.GetRandomNumber(1,#s.Pack[format][series][pack][rarity])
+	local tc=Duel.CreateToken(tp,s.Pack[format][series][pack][rarity][card])
+	Duel.SendtoHand(tc,tp,REASON_RULE)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetDescription(aux.Stringid(id+10103,rarity))
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+	e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e1:SetValue(0)
+	tc:RegisterEffect(e1)
+end
 
 
 
