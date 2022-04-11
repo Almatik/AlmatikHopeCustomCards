@@ -273,6 +273,8 @@ function s.RushBattle(e,tp)
 	local del=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
+
+--Rarity Types
 function s.rare1(i,cpp,format,series,pack)
 	local rarity=1
 	if i==cpp then
