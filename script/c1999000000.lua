@@ -247,6 +247,7 @@ function s.RushBattle(e,tp)
 		table.insert(packlist,s.Pack[2][3][i][0])
 	end
 	for i=1,num do
+		local pack
 		s.choosepack1(e,tp,packlist)
 		local cpp=s.Pack[2][3][pack][10]
 		for i=1,cpp do
