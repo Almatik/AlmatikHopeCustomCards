@@ -221,12 +221,7 @@ function s.RushBattle(e,tp)
 	local deck=deckid-id-20000-200
 	local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
 	Duel.SendtoGrave(tc,REASON_RULE)
-	--Rarity
-	local rarity=1
-	if #s.Pack[2][2][deck][1]>0 then rarity=2 end
-	if #s.Pack[2][2][deck][2]>0 then rarity=3 end
-	if #s.Pack[2][2][deck][3]>0 then rarity=4 end
-	for i=1,rarity do
+	for i=1 do
 		for code,code2 in ipairs(s.Pack[2][2][deck][i]) do
 			local tc=Duel.CreateToken(tp,code2)
 			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
