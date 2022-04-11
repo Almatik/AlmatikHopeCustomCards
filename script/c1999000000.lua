@@ -221,18 +221,16 @@ function s.RushBattle(e,tp)
 	local deck=deckid-id-20000-200
 	local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
 	Duel.SendtoGrave(tc,REASON_RULE)
-	for i=1 do
-		for code,code2 in ipairs(s.Pack[2][2][deck][i]) do
-			local tc=Duel.CreateToken(tp,code2)
-			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
-			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetDescription(aux.Stringid(id+10103,i))
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-			e1:SetValue(0)
-			tc:RegisterEffect(e1)
-		end
+	for code,code2 in ipairs(s.Pack[2][2][deck][1]) do
+		local tc=Duel.CreateToken(tp,code2)
+		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetDescription(aux.Stringid(id+10103,1))
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+		e1:SetValue(0)
+		tc:RegisterEffect(e1)
 	end
 
 	--Choose Deck Modification
