@@ -266,13 +266,13 @@ function s.RushBattle(e,tp)
 				if chance>4 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
 				--Chance 88%
 				if chance>12 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
+				if ip==num then rarity=4 end
 			end
 			--Guaraanteed 1 Ultra Rare
-			if ip==num then rarity=4 end
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
 			local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
-			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEDOWN_ATTACK,true,(1<<ic-1))
+			Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<ic-1))
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetDescription(aux.Stringid(id+10103,rarity))
 			e1:SetType(EFFECT_TYPE_SINGLE)
