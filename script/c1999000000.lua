@@ -284,29 +284,15 @@ function s.RushBattle(e,tp)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 
---Rarity Types
-function s.rare1(i,cpp,format,series,pack)
-	local rarity=1
-	if i==cpp then
-		local chance=Duel.GetRandomNumber(1,100)
-		if chance>0 and #s.Pack[format][series][pack][5]>0 then rarity=5 end
-		if chance>4 and #s.Pack[format][series][pack][4]>0 then rarity=4 end
-		if chance>8 and #s.Pack[format][series][pack][3]>0 then rarity=3 end
-		if chance>16 and #s.Pack[format][series][pack][2]>0 then rarity=2 end
-	end
-end
-function s.rare2(i,cpp,format,series,pack)
 
-end
 
---Choose Packs
-function s.choosepack1(e,tp,packlist)
 
-end
---Open Packs
-function s.openpack1(e,tp,format,series,pack,rarity)
 
-end
+
+
+
+
+
 
 
 
