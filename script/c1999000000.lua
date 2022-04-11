@@ -28,7 +28,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	--table.insert(Option1,aux.Stringid(id,2)) --AutoDeck: Your Deck will be constrocted automatically among packs (max.12) you choose.
 	--table.insert(Option1,aux.Stringid(id,3)) --Starter: Play with preconstructed deck
 	table.insert(Option1,aux.Stringid(id,4)) --Rush Battle: Pick 1 Strongest Battle Deck, then pick any number of Deck Modification Packs
-	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
+	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+4
 
 	--If Special then Special Mode
 	if gamemod==4 then s.RushBattle(e,tp) return end
