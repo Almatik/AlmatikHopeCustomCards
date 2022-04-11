@@ -246,20 +246,20 @@ function s.RushBattle(e,tp)
 	for i=1,#s.Pack[2][3] do
 		table.insert(packlist,s.Pack[2][3][i][0])
 	end
-	for i=1,num do
+	for ip=1,num do
 		--Choose Pack
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local pack=packid-id-20000-300
 		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
 		Duel.SendtoGrave(tc,REASON_RULE)
 		local cpp=s.Pack[2][3][pack][10]
-		for i=1,cpp do
-			--Pack Rarity (Common,1 Rare,1 Rare+)
+		for ic=1,cpp do
+			--Pack Rarity (3 Common, 1 Rare, 1 Rare+)
 			local chance=Duel.GetRandomNumber(1,100)
 			local rarity=1
-			if i==cpp-1 then
+			if ic==cpp-1 then
 				rarity=2
-			elseif i==cpp then
+			elseif ic==cpp then
 				--Chance 4%
 				if chance>0 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
 				--Chance 8%
@@ -267,6 +267,8 @@ function s.RushBattle(e,tp)
 				--Chance 88%
 				if chance>12 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
 			end
+			--Guaraanteed 1 Ultra Rare
+			if ip==num then rarity=4 end
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
 			local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][rarity][card])
