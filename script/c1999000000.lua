@@ -220,7 +220,7 @@ function s.RushBattle(e,tp)
 	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
 	local deck=deckid-id-20000-200
 	local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
-	Duel.SendtoGrave(tc,REASON_RULE)
+	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
 	for code,code2 in ipairs(s.Pack[2][2][deck][1]) do
 		local tc=Duel.CreateToken(tp,code2)
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
@@ -244,7 +244,7 @@ function s.RushBattle(e,tp)
 		local packid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(packlist))
 		local pack=packid-id-20000-300
 		local tc=Duel.CreateToken(tp,s.Pack[2][3][pack][0])
-		Duel.SendtoGrave(tc,REASON_RULE)
+		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<6))
 		local cpp=s.Pack[2][3][pack][10]
 		for ic=1,cpp do
 			--Pack Rarity (3 Common, 1 Rare, 1 Rare+)
@@ -278,10 +278,11 @@ function s.RushBattle(e,tp)
 		Duel.SendtoDeck(add,tp,1,REASON_RULE)
 		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
 		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
+		Duel.SendtoGrave(tc,REASON_RULE)
 	end
 
 	--Add Fusion card
-	local fusion=Duel.GetMatchingGroupCount(Card.IsType,c:GetControler(),LOCATION_EXTRA,0,nil,TYPE_FUSION)
+	local fusion=Duel.GetMatchingGroupCount(Card.IsType,tp,LOCATION_EXTRA,0,nil,TYPE_FUSION)
 	local FusionOption={}
 	if fusion>0 then
 		table.insert(FusionOption,aux.Stringid(id+20102,1))
@@ -298,7 +299,7 @@ function s.RushBattle(e,tp)
 		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 	end
 	--Delete Packs
-	local del=Duel.GetFieldGroup(tp,LOCATION_GRAVE,0)
+	local del=Duel.GetFieldGroup(tp,LOCATION_ONFIELD+LOCATION_GRAVE,0)
 	Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 end
 
