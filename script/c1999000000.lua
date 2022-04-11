@@ -23,10 +23,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 
 	--Choose Game Mode
 	local Option1={}
-	table.insert(Option1,aux.Stringid(id,0)) --Duel Mode: Pack Opening
-	table.insert(Option1,aux.Stringid(id,1)) --Draft: Construct your deck among packs (max.24) and cards (min.1) you choose.
-	table.insert(Option1,aux.Stringid(id,2)) --AutoDeck: Your Deck will be constrocted automatically among packs (max.12) you choose.
-	table.insert(Option1,aux.Stringid(id,3)) --Starter: Play with preconstructed deck
+	--table.insert(Option1,aux.Stringid(id,0)) --Duel Mode: Pack Opening
+	--table.insert(Option1,aux.Stringid(id,1)) --Draft: Construct your deck among packs (max.24) and cards (min.1) you choose.
+	--table.insert(Option1,aux.Stringid(id,2)) --AutoDeck: Your Deck will be constrocted automatically among packs (max.12) you choose.
+	--table.insert(Option1,aux.Stringid(id,3)) --Starter: Play with preconstructed deck
 	table.insert(Option1,aux.Stringid(id,4)) --Rush Battle: Pick 1 Strongest Battle Deck, then pick any number of Deck Modification Packs
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))
 
