@@ -256,12 +256,15 @@ function s.RushBattle(e,tp)
 		for i=1,cpp do
 			--Pack Rarity
 			local chance=Duel.GetRandomNumber(1,100)
-			if chance>0 and #s.Pack[2][3][pack][5]>0 then rarity=5 end
-			if chance>2 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
-			if chance>4 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
-			if chance>8 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
-			if i~=cpp then
-				if chance>16 and #s.Pack[2][3][pack][1]>0 then rarity=1 end
+			local rarity=1
+			if i==cpp-1 then
+				rarity=2
+			end
+			if i==cpp then
+				if chance>0 and #s.Pack[2][3][pack][5]>0 then rarity=5 end
+				if chance>4 and #s.Pack[2][3][pack][4]>0 then rarity=4 end
+				if chance>8 and #s.Pack[2][3][pack][3]>0 then rarity=3 end
+				if chance>16 and #s.Pack[2][3][pack][2]>0 then rarity=2 end
 			end
 			--Open Pack
 			local card=Duel.GetRandomNumber(1,#s.Pack[2][3][pack][rarity])
