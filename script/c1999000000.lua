@@ -268,7 +268,7 @@ function s.RushBattle(e,tp)
 			if ic<4 then
 				Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP_ATTACK,true,(1<<ic))
 			else
-				Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<ic+3))
+				Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<ic-3))
 			end
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetDescription(aux.Stringid(id+10103,rarity))
