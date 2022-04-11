@@ -254,7 +254,7 @@ function s.RushBattle(e,tp)
 		Duel.SendtoGrave(tc,REASON_RULE)
 		local cpp=s.Pack[2][3][pack][10]
 		for i=1,cpp do
-			--Pack Rarity
+			--Pack Rarity (Common,1 Rare,1 Rare+)
 			local chance=Duel.GetRandomNumber(1,100)
 			local rarity=1
 			if i==cpp-1 then
