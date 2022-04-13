@@ -213,29 +213,31 @@ function s.Preconstructed(e,tp,format,series)
 end
 function s.RushBattle(e,tp)
 	--Choose Battle Deck
-	local decklist={}
-	for i=1,#s.Pack[2][2] do
-		table.insert(decklist,s.Pack[2][2][i][0])
+	if Duel.SelectYesNo(tp,aux.Stringid(id+20201,1))~=0 then
+		local decklist={}
+		for i=1,#s.Pack[2][2] do
+			table.insert(decklist,s.Pack[2][2][i][0])
+		end
+		local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+		local deck=deckid-id-20000-200
+		local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
+		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
+		for code,code2 in ipairs(s.Pack[2][2][deck][1]) do
+			local tc=Duel.CreateToken(tp,code2)
+			Duel.SendtoDeck(tc,tp,1,REASON_RULE)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetDescription(aux.Stringid(id+10103,1))
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+			e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+			e1:SetValue(0)
+			tc:RegisterEffect(e1)
+		end
+		local dg=Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0)
+		Duel.ConfirmCards(tp,dg)
 	end
-	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
-	local deck=deckid-id-20000-200
-	local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
-	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
-	for code,code2 in ipairs(s.Pack[2][2][deck][1]) do
-		local tc=Duel.CreateToken(tp,code2)
-		Duel.SendtoDeck(tc,tp,1,REASON_RULE)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetDescription(aux.Stringid(id+10103,1))
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-		e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-		e1:SetValue(0)
-		tc:RegisterEffect(e1)
-	end
-	local dg=Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0)
-	Duel.ConfirmCards(tp,dg)
 	--Choose Deck Modification
-	local num=Duel.AnnounceNumberRange(tp,1,10)
+	local num=Duel.AnnounceNumberRange(tp,1,24)
 	local packlist={}
 	for i=1,#s.Pack[2][3] do
 		table.insert(packlist,s.Pack[2][3][i][0])
