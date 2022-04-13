@@ -232,7 +232,8 @@ function s.RushBattle(e,tp)
 		e1:SetValue(0)
 		tc:RegisterEffect(e1)
 	end
-
+	local dg=Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0)
+	Duel.ConfirmCards(tp,dg)
 	--Choose Deck Modification
 	local num=Duel.AnnounceNumberRange(tp,1,10)
 	local packlist={}
