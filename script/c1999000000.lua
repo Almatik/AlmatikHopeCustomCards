@@ -218,7 +218,7 @@ function s.RushBattle(e,tp)
 		table.insert(decklist,s.Pack[2][2][i][0])
 	end
 	local deckid=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(decklist))
-	if deckid~=0 then
+	if deckid~=nil then
 		local deck=deckid-id-20000-200
 		local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
 		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
