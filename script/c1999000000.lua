@@ -163,7 +163,7 @@ function s.CustomDeck(e,tp)
 	end
 	local deckid=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(decklist))
 	if deckid~=nil then
-		local deck=deckid-id-20000-200
+		local deck=deckid-id-20000-1100
 		local tc=Duel.CreateToken(tp,s.Pack[2][11][deck][0])
 		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
 		for code,code2 in ipairs(s.Pack[2][11][deck][1]) do
