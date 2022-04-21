@@ -182,6 +182,8 @@ function s.CustomDeck(e,tp)
 				Duel.SendtoDeck(tc,tp,1,REASON_RULE)
 			end
 		end
+		local del=Duel.GetFieldGroup(tp,LOCATION_MZONE+LOCATION_SZONE,0)
+		Duel.SendtoDeck(del,tp,-2,REASON_RULE)
 		local dg=Duel.GetFieldGroup(tp,LOCATION_DECK+LOCATION_EXTRA,0)
 		Duel.ConfirmCards(tp,dg)
 	end
