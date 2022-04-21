@@ -25,7 +25,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local Option1={}
 	table.insert(Option1,aux.Stringid(id,1)) --Check Deck/Pack
 	table.insert(Option1,aux.Stringid(id,2)) --Rush Battle: Pick 1 Strongest Battle Deck, then pick any number of Deck Modification Packs
-	table.insert(Oprion1,aux.Stringid(id,3)) --Rush Custom Deck: Choose 1 pre-constructed deck.
+	table.insert(Option1,aux.Stringid(id,3)) --Rush Custom Deck: Choose 1 pre-constructed deck.
 	local gamemod=Duel.SelectOption(tp,false,table.unpack(Option1))+1
 
 	--If Special then Special Mode
