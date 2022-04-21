@@ -217,7 +217,7 @@ function s.RushBattle(e,tp)
 	for i=1,#s.Pack[2][2] do
 		table.insert(decklist,s.Pack[2][2][i][0])
 	end
-	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	local deckid=Duel.SelectCardsFromCodes(tp,0,1,false,false,table.unpack(decklist))
 	if deckid~=0 then
 		local deck=deckid-id-20000-200
 		local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
