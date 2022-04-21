@@ -163,7 +163,7 @@ function s.CustomDeck(e,tp)
 	end
 	local deckid
 	if Duel.SelectYesNo(tp,aux.Stringid(id+20201,2))~=0 then
-		local num=Duel.AnnounceNumberRange(tp,1,#s.Pack[2][11])
+		local num=Duel.GetRandomNumber(1,#s.Pack[2][11])
 		deckid=s.Pack[2][11][num][0]
 	else
 		deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
