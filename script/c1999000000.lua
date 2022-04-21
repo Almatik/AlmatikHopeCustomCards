@@ -213,12 +213,12 @@ function s.Preconstructed(e,tp,format,series)
 end
 function s.RushBattle(e,tp)
 	--Choose Battle Deck
-	if Duel.SelectYesNo(tp,aux.Stringid(id+20201,1))~=0 then
-		local decklist={}
-		for i=1,#s.Pack[2][2] do
-			table.insert(decklist,s.Pack[2][2][i][0])
-		end
-		local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	local decklist={}
+	for i=1,#s.Pack[2][2] do
+		table.insert(decklist,s.Pack[2][2][i][0])
+	end
+	local deckid=Duel.SelectCardsFromCodes(tp,1,1,false,false,table.unpack(decklist))
+	if deckid~=0 then
 		local deck=deckid-id-20000-200
 		local tc=Duel.CreateToken(tp,s.Pack[2][2][deck][0])
 		Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP_ATTACK,true,(1<<5))
