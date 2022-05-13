@@ -12,6 +12,17 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
+	--Cannot be destroyed by Monster effects
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,2))
+	e2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+	e2:SetType(EFFECT_TYPE_XMATERIAL)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetCondition(s.xyzcon)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e2:SetValue(s.indeval)
+	c:RegisterEffect(e2)
 end
 s.listed_series={0x107f}
 function s.mfilter(c)
@@ -38,4 +49,16 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.XyzSummon(tp,xyz,nil,g,1,99)
 		end
 	end
+end
+
+
+
+
+
+
+function s.xyzcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsSetCard(0x107f)
+end
+function s.indeval(e,re,rp)
+	return re:IsActiveType(TYPE_MONSTER)
 end
