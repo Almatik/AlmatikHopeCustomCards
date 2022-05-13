@@ -10,6 +10,16 @@ function s.initial_effect(c)
 	e1:SetTarget(s.target)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
+	--double
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,0))
+	e2:SetType(EFFECT_TYPE_QUICK_O)
+	e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+	e2:SetRange(LOCATION_GRAVE)
+	e2:SetCost(aux.bfgcost)
+	e2:SetTarget(s.atktg)
+	e2:SetOperation(s.atkop)
+	c:RegisterEffect(e2)
 end
 s.listed_series={0x107f}
 function s.filter1(c,e,tp)
@@ -41,5 +51,44 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Overlay(sc,tc)
 		Duel.SpecialSummon(sc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP)
 		sc:CompleteProcedure()
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local a=Duel.GetAttacker()
+	local d=Duel.GetAttackTarget()
+	if a:IsControler(1-tp) then a=d end
+	if chk==0 then return d and a:IsSetCard(0x107f) and a:GetOverlayCount()~=0 end
+	e:SetLabelObject(a)
+end
+function s.atkop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	local tc2=tc:GetBattleTarget()
+	if tc:IsRelateToBattle() and tc:IsFaceup() and tc2:IsFaceup() then
+		local oc=tc:GetOverlayCount()
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e1:SetValue(oc*500)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE_CAL)
+		tc:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e2:SetValue(-oc*1000)
+		tc2:RegisterEffect(e2)
+		local e3=e1:Clone()
+		e3:SetCode(EFFECT_SET_DEFENSE_FINAL)
+		e3:SetValue(-oc*1000)
+		tc2:RegisterEffect(e3)
 	end
 end
