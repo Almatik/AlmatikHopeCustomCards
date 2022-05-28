@@ -28,11 +28,12 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,3))
 	e3:SetCategory(CATEGORY_SEARCH+CATEGORY_TODECK)
-	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,{id,3})
 	e3:SetCost(aux.dxmcostgen(1,1,nil))
-	e3:SetCondition(s.unecon)
+	e3:SetCondition(s.thcon)
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
@@ -80,19 +81,19 @@ end
 
 
 	--Special Summon
-function s.thfilter(c)
+function s.thcon(e)
+	return e:GetHandler():GetOverlayCount()>0
+end
+function s.thfilter(c,tp)
 	if not c:IsAbleToHand() then return false end
-	return (c:IsType(TYPE_SPELL+TYPE_TRAP) and aux.IsArchetypeCodeListed(c,0x107f))
+	return (c:IsType(TYPE_SPELL+TYPE_TRAP) and aux.IsArchetypeCodeListed(c,0x107f)) and c:GetActivateEffect():IsActivatable(tp,true,true) and not c:IsForbidden()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
-	end
+	local tc=Duel.SelectMatchingCard(tp,s.thfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,tp):GetFirst()
+	aux.PlayFieldSpell(tc,e,tp,eg,ep,ev,re,r,rp)
 end
