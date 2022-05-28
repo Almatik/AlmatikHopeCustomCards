@@ -32,6 +32,7 @@ function s.initial_effect(c)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCountLimit(1,{id,3})
 	e3:SetCost(aux.dxmcostgen(1,1,nil))
+	e3:SetCondition(s.unecon)
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
@@ -57,7 +58,7 @@ end
 function s.battlcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetBattleTarget()
-	return tc~=nil and (tc:HasLevel() or tc:GetRank()>0)
+	return tc~=nil and (tc:HasLevel() or tc:GetRank()>0) and c:GetOverlayCount()>0
 end
 function s.battleop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
