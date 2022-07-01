@@ -21,6 +21,8 @@ function s.initial_effect(c)
 	e2:SetOperation(s.spop)
 	c:RegisterEffect(e2)
 end
+--Shadow Isles, Spidærk
+s.listed_series={0x39d6,0x39e0}
 
 
 
