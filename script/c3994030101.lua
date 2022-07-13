@@ -70,7 +70,6 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc then
-		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,c:GetFieldID())
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -100,7 +99,8 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.rescon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
-	if tc:GetFlagEffectLabel(id)==e:GetLabel() then
+	if tc:GetLocation()==LOCATION_SZONE
+		and tc:GetControler()==tp then
 		return true
 	else
 		e:Reset()
