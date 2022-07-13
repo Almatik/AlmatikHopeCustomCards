@@ -7,8 +7,20 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
+	e1:SetCountLimit(1,{id,1})
 	e1:SetCondition(s.spcon)
 	c:RegisterEffect(e1)
+	--During your turn: You can target 1 face-up monster your opponent's controls; place it face-up in your Spell/Trap Zone as Continuous Spell Card and it's name becomes "Spidærk Web", until the next End Phase. For the rest of this turn, you cannot activate monster's effect, except "Shadow Isles" cards.
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,2))
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1,{id,2})
+	e2:SetCondition(s.mvcon)
+	e2:SetTarget(s.mvtg)
+	e2:SetOperation(s.mvop)
+	c:RegisterEffect(e2)
 end
 --Shadow Isles, Spidærk
 s.listed_series={0x39d6,0x39e0}
@@ -32,4 +44,44 @@ function s.spcon(e,c)
 	if c==nil then return true end
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(s.spfilter,c:GetControler(),LOCATION_ONFIELD,0,1,nil)
+end
+
+
+
+
+
+
+
+	--During your turn: You can target 1 face-up monster your opponent's controls; place it face-up in your Spell/Trap Zone as Continuous Spell Card and it's name becomes "Spidærk Web", until the next End Phase. For the rest of this turn, you cannot activate monster's effect, except "Shadow Isles" cards.
+function s.mvcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsMainPhase()
+end
+function s.mvfilter(c,tp)
+	return c:IsFaceup() and c:IsControler()~=tp
+end
+function s.mvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.mvfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.mvfilter,tp,0,LOCATION_MZONE,1,nil,tp) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
+	Duel.SelectTarget(tp,s.mvfilter,tp,0,LOCATION_MZONE,1,1,nil,tp)
+end
+function s.mvop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
+	local tc=Duel.GetFirstTarget()
+	if tc then
+		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetCode(EFFECT_CHANGE_TYPE)
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET)
+		e1:SetValue(TYPE_SPELL+TYPE_CONTINUOUS)
+		tc:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(e:GetHandler())
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_CHANGE_CODE)
+		e2:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET)
+		e2:SetValue(3994030100)
+		tc:RegisterEffect(e2)
+	end
 end
