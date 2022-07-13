@@ -57,10 +57,10 @@ function s.mvcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsMainPhase()
 end
 function s.mvfilter(c,tp)
-	return c:IsFaceup() and c:IsControler()~=tp
+	return c:IsFaceup()
 end
 function s.mvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.mvfilter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.mvfilter(chkc) and chkc:IsControler(1-tp) end
 	if chk==0 then return Duel.IsExistingTarget(s.mvfilter,tp,0,LOCATION_MZONE,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	Duel.SelectTarget(tp,s.mvfilter,tp,0,LOCATION_MZONE,1,1,nil,tp)
