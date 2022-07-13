@@ -82,7 +82,6 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e2:SetCode(EFFECT_CHANGE_CODE)
 		e2:SetRange(LOCATION_SZONE)
-		e2:SetReset(RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET)
 		e2:SetValue(3994030100)
 		tc:RegisterEffect(e2)
 	end
