@@ -70,6 +70,7 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc then
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1,c:GetFieldID())
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
@@ -85,5 +86,28 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(3994030100)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,2)
 		tc:RegisterEffect(e2)
+		local e3=Effect.CreateEffect(c)
+		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e3:SetCode(EVENT_PHASE+PHASE_END)
+		e3:SetCountLimit(1)
+		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+		e3:SetLabel(fid)
+		e3:SetLabelObject(tc)
+		e3:SetCondition(s.rescon)
+		e3:SetOperation(s.resop)
+		Duel.RegisterEffect(e3,tp)
 	end
+end
+function s.rescon(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	if tc:GetFlagEffectLabel(id)==e:GetLabel() then
+		return true
+	else
+		e:Reset()
+		return false
+	end
+end
+function s.resop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	Duel.MoveToField(tc,1-tp,1-tp,LOCATION_MZONE,POS_FACEUP,true)
 end
