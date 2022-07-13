@@ -85,28 +85,5 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(3994030100)
 		e2:SetCondition(s.rescon)
 		tc:RegisterEffect(e2)
-		local e3=Effect.CreateEffect(c)
-		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e3:SetCode(EVENT_PHASE+PHASE_END,2)
-		e3:SetCountLimit(1)
-		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-		e3:SetLabelObject(tc)
-		e3:SetCondition(s.rescon)
-		e3:SetOperation(s.resop)
-		Duel.RegisterEffect(e3,tp)
 	end
-end
-function s.rescon(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	if tc:GetLocation()==LOCATION_SZONE
-		and tc:GetControler()==tp then
-		return true
-	else
-		e:Reset()
-		return false
-	end
-end
-function s.resop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	Duel.MoveToField(tc,1-tp,1-tp,LOCATION_MZONE,POS_FACEUP,true)
 end
