@@ -21,6 +21,18 @@ function s.initial_effect(c)
 	e2:SetTarget(s.mvtg)
 	e2:SetOperation(s.mvop)
 	c:RegisterEffect(e2)
+	--Synchro Summon
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetHintTiming(0,TIMING_MAIN_END)
+	e3:SetCondition(s.sccon)
+	e3:SetTarget(s.sctg)
+	e3:SetOperation(s.scop)
+	c:RegisterEffect(e3)
 end
 --Shadow Isles, Spidærk
 s.listed_series={0x39d6,0x39e0}
@@ -85,5 +97,36 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(3994030100)
 		e2:SetCondition(s.rescon)
 		tc:RegisterEffect(e2)
+	end
+end
+
+
+
+
+
+
+
+
+	--Synchro Summon
+function s.sccon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetFlagEffect(id)==0 and Duel.IsTurnPlayer(1-tp)
+		and Duel.IsMainPhase()
+end
+function s.scfilter(c)
+	return c:IsSynchroSummonable() and c:IsRace(RACE_INSECT)
+end
+function s.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.scfilter,tp,LOCATION_EXTRA,0,1,nil) end
+	e:GetHandler():RegisterFlagEffect(id,RESET_CHAIN,0,1)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
+end
+function s.scop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if c:IsControler(1-tp) or not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+	local g=Duel.GetMatchingGroup(s.scfilter,tp,LOCATION_EXTRA,0,nil)
+	if #g>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local sg=g:Select(tp,1,1,nil)
+		Duel.SynchroSummon(tp,sg:GetFirst(),c)
 	end
 end
