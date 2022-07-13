@@ -87,5 +87,6 @@ function s.mvop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetValue(3994030100)
 		e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,2)
 		tc:RegisterEffect(e2)
+		Duel.RaiseEvent(tc,EVENT_CUSTOM+47408488,e,0,tp,0,0)
 	end
 end
